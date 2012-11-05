@@ -173,6 +173,7 @@ public class KitRobot extends JFrame implements ActionListener
 			Part.x = KitPos.get(0).x;
 			Part.y = KitPos.get(0).y;
 			InKit.x = 700;
+			ArmPos = new Point(KitRobotPos.x + 37, KitRobotPos.y + 37);
 		}
 		count = (count + 1) % 500;
 	}
