@@ -1,37 +1,23 @@
 import javax.swing.*;
 
-public class Part
+public class Part extends FactoryObject
 {
-	int xcor, ycor;
-	ImageIcon image;
-
-	public Part(int x, int y){
-		xcor = x;
-		ycor = y;
-		image = new ImageIcon("image.png");
+	public Part(int initialPosX, int initialPosY, String initialImage){
+		x = initialPosX;
+		y = initialPosY;
+		setImage(initialImage);
 	}
 
 	public void moveLeft(){
-		xcor -= 2;
+		x -= 2;
 	}
 
 	public void moveUp(){
-		ycor -= 2;
+		y -= 2;
 	}
 
 	public void moveDown(){
-		ycor += 2;
+		y += 2;
 	}
 
-	public ImageIcon getImage(){
-		return image;
-	}
-
-	public int getXCor(){
-		return xcor;
-	}
-
-	public int getYCor(){
-		return ycor;
-	}
 }

@@ -12,19 +12,18 @@ public class LaneManager extends JFrame implements ActionListener
 //	Rectangle2D.Double backgroundRectangle;
 	ImageIcon img, background;
 	ArrayList<Part> parts, nest;
-	int counter, lanectr;
+	int counter;
 	boolean nestFull;
 
 	public LaneManager(){
 		parts = new ArrayList<Part>();
 		nest = new ArrayList<Part>();
 		nestFull = false;
-		parts.add(new Part(430,75));
-		img = new ImageIcon("part.png");
+		parts.add(new Part(430,75,"part.png"));
+		//img = new ImageIcon("part.png");
 		background = new ImageIcon("bg.jpg");
 //		img.getProperty("image.png",null);
 		counter = 0;
-		lanectr = -8;
 
 		//Make the background rectangle to "erase" the screen
 //		backgroundRectangle = new Rectangle2D.Double( 0, 0, 500, 500 );
@@ -43,15 +42,14 @@ public class LaneManager extends JFrame implements ActionListener
 	public void actionPerformed( ActionEvent ae ) {
 	//This will be called by the Timer
 	if(counter==24){
-		parts.add(new Part(430,75));
+		parts.add(new Part(430,75,"part.png"));
 		counter = 0;
-		lanectr++;
 	}
 
 
 	for(int i=0;i<parts.size();i++){
 		if(nestFull==false){
-			if(parts.get(i).getXCor()<=60){
+			if(parts.get(i).getPositionX()<=60){
 				nest.add(parts.get(i));
 				System.out.println("Part Added to Nest\nNest Size: "+nest.size());
 				parts.remove(i);
@@ -61,10 +59,10 @@ public class LaneManager extends JFrame implements ActionListener
 			parts.get(i).moveLeft();
 		}
 		if(nestFull==true){
-			if(parts.get(i).getXCor()<=(70+((i/3)*10))){
-				if(i%3 == 0 && parts.get(i).getYCor()>=65)
+			if(parts.get(i).getPositionX()<=(70+((i/3)*10))){
+				if(i%3 == 0 && parts.get(i).getPositionY()>=65)
 					parts.get(i).moveUp();
-				else if(i%3 == 1 && parts.get(i).getYCor()<=85)
+				else if(i%3 == 1 && parts.get(i).getPositionY()<=85)
 					parts.get(i).moveDown();
 			}
 			else
@@ -73,27 +71,27 @@ public class LaneManager extends JFrame implements ActionListener
 	}
 
 	for(int i=0;i<nest.size();i++){
-		if(i==0 && nest.get(i).getXCor()<=25 && nest.get(i).getYCor()>=65){
+		if(i==0 && nest.get(i).getPositionX()<=25 && nest.get(i).getPositionY()>=65){
 			nest.get(i).moveUp();
 		}
-		else if(i==1 && nest.get(i).getXCor()<=25 && nest.get(i).getYCor()<=85){
+		else if(i==1 && nest.get(i).getPositionX()<=25 && nest.get(i).getPositionY()<=85){
 			nest.get(i).moveDown();
 		}
-		else if(i<3 && nest.get(i).getXCor()<=25){}
-		else if(i==3 && nest.get(i).getXCor()<=40 && nest.get(i).getYCor()>=65){
+		else if(i<3 && nest.get(i).getPositionX()<=25){}
+		else if(i==3 && nest.get(i).getPositionX()<=40 && nest.get(i).getPositionY()>=65){
 			nest.get(i).moveUp();
 		}
-		else if(i==4 && nest.get(i).getXCor()<=40 && nest.get(i).getYCor()<=85){
+		else if(i==4 && nest.get(i).getPositionX()<=40 && nest.get(i).getPositionY()<=85){
 			nest.get(i).moveDown();
 		}
-		else if(i<6 && i>2 && nest.get(i).getXCor()<=40){}
-		else if(i==6 && nest.get(i).getXCor()<=55 && nest.get(i).getYCor()>=65){
+		else if(i<6 && i>2 && nest.get(i).getPositionX()<=40){}
+		else if(i==6 && nest.get(i).getPositionX()<=55 && nest.get(i).getPositionY()>=65){
 			nest.get(i).moveUp();
 		}
-		else if(i==7 && nest.get(i).getXCor()<=55 && nest.get(i).getYCor()<=85){
+		else if(i==7 && nest.get(i).getPositionX()<=55 && nest.get(i).getPositionY()<=85){
 			nest.get(i).moveDown();
 		}
-		else if(i<9 && i>5 && nest.get(i).getXCor()<=55){}
+		else if(i<9 && i>5 && nest.get(i).getPositionX()<=55){}
 		else
 			nest.get(i).moveLeft();
 	}
@@ -108,11 +106,11 @@ public class LaneManager extends JFrame implements ActionListener
 		background.paintIcon(this,g2,0,30);
 
 		for(int i=0;i<parts.size();i++){
-			img.paintIcon(this,g2,parts.get(i).getXCor(),parts.get(i).getYCor());
+			parts.get(i).getImage().paintIcon(this,g2,parts.get(i).getPositionX(),parts.get(i).getPositionY());
 		}
 
 		for(int i=0;i<nest.size();i++){
-			img.paintIcon(this,g2,nest.get(i).getXCor(),nest.get(i).getYCor());
+			nest.get(i).getImage().paintIcon(this,g2,nest.get(i).getPositionX(),nest.get(i).getPositionY());
 		}
     }
 }
