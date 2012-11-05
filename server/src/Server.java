@@ -8,10 +8,10 @@
 */
 
 
-import java.util.ArrayList;
+import java.util.TreeMap;
 
-public class Server{
-		ArrayList<NetworkBridge> clientConnections = new ArrayList<NetworkBridge>();
+public class Server implements NetworkManager{
+		TreeMap<Integer, NetworkBridge> clientConnections = new TreeMap<Integer, NetworkBridge>();
 		InboundConnectionManager icm = null;
 		
 		Server(){
@@ -22,7 +22,7 @@ public class Server{
 				Server si = new Server();
 		}
 		
-		void addNetworkBridge(NetworkBridge newBridge){
-				clientConnections.add(newBridge);
+		public void registerClientListener(NetworkBridge newBridge, int cID){
+				clientConnections.put(cID, newBridge);
 		}
 }

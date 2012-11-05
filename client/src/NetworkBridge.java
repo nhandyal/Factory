@@ -14,8 +14,12 @@ public class NetworkBridge{
 		ObjectOutputStream oos;
 		InputStreamListener isl;
 		
+		// ---------------------------------------------------------------------------------------------------------- //
+		// ----------------------------------------------CONSTRUCTORS------------------------------------------------ //
+		// ---------------------------------------------------------------------------------------------------------- //
+		
 		// Client Constructor
-		NetworkBridge(Object parent, String remoteURL, int port){
+		NetworkBridge(NetworkManager parent, String remoteURL, int port, int cID){
 				Socket s = null;
 				
 				try{
@@ -26,31 +30,26 @@ public class NetworkBridge{
 				}
 				
 				establishStreams(parent, s);
+				registerClient(cID);
 		}
 		
 		// Server Constructor
-		NetworkBridge(Object parent, ServerSocket ss){
-				Socket s = null;
-				
-				try{
-						s = ss.accept();
-				}catch(Exception e){
-						System.out.println("Fatal Error: an error occured establishing a connection with the client");
-						e.printStackTrace();
-						System.exit(1);
-				}
-				
+		NetworkBridge(NetworkManager parent, Socket s){
 				establishStreams(parent, s);
 		}
 		
-		void establishStreams(Object parent, Socket s){
+		// ---------------------------------------------------------------------------------------------------------- //
+		// ----------------------------------------------PRIVATE METHODS--------------------------------------------- //
+		// ---------------------------------------------------------------------------------------------------------- //
+		
+		void establishStreams(NetworkManager parent, Socket s){
 				ObjectInputStream ois;
 				
 				try{
 						oos = new ObjectOutputStream(s.getOutputStream());			// create output stream
 						ois = new ObjectInputStream(s.getInputStream());				// create input stream - this will be passed to the threaded listener
 						
-						isl = new InputStreamListener(parent, ois);
+						isl = new InputStreamListener(parent, ois, this);
 						isl.start();
 						
 						System.out.println("OOS and OIS initialized. ISL started.");
@@ -59,20 +58,56 @@ public class NetworkBridge{
 						System.exit(0);
 				}
 		}
-
+		
+		void registerClient(int cID){
+				try{
+						Instruction instr = new Instruction("register-client",cID);
+						oos.writeObject(instr);
+				}catch(IOException ie){
+						ie.printStackTrace();
+				}
+		}
+		
+		// ---------------------------------------------------------------------------------------------------------- //
+		// ----------------------------------------------PUBLIC METHODS---------------------------------------------- //
+		// ---------------------------------------------------------------------------------------------------------- //
+		
+		
 }
 
 class InputStreamListener extends Thread{
-		Object parent;
+		NetworkManager parent;
+		NetworkBridge nb;
 		ObjectInputStream ois;
 		
-		InputStreamListener(Object parent, ObjectInputStream ois){
+		InputStreamListener(NetworkManager parent, ObjectInputStream ois, NetworkBridge nb){
 				this.parent = parent;
 				this.ois = ois;
+				this.nb = nb;
 		}
 		
 		public void run(){
-				System.out.println("run called");
+				Instruction instr = null;
+				
+				// listen for a request from the client
+				while(true){
+						try{
+								instr = (Instruction)ois.readObject();
+										parseInstruction(instr);
+						}catch(IOException i){
+								i.printStackTrace();
+						}catch(ClassNotFoundException c){
+								c.printStackTrace();
+						}
+				}
+		}
+		
+		void parseInstruction(Instruction instr){
+				String instruction = instr.instruction;
+				if(instruction.equals("register-client")){
+						int cID = instr.x;
+						parent.registerClientListener(nb, cID);
+				}
 		}
 		
 }

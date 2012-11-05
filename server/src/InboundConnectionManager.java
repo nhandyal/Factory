@@ -9,7 +9,7 @@
 
 import java.net.*;
 
-private class InboundConnectionManager extends Thread{
+public class InboundConnectionManager extends Thread{
 		Server server = null;
 		ServerSocket ss = null;
 		
@@ -25,13 +25,12 @@ private class InboundConnectionManager extends Thread{
 				}
 		}
 		
-		void run(){
+		public void run(){
 				while(true){
 						Socket s = null;
 						try{
 								s = ss.accept();
 								NetworkBridge nb = new NetworkBridge(server, s);
-								server.addNetworkBridge(nb);
 						}catch(Exception e){
 								System.out.println("Warning: There was an error accepting the client connection");
 						}
