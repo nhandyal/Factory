@@ -1,7 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
-
+import java.util.*;
 import javax.swing.*;
+import javax.swing.Timer;
 
 public class PartsRobot extends JFrame implements ActionListener
 {
@@ -11,12 +12,12 @@ public class PartsRobot extends JFrame implements ActionListener
 	Point ArmPos = new Point(KitRobotPos.x + 37, KitRobotPos.y + 37);
 	int width = 50;
 	int height = 50;
-	Point FirstNest = new Point(600, 150);
+	Nest FirstNest = new Nest(600, 150, width, height);
 	int count = 0;
 	int nest = -1;
 	Point vec1 = new Point();
 	Point vec2 = new Point();
-	Point NestMoving = new Point();
+	Nest NestMoving = new Nest(FirstNest.x, FirstNest.y, width, height);
 	boolean flash = false;
 	PartsRobot()
 	{
@@ -25,8 +26,6 @@ public class PartsRobot extends JFrame implements ActionListener
 		int diffy = KitRobotPos.y + 37 - FirstNest.y - 25;
 		vec1.x = -diffx;
 		vec1.y = -diffy;
-		NestMoving.x =  FirstNest.x;
-		NestMoving.y = FirstNest.y;
 		diffx = KitRobotPos.x + 37 - StandPos.x - 25;
 		diffy = KitRobotPos.y + 37 - StandPos.y - 25;
 		vec2.x = -diffx;
@@ -130,7 +129,7 @@ public class PartsRobot extends JFrame implements ActionListener
 		if (count % 100 == 0)
 		{
 			ArmPos = new Point(KitRobotPos.x + 37, KitRobotPos.y + 37);
-			NestMoving = new Point(FirstNest.x, FirstNest.y + t * 50);
+			NestMoving = new Nest(FirstNest.x, FirstNest.y + t * height, width, height);
 			int diffx = KitRobotPos.x + 37 - NestMoving.x - 25;
 			int diffy = KitRobotPos.y + 37 - NestMoving.y - 25;
 			vec1.x = -diffx;

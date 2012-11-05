@@ -1,10 +1,10 @@
 
 public class Nest 
 {
-	int width;
-	int height;
-	int x;
-	int y;
+	private int width;
+	private int height;
+	public int x;
+	public int y;
 	
 	Nest(int x, int y, int width, int height)
 	{

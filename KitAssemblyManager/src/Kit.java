@@ -1,12 +1,12 @@
 
-public class Part 
+public class Kit 
 {
-	int width;
-	int height;
-	int x;
-	int y;
+	private int width;
+	private int height;
+	public int x;
+	public int y;
 	
-	Part(int x, int y, int width, int height)
+	Kit(int x, int y, int width, int height)
 	{
 		this.width = width;
 		this.height = height;
