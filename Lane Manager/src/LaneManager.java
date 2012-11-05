@@ -14,7 +14,9 @@ public class LaneManager extends JFrame implements ActionListener
 	ArrayList<Part> nest1, nest2, nest3, nest4, nest5, nest6, nest7, nest8;
 	int lane1LineX, lane2LineX, lane3LineX, lane4LineX, lane5LineX, lane6LineX, lane7LineX, lane8LineX;
 	int counter1, counter2, counter3, counter4, counter5, counter6, counter7, counter8;
+	int binPush1, binPush2, binPush3, binPush4, binPush5, binPush6, binPush7, binPush8;
 	boolean lane1Active, lane2Active, lane3Active, lane4Active, lane5Active, lane6Active, lane7Active, lane8Active;
+	Bin bin1, bin2, bin3, bin4, bin5, bin6, bin7, bin8;
 
 	public LaneManager(){
 		
@@ -36,6 +38,33 @@ public class LaneManager extends JFrame implements ActionListener
 		nest6 = new ArrayList<Part>();
 		nest7 = new ArrayList<Part>();
 		nest8 = new ArrayList<Part>();
+
+		bin1 = new Bin(445, 84, "bin1.png");
+		bin2 = new Bin(445, 84, "bin2.png");
+		bin3 = new Bin(445, 207, "bin3.png");
+		bin4 = new Bin(445, 207, "bin4.png");
+		bin5 = new Bin(445, 331, "bin5.png");
+		bin6 = new Bin(445, 331, "bin6.png");
+		bin7 = new Bin(445, 456, "bin7.png");
+		bin8 = new Bin(445, 456, "bin8.png");
+
+		bin1.fillBin(100, 1);
+		bin2.fillBin(100, 2);
+		bin3.fillBin(100, 3);
+		bin4.fillBin(100, 4);
+		bin5.fillBin(100, 5);
+		bin6.fillBin(100, 6);
+		bin7.fillBin(100, 7);
+		bin8.fillBin(100, 8);
+
+		binPush1 = 0;
+		binPush2 = 0;
+		binPush3 = 0;
+		binPush4 = 0;
+		binPush5 = 0;
+		binPush6 = 0;
+		binPush7 = 0;
+		binPush8 = 0;
 
 		lane1Active = true;
 		lane2Active = false;
@@ -85,6 +114,8 @@ public class LaneManager extends JFrame implements ActionListener
 		if(lane1Active == true){
 			if(counter1==24){
 				lane1.add(new Part(430,75,"part.png"));
+				bin1.parts.remove(binPush1);
+				binPush1++;
 				counter1 = 0;
 			}
 
@@ -131,6 +162,8 @@ public class LaneManager extends JFrame implements ActionListener
 		if(lane2Active == true){
 			if(counter2==24){
 				lane2.add(new Part(430,110,"part2.png"));
+				bin2.parts.remove(binPush1);
+				binPush2++;
 				counter2 = 0;
 			}
 
@@ -177,6 +210,8 @@ public class LaneManager extends JFrame implements ActionListener
 		if(lane3Active == true){
 			if(counter3==24){
 				lane3.add(new Part(430,199,"part3.png"));
+				bin3.parts.remove(binPush1);
+				binPush3++;
 				counter3 = 0;
 			}
 
@@ -223,6 +258,8 @@ public class LaneManager extends JFrame implements ActionListener
 		if(lane4Active == true){
 			if(counter4==24){
 				lane4.add(new Part(430,234,"part4.png"));
+				bin4.parts.remove(binPush1);
+				binPush4++;
 				counter4 = 0;
 			}
 
@@ -269,6 +306,8 @@ public class LaneManager extends JFrame implements ActionListener
 		if(lane5Active == true){
 			if(counter5==24){
 				lane5.add(new Part(430,323,"part5.png"));
+				bin5.parts.remove(binPush1);
+				binPush5++;
 				counter5 = 0;
 			}
 
@@ -315,6 +354,8 @@ public class LaneManager extends JFrame implements ActionListener
 		if(lane6Active == true){
 			if(counter6==24){
 				lane6.add(new Part(430,358,"part6.png"));
+				bin6.parts.remove(binPush1);
+				binPush6++;
 				counter6 = 0;
 			}
 
@@ -361,6 +402,8 @@ public class LaneManager extends JFrame implements ActionListener
 		if(lane7Active == true){
 			if(counter7==24){
 				lane7.add(new Part(430,447,"part7.png"));
+				bin7.parts.remove(binPush1);
+				binPush7++;
 				counter7 = 0;
 			}
 
@@ -407,6 +450,8 @@ public class LaneManager extends JFrame implements ActionListener
 		if(lane8Active == true){
 			if(counter8==24){
 				lane8.add(new Part(430,482,"part8.png"));
+				bin8.parts.remove(binPush1);
+				binPush8++;
 				counter8 = 0;
 			}
 
@@ -516,31 +561,55 @@ public class LaneManager extends JFrame implements ActionListener
 			g2.drawLine(temp,467,temp,499);
 
 		// Draw Dividers
-		if(lane1Active == true)
+		if(lane1Active == true){
 			g2.drawLine(384,94,430,128);
-		else if(lane2Active == true)
+			bin1.getImage().paintIcon(this,g2,bin1.getPositionX(),bin1.getPositionY());
+		}
+
+		else if(lane2Active == true){
 			g2.drawLine(384,94,430,59);
+			bin2.getImage().paintIcon(this,g2,bin2.getPositionX(),bin2.getPositionY());
+		}
+
 		else
 			g2.drawLine(384,94,430,94);
 		
-		if(lane3Active == true)
+		if(lane3Active == true){
 			g2.drawLine(384,218,430,253);
-		else if(lane4Active == true)
+			bin3.getImage().paintIcon(this,g2,bin3.getPositionX(),bin3.getPositionY());
+		}
+
+		else if(lane4Active == true){
 			g2.drawLine(384,218,430,183);
+			bin4.getImage().paintIcon(this,g2,bin4.getPositionX(),bin4.getPositionY());
+		}
+
 		else
 			g2.drawLine(384,218,430,218);
 
-		if(lane5Active == true)
+		if(lane5Active == true){
 			g2.drawLine(384,342,430,376);
-		else if(lane6Active == true)
+			bin5.getImage().paintIcon(this,g2,bin5.getPositionX(),bin5.getPositionY());
+		}
+
+		else if(lane6Active == true){
 			g2.drawLine(384,342,430,307);
+			bin6.getImage().paintIcon(this,g2,bin6.getPositionX(),bin6.getPositionY());
+		}
+
 		else
 			g2.drawLine(384,342,430,342);
 
-		if(lane7Active == true)
+		if(lane7Active == true){
 			g2.drawLine(384,466,430,501);
-		else if(lane8Active == true)
+			bin7.getImage().paintIcon(this,g2,bin7.getPositionX(),bin7.getPositionY());
+		}
+
+		else if(lane8Active == true){
 			g2.drawLine(384,466,430,431);
+			bin8.getImage().paintIcon(this,g2,bin8.getPositionX(),bin8.getPositionY());
+		}
+
 		else
 			g2.drawLine(384,466,430,466);
 
@@ -586,5 +655,6 @@ public class LaneManager extends JFrame implements ActionListener
 			lane8.get(i).getImage().paintIcon(this,g2,lane8.get(i).getPositionX(),lane8.get(i).getPositionY());
 		for(int i=0;i<nest8.size();i++)
 			nest8.get(i).getImage().paintIcon(this,g2,nest8.get(i).getPositionX(),nest8.get(i).getPositionY());
+
     }
 }
