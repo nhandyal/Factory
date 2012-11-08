@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferStrategy;
 import java.awt.geom.*;
 
 import javax.swing.*;
@@ -17,6 +18,9 @@ public class LaneManager extends JFrame implements ActionListener
 	int binPush1, binPush2, binPush3, binPush4, binPush5, binPush6, binPush7, binPush8;
 	boolean lane1Active, lane2Active, lane3Active, lane4Active, lane5Active, lane6Active, lane7Active, lane8Active;
 	Bin bin1, bin2, bin3, bin4, bin5, bin6, bin7, bin8;
+
+	Image dbImage;
+	Graphics dbg;
 
 	public LaneManager(){
 		
@@ -102,6 +106,7 @@ public class LaneManager extends JFrame implements ActionListener
 		LaneManager l = new LaneManager();
 		l.setVisible(true);
 		l.setSize(500,530);
+		l.createBufferStrategy(2);
 		l.setTitle("Lane Manager");
 		l.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -657,4 +662,21 @@ public class LaneManager extends JFrame implements ActionListener
 			nest8.get(i).getImage().paintIcon(this,g2,nest8.get(i).getPositionX(),nest8.get(i).getPositionY());
 
     }
+
+    /*public void update(Graphics g){
+        // initialize buffer 
+		if (dbImage == null) 
+		{
+			dbImage = createImage(this.getSize().width, this.getSize().height); 
+			dbg = dbImage.getGraphics(); 
+		} 
+
+		// clear screen in background 
+		dbg.setColor(getBackground ()); 
+		dbg.fillRect(0, 0, this.getSize().width, this.getSize().height); 
+
+		// draw elements in background 
+		dbg.setColor(getForeground()); 
+		paint(dbg); 
+    }*/
 }
