@@ -7,6 +7,10 @@
 ** Pre-Conditions: None
 */
 
+package factory.client;
+
+import factory.global.network.*;
+
 public class Client implements NetworkManager{
 		NetworkBridge nb1;
 		
@@ -19,4 +23,8 @@ public class Client implements NetworkManager{
 		}
 		
 		public void registerClientListener(NetworkBridge newBridge, int cID){}
+		
+		public void closeNetworkBridge(int bridgeID){
+				nb1.close();
+		}
 }

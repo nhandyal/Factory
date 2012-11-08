@@ -4,9 +4,11 @@
 ** Project: Cs200-Factory
 ** Description: Listens for inbound connections on the server socket and creates a new socket instance
 ** 
-** Pre-Conditions: N/A
+** Pre-Conditions: None
 */
+package factory.server;
 
+import factory.global.network.*;
 import java.net.*;
 
 public class InboundConnectionManager extends Thread{
