@@ -6,7 +6,7 @@ All source files for the project are located under the src folder. When compilin
 javac -d bin -sourcepath src [path to source file]
 ```
 
-This will create a new folder called bin and recreate the src file hierarchy and place the class files in the appropriate areas.
+This will create a new folder called bin and recreate the src file hierarchy and place the class files in the appropriate areas. If this doesn't work, create a directory called bin in the team14 root directory and then rerun the above command.
 
 ###Example
 To compile the server files the command would be
