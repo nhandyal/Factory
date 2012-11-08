@@ -20,7 +20,7 @@ public class KitManager extends JFrame {
 		masterGrid.add(nameEnter, BorderLayout.NORTH); 
 		listOfParts = new JLabel("Parts Listed Here"); 
 		gbc.gridx = 0; 
-		gbc.gridy = 1; 
+		gbc.gridy = 1;
 		masterGrid.add(listOfParts, BorderLayout.CENTER); 
 		kitCreator = new JButton("Create Kit"); 
 		gbc.gridx = 0; 
