@@ -6,9 +6,11 @@
 ** 
 ** Pre-Conditions: None
 */
+package server;
 
-
+import factory.global.network.*;
 import java.util.TreeMap;
+import java.awt.event.*;
 
 public class Server implements NetworkManager{
 		TreeMap<Integer, NetworkBridge> clientConnections = new TreeMap<Integer, NetworkBridge>();
@@ -16,6 +18,7 @@ public class Server implements NetworkManager{
 		
 		Server(){
 				icm = new InboundConnectionManager(this);
+				icm.start();
 		}
 		
 		public static void main(String[] args){
@@ -25,4 +28,12 @@ public class Server implements NetworkManager{
 		public void registerClientListener(NetworkBridge newBridge, int cID){
 				clientConnections.put(cID, newBridge);
 		}
+		
+		public void closeNetworkConnection(){}
+		
+		public void closeNetworkBridge(int bridgeID){
+				NetworkBridge nb = clientConnections.get(bridgeID);
+				nb.close();
+				clientConnections.remove(bridgeID);
+		}	
 }

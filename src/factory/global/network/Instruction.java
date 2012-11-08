@@ -1,3 +1,5 @@
+package factory.global.network;
+
 import java.io.*;
 
 public class Instruction implements java.io.Serializable{
@@ -5,17 +7,17 @@ public class Instruction implements java.io.Serializable{
 		int x;
 		int v;
 		
-		Instruction(String i){
+		public Instruction(String i){
 				instruction = i;
 				x = -1;
 		}
 		
-		Instruction(String i, int z){
+		public Instruction(String i, int z){
 				instruction = i;
 				x = z;
 		}
 		
-		Instruction(String i, int z, int y){
+		public Instruction(String i, int z, int y){
 				instruction  = i;
 				x = z;
 				v = y;
