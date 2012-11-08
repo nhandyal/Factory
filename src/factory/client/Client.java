@@ -7,7 +7,7 @@
 ** Pre-Conditions: None
 */
 
-package client;
+package factory.client;
 
 import factory.global.network.*;
 

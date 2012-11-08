@@ -6,7 +6,7 @@
 ** 
 ** Pre-Conditions: None
 */
-package server;
+package factory.server;
 
 import factory.global.network.*;
 import java.util.TreeMap;
