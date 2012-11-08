@@ -1,36 +1,20 @@
-
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.util.*;
 public class Nest 
 {
-	private int width;
-	private int height;
-	public int x;
-	public int y;
+	public static final double width = 50;
+	public static final double height = 50;
+	public double x;
+	public double y;
+	public ArrayList<Part> parts = new ArrayList<Part>();
 	
-	Nest(int x, int y, int width, int height)
+	Nest(double x, double y)
 	{
-		this.width = width;
-		this.height = height;
 		this.x = x;
 		this.y = y;
+		for (int i = 0; i < 9; i++)
+			parts.add(new Part(x + i % 3 * 50 / 3, y + i / 3 * 50 / 3));
 	}
 	
-	public int getWidth()
-	{
-		return width;
-	}
-	
-	public int getHeight()
-	{
-		return height;
-	}
-	
-	public int getX()
-	{
-		return x;
-	}
-	
-	public int getY()
-	{
-		return y;
-	}
 }
