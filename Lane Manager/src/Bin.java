@@ -10,12 +10,22 @@ public class Bin extends FactoryObject
 {
 
 	ArrayList<Part> parts;
+	int push;
 
 	public Bin(int initialPosX, int initialPosY, String initialImage){
 		x = initialPosX;
 		y = initialPosY;
 		setImage(initialImage);
 		parts = new ArrayList<Part>();
+		push = 0;
+	}
+	
+	public void addPush(){
+		push++;
+	}
+	
+	public int getPush(){
+		return push;
 	}
 
 	public void fillBin(int partNum, int partType){
