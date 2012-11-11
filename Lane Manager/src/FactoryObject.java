@@ -6,16 +6,9 @@ import java.util.ArrayList;
 
 public class FactoryObject {
 
-	int x;
-	int y;
-
+	int x, y, xf, yf;
+	boolean isLine = false;
 	ImageIcon factoryObjectImage;
-
-	public void FactoryObject (int initialPosX, int initialPosY, String initialImage){
-		x = initialPosX;
-		y = initialPosY;
-		setImage(initialImage);
-	}
 
 	public  void setPosition(int newPosX, int newPosY){
 		x = newPosX;
@@ -28,6 +21,18 @@ public class FactoryObject {
 
 	public int getPositionY(){
 		return y;
+	}
+
+	public int getPositionXF(){
+		return xf;
+	}
+
+	public int getPositionYF(){
+		return yf;
+	}
+
+	public boolean getIsLine(){
+		return isLine;
 	}
 
 	public void setImage(String newImage){

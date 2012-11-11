@@ -10,61 +10,66 @@ import java.util.*;
 
 public class LaneManager extends JFrame implements ActionListener
 {
-	ImageIcon img, background;
+	ImageIcon background;
 	ArrayList<Lane> lanes;
 	ArrayList<Bin> bins;
+	ArrayList<Line> dividers;
+	ArrayList<FactoryObject> updateList;
 	int counter;
 	
 	TreeMap<Integer,Boolean> bMap = new TreeMap<Integer,Boolean>();
 	TreeMap<Integer,FactoryObject> fMap = new TreeMap<Integer,FactoryObject>();
 
-	Image dbImage;
-	Graphics dbg;
-
 	public LaneManager(){
 		
-		// Create lanes
+		// Create 8 lanes
 		lanes = new ArrayList<Lane>();
-		lanes.add(new Lane(20,59,"part.png"));
-		lanes.add(new Lane(20,94,"part2.png"));
-		lanes.add(new Lane(20,183,"part3.png"));
-		lanes.add(new Lane(20,218,"part4.png"));
-		lanes.add(new Lane(20,307,"part5.png"));
-		lanes.add(new Lane(20,342,"part6.png"));
-		lanes.add(new Lane(20,431,"part7.png"));
-		lanes.add(new Lane(20,466,"part8.png"));	
+		lanes.add(new Lane(16,59,"part.png"));
+		lanes.add(new Lane(16,94,"part2.png"));
+		lanes.add(new Lane(16,183,"part3.png"));
+		lanes.add(new Lane(16,218,"part4.png"));
+		lanes.add(new Lane(16,307,"part5.png"));
+		lanes.add(new Lane(16,342,"part6.png"));
+		lanes.add(new Lane(16,431,"part7.png"));
+		lanes.add(new Lane(16,466,"part8.png"));	
 
-		// Create Bins
+		// Create 8 Bins
 		bins = new ArrayList<Bin>();
-		bins.add(new Bin(445, 84, "bin1.png"));
-		bins.add(new Bin(445, 84, "bin2.png"));
-		bins.add(new Bin(445, 207, "bin3.png"));
-		bins.add(new Bin(445, 207, "bin4.png"));
-		bins.add(new Bin(445, 331, "bin5.png"));
-		bins.add(new Bin(445, 331, "bin6.png"));
-		bins.add(new Bin(445, 456, "bin7.png"));
-		bins.add(new Bin(445, 456, "bin8.png"));
+		bins.add(new Bin(348, 84, "bin1.png", false));
+		bins.add(new Bin(348, 84, "bin2.png", false));
+		bins.add(new Bin(348, 207, "bin3.png", false));
+		bins.add(new Bin(348, 207, "bin4.png", false));
+		bins.add(new Bin(348, 331, "bin5.png", false));
+		bins.add(new Bin(348, 331, "bin6.png", false));
+		bins.add(new Bin(348, 456, "bin7.png", false));
+		bins.add(new Bin(348, 456, "bin8.png", false));
 
-		// Fill Bins
-		for(int i=0;i<8;i++){
-			bins.get(i).fillBin(100,(1+i));
-		}
+		// Create 4 Dividers
+		dividers = new ArrayList<Line>();
+		dividers.add(new Line(334,94,288,94));
+		dividers.add(new Line(334,218,288,218));
+		dividers.add(new Line(334,342,288,342));
+		dividers.add(new Line(334,466,288,466));
 
-		// Turn On/Off Lanes
-		lanes.get(0).setActive(0);
+		// Create update list
+		updateList = new ArrayList<FactoryObject>();
+
+		// Turn On Lane 0, Off Lanes 1-7
+		laneSwitch(8,0);
 		for(int i=1;i<8;i++)
-			lanes.get(i).setActive(1);
+			lanes.get(i).setActive(false);
 
+		// Create Backgroud Image
 		background = new ImageIcon("bg.jpg");
 
-		// Start Counters
+		// Start Counter
 		counter = 0;
 	}
 
 	public static void main(String[] args){
 		LaneManager l = new LaneManager();
 		l.setVisible(true);
-		l.setSize(500,530);
+		l.setSize(400,530);
 		l.createBufferStrategy(2);
 		l.setTitle("Lane Manager");
 		l.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,19 +80,16 @@ public class LaneManager extends JFrame implements ActionListener
 	public void actionPerformed( ActionEvent ae ) {
 		//This will be called by the Timer	
 		for(int i=0;i<8;i++){
-			if(lanes.get(i).getActive() == true){
-				if(counter==24){
-					lanes.get(i).addPart();
-					bins.get(i).parts.remove(bins.get(i).getPush());
-					bins.get(i).addPush();
-					counter = 0;
+			if(lanes.get(i).getActive() == true){		// if lane is on
+				if(counter==24){						// every 25th instance of timer
+					lanes.get(i).addPart();				// create a new part
+					bins.get(i).addPush();				// add 1 to bin counter
+					counter = 0;						// reset counter
 				}
 				counter++;
-				if(lanes.get(i).getLaneSize() == 25){
-					lanes.get(i).setActive(1);
-					if(i!=7)
-						lanes.get(i+1).setActive(0);
-					counter = 0;
+				if(lanes.get(i).getLaneSize() == 25){	// if there are 25 parts on the lane
+					laneSwitch(i,i+1);					// turn off lane, turn on next lane
+					counter = 0;						// reset counter
 				}
 			}
 		}
@@ -96,8 +98,53 @@ public class LaneManager extends JFrame implements ActionListener
     }
 
 	public void update(TreeMap<Integer,Boolean> bMap, TreeMap<Integer,FactoryObject> fMap){
+		
+		// Move Elements
 		for(int i=0;i<8;i++)
 			lanes.get(i).moveParts();
+	
+		updateList.clear();
+
+		// Add Dividers
+		for(int i=0;i<4;i++){
+			updateList.add(dividers.get(i));
+		}
+
+		// Add Bins (if visible)
+		for(int i=0;i<8;i++){
+			if(bins.get(i).getVis() == true)
+				updateList.add(bins.get(i));
+		}
+
+		// Add Lane Content
+		for(int i=0;i<8;i++){
+			// LaneLines
+			for(int j=0;j<3;j++){
+				if(lanes.get(i).getLaneLine(j).getPositionX() <= 334)
+					updateList.add(lanes.get(i).getLaneLine(j));
+			}
+			// Parts (Lanes and Nests)
+			for(int j=0;j<lanes.get(i).getLaneSize();j++)
+				updateList.add(lanes.get(i).getLanePart(j));
+			for(int j=0;j<lanes.get(i).getNestSize();j++)
+				updateList.add(lanes.get(i).getNestPart(j));
+		}
+	}	
+
+	public void laneSwitch(int x1, int x2){
+		if(x1<8){									// if lane exists
+			lanes.get(x1).setActive(false);			// turn lane off
+			bins.get(x1).setVis(false);				// turn bin off
+			dividers.get(x1/2).dividerNeutral();	// put divider in neutral position
+		}
+		if(x2<8){									// if lane exists
+			lanes.get(x2).setActive(true);			// turn lane on
+			bins.get(x2).setVis(true);				// turn bin on
+			if(x2%2 == 0)							// if upper lane
+				dividers.get(x2/2).dividerDown();	// put divider in lower position
+			if(x2%2 == 1)							// if lower lane
+				dividers.get(x2/2).dividerUp();		// put divider in upper position
+		}
 	}
 
     public void paint(Graphics g) {
@@ -105,73 +152,12 @@ public class LaneManager extends JFrame implements ActionListener
 
 		background.paintIcon(this,g2,0,30);
 
-		// Draw Dividers & Bins
-		if(lanes.get(0).getActive() == true){
-			g2.drawLine(384,94,430,128);
-			bins.get(0).getImage().paintIcon(this,g2,bins.get(0).getPositionX(),bins.get(0).getPositionY());
-		}
-
-		else if(lanes.get(1).getActive() == true){
-			g2.drawLine(384,94,430,59);
-			bins.get(1).getImage().paintIcon(this,g2,bins.get(1).getPositionX(),bins.get(1).getPositionY());
-		}
-
-		else
-			g2.drawLine(384,94,430,94);
-		
-		if(lanes.get(2).getActive() == true){
-			g2.drawLine(384,218,430,253);
-			bins.get(2).getImage().paintIcon(this,g2,bins.get(2).getPositionX(),bins.get(2).getPositionY());
-		}
-
-		else if(lanes.get(3).getActive() == true){
-			g2.drawLine(384,218,430,183);
-			bins.get(3).getImage().paintIcon(this,g2,bins.get(3).getPositionX(),bins.get(3).getPositionY());
-		}
-
-		else
-			g2.drawLine(384,218,430,218);
-
-		if(lanes.get(4).getActive() == true){
-			g2.drawLine(384,342,430,376);
-			bins.get(4).getImage().paintIcon(this,g2,bins.get(4).getPositionX(),bins.get(4).getPositionY());
-		}
-
-		else if(lanes.get(5).getActive() == true){
-			g2.drawLine(384,342,430,307);
-			bins.get(5).getImage().paintIcon(this,g2,bins.get(5).getPositionX(),bins.get(5).getPositionY());
-		}
-
-		else
-			g2.drawLine(384,342,430,342);
-
-		if(lanes.get(6).getActive() == true){
-			g2.drawLine(384,466,430,501);
-			bins.get(6).getImage().paintIcon(this,g2,bins.get(6).getPositionX(),bins.get(6).getPositionY());
-		}
-
-		else if(lanes.get(7).getActive() == true){
-			g2.drawLine(384,466,430,431);
-			bins.get(7).getImage().paintIcon(this,g2,bins.get(7).getPositionX(),bins.get(7).getPositionY());
-		}
-
-		else
-			g2.drawLine(384,466,430,466);
-		
-		for(int j=0;j<8;j++){
-			//Draw Lines
-			for(int i=0;i<4;i++){
-				int tempx = lanes.get(j).getLaneLine(i).getPositionX();
-				int tempy = lanes.get(j).getLaneLine(i).getPositionY();
-				if(tempx<=430)
-					g2.drawLine(tempx,tempy,tempx,(tempy+34));
-//					lanes.get(j).getLaneLine(i).getImage().paintIcon(this,g2,tempx,tempy);
-			}
-			//Draw Lanes
-			for(int i=0;i<lanes.get(j).getLaneSize();i++)
-				lanes.get(j).getLanePart(i).getImage().paintIcon(this,g2,lanes.get(j).getLanePart(i).getPositionX(),lanes.get(j).getLanePart(i).getPositionY());
-			for(int i=0;i<lanes.get(j).getNestSize();i++)
-				lanes.get(j).getNestPart(i).getImage().paintIcon(this,g2,lanes.get(j).getNestPart(i).getPositionX(),lanes.get(j).getNestPart(i).getPositionY());
+		// Paint Updated List
+		for(int i=0;i<updateList.size();i++){
+			if(updateList.get(i).getIsLine()== true)	// if object is a line draw a line
+				g2.drawLine(updateList.get(i).getPositionX(),updateList.get(i).getPositionY(),updateList.get(i).getPositionXF(),updateList.get(i).getPositionYF());
+			else 										//if object is not a line draw an ImageIcon
+				updateList.get(i).getImage().paintIcon(this,g2,updateList.get(i).getPositionX(),updateList.get(i).getPositionY());
 		}
     }
 }
