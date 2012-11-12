@@ -7,25 +7,25 @@ import java.awt.event.*;
 public class KitManager extends JFrame {
 	JPanel masterGrid;
 	JTextField nameEnter; 
-	JLabel listOfParts; 
+	ListOfPartsPanel lopp = new ListOfPartsPanel(); 
 	JButton kitCreator; 
 
 	public KitManager(){
-		masterGrid = new JPanel(new BorderLayout()); 
+		masterGrid = new JPanel(new GridBagLayout()); 
 		GridBagConstraints gbc = new GridBagConstraints(); 
 		
 		nameEnter = new JTextField("Enter Name of Kit"); 
 		gbc.gridx = 0; 
 		gbc.gridy = 0; 
-		masterGrid.add(nameEnter, BorderLayout.NORTH); 
-		listOfParts = new JLabel("Parts Listed Here"); 
+		masterGrid.add(nameEnter, gbc); 
+		lopp = new ListOfPartsPanel(); 
 		gbc.gridx = 0; 
-		gbc.gridy = 1;
-		masterGrid.add(listOfParts, BorderLayout.CENTER); 
+		gbc.gridy = 1; 
+		masterGrid.add(lopp, gbc); 
 		kitCreator = new JButton("Create Kit"); 
 		gbc.gridx = 0; 
 		gbc.gridy = 2; 
-		masterGrid.add(kitCreator, BorderLayout.SOUTH); 
+		masterGrid.add(kitCreator, gbc); 
 		
 		add(masterGrid); 
 		
@@ -46,7 +46,7 @@ public class KitManager extends JFrame {
 	
 	
 	public void actionPerformed(ActionEvent ae){
-		
+
 		
 	}
 	
