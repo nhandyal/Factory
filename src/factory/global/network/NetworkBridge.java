@@ -26,7 +26,7 @@ public class NetworkBridge{
 				try{
 						s = new Socket(remoteURL,port);
 				}catch(Exception e){
-						System.out.println("Fuck");
+						System.out.println("Fatal Error: Server Connection Failed");
 						System.exit(1);
 				}
 				
@@ -76,6 +76,14 @@ public class NetworkBridge{
 		// ----------------------------------------------PUBLIC METHODS---------------------------------------------- //
 		// ---------------------------------------------------------------------------------------------------------- //
 		
+		public void writeData(Object data){
+				try{
+						oos.writeObject(data);
+				}catch(IOException ie){
+						ie.printStackTrace();
+				}
+		}
+		
 		public void setBridgeID(int id){
 				this.id = id;
 		}
@@ -93,6 +101,8 @@ public class NetworkBridge{
 				}
 		}
 }
+
+// ------------------------------------- END CLASS NETWORK BRIDGE ---------------------------------//
 
 class InputStreamListener extends Thread{
 		private NetworkManager parent;
