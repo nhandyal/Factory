@@ -4,73 +4,57 @@ import javax.swing.*;
 import java.awt.*; 
 import java.awt.event.*; 
 
-public class PartsManager extends JFrame {
-	JPanel partsGrid, firstColumn, secondColumn, thirdColumn; 
-	JLabel partsIconTitle, partsIcon,  partsNameTitle, partsName, partSelectTitle; 
-	JButton firstPartButton; 
+public class PartsManager extends JFrame implements ActionListener {
+ 
+	JPanel partsGrid; 
+	FirstColumn fC; 
+	SecondColumn sC; 
+	ThirdColumn tC; 
 
 	public PartsManager(){
-		partsGrid = new JPanel(new BorderLayout()); 
-		 
-		
-		
+		partsGrid = new JPanel(new GridLayout(1, 3)); 		
 		//First Column
-		firstColumn = new JPanel(new GridBagLayout()); 
-		GridBagConstraints fgbc = new GridBagConstraints(); 
-		partsIconTitle = new JLabel("Parts Icon"); 
-		fgbc.gridx = 0; 
-		fgbc.gridy = 0; 
-		firstColumn.add(partsIconTitle, fgbc);  // adds Parts Icon title
-		partsIcon = new JLabel("Images"); 
-		fgbc.gridx = 0; 
-		fgbc.gridy = 1; 
-		firstColumn.add(partsIcon, fgbc); // adds Parts Icons 
-	
-		partsGrid.add(firstColumn, BorderLayout.CENTER); 
-		
-		
+		fC = new FirstColumn();		
+		partsGrid.add(fC);		
 		//Second Column
-		secondColumn = new JPanel(new GridBagLayout()); 
-		GridBagConstraints sgbc = new GridBagConstraints(); 
-		partsNameTitle = new JLabel("Parts Names"); 
-		sgbc.gridx = 0; 
-		sgbc.gridy = 0; 
-		secondColumn.add(partsNameTitle, sgbc);  // adds Parts Names title
-		partsName = new JLabel("Names"); 
-		sgbc.gridx = 0; 
-		sgbc.gridy = 1; 
-		secondColumn.add(partsName, sgbc); // adds Parts Names
-		secondColumn.setBackground(Color.white);
-		partsGrid.add(secondColumn, BorderLayout.LINE_START); //which column is which
+		sC = new SecondColumn(); 
+		partsGrid.add(sC); 		
+		//Third Column			
+		tC = new ThirdColumn(); 
+		partsGrid.add(tC); 	
 		
 		
-		//Third Column
-		thirdColumn = new JPanel(new GridBagLayout()); 
-		GridBagConstraints tgbc = new GridBagConstraints(); 
-		partSelectTitle = new JLabel("Select Part"); 
-		tgbc.gridx = 0; 
-		tgbc.gridy = 0; 
-		thirdColumn.add(partSelectTitle, tgbc);  // adds Select Parts Title
-		firstPartButton = new JButton("N"); 
-		tgbc.gridx = 0; 
-		tgbc.gridy = 1; 
-		thirdColumn.add(firstPartButton, tgbc); // adds JButtons to select
-		partsGrid.add(thirdColumn, BorderLayout.LINE_END);
+		tC.getFirstPartButton().addActionListener(this); 
+		tC.getFirstPartButton().setActionCommand("1"); 
+		tC.getSecondPartButton().addActionListener(this); 
+		tC.getSecondPartButton().setActionCommand("2"); 
+		tC.getThirdPartButton().addActionListener(this); 
+		tC.getThirdPartButton().setActionCommand("3"); 
+		tC.getFourthPartButton().addActionListener(this); 
+		tC.getFourthPartButton().setActionCommand("4"); 
+		tC.getFifthPartButton().addActionListener(this); 
+		tC.getFifthPartButton().setActionCommand("5"); 
+		tC.getSixthPartButton().addActionListener(this); 
+		tC.getSixthPartButton().setActionCommand("6"); 
+		tC.getSeventhPartButton().addActionListener(this); 
+		tC.getSeventhPartButton().setActionCommand("7"); 
+		tC.getEighthPartButton().addActionListener(this); 
+		tC.getEighthPartButton().setActionCommand("8"); 
+		tC.getNinthPartButton().addActionListener(this); 
+		tC.getNinthPartButton().setActionCommand("9"); 
+		tC.getTenthPartButton().addActionListener(this); 
+		tC.getTenthPartButton().setActionCommand("10"); 
 		
+		//main panel
 		add(partsGrid); 
-		 
-		
-		
-		
 	}
 	
 	
 	public static void main(String[] args) {
 		PartsManager thisPartsManager = new PartsManager(); 
 		thisPartsManager.setTitle("Parts Manager");
-	    thisPartsManager.setSize(900, 700);	
-	    thisPartsManager.setLocationRelativeTo(null);
-	    
+	    thisPartsManager.setSize(450, 350);	
+	    thisPartsManager.setLocationRelativeTo(null);	    
 	    thisPartsManager.setVisible(true); 
 	    thisPartsManager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 
@@ -78,7 +62,7 @@ public class PartsManager extends JFrame {
 	
 	
 	public void actionPerformed(ActionEvent ae){
-		
+
 		
 	}
 	

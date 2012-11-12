@@ -11,7 +11,7 @@ This will create a new folder called bin and recreate the src file hierarchy and
 ###Example
 To compile the server files the command would be
 ```r
-javac -d bin -sourcepath src src/server/*.java
+javac -d bin -sourcepath src src/factory/server/*.java
 ```
 
 ##Running

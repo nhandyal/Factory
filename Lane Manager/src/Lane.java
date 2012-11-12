@@ -5,9 +5,10 @@ public class Lane extends FactoryObject
 {
 
 	ArrayList<Part> lane, nest;
-	ArrayList<LaneLine> lines;
+	ArrayList<Line> lines;
 	boolean laneActive;
 	String imageName;
+	int counter = 0;
 
 	public Lane(int initialPosX, int initialPosY, String image){
 		x = initialPosX;
@@ -16,19 +17,16 @@ public class Lane extends FactoryObject
 		
 		lane = new ArrayList<Part>();
 		nest = new ArrayList<Part>();
-		lines = new ArrayList<LaneLine>();
 		
-		lines.add(new LaneLine((x+80),(y+1)));
-		lines.add(new LaneLine((x+180),(y+1)));
-		lines.add(new LaneLine((x+280),(y+1)));
-		lines.add(new LaneLine((x+380),(y+1)));
+		// Create LaneLines
+		lines = new ArrayList<Line>();
+		lines.add(new Line((x+80),(y+1),(x+80),(y+35)));
+		lines.add(new Line((x+180),(y+1),(x+180),(y+35)));
+		lines.add(new Line((x+280),(y+1),(x+280),(y+35)));
 	}
 
-	public void setActive(int i){
-		if(i==0)
-			laneActive = true;
-		else
-			laneActive = false;
+	public void setActive(boolean b){
+			laneActive = b;
 	}
 	
 	public boolean getActive(){
@@ -36,7 +34,8 @@ public class Lane extends FactoryObject
 	}
 	
 	public void addPart(){
-		lane.add(new Part(x+410,y+16,imageName));
+		lane.add(new Part(x+317,y+16,imageName));
+		counter++;
 	}
 	
 	public Part getLanePart(int i){
@@ -54,47 +53,50 @@ public class Lane extends FactoryObject
 	public int getNestSize(){
 		return nest.size();
 	}
+
+	public int getTotalLaneSize(){
+		return counter;
+	}
 	
-	public LaneLine getLaneLine(int i){
+	public Line getLaneLine(int i){
 		return lines.get(i);
 	}
 
-	public void moveParts(){
-		if(laneActive == true){
+	public void moveParts(){														// All Relative to Lane
+		if(laneActive == true){														// if lane is on
 			for(int i=0;i<lane.size();i++){
-				if(nest.size()<9){
-					if(lane.get(i).getPositionX()<=(x+40)){
-						nest.add(lane.get(i));
-						System.out.println("Part Added to Nest\nNest Size: "+nest.size());
+				if(nest.size()<9){													// if nest is not full
+					lane.get(i).moveLeft();											// move part left
+					if(lane.get(i).getPositionX()<=(x+40)){							// if part is at 40
+						nest.add(lane.get(i));										// move it to the nest
 						lane.remove(i);
 					}
-					lane.get(i).moveLeft();
 				}
-				if(nest.size()==9){
-					if(lane.get(i).getPositionX()<=((x+50)+((i/3)*10))){
-						if(i%3 == 0 && lane.get(i).getPositionY()>=(y+6))
-							lane.get(i).moveUp();
-						else if(i%3 == 1 && lane.get(i).getPositionY()<=(y+26))
-							lane.get(i).moveDown();
+				if(nest.size()==9){													// if nest is full
+					if(lane.get(i).getPositionX()<=((x+50)+((i/3)*10))){			// if part (in groups of 3) is at 50,60,70,...
+						if(i%3 == 0 && lane.get(i).getPositionY()>=(y+6))			// if part is first in group and is greater than 6
+							lane.get(i).moveUp();									// move up
+						else if(i%3 == 1 && lane.get(i).getPositionY()<=(y+26))		// if part is second in group an is less than 26
+							lane.get(i).moveDown();									// move down
 					}
-					else
-						lane.get(i).moveLeft();
+					else															// if part isn't at 50,60,70,...
+						lane.get(i).moveLeft();										// move part left
 				}
 			}
 			for(int i=0;i<nest.size();i++){
-				if(nest.get(i).getPositionX()<=((x+5)+((i/3)*15))){
-					if(i%3 == 0 && nest.get(i).getPositionY()>=(y+6))
-						nest.get(i).moveUp();
-					else if(i%3 == 1 && nest.get(i).getPositionY()<=(y+26))
-						nest.get(i).moveDown();
+				if(nest.get(i).getPositionX()<=((x+5)+((i/3)*15))){					// if nest part (in groups of 3) is at 5,20,35
+					if(i%3 == 0 && nest.get(i).getPositionY()>=(y+6))				// if part is first in group and is greater than 6
+						nest.get(i).moveUp();										// move up
+					else if(i%3 == 1 && nest.get(i).getPositionY()<=(y+26))			// if part is second in group an is less than 26
+						nest.get(i).moveDown();										//move down
 				}
-				else
-					nest.get(i).moveLeft();
+				else																// if part isn't at 5,20,35
+					nest.get(i).moveLeft();											// move part left
 			}
-			for(int i=0;i<4;i++){
-				lines.get(i).moveLeft();
-				if(lines.get(i).getPositionX()<=(x+43))
-					lines.get(i).reset();
+			for(int i=0;i<3;i++){
+				lines.get(i).moveLeft();											// move lanelines left
+				if(lines.get(i).getPositionX()<=(x+43))								// if laneline is at 43
+					lines.get(i).reset();											// add 300 to its value
 			}
 		}
 	}

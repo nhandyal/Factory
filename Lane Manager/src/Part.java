@@ -19,5 +19,4 @@ public class Part extends FactoryObject
 	public void moveDown(){
 		y += 2;
 	}
-
 }
