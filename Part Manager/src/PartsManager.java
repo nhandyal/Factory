@@ -12,7 +12,7 @@ public class PartsManager extends JFrame implements ActionListener {
 	ThirdColumn tC; 
 	PartInfo pI; 
 	boolean part1Edit, part2Edit, part3Edit, part4Edit, part5Edit, part6Edit, part7Edit, part8Edit, part9Edit, part10Edit; 
-
+	int eightPartCounter; 
 	public PartsManager(){
 
 		 
@@ -70,6 +70,7 @@ public class PartsManager extends JFrame implements ActionListener {
 		part9Edit = false; 
 		part10Edit = false; 
 		
+		eightPartCounter = 0; 
 
 	}
 	
@@ -100,7 +101,7 @@ public class PartsManager extends JFrame implements ActionListener {
 			tC.setVisible(true); 
 			fC.setVisible(true);
 			pI.setVisible(false); 
-			
+			part1Edit = false; 
 		}
 		
 		//Second Button
@@ -116,7 +117,7 @@ public class PartsManager extends JFrame implements ActionListener {
 			tC.setVisible(true); 
 			fC.setVisible(true);
 			pI.setVisible(false); 
-			
+			part2Edit = false; 
 		}
 		
 		//Third Button
@@ -132,6 +133,7 @@ public class PartsManager extends JFrame implements ActionListener {
 			tC.setVisible(true); 
 			fC.setVisible(true);
 			pI.setVisible(false); 
+			part3Edit = false; 
 			
 		}
 		
@@ -139,7 +141,7 @@ public class PartsManager extends JFrame implements ActionListener {
 		if("4".equals(ae.getActionCommand())){
 			pI.setVisible(true); 
 			tC.setVisible(false); 
-			part2Edit = true; 
+			part4Edit = true; 
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part4Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
@@ -148,6 +150,7 @@ public class PartsManager extends JFrame implements ActionListener {
 			tC.setVisible(true); 
 			fC.setVisible(true);
 			pI.setVisible(false); 
+			part4Edit = false; 
 			
 		}
 		
@@ -165,6 +168,7 @@ public class PartsManager extends JFrame implements ActionListener {
 			tC.setVisible(true); 
 			fC.setVisible(true);
 			pI.setVisible(false); 
+			part5Edit = false; 
 			
 		}
 		
@@ -182,6 +186,7 @@ public class PartsManager extends JFrame implements ActionListener {
 			tC.setVisible(true); 
 			fC.setVisible(true);
 			pI.setVisible(false); 
+			part6Edit = false; 
 			
 		}
 		
@@ -198,7 +203,7 @@ public class PartsManager extends JFrame implements ActionListener {
 			tC.setVisible(true); 
 			fC.setVisible(true);
 			pI.setVisible(false); 
-			
+			part7Edit = false; 
 		}
 		
 		//Eighth Button
@@ -214,6 +219,7 @@ public class PartsManager extends JFrame implements ActionListener {
 			tC.setVisible(true); 
 			fC.setVisible(true);
 			pI.setVisible(false); 
+			part8Edit = false; 
 			
 		}
 		//Ninth Button
@@ -229,6 +235,7 @@ public class PartsManager extends JFrame implements ActionListener {
 			tC.setVisible(true); 
 			fC.setVisible(true);
 			pI.setVisible(false); 
+			part9Edit = false; 
 			
 		}
 		
@@ -244,7 +251,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
-			pI.setVisible(false); 
+			pI.setVisible(false);
+			part10Edit = false; 
 			
 		}
 	}
