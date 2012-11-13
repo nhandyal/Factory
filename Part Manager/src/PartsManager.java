@@ -13,11 +13,12 @@ public class PartsManager extends JFrame implements ActionListener {
 	PartInfo pI; 
 	boolean part1Edit, part2Edit, part3Edit, part4Edit, part5Edit, part6Edit, part7Edit, part8Edit, part9Edit, part10Edit; 
 	int eightPartCounter; 
+	JButton newKit; int partIndexNumber; 
 	public PartsManager(){
 
 		 
 		
-		partsGrid = new JPanel(new GridLayout(1, 4)); 	
+		partsGrid = new JPanel(new GridLayout(1, 5)); 	
 		partsGrid.setVisible(true); 
 		//First Column
 		fC = new FirstColumn();		
@@ -71,14 +72,20 @@ public class PartsManager extends JFrame implements ActionListener {
 		part10Edit = false; 
 		
 		eightPartCounter = 0; 
-
+		partIndexNumber = 0; 
+		
+		newKit = new JButton("New Kit"); 
+		newKit.setActionCommand("Reset"); 
+		newKit.addActionListener(this); 
+		partsGrid.add(newKit); 
+		
 	}
 	
 	
 	public static void main(String[] args) {
 		PartsManager thisPartsManager = new PartsManager(); 
 		thisPartsManager.setTitle("Parts Manager");
-	    thisPartsManager.setSize(1000, 350);	
+	    thisPartsManager.setSize(1200, 350);	
 	    thisPartsManager.setLocationRelativeTo(null);	    
 	    thisPartsManager.setVisible(true); 
 	    thisPartsManager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
@@ -102,6 +109,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part1Edit = false; 
+			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part1.png"));
+			partIndexNumber++;
 		}
 		
 		//Second Button
@@ -118,6 +127,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part2Edit = false; 
+			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part2.png"));
+			partIndexNumber++;
 		}
 		
 		//Third Button
@@ -134,6 +145,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part3Edit = false; 
+			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part3.png"));
+			partIndexNumber++;
 			
 		}
 		
@@ -151,6 +164,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part4Edit = false; 
+			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part4.png"));
+			partIndexNumber++;
 			
 		}
 		
@@ -169,7 +184,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part5Edit = false; 
-			
+			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part5.png"));
+			partIndexNumber++;
 		}
 		
 		//Sixth Button
@@ -187,7 +203,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part6Edit = false; 
-			
+			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part6.png"));
+			partIndexNumber++;
 		}
 		
 		//Seventh Button
@@ -204,6 +221,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part7Edit = false; 
+			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part7.png"));
+			partIndexNumber++;
 		}
 		
 		//Eighth Button
@@ -220,6 +239,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part8Edit = false; 
+			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part8.png"));
+			partIndexNumber++;
 			
 		}
 		//Ninth Button
@@ -236,7 +257,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part9Edit = false; 
-			
+			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part9.png"));
+			partIndexNumber++;
 		}
 		
 		//Tenth Button
@@ -252,8 +274,14 @@ public class PartsManager extends JFrame implements ActionListener {
 			tC.setVisible(true); 
 			fC.setVisible(true);
 			pI.setVisible(false);
-			part10Edit = false; 
-			
+			part10Edit = false; 			
+			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part10.png"));
+			partIndexNumber++; 
+		}
+		
+		if("Reset".equals(ae.getActionCommand())){
+			//everything resets and a new kit can be created
+			eightPartCounter = 0; 
 		}
 	}
 	
