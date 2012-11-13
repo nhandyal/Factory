@@ -68,6 +68,78 @@ public class FirstColumn extends JPanel {
 		
 		add(firstColumn);
 	}
+	public JPanel getFirstColumn() {
+		return firstColumn;
+	}
+	public void setFirstColumn(JPanel firstColumn) {
+		this.firstColumn = firstColumn;
+	}
+	public JLabel getPartsNameTitle() {
+		return partsNameTitle;
+	}
+	public void setPartsNameTitle(JLabel partsNameTitle) {
+		this.partsNameTitle = partsNameTitle;
+	}
+	public JLabel getPartOneName() {
+		return partOneName;
+	}
+	public void setPartOneName(JLabel partOneName) {
+		this.partOneName = partOneName;
+	}
+	public JLabel getPartTwoName() {
+		return partTwoName;
+	}
+	public void setPartTwoName(JLabel partTwoName) {
+		this.partTwoName = partTwoName;
+	}
+	public JLabel getPartThreeName() {
+		return partThreeName;
+	}
+	public void setPartThreeName(JLabel partThreeName) {
+		this.partThreeName = partThreeName;
+	}
+	public JLabel getPartFourName() {
+		return partFourName;
+	}
+	public void setPartFourName(JLabel partFourName) {
+		this.partFourName = partFourName;
+	}
+	public JLabel getPartFiveName() {
+		return partFiveName;
+	}
+	public void setPartFiveName(JLabel partFiveName) {
+		this.partFiveName = partFiveName;
+	}
+	public JLabel getPartSixName() {
+		return partSixName;
+	}
+	public void setPartSixName(JLabel partSixName) {
+		this.partSixName = partSixName;
+	}
+	public JLabel getPartSevenName() {
+		return partSevenName;
+	}
+	public void setPartSevenName(JLabel partSevenName) {
+		this.partSevenName = partSevenName;
+	}
+	public JLabel getPartEightName() {
+		return partEightName;
+	}
+	public void setPartEightName(JLabel partEightName) {
+		this.partEightName = partEightName;
+	}
+	public JLabel getPartNineName() {
+		return partNineName;
+	}
+	public void setPartNineName(JLabel partNineName) {
+		this.partNineName = partNineName;
+	}
+	public JLabel getPartTenName() {
+		return partTenName;
+	}
+	public void setPartTenName(JLabel partTenName) {
+		this.partTenName = partTenName;
+	}
 
 
 	
