@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*; 
 
 public class PartsManager extends JFrame implements ActionListener {
- 
+	
 	JPanel partsGrid; 
 	FirstColumn fC; 
 	SecondColumn sC; 
@@ -14,10 +14,8 @@ public class PartsManager extends JFrame implements ActionListener {
 	boolean part1Edit, part2Edit, part3Edit, part4Edit, part5Edit, part6Edit, part7Edit, part8Edit, part9Edit, part10Edit; 
 	int eightPartCounter; 
 	JButton newKit; int partIndexNumber; 
-	public PartsManager(){
-
-		 
-		
+	ArrayList<Parts> listOfParts; 
+	public PartsManager(){	
 		partsGrid = new JPanel(new GridLayout(1, 5)); 	
 		partsGrid.setVisible(true); 
 		//First Column
@@ -79,6 +77,7 @@ public class PartsManager extends JFrame implements ActionListener {
 		newKit.addActionListener(this); 
 		partsGrid.add(newKit); 
 		
+		listOfParts = new ArrayList<Parts>(); 
 	}
 	
 	
@@ -109,7 +108,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part1Edit = false; 
-			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part1.png"));
+			Parts newPart1 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part1.png"));
+			listOfParts.add(newPart1); 
 			partIndexNumber++;
 		}
 		
@@ -127,7 +127,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part2Edit = false; 
-			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part2.png"));
+			Parts newPart2 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part2.png"));
+			listOfParts.add(newPart2); 
 			partIndexNumber++;
 		}
 		
@@ -145,7 +146,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part3Edit = false; 
-			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part3.png"));
+			Parts newPart3 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part3.png"));
+			listOfParts.add(newPart3); 
 			partIndexNumber++;
 			
 		}
@@ -164,7 +166,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part4Edit = false; 
-			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part4.png"));
+			Parts newPart4 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part4.png"));
+			listOfParts.add(newPart4); 
 			partIndexNumber++;
 			
 		}
@@ -184,7 +187,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part5Edit = false; 
-			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part5.png"));
+			Parts newPart5 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part5.png"));
+			listOfParts.add(newPart5); 
 			partIndexNumber++;
 		}
 		
@@ -203,7 +207,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part6Edit = false; 
-			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part6.png"));
+			Parts newPart6 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part6.png"));
+			listOfParts.add(newPart6); 
 			partIndexNumber++;
 		}
 		
@@ -221,7 +226,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part7Edit = false; 
-			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part7.png"));
+			Parts newPart7 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part7.png"));
+			listOfParts.add(newPart7); 
 			partIndexNumber++;
 		}
 		
@@ -239,7 +245,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part8Edit = false; 
-			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part8.png"));
+			Parts newPart8 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part8.png"));
+			listOfParts.add(newPart8); 
 			partIndexNumber++;
 			
 		}
@@ -257,7 +264,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part9Edit = false; 
-			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part9.png"));
+			Parts newPart9 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part9.png"));
+			listOfParts.add(newPart9); 
 			partIndexNumber++;
 		}
 		
@@ -275,7 +283,8 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false);
 			part10Edit = false; 			
-			Parts newPart = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part10.png"));
+			Parts newPart10 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part10.png"));
+			listOfParts.add(newPart10); 
 			partIndexNumber++; 
 		}
 		
