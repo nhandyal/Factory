@@ -29,57 +29,57 @@ public class LaneManager extends JFrame implements ActionListener
 		
 		// Create 8 lanes
 		lanes = new ArrayList<Lane>();
-		lanes.add(new Lane(16,59,index));
+		lanes.add(new Lane(16,73,index));
 		index+=3;
-		lanes.add(new Lane(16,94,index));
+		lanes.add(new Lane(16,108,index));
 		index+=3;
-		lanes.add(new Lane(16,183,index));
+		lanes.add(new Lane(16,197,index));
 		index+=3;
-		lanes.add(new Lane(16,218,index));
+		lanes.add(new Lane(16,232,index));
 		index+=3;
-		lanes.add(new Lane(16,307,index));
+		lanes.add(new Lane(16,321,index));
 		index+=3;
-		lanes.add(new Lane(16,342,index));
+		lanes.add(new Lane(16,356,index));
 		index+=3;
-		lanes.add(new Lane(16,431,index));
+		lanes.add(new Lane(16,445,index));
 		index+=3;
-		lanes.add(new Lane(16,466,index));
+		lanes.add(new Lane(16,480,index));
 		index+=3;	
 		
 		// Create 4 Dividers
 		dividers = new ArrayList<Line>();
-		dividers.add(new Line(334,94,288,94,index));
+		dividers.add(new Line(334,108,288,108,index));
 		index++;
-		dividers.add(new Line(334,218,288,218,index));
+		dividers.add(new Line(334,232,288,232,index));
 		index++;
-		dividers.add(new Line(334,342,288,342,index));
+		dividers.add(new Line(334,356,288,356,index));
 		index++;
-		dividers.add(new Line(334,466,288,466,index));
+		dividers.add(new Line(334,480,288,480,index));
 		index++;
 
 
 		// Create 10 Bins
 		bins = new ArrayList<Bin>();
-		bins.add(new Bin(348,84,10,index,0));
-		index++;
-		bins.add(new Bin(348,84,10,index,1));
-		index++;
-		bins.add(new Bin(348,207,10,index,2));
-		index++;
-		bins.add(new Bin(348,207,10,index,3));
-		index++;
-		bins.add(new Bin(348,331,10,index,4));
-		index++;
-		bins.add(new Bin(348,331,10,index,5));
-		index++;
-		bins.add(new Bin(348,456,10,index,6));
-		index++;
-		bins.add(new Bin(348,456,10,index,7));
-		index++;
-		bins.add(new Bin(348,456,10,index,8));
-		index++;
-		bins.add(new Bin(348,456,10,index,9));
-		index++;
+		bins.add(new Bin(348,98,10,index,0));
+		index+=2;
+		bins.add(new Bin(348,98,10,index,1));
+		index+=2;
+		bins.add(new Bin(348,221,10,index,2));
+		index+=2;
+		bins.add(new Bin(348,221,10,index,3));
+		index+=2;
+		bins.add(new Bin(348,345,10,index,4));
+		index+=2;
+		bins.add(new Bin(348,345,10,index,5));
+		index+=2;
+		bins.add(new Bin(348,470,10,index,6));
+		index+=2;
+		bins.add(new Bin(348,470,10,index,7));
+		index+=2;
+		bins.add(new Bin(348,470,10,index,8));
+		index+=2;
+		bins.add(new Bin(348,470,10,index,9));
+		index+=2;
 		
 		// Create 4 Feeders
 		feeders = new ArrayList<Feeder>();
@@ -94,7 +94,7 @@ public class LaneManager extends JFrame implements ActionListener
 			lanes.get(i).setActive(false);
 
 		// Create Backgroud Image
-		background = new ImageIcon("bg.jpg");
+		background = new ImageIcon("LMBG.png");
 		
 		// Create ImageList
 		images = new ArrayList<ImageIcon>();
@@ -111,10 +111,9 @@ public class LaneManager extends JFrame implements ActionListener
 		images.add(new ImageIcon("bin.png"));		// index 10		bin
 		images.add(new ImageIcon("robot.png"));		// index 11		Kit/Part Picking/Gantry Robot
 		images.add(new ImageIcon("kit.png"));		// index 12		Kit
-		images.add(new ImageIcon("camera.png"));	// index 13		QA Cam
+		images.add(new ImageIcon("camera.png"));	// index 13		QA/Nest Cam
 		images.add(new ImageIcon("camflash.png"));	// index 14		Cam Flash
-		images.add(new ImageIcon("camera.png"));	// index 15		Nest Cam
-		images.add(new ImageIcon("camline.png"));	// index 16		Nest Cam Line
+		images.add(new ImageIcon("camline.png"));	// index 15		Nest Cam Line
 
 		// Start Counter
 		counter = 0;
@@ -131,12 +130,12 @@ public class LaneManager extends JFrame implements ActionListener
 	public static void main(String[] args){
 		LaneManager l = new LaneManager();
 		l.setVisible(true);
-		l.setSize(400,530);
+		l.setSize(400,670);
 		l.createBufferStrategy(2);
 		l.setTitle("Lane Manager");
 		l.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		new Timer(50,l).start();
+		new Timer(5,l).start();
 	} //end main
 
 	public void actionPerformed( ActionEvent ae ) {
@@ -145,10 +144,11 @@ public class LaneManager extends JFrame implements ActionListener
 			if(lanes.get(i).getActive() == true){		// if lane is on
 				if(counter==24){						// every 25th instance of timer
 					int partindx = feeders.get(i/2).getBin().getPart();
-					System.out.println(partindx);
+//					System.out.println(partindx);
 					lanes.get(i).addPart(partindx,index);		// create a new part
 					index++;							// add 1 to index
-					feeders.get(1/2).pushPart();		// subtract 1 from feeder counter
+					feeders.get(i/2).pushPart();		// subtract 1 from feeder counter
+//					System.out.println(feeders.get());
 					counter = 0;						// reset counter
 				}
 				counter++;
@@ -162,6 +162,27 @@ public class LaneManager extends JFrame implements ActionListener
 		repaint();
     }
 
+	public void laneSwitch(int x1, int x2){
+		if(x1<8){									// if lane exists
+			lanes.get(x1).setActive(false);			// turn lane off
+			bins.get(x1).setVis(false);				// turn bin off
+			feeders.get(x1/2).removeBin();			// remove bin
+			System.out.println("Feeder"+x2/2+" hasBin() == "+feeders.get(x1/2).hasBin());
+			dividers.get(x1/2).dividerNeutral();	// put divider in neutral position
+		}
+		if(x2<8){									// if lane exists
+			lanes.get(x2).setActive(true);			// turn lane on
+			bins.get(x2).setVis(true);				// turn bin on
+			feeders.get(x2/2).addBin(bins.get(x2));
+			feeders.get(x2/2).setPush(36);
+//			System.out.println("Bin "+x2+" added to feeder"+(x2/2));
+			if(x2%2 == 0)							// if upper lane
+				dividers.get(x2/2).dividerDown();	// put divider in lower position
+			if(x2%2 == 1)							// if lower lane
+				dividers.get(x2/2).dividerUp();		// put divider in upper position
+		}
+	}
+
 	public void buildMap(TreeMap<Integer,FactoryObject> map){
 		
 		// Add Dividers
@@ -170,9 +191,15 @@ public class LaneManager extends JFrame implements ActionListener
 		}
 
 		// Add Bins (if visible)
-		for(int i=0;i<8;i++){
-			if(bins.get(i).getVis() == true){
-				map.put(bins.get(i).getIndex(),bins.get(i));
+		for(int i=0;i<4;i++){
+			if(feeders.get(i).hasBin() == true){
+				map.put(feeders.get(i).getBin().getIndex(),feeders.get(i).getBin());
+				map.put(feeders.get(i).getBin().getPartIcon().getIndex(),feeders.get(i).getBin().getPartIcon());
+				System.out.println("Feeder"+i+"s bin painted");
+//		for(int i=0;i<8;i++){
+//			if(bins.get(i).getVis() == true){
+//				map.put(bins.get(i).getIndex(),bins.get(i));
+//				map.put(bins.get(i).getPartIcon().getIndex(),bins.get(i).getPartIcon());
 			}
 		}
 
@@ -238,6 +265,7 @@ public class LaneManager extends JFrame implements ActionListener
 				changeMap.put(i,true);
 		}
 		
+		// Delete extra mappings
 		k = temp.keySet().iterator();
 		while(k.hasNext()){
 			int i = (Integer) k.next();
@@ -259,25 +287,6 @@ public class LaneManager extends JFrame implements ActionListener
 			int i = (Integer) k.next();
 //			System.out.println("changeData "+changeData.get(i).getIndex());
 		}
-	}	
-
-	public void laneSwitch(int x1, int x2){
-		if(x1<8){									// if lane exists
-			lanes.get(x1).setActive(false);			// turn lane off
-//			bins.get(x1).setVis(false);				// turn bin off
-			feeders.get(x1/2).removeBin();			// remove bin
-			dividers.get(x1/2).dividerNeutral();	// put divider in neutral position
-		}
-		if(x2<8){									// if lane exists
-			lanes.get(x2).setActive(true);			// turn lane on
-//			bins.get(x2).setVis(true);				// turn bin on
-			feeders.get(x2/2).addBin(bins.get(x2));
-			feeders.get(x2/2).setPush(36);
-			if(x2%2 == 0)							// if upper lane
-				dividers.get(x2/2).dividerDown();	// put divider in lower position
-			if(x2%2 == 1)							// if lower lane
-				dividers.get(x2/2).dividerUp();		// put divider in upper position
-		}
 	}
 
     public void paint(Graphics g){
@@ -296,7 +305,7 @@ public class LaneManager extends JFrame implements ActionListener
 			}
 		}
 
-		background.paintIcon(this,g2,0,30);
+		background.paintIcon(this,g2,0,0);
 
 		// Paint Updated List
 		k = animData.keySet().iterator();
