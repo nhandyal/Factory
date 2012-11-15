@@ -43,3 +43,4 @@ public class ImageArray{
 	public ImageIcon getIcon(int i){
 		return images.get(i);
 	}
+}
