@@ -19,8 +19,8 @@ import java.util.TreeMap;
 import factory.global.data.*;
 
 public class NetworkTransferObject implements java.io.Serializable{
-		TreeMap<Integer, Boolean> changeMap;
-		TreeMap<Integer, FactoryObject> changeData;
+		public TreeMap<Integer, Boolean> changeMap;
+		public TreeMap<Integer, FactoryObject> changeData;
 		
 		public NetworkTransferObject(TreeMap<Integer, Boolean> changeMap, TreeMap<Integer, FactoryObject> changeData){
 				this.changeMap = changeMap;

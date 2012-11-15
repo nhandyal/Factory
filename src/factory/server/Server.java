@@ -71,7 +71,10 @@ public class Server implements ActionListener, NetworkManager{
 				clientConnections[cID] = newBridge;
 		}
 		
+		
 		// Client Specific
+		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){};
+		
 		
 		// Global
 		public void closeNetworkBridge(int bridgeID){
@@ -124,7 +127,8 @@ public class Server implements ActionListener, NetworkManager{
 				//NetworkTransferObject kitAsmData = new NetworkTransferObject(changeMap.get0(2), changeData.get(2));
 				
 				// now we can send all of the data to the appropriate clients prefaced by an update animation data instruction. FM will expect 3 NTO objects on the input stream
-				Instruction instr = new Instruction("UAD");
+				Instruction instr = new Instruction("UAD",1);
+				Instruction instrFM = new Instruction("UAD",3);
 				
 				/*
 				 * send the update animation data instruction along with the appropriate NTO to all animation managers
@@ -150,7 +154,7 @@ public class Server implements ActionListener, NetworkManager{
 												//clientConnections[4].writeData(kitAsmData);
 												break;
 										case 5:
-												//clientConnections[5].writeData(instr);
+												//clientConnections[5].writeData(instrFM);
 												//clientConnections[5].writeData(gantryData);
 												//clientConnections[5].writeData(laneData);
 												//clientConnections[5].writeData(kitAsmData);
