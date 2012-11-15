@@ -10,13 +10,14 @@ import java.util.*;
 public class LaneManager extends JFrame implements ActionListener
 {
 	ImageIcon background;
-	ArrayList<ImageIcon> images;
+//	ArrayList<ImageIcon> images;
 	ArrayList<Lane> lanes;
 	ArrayList<Bin> bins;
 	ArrayList<Line> dividers;
 	ArrayList<Feeder> feeders;
 	int counter, index;
 	FOComparator foc;
+	ImageArray images;
 	
 	TreeMap<Integer,Boolean> changeMap;
 	TreeMap<Integer,FactoryObject> temp;
@@ -97,7 +98,7 @@ public class LaneManager extends JFrame implements ActionListener
 		background = new ImageIcon("LMBG.png");
 		
 		// Create ImageList
-		images = new ArrayList<ImageIcon>();
+/*		images = new ArrayList<ImageIcon>();
 		images.add(new ImageIcon("part1.png"));		// index 0		part 1
 		images.add(new ImageIcon("part2.png"));		// index 1		part 2
 		images.add(new ImageIcon("part3.png"));		// index 2		part 3
@@ -113,7 +114,9 @@ public class LaneManager extends JFrame implements ActionListener
 		images.add(new ImageIcon("kit.png"));		// index 12		Kit
 		images.add(new ImageIcon("camera.png"));	// index 13		QA/Nest Cam
 		images.add(new ImageIcon("camflash.png"));	// index 14		Cam Flash
-		images.add(new ImageIcon("camline.png"));	// index 15		Nest Cam Line
+		images.add(new ImageIcon("camline.png"));	// index 15		Nest Cam Line 	*/
+
+		images = new ImageArray();
 
 		// Start Counter
 		counter = 0;
@@ -316,7 +319,7 @@ public class LaneManager extends JFrame implements ActionListener
 					g2.drawLine(animData.get(i).getPositionX(),animData.get(i).getPositionY(),animData.get(i).getPositionXF(),animData.get(i).getPositionYF());
 				else{ 										//if object is not a line draw an ImageIcon
 					int img = animData.get(i).getImageIndex();
-					images.get(img).paintIcon(this,g2,animData.get(i).getPositionX(),animData.get(i).getPositionY());
+					images.getIcon(img).paintIcon(this,g2,animData.get(i).getPositionX(),animData.get(i).getPositionY());
 				}
 			}
 		}
