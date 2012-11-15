@@ -8,8 +8,15 @@
 */
 
 package factory.global.network;
+
+//Java packages
 import java.io.*;
 import java.net.*;
+import java.util.TreeMap;
+import java.util.ArrayList;
+
+//user packages
+import factory.global.data.*;
 
 public class NetworkBridge{
 		ObjectOutputStream oos;
@@ -104,6 +111,7 @@ public class NetworkBridge{
 
 // ------------------------------------- END CLASS NETWORK BRIDGE ---------------------------------//
 
+
 class InputStreamListener extends Thread{
 		private NetworkManager parent;
 		private NetworkBridge nb;
@@ -149,13 +157,46 @@ class InputStreamListener extends Thread{
 				killThread = true;
 		}
 		
+		// ----------------------------- PRIVATE METHODS ------------------------------- //
+		
 		void parseInstruction(Instruction instr){
 				String instruction = instr.instruction;
+				int x = instr.x;
 				if(instruction.equals("register-client")){
 						int cID = instr.x;
 						parent.registerClientListener(nb, cID);
 						nb.setBridgeID(cID);
 				}
+				else if(instruction.equals("UAD")){						// server --> client update animation data
+						readAnimationData(x);
+				}
 		}
 		
+		void readAnimationData(int expectedPackets){
+				// array lists to store the transfered data from the server
+				ArrayList<TreeMap<Integer, Boolean>> mapArray = new ArrayList<TreeMap<Integer, Boolean>>();
+				ArrayList<TreeMap<Integer, FactoryObject>> dataArray = new ArrayList<TreeMap<Integer, FactoryObject>>();
+				
+				for(int i = 0; i <= expectedPackets; i++){
+						try{
+								NetworkTransferObject frameData = (NetworkTransferObject)ois.readObject();
+								mapArray.add(frameData.changeMap);
+								dataArray.add(frameData.changeData);
+						}catch(IOException ie){
+								String message = ie.toString();
+								if(message.equals("java.io.EOFException")){
+										System.out.println("Connection lost");
+										parent.closeNetworkBridge(nb.getBridgeID());
+								}
+								else if(message.equals("java.net.SocketTimeoutException: Read timed out")){}
+								else{
+										ie.printStackTrace();		
+								}
+						}catch(ClassNotFoundException c){
+								c.printStackTrace();
+						}
+				}
+				
+				parent.mergeChanges(mapArray, dataArray);
+		}
 }
