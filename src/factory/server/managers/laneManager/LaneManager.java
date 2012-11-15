@@ -1,3 +1,5 @@
+package factory.client.managers.laneManager;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferStrategy;
@@ -6,6 +8,9 @@ import javax.swing.*;
 import javax.swing.Timer;
 
 import java.util.*;
+
+// user packages
+import factory.global.data.*;
 
 public class LaneManager extends JFrame implements ActionListener
 {
@@ -274,7 +279,7 @@ public class LaneManager extends JFrame implements ActionListener
 		}
 	}
 
-/*    public void paint(Graphics g){
+    public void paint(Graphics g){
     	Graphics2D g2 = (Graphics2D)g;
     	
 		buildMap(animData);
@@ -305,5 +310,5 @@ public class LaneManager extends JFrame implements ActionListener
 				}
 			}
 		}
-    }	*/
+    }
 }
