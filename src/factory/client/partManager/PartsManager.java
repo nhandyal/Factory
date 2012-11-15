@@ -1,7 +1,10 @@
+//package factory.client.partsManager;
 import java.util.*;
 import javax.swing.*; 
 import java.awt.*; 
 import java.awt.event.*; 
+//import factory.global.network.*;
+//import factory.global.data.*;
 
 public class PartsManager extends JFrame implements ActionListener {
 	
@@ -14,7 +17,18 @@ public class PartsManager extends JFrame implements ActionListener {
 	int eightPartCounter; 
 	JButton newKit; int partIndexNumber; 
 	ArrayList<Parts> listOfParts; 
+	JMenuBar optionMenuBar; JMenu optionMenu; JMenuItem resetOption, deletePartOption; 
 	public PartsManager(){	
+
+		optionMenuBar = new JMenuBar(); 
+		optionMenu = new JMenu("Options"); 
+		resetOption = new JMenuItem("Reset"); 
+		deletePartOption = new JMenuItem("Delete a Part");
+		optionMenu.add(resetOption); 
+		optionMenu.add(deletePartOption);
+		optionMenuBar.add(optionMenu); 
+		add(optionMenuBar, BorderLayout.NORTH); 
+
 		partsGrid = new JPanel(new GridLayout(1, 5)); 	
 		partsGrid.setVisible(true); 
 		//First Column
