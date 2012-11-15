@@ -29,6 +29,11 @@ public class Client implements NetworkManager{
 		public static void main(String[] args){
 				Client c = new Client();
 		}
+		
+		// -------------------------------------------------------------------------------------- //
+		// ----------------------------------- Network Manager ---------------------------------- //
+		// -------------------------------------------------------------------------------------- //
+		
 		// server specific
 		public void registerClientListener(NetworkBridge newBridge, int cID){}
 		
@@ -39,6 +44,8 @@ public class Client implements NetworkManager{
 				if(mapArray.size() == 1){
 						TreeMap<Integer, Boolean> changeMap = mapArray.get(0);
 						TreeMap<Integer, FactoryObject> changeData = dataArray.get(0);
+						
+						// --- change in this block --- //
 						
 						// iterate over all the keys present in changeMap
 						// after this loop is complete, the frameAnimationData map will be accurately synced with the server copy
@@ -54,6 +61,8 @@ public class Client implements NetworkManager{
 										frameAnimationData.remove(key);
 								}
 						}
+						
+						// --- End block -- //
 				}
 				else{
 						System.out.println("Warning: Corrupt frame data");
@@ -65,4 +74,8 @@ public class Client implements NetworkManager{
 		public void closeNetworkBridge(int bridgeID){
 				nb1.close();
 		}
+		
+		// -------------------------------------------------------------------------------------- //
+		// ----------------------------------- End Network Manager ------------------------------ //
+		// -------------------------------------------------------------------------------------- //
 }
