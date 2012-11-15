@@ -71,12 +71,12 @@ public class PartsManager extends JFrame implements ActionListener {
 		
 		eightPartCounter = 0; 
 		partIndexNumber = 0; 
-		
+		/*
 		newKit = new JButton("New Kit"); 
 		newKit.setActionCommand("Reset"); 
 		newKit.addActionListener(this); 
 		partsGrid.add(newKit); 
-		
+		*/
 		listOfParts = new ArrayList<Parts>(); 
 	}
 	
@@ -84,7 +84,7 @@ public class PartsManager extends JFrame implements ActionListener {
 	public static void main(String[] args) {
 		PartsManager thisPartsManager = new PartsManager(); 
 		thisPartsManager.setTitle("Parts Manager");
-	    thisPartsManager.setSize(1200, 350);	
+	    thisPartsManager.setSize(1000, 350);	
 	    thisPartsManager.setLocationRelativeTo(null);	    
 	    thisPartsManager.setVisible(true); 
 	    thisPartsManager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
@@ -108,7 +108,19 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part1Edit = false; 
-			Parts newPart1 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part1.png"));
+			String stringPartIndex = pI.getPartIndexNumber().getText(); 
+			int intPartIndex = 0; 
+			try{
+				intPartIndex = Integer.parseInt(stringPartIndex);
+			}
+			catch(Exception z){
+				System.out.println("Exception found - did not enter in an integer");
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
+				fC.getPartOneName().setText("Part 1"); 
+				return; 
+			}
+
+			Parts newPart1 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part1.png"));
 			listOfParts.add(newPart1); 
 			partIndexNumber++;
 		}
@@ -127,7 +139,18 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part2Edit = false; 
-			Parts newPart2 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part2.png"));
+			String stringPartIndex = pI.getPartIndexNumber().getText(); 
+			int intPartIndex = 0; 
+			try{
+				intPartIndex = Integer.parseInt(stringPartIndex);
+			}
+			catch(Exception z){
+				System.out.println("Exception found - did not enter in an integer");
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
+				fC.getPartOneName().setText("Part 2"); 
+				return; 
+			} 			
+			Parts newPart2 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part2.png"));
 			listOfParts.add(newPart2); 
 			partIndexNumber++;
 		}
@@ -146,7 +169,19 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part3Edit = false; 
-			Parts newPart3 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part3.png"));
+			
+			String stringPartIndex = pI.getPartIndexNumber().getText(); 
+			int intPartIndex = 0; 
+			try{
+				intPartIndex = Integer.parseInt(stringPartIndex);
+			}
+			catch(Exception z){
+				System.out.println("Exception found - did not enter in an integer");
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
+				fC.getPartOneName().setText("Part 3"); 
+				return; 
+			} 			
+			Parts newPart3 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part3.png"));
 			listOfParts.add(newPart3); 
 			partIndexNumber++;
 			
@@ -166,7 +201,18 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part4Edit = false; 
-			Parts newPart4 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part4.png"));
+			String stringPartIndex = pI.getPartIndexNumber().getText(); 
+			int intPartIndex = 0; 
+			try{
+				intPartIndex = Integer.parseInt(stringPartIndex);
+			}
+			catch(Exception z){
+				System.out.println("Exception found - did not enter in an integer");
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
+				fC.getPartOneName().setText("Part 4"); 
+				return; 
+			} 			
+			Parts newPart4 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part4.png"));
 			listOfParts.add(newPart4); 
 			partIndexNumber++;
 			
@@ -187,7 +233,18 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part5Edit = false; 
-			Parts newPart5 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part5.png"));
+			String stringPartIndex = pI.getPartIndexNumber().getText(); 
+			int intPartIndex = 0; 
+			try{
+				intPartIndex = Integer.parseInt(stringPartIndex);
+			}
+			catch(Exception z){
+				System.out.println("Exception found - did not enter in an integer");
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
+				fC.getPartOneName().setText("Part 5"); 
+				return; 
+			} 			
+			Parts newPart5 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part5.png"));
 			listOfParts.add(newPart5); 
 			partIndexNumber++;
 		}
@@ -207,7 +264,18 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part6Edit = false; 
-			Parts newPart6 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part6.png"));
+			String stringPartIndex = pI.getPartIndexNumber().getText(); 
+			int intPartIndex = 0; 
+			try{
+				intPartIndex = Integer.parseInt(stringPartIndex);
+			}
+			catch(Exception z){
+				System.out.println("Exception found - did not enter in an integer");
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
+				fC.getPartOneName().setText("Part 6"); 
+				return; 
+			}			
+			Parts newPart6 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part6.png"));
 			listOfParts.add(newPart6); 
 			partIndexNumber++;
 		}
@@ -226,7 +294,18 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part7Edit = false; 
-			Parts newPart7 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part7.png"));
+			String stringPartIndex = pI.getPartIndexNumber().getText(); 
+			int intPartIndex = 0; 
+			try{
+				intPartIndex = Integer.parseInt(stringPartIndex);
+			}
+			catch(Exception z){
+				System.out.println("Exception found - did not enter in an integer");
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
+				fC.getPartOneName().setText("Part 7"); 
+				return; 
+			} 			
+			Parts newPart7 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part7.png"));
 			listOfParts.add(newPart7); 
 			partIndexNumber++;
 		}
@@ -245,7 +324,18 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part8Edit = false; 
-			Parts newPart8 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part8.png"));
+			String stringPartIndex = pI.getPartIndexNumber().getText(); 
+			int intPartIndex = 0; 
+			try{
+				intPartIndex = Integer.parseInt(stringPartIndex);
+			}
+			catch(Exception z){
+				System.out.println("Exception found - did not enter in an integer");
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here");
+				fC.getPartOneName().setText("Part 8"); 
+				return; 
+			} 			
+			Parts newPart8 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part8.png"));
 			listOfParts.add(newPart8); 
 			partIndexNumber++;
 			
@@ -264,7 +354,18 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false); 
 			part9Edit = false; 
-			Parts newPart9 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part9.png"));
+			String stringPartIndex = pI.getPartIndexNumber().getText(); 
+			int intPartIndex = 0; 
+			try{
+				intPartIndex = Integer.parseInt(stringPartIndex);
+			}
+			catch(Exception z){
+				System.out.println("Exception found - did not enter in an integer");
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
+				fC.getPartOneName().setText("Part 9"); 
+				return; 
+			} 			
+			Parts newPart9 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part9.png"));
 			listOfParts.add(newPart9); 
 			partIndexNumber++;
 		}
@@ -283,7 +384,18 @@ public class PartsManager extends JFrame implements ActionListener {
 			fC.setVisible(true);
 			pI.setVisible(false);
 			part10Edit = false; 			
-			Parts newPart10 = new Parts(partIndexNumber, nameText, pI.getPartDescription().getText(), new ImageIcon("part10.png"));
+			String stringPartIndex = pI.getPartIndexNumber().getText(); 
+			int intPartIndex = 0; 
+			try{
+				intPartIndex = Integer.parseInt(stringPartIndex);
+			}
+			catch(Exception z){
+				System.out.println("Exception found - did not enter in an integer");
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
+				fC.getPartOneName().setText("Part 10"); 
+				return; 
+			} 			
+			Parts newPart10 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part10.png"));
 			listOfParts.add(newPart10); 
 			partIndexNumber++; 
 		}

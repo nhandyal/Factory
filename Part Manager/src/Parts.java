@@ -25,6 +25,6 @@ public class Parts implements java.io.Serializable{
 			this.desc = desc; 
 			this.image = image; 
 		}
-		
-		
 }
+
+		

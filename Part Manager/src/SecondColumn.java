@@ -69,4 +69,81 @@ public class SecondColumn extends JPanel {
 	//secondColumn.setBackground(Color.white);
 	add(secondColumn); 
 	}
+	
+	
+	
+	public JPanel getSecondColumn() {
+		return secondColumn;
+	}
+	public void setSecondColumn(JPanel secondColumn) {
+		this.secondColumn = secondColumn;
+	}
+	public JLabel getPartsIconTitle() {
+		return partsIconTitle;
+	}
+	public void setPartsIconTitle(JLabel partsIconTitle) {
+		this.partsIconTitle = partsIconTitle;
+	}
+	public JLabel getPartOneIcon() {
+		return partOneIcon;
+	}
+	public void setPartOneIcon(JLabel partOneIcon) {
+		this.partOneIcon = partOneIcon;
+	}
+	public JLabel getPartTwoIcon() {
+		return partTwoIcon;
+	}
+	public void setPartTwoIcon(JLabel partTwoIcon) {
+		this.partTwoIcon = partTwoIcon;
+	}
+	public JLabel getPartThreeIcon() {
+		return partThreeIcon;
+	}
+	public void setPartThreeIcon(JLabel partThreeIcon) {
+		this.partThreeIcon = partThreeIcon;
+	}
+	public JLabel getPartFourIcon() {
+		return partFourIcon;
+	}
+	public void setPartFourIcon(JLabel partFourIcon) {
+		this.partFourIcon = partFourIcon;
+	}
+	public JLabel getPartFiveIcon() {
+		return partFiveIcon;
+	}
+	public void setPartFiveIcon(JLabel partFiveIcon) {
+		this.partFiveIcon = partFiveIcon;
+	}
+	public JLabel getPartSixIcon() {
+		return partSixIcon;
+	}
+	public void setPartSixIcon(JLabel partSixIcon) {
+		this.partSixIcon = partSixIcon;
+	}
+	public JLabel getPartSevenIcon() {
+		return partSevenIcon;
+	}
+	public void setPartSevenIcon(JLabel partSevenIcon) {
+		this.partSevenIcon = partSevenIcon;
+	}
+	public JLabel getPartEightIcon() {
+		return partEightIcon;
+	}
+	public void setPartEightIcon(JLabel partEightIcon) {
+		this.partEightIcon = partEightIcon;
+	}
+	public JLabel getPartNineIcon() {
+		return partNineIcon;
+	}
+	public void setPartNineIcon(JLabel partNineIcon) {
+		this.partNineIcon = partNineIcon;
+	}
+	public JLabel getPartTenIcon() {
+		return partTenIcon;
+	}
+	public void setPartTenIcon(JLabel partTenIcon) {
+		this.partTenIcon = partTenIcon;
+	}
+	
+	
 }
