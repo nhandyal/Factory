@@ -18,13 +18,13 @@ public class Parts implements java.io.Serializable{
 		int partNumber;
 		String name;
 		String desc;
-		ImageIcon image;
+		int imageIndex; 
 		
-		public Parts(int partNumber, String name, String desc, ImageIcon image){
+		public Parts(int partNumber, String name, String desc, int imageIndex){
 			this.partNumber = partNumber; 
 			this.name = name; 
 			this.desc = desc; 
-			this.image = image; 
+			this.imageIndex = imageIndex; 
 		}
 }
 
