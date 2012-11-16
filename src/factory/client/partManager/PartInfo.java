@@ -1,6 +1,7 @@
-//package factory.client.partsManager;
+package factory.client.partManager;
 import javax.swing.*; 
-import java.awt.*; 
+import java.awt.*;
+import factory.global.data.*;
 public class PartInfo extends JPanel{
 	JPanel partInformation; 
 	JLabel title; 

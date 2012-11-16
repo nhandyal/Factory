@@ -13,11 +13,9 @@ package factory.global.data;
 
 // Java packages
 import java.io.*;
-<<<<<<< HEAD
 import javax.swing.ImageIcon;
-=======
 import javax.swing.*;
->>>>>>> 2df4efe23067f64db17ccf97e8bb44ba43999e82
+
 
 public class FactoryObject implements Serializable{
 
@@ -79,9 +77,4 @@ public class FactoryObject implements Serializable{
 	public int getIndex(){
 		return index;
 	}
-<<<<<<< HEAD
-
 }
-=======
-}
->>>>>>> ba44d0db5ad57fefcd73f002516c02bc7ff81bb9

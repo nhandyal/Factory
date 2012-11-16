@@ -1,12 +1,13 @@
-//package factory.client.partsManager;
+package factory.client.partManager;
+
 import java.util.*;
 import javax.swing.*; 
 import java.awt.*; 
 import java.awt.event.*; 
-//import factory.global.network.*;
-//import factory.global.data.*;
+import factory.global.network.*;
+import factory.global.data.*;
 
-public class PartsManager extends JFrame implements ActionListener {
+public class PartsManager extends JFrame implements ActionListener, NetworkManager{
 	
 	JPanel partsGrid; 
 	FirstColumn fC; 
@@ -17,9 +18,10 @@ public class PartsManager extends JFrame implements ActionListener {
 	int eightPartCounter; 
 	JButton newKit; int partIndexNumber; 
 	ArrayList<Parts> listOfParts; 
-	JMenuBar optionMenuBar; JMenu optionMenu; JMenuItem resetOption, deletePartOption; 
+	JMenuBar optionMenuBar; JMenu optionMenu; JMenuItem resetOption, deletePartOption;
+	NetworkBridge nb1;
 	public PartsManager(){	
-
+		nb1 = new NetworkBridge(this, "alurda.usc.edu", 8465, 0);
 		optionMenuBar = new JMenuBar(); 
 		optionMenu = new JMenu("Options"); 
 		resetOption = new JMenuItem("Reset"); 
@@ -424,6 +426,29 @@ public class PartsManager extends JFrame implements ActionListener {
 			eightPartCounter = 0; 
 		}
 	}
-	
+		
+		// -------------------------------------------------------------------------------------- //
+		// ----------------------------------- Network Manager ---------------------------------- //
+		// -------------------------------------------------------------------------------------- //
+		
+		// server specific
+		public void registerClientListener(NetworkBridge newBridge, int cID){}
+		public void syncFrame(int cID){}
+		
+		
+		// client specific
+		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){}
+		
+		public void syncChanges(ArrayList<TreeMap<Integer,FactoryObject>> dataArray){}
+		
+		// global
+		public void closeNetworkBridge(int bridgeID){
+				nb1.close();
+		}
+		
+		// -------------------------------------------------------------------------------------- //
+		// ----------------------------------- End Network Manager ------------------------------ //
+		// -------------------------------------------------------------------------------------- //
+		
 
 }
