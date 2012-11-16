@@ -1,7 +1,21 @@
+/*
+** Authors:			Timi Okuboyejo
+** Date: 			11/01/12
+** Project: 		Cs200-Factory
+** Description: 	Contains information for lanes(lanes, nests, etc)
+** 					Is Serializable.
+** 
+** Pre-Conditions: 	None
+** Post-Conditions: None
+** 
+*/
+package factory.global.data;
+
+// Java packages
+import java.io.*;
 import java.util.*;
 
-public class Lane extends FactoryObject
-{
+public class Lane extends FactoryObject implements Serializable{
 
 	ArrayList<Part> lane, nest;
 	ArrayList<Line> lines;

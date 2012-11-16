@@ -1,3 +1,4 @@
+//package factory.client.partsManager;
 import javax.swing.*; 
 import java.awt.*; 
 public class PartInfo extends JPanel{

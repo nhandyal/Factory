@@ -1,4 +1,5 @@
- 
+
+//package factory.client.partsManager; 
 import java.awt.*; 
 
 import javax.swing.*; 

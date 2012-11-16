@@ -2,10 +2,11 @@ import javax.swing.*;
 
 public class Part extends FactoryObject
 {
-	public Part(int initialPosX, int initialPosY, String initialImage){
+	public Part(int initialPosX, int initialPosY, int initialImage, int indx){
 		x = initialPosX;
 		y = initialPosY;
 		setImage(initialImage);
+		index = indx;
 	}
 
 	public void moveLeft(){

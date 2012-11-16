@@ -1,8 +1,10 @@
-
+//package factory.client.partsManager;
 import java.util.*;
 import javax.swing.*; 
 import java.awt.*; 
 import java.awt.event.*; 
+//import factory.global.network.*;
+//import factory.global.data.*;
 
 public class PartsManager extends JFrame implements ActionListener {
 	
@@ -15,7 +17,20 @@ public class PartsManager extends JFrame implements ActionListener {
 	int eightPartCounter; 
 	JButton newKit; int partIndexNumber; 
 	ArrayList<Parts> listOfParts; 
+	JMenuBar optionMenuBar; JMenu optionMenu; JMenuItem resetOption, deletePartOption; 
 	public PartsManager(){	
+
+		optionMenuBar = new JMenuBar(); 
+		optionMenu = new JMenu("Options"); 
+		resetOption = new JMenuItem("Reset"); 
+		resetOption.addActionListener(this); 
+		resetOption.setActionCommand("Reset"); 
+		deletePartOption = new JMenuItem("Delete a Part");
+		optionMenu.add(resetOption); 
+		optionMenu.add(deletePartOption);
+		optionMenuBar.add(optionMenu); 
+		add(optionMenuBar, BorderLayout.NORTH); 
+
 		partsGrid = new JPanel(new GridLayout(1, 5)); 	
 		partsGrid.setVisible(true); 
 		//First Column
@@ -71,12 +86,7 @@ public class PartsManager extends JFrame implements ActionListener {
 		
 		eightPartCounter = 0; 
 		partIndexNumber = 0; 
-		/*
-		newKit = new JButton("New Kit"); 
-		newKit.setActionCommand("Reset"); 
-		newKit.addActionListener(this); 
-		partsGrid.add(newKit); 
-		*/
+
 		listOfParts = new ArrayList<Parts>(); 
 	}
 	
@@ -121,8 +131,14 @@ public class PartsManager extends JFrame implements ActionListener {
 			}
 
 			Parts newPart1 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part1.png"));
-			listOfParts.add(newPart1); 
-			partIndexNumber++;
+			if(partIndexNumber<=8){
+				listOfParts.add(newPart1); 
+				partIndexNumber++;
+			}
+			else{
+
+
+			}
 		}
 		
 		//Second Button
@@ -151,8 +167,10 @@ public class PartsManager extends JFrame implements ActionListener {
 				return; 
 			} 			
 			Parts newPart2 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part2.png"));
+			if(partIndexNumber<=8){
 			listOfParts.add(newPart2); 
 			partIndexNumber++;
+			}
 		}
 		
 		//Third Button
@@ -402,6 +420,7 @@ public class PartsManager extends JFrame implements ActionListener {
 		
 		if("Reset".equals(ae.getActionCommand())){
 			//everything resets and a new kit can be created
+			listOfParts.clear(); 
 			eightPartCounter = 0; 
 		}
 	}
