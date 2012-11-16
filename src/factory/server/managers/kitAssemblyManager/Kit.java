@@ -5,11 +5,14 @@ public class Kit extends FactoryObject
 {
 	Part[] parts;
 	boolean picTaken;
+    boolean isMoving;
+	boolean isComplete;
 	public Kit(int xpos, int ypos, String image)
 	{
 		super(xpos, ypos, image);
 		setImage(image);
 		parts = new Part[8];
+        isComplete = false;
 	}
 	
 	public Part[] getParts(){
@@ -34,5 +37,35 @@ public class Kit extends FactoryObject
 		picTaken = b;
 	}
 	
+    public void addPart(Part p, int i){
+		parts[i] = p;
+	}
+	
+	public void updateParts(){
+		for (int i = 0; i < parts.length; i++){
+			if (parts[i] != null){
+				if (i < 4)
+					parts[i].setPosition(x+10+20*i,y+5);
+				else
+					parts[i].setPosition(x+10+20*(i-4),y+25);
+			}
+		}
+	}
+	
+	public boolean getIsMoving(){
+		return isMoving;
+	}
+	
+	public void setIsMoving(boolean b){
+		isMoving = b;
+	}
+	
+	public boolean getIsComplete(){
+		return isComplete;
+	}
+	
+	public void setIsComplete(boolean b){
+		isComplete = b;
+	}
 
 }

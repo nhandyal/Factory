@@ -10,7 +10,7 @@ import factory.global.data.*;
 //import factory.server.managers.kitAssemblyManager.FactoryObject;
 public class KitAssemblyManager extends JFrame implements ActionListener, NetworkManager {
 	
-	Rectangle r = new Rectangle(800,800);
+	ImageIcon bg = new ImageIcon("images/KMBG.png");
 	Timer t;
     //	UpdateServer us = new UpdateServer();
 	TreeMap<Integer, Boolean> ChangeMap;
@@ -33,14 +33,13 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
 	
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D)g;
-		g2.setColor(Color.GRAY);
-		g2.fillRect(0,0,800,800);
+		bg.paintIcon(this,g2,0,0);
 		for (Integer i : fos.keySet())
 		{
 			FactoryObject t = fos.get(i);
 			if(t.isLine())
 			{
-				g2.setColor(Color.WHITE);
+				g2.setColor(Color.BLACK);
 				g2.drawLine(t.getPositionX(), t.getPositionY(), t.getXF(), t.getYF());
 			}	
 			else

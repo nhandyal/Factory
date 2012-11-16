@@ -13,12 +13,17 @@ public class PartRobot extends FactoryObject
 	
 	double x1,x2,y1,y2;
 	int csCount = 0;
-	Part holdObj;
+	int[] kitIndex = new int[4];
+	Part[] holdObj = new Part[4];
 	KitStand s2;
-	double xdes1, ydes1, xdes2, ydes2;
+    Gripper g;
+	double[] xdes1, ydes1;
+	double[] xdes2, ydes2;
 	boolean isMoving = false;
 	int base;
 	UpdateServer us;
+    int totalParts;
+    
 	public PartRobot(int xpos, int ypos, String image, UpdateServer us)
 	{
 		super(xpos, ypos, image);
@@ -28,28 +33,53 @@ public class PartRobot extends FactoryObject
 		x2 = x + getImage().getIconWidth()/2;
 		y1 = y + getImage().getIconHeight()/2;
 		y2 = y + getImage().getIconHeight()/2;
+        g = new Gripper((int)x2,(int)y2,"images/gripper.png");
+		xdes1 = new double[4];
+		ydes1 = new double[4];
+		xdes2 = new double[4];
+		ydes2 = new double[4];
+	}
+    
+    public int findTotalParts(Part[] p){
+		for (int m = 0; m < p.length; m++){
+			if (p[m] == null){
+				totalParts = m;
+				return m;
+			}
+		}
+		return 4;
 	}
 	
-	public void moveFromNest(int ycoord, KitStand ks, Part p, int i, int base){
+	public void moveFromNest(KitStand ks, Part[] p, int[] i, int base){
 		if (ks.getKit() != null){
 			isMoving = true;
 			this.base = base;
-			holdObj = p;
+			for (int k = 0; k < p.length; k++)
+				holdObj[k] = p[k];
 			s2 = ks;
-			ydes1 = ycoord;
-			xdes1 = p.getPositionX();
-			if (i > 3)
-				ydes2 = ks.getKit().getPositionY() + 25;
-			else
-				ydes2 = ks.getKit().getPositionY() + 5;
-			if (i == 0 || i == 4)
-				xdes2 = ks.getKit().getPositionX() + 10;
-			else if (i == 1 || i == 5)
-				xdes2 = ks.getKit().getPositionX() + 30;
-			else if (i == 2 || i == 6)
-				xdes2 = ks.getKit().getPositionX() + 50;
-			else if (i == 3 || i == 7)
-				xdes2 = ks.getKit().getPositionX() + 70;
+			for (int m = 0; m < p.length; m++){
+				if (p[m] != null){
+					xdes1[m] = p[m].getPositionX();
+					ydes1[m] = p[m].getPositionY();
+				}
+			}
+            totalParts = findTotalParts(p);
+			for (int j = 0; j < i.length; j++)
+				kitIndex[j] = i[j];
+			for (int l = 0; l < kitIndex.length; l++){
+				if (kitIndex[l] > 3)
+					ydes2[l] = ks.getKit().getPositionY() + 25;
+				else
+					ydes2[l] = ks.getKit().getPositionY() + 5;
+				if (kitIndex[l] == 0 || kitIndex[l] == 4)
+					xdes2[l] = ks.getKit().getPositionX() + 10;
+				else if (kitIndex[l] == 1 || kitIndex[l] == 5)
+					xdes2[l] = ks.getKit().getPositionX() + 30;
+				else if (kitIndex[l] == 2 || kitIndex[l] == 6)
+					xdes2[l] = ks.getKit().getPositionX() + 50;
+				else if (kitIndex[l] == 3 || kitIndex[l] == 7)
+					xdes2[l] = ks.getKit().getPositionX() + 70;
+			}
 		}
 	}
 	
@@ -58,36 +88,90 @@ public class PartRobot extends FactoryObject
 		csCount = us.getCount() - base;
 		System.out.println(csCount);
 		if (csCount < 20){
-				x2 += (xdes1-x1)/20;
-				y2 += (ydes1-y1)/20;
-				csCount++;
-			}
-			else if (csCount >= 20 && csCount < 40){
-				x2 += (x1 - xdes1)/20;
-				y2 += (y1 - ydes1)/20;
-				holdObj.setPosition((int)x2,(int)y2);
-				csCount++;
-			}
-			else if (csCount >= 40 && csCount < 60){
-				x2 += (xdes2 - x1)/20;
-				y2 += (ydes2 - y1)/20;
-				holdObj.setPosition((int)x2, (int)y2);
-				csCount++;
-			}
-			else if (csCount >= 60 && csCount < 80){
-				if (csCount == 60){
-					s2.getKit().getParts()[0] = holdObj;
-				}
-				x2 += (x1 - xdes2)/20;
-				y2 += (y1 - ydes2)/20;
-				csCount++;
-			}
-			else if (csCount == 80){
-				csCount = 0;
-				holdObj = null;
-				isMoving = false;
-			}
-		}
+            x2 += (xdes1[0]-x1)/20;
+            y2 += (ydes1[0]-y1)/20;
+            g.setPosition((int)x2,(int)y2);
+            if (csCount == 19)
+                g.addPart(holdObj[0]);
+            csCount++;
+        }
+        else if (csCount >= 20 && csCount < 40){
+            if (totalParts >= 2)
+            {
+                x2 += (xdes1[1] - xdes1[0])/20;
+                y2 += (ydes1[1] - ydes1[0])/20;
+                g.setPosition((int)x2,(int)y2);
+                if (csCount == 39)
+                    g.addPart(holdObj[1]);
+                g.updateParts();
+                csCount++;
+            }
+            else
+                csCount = 80;
+        }
+        else if (csCount >= 40 && csCount < 60){
+            if (totalParts >= 3){
+                x2 += (xdes1[2] - xdes1[1])/20;
+                y2 += (ydes1[2] - ydes1[1])/20;
+                g.setPosition((int)x2,(int)y2);
+                if (csCount == 59)
+                    g.addPart(holdObj[2]);
+                g.updateParts();
+                csCount++;
+            }
+            else
+                csCount = 80;
+        }
+        else if (csCount >= 60 && csCount < 80){
+            if (totalParts >= 4){
+                x2 += (xdes1[3] - xdes1[2])/20;
+                y2 += (ydes1[3] - ydes1[2])/20;
+                g.setPosition((int)x2,(int)y2);
+                if (csCount == 79)
+                    g.addPart(holdObj[3]);
+                g.updateParts();
+                csCount++;
+            }
+            else
+                csCount = 80;
+        }
+        else if (csCount >= 80 && csCount < 100){
+            x2 += (x1 - xdes1[totalParts-1])/20;
+            y2 += (y1 - ydes1[totalParts-1])/20;
+            g.setPosition((int)x2,(int)y2);
+            g.updateParts();
+            csCount++;
+        }
+        else if (csCount >= 100 && csCount < 120){
+            x2 += (xdes2[0] - x1)/20;
+            y2 += (ydes2[0] - y1)/20;
+            g.setPosition((int)x2,(int)y2);
+            g.updateParts();
+            csCount++;
+            m.repaint();
+        }
+        else if (csCount >= 120 && csCount < 140){
+            if (csCount == 120){
+                for (int j = 0; j < totalParts; j++){
+                    s2.getKit().addPart(holdObj[j],kitIndex[j]);
+                    g.removePart(j).setPosition((int)xdes2[j], (int)ydes2[j]);
+                }
+            }
+            if (s2.getKit().getParts()[7] != null){
+                s2.getKit().setIsComplete(true);
+            }
+            x2 += (x1 - xdes2[0])/20;
+            y2 += (y1 - ydes2[0])/20;
+            g.setPosition((int)x2,(int)y2);
+            g.updateParts();
+            csCount++;
+            m.repaint();
+        }
+        else if (csCount == 140){
+            csCount = 0;
+            isMoving = false;
+        }
+    }
 	
 	public double getX1(){
 		return x1;
@@ -107,6 +191,10 @@ public class PartRobot extends FactoryObject
 	
 	public boolean isMoving(){
 		return isMoving;
+	}
+    
+    public Gripper getGripper(){
+		return g;
 	}
 
 }

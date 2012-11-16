@@ -18,6 +18,7 @@ public class UpdateServer implements ActionListener
 	ArrayList<KitStand> stands;
 	ArrayList<Kit> kits;
 	ArrayList<Part> parts;
+    ArrayList<Nest> nests;
 	Timer t;
 	int count = 0;
 	int partscount = 0;
@@ -30,23 +31,27 @@ public class UpdateServer implements ActionListener
 	boolean isTakeKit = false;
 	public UpdateServer()
 	{
-		cam = new InspectionCamera(100,700,"images/camera.jpg", this);
-		conv = new Conveyor(0,50,"images/conveyor.jpg", this);
-		robot = new KitRobot(200,400,"images/kitrobot.png", this);
-		probot = new PartRobot(400,400,"images/partrobot.png", this);
+		cam = new InspectionCamera(100,500,"images/camera.jpg", this);
+		conv = new Conveyor(0,20,"images/conveyor.jpg", this);
+		robot = new KitRobot(23,280,"images/kitrobot.png", this);
+		probot = new PartRobot(253,280,"images/partrobot.png", this);
 		stands = new ArrayList<KitStand>();
 		kits = new ArrayList<Kit>();
 		parts = new ArrayList<Part>();
+        nests = new ArrayList<Nest>();
 		for (int i = 0; i < 3; i++)
 		{
-			KitStand ks = new KitStand(100,200 + i * 200,"images/kitstand.jpg");
+			KitStand ks = new KitStand(100,130 + i * 150,"images/kitstand.jpg");
 			stands.add(ks);
 		}
-		Kit k = new Kit(100,400,"images/kit.png");
+        for (int i = 0; i < 4; i++){
+			Nest n1 = new Nest(355,72+i*124,"images/nest.jpg");
+			Nest n2 = new Nest(355,72+i*124+35,"images/nest.jpg");
+			nests.add(n1);
+			nests.add(n2);
+		}
 		LineObjects.add(new FactoryObject((int)robot.getX1(),(int)robot.getY1(),(int)robot.getX2(),(int)robot.getY2()));
 		LineObjects.add(new FactoryObject((int)probot.getX1(),(int)probot.getY1(),(int)probot.getX2(),(int)probot.getY2()));
-		stands.get(1).setCurrentKit(k);
-	//	kits.add(k);
 		setCurrentObjects();
 		t = new Timer(50,this);
 		t.start();
@@ -76,6 +81,7 @@ public class UpdateServer implements ActionListener
 		for (int i = 0; i < parts.size(); i++)
 			CurrentObjects.add(parts.get(i));
 		CurrentObjects.add(cam);
+        CurrentObjects.add(probot.getGripper());
 		for (int i = 0; i < LineObjects.size(); i++)
 			CurrentObjects.add(LineObjects.get(i));
 	}
@@ -144,13 +150,32 @@ public class UpdateServer implements ActionListener
 		}
 	}
 	
-	public void movePartstoStand(int nest, int stand, int pos)
+	public void movePartstoStand(int nest, int stand, int[] pos)
 	{
 		if (!probot.isMoving())
 		{
-			Part p = new Part(860,300,"images/part2.png");
-			parts.add(p);
-			probot.moveFromNest(nest/*200*/ ,stands.get(stand),p, pos, 0);
+			if (stands.get(stand).getKit() != null){
+                if (!stands.get(stand).getKit().getIsComplete()){
+                    Part[] p = new Part[4];
+                    int[] indexes = new int[4];
+                    for (int j = 0; j < p.length; j++){
+                        Part p1 = new Part(nests.get(j+2).getPositionX()+5,nests.get(j+2).getPositionY()+5,"src/part2.png");
+                        parts.add(p1);
+                        p[j] = p1;
+                    }
+                    if (stands.get(i).getKit().getParts()[0] == null){
+                        for (int j = 0; j < indexes.length; j++){
+                            indexes[j] = j;
+                        }
+                    }
+                    else{
+                        for (int j = 0; j < indexes.length; j++){
+                            indexes[j] = j+4;
+                        }
+                    }
+                    probot.moveFromNest(stands.get(i),p,indexes,0);
+                }
+            }
 		}
 		if (probot.isMoving())
 			probot.move();
@@ -216,15 +241,37 @@ public class UpdateServer implements ActionListener
 	}
 	public void takeKit()
 	{
-		if (conv.getOutKit() != null)
+		if (conv.getOutKit() != null && !conv.getOutKit().getIsMoving())
 			conv.takeKit();
 		count++;
 		if (count == 26)
 		{
 			count = 0;
 			isTakeKit = false;
+            conv.getOutKit().setIsMoving(false);
+            conv.getOutKit() = null;
 		}
 	}
+    
+    public void removeExtraKits(){
+		for (int i = 0; i < kits.size(); i++){
+			if (kits.get(i).getPositionX() < 0 && !kits.get(i).getIsMoving()){
+				removeExtraParts();
+				kits.remove(i);
+				i--;
+			}
+		}
+	}
+	
+	public void removeExtraParts(){
+		for (int i = 0; i < parts.size(); i++){
+			if (parts.get(i).getPositionX() < 0){
+				parts.remove(i);
+				i--;
+			}
+		}
+	}
+    
 	@Override
 	public void actionPerformed(ActionEvent arg0) 
 	{
@@ -242,6 +289,7 @@ public class UpdateServer implements ActionListener
 			takeToConveyor();
 		if (isTakeKit)
 			takeKit();
+        removeExtraKits();
 		LineObjects.set(0, new FactoryObject((int)robot.getX1(),(int)robot.getY1(),(int)robot.getX2(),(int)robot.getY2()));
 		LineObjects.set(1, new FactoryObject((int)probot.getX1(),(int)probot.getY1(),(int)probot.getX2(),(int)probot.getY2()));
 		ArrayList<FactoryObject> t = (ArrayList<FactoryObject>) CurrentObjects.clone();

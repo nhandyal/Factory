@@ -10,12 +10,12 @@ public class Conveyor extends FactoryObject
 	Kit outKit;
 	int inCount = 0;
 	int outCount = 0;
-	int inStartx = 700;
-	int inStarty = 50;
-	int inFinishx = 400;
-	int inFinishy = 50;
-	int outStartx = 300;
-	int outStarty = 50;
+	int inStartx = 400;
+	int inStarty = 600;
+	int inFinishx = 250;
+	int inFinishy = 600;
+	int outStartx = 150;
+	int outStarty = 600;
 	int outFinishx = -100;
 	int outFinishy = 50;
 	UpdateServer us;
@@ -46,8 +46,10 @@ public class Conveyor extends FactoryObject
 	{
 		for (int i = 0; i < us.getCurrentObjects().size(); i++)
 		{	
-			if (us.getCurrentObjects().get(i) == outKit)
-				us.getCurrentObjects().get(i).setPosition(outKit.getPositionX() + (outFinishx - outStartx)/25, outKit.getPositionY() + (outFinishy - outStarty)/25);
+			if (us.getCurrentObjects().get(i) == outKit){
+				outKit.setIsMoving(true);
+                us.getCurrentObjects().get(i).setPosition(outKit.getPositionX() + (outFinishx - outStartx)/25, outKit.getPositionY() + (outFinishy - outStarty)/25);
+            }
 		}
 	}
 	
