@@ -8,7 +8,9 @@ public class SecondColumn extends JPanel {
 	private JPanel secondColumn; 
 	private JLabel partsIconTitle, partOneIcon, partTwoIcon, partThreeIcon, partFourIcon, partFiveIcon, partSixIcon,
 	partSevenIcon, partEightIcon, partNineIcon, partTenIcon; 
+	ImageArray iA; 
 	public SecondColumn(){
+		iA = new ImageArray(); 
 	JPanel secondColumn = new JPanel(new GridBagLayout()); 
 	GridBagConstraints gbc = new GridBagConstraints(); 
 	//0
@@ -18,52 +20,52 @@ public class SecondColumn extends JPanel {
 	secondColumn.add(partsIconTitle, gbc);  // adds Parts Icon title
 	//1
 	
-	partOneIcon = new JLabel(new ImageIcon("part.png")); 
+	partOneIcon = new JLabel(iA.getIcon(0)); 
 	gbc.gridx = 1; 
 	gbc.gridy = 1; 
 	secondColumn.add(partOneIcon, gbc); // adds Parts Icons 
 	//2
-	partTwoIcon = new JLabel(new ImageIcon("part2.png")); 
+	partTwoIcon = new JLabel(iA.getIcon(1)); 
 	gbc.gridx = 1; 
 	gbc.gridy = 2; 
 	secondColumn.add(partTwoIcon, gbc); // adds Parts Icons 
 	//3
-	partThreeIcon = new JLabel(new ImageIcon("part3.png")); 
+	partThreeIcon = new JLabel(iA.getIcon(2)); 
 	gbc.gridx = 1; 
 	gbc.gridy = 3; 
 	secondColumn.add(partThreeIcon, gbc); // adds Parts Icons 
 	//4
-	partFourIcon = new JLabel(new ImageIcon("part4.png")); 
+	partFourIcon = new JLabel(iA.getIcon(3)); 
 	gbc.gridx = 1; 
 	gbc.gridy = 4; 
 	secondColumn.add(partFourIcon, gbc); // adds Parts Icons 
 	//5
-	partFiveIcon = new JLabel(new ImageIcon("part5.png")); 
+	partFiveIcon = new JLabel(iA.getIcon(4)); 
 	gbc.gridx = 1; 
 	gbc.gridy = 5; 
 	secondColumn.add(partFiveIcon, gbc); // adds Parts Icons 
 	//6
-	partSixIcon = new JLabel(new ImageIcon("part6.png")); 
+	partSixIcon = new JLabel(iA.getIcon(5)); 
 	gbc.gridx = 1; 
 	gbc.gridy = 6; 
 	secondColumn.add(partSixIcon, gbc); // adds Parts Icons 
 	//7
-	partSevenIcon = new JLabel(new ImageIcon("part7.png")); 
+	partSevenIcon = new JLabel(iA.getIcon(6)); 
 	gbc.gridx = 1; 
 	gbc.gridy = 7; 
 	secondColumn.add(partSevenIcon, gbc); // adds Parts Icons 
 	//8
-	partEightIcon = new JLabel(new ImageIcon("part8.png")); 
+	partEightIcon = new JLabel(iA.getIcon(7)); 
 	gbc.gridx = 1; 
 	gbc.gridy = 8; 
 	secondColumn.add(partEightIcon, gbc); // adds Parts Icons 
 	//9
-	partNineIcon = new JLabel(new ImageIcon("part.png")); 
+	partNineIcon = new JLabel(iA.getIcon(8)); 
 	gbc.gridx = 1; 
 	gbc.gridy = 9; 
 	secondColumn.add(partNineIcon, gbc); // adds Parts Icons 
 	//10
-	partTenIcon = new JLabel(new ImageIcon("part2.png")); 
+	partTenIcon = new JLabel(iA.getIcon(9)); 
 	gbc.gridx = 1; 
 	gbc.gridy = 10; 
 	secondColumn.add(partTenIcon, gbc); // adds Parts Icons 

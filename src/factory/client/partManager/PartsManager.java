@@ -15,9 +15,9 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 	ThirdColumn tC; 
 	PartInfo pI; 
 	boolean part1Edit, part2Edit, part3Edit, part4Edit, part5Edit, part6Edit, part7Edit, part8Edit, part9Edit, part10Edit; 
-	 
+	int listCounter; 
 	JButton newKit; 
-	ArrayList<Parts> listOfParts; 
+	TreeMap<Integer, Parts> listOfParts; 
 	JMenuBar optionMenuBar; JMenu optionMenu; JMenuItem resetOption, deletePartOption;
 	NetworkBridge nb1;
 	public PartsManager(){	
@@ -87,8 +87,8 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		part10Edit = false; 
 		
 
-
-		listOfParts = new ArrayList<Parts>(); 
+		listCounter = 0; 
+		listOfParts = new TreeMap<Integer, Parts>(); 
 	}
 	
 	
@@ -133,7 +133,8 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 
 			Parts newPart1 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 0);
 			
-				listOfParts.add(newPart1); 			
+				listOfParts.put(listCounter, newPart1); 		
+				listCounter++; 	
 		}
 		
 		//Second Button
@@ -163,7 +164,8 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 			} 			
 			Parts newPart2 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 2);
 			
-			listOfParts.add(newPart2); 
+			listOfParts.put(listCounter, newPart2); 
+			listCounter++; 
 			
 			
 		}
@@ -195,7 +197,8 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				return; 
 			} 			
 			Parts newPart3 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(),2);
-			listOfParts.add(newPart3); 
+			listOfParts.put(listCounter, newPart3); 
+			listCounter++; 
 			
 			
 		}
@@ -226,7 +229,8 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				return; 
 			} 			
 			Parts newPart4 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 3);
-			listOfParts.add(newPart4); 
+			listOfParts.put(listCounter, newPart4); 
+			listCounter++; 
 			
 			
 		}
@@ -258,7 +262,8 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				return; 
 			} 			
 			Parts newPart5 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 4);
-			listOfParts.add(newPart5); 
+			listOfParts.put(listCounter, newPart5); 
+			listCounter++; 
 			
 		}
 		
@@ -289,7 +294,8 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				return; 
 			}			
 			Parts newPart6 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 5);
-			listOfParts.add(newPart6); 
+			listOfParts.put(listCounter, newPart6); 
+			listCounter++; 
 			
 		}
 		
@@ -319,7 +325,8 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				return; 
 			} 			
 			Parts newPart7 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 6);
-			listOfParts.add(newPart7); 
+			listOfParts.put(listCounter, newPart7); 
+			listCounter++; 
 			
 		}
 		
@@ -349,7 +356,8 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				return; 
 			} 			
 			Parts newPart8 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 7);
-			listOfParts.add(newPart8); 
+			listOfParts.put(listCounter, newPart8); 
+			listCounter++; 
 			
 			
 		}
@@ -379,7 +387,8 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				return; 
 			} 			
 			Parts newPart9 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 8);
-			listOfParts.add(newPart9); 
+			listOfParts.put(listCounter, newPart9); 
+			listCounter++; 
 			
 		}
 		
@@ -409,7 +418,8 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				return; 
 			} 			
 			Parts newPart10 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 9);
-			listOfParts.add(newPart10); 
+			listOfParts.put(listCounter, newPart10); 
+			listCounter++; 
 			
 		}
 		
