@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
 ** Date: 						11/01/12
 ** Project: 				Cs200-Factory
@@ -22,6 +23,18 @@ public class FactoryObject implements java.io.Serializable{
 	int xf;
 	int yf;
 	ImageIcon factoryObjectImage;
+=======
+public class FactoryObject {
+
+	int x, y, xf, yf, index = -5;
+	boolean isLine = false;
+	int imageIndex;
+	
+	public FactoryObject(){
+		x = 3;
+		y = 4;
+	}
+>>>>>>> 2df4efe23067f64db17ccf97e8bb44ba43999e82
 
 	public FactoryObject (int initialPosX, int initialPosY, String initialImage){
 		x = initialPosX;
@@ -49,6 +62,11 @@ public class FactoryObject implements java.io.Serializable{
 		x = newPosX;
 		y = newPosY;
 	}
+	
+	public  void setPositionF(int newPosXF, int newPosYF){
+		xf = newPosXF;
+		yf = newPosYF;
+	}
 
 	public int getPositionX(){
 		return x;
@@ -66,16 +84,27 @@ public class FactoryObject implements java.io.Serializable{
 		return yf;
 	}
 	
+	public void setIsLine(boolean b){
+		isLine = b;
+	}
+	
 	public boolean isLine() {
 		return isLine;
 	}
 
-	public void setImage(String newImage){
-		factoryObjectImage = new ImageIcon(newImage);
+	public void setImage(int newImageIndex){
+		imageIndex = newImageIndex;
 	}
 
-	public ImageIcon getImage(){
-		return factoryObjectImage;
+	public int getImageIndex(){
+		return imageIndex;
 	}
-
+	
+	public void setIndex(int i){
+		index = i;
+	}
+	
+	public int getIndex(){
+		return index;
+	}
 }

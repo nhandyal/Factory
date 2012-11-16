@@ -10,6 +10,7 @@
 //package factory.global.data;
 
 // Java imports
+//package factory.client.partsManager;
 import java.io.*;
 import javax.swing.*;
 

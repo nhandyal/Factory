@@ -21,6 +21,13 @@ public class UpdateServer implements ActionListener
 	Timer t;
 	int count = 0;
 	int partscount = 0;
+	boolean isBringKit = true;
+	boolean isMoveToStand = false;
+	boolean isMovePartstoStand = false;
+	boolean isMoveToInspection = false;
+	boolean isTakePic = false;
+	boolean isTakeToConveyor = false;
+	boolean isTakeKit = false;
 	public UpdateServer()
 	{
 		cam = new InspectionCamera(100,700,"images/camera.jpg", this);
@@ -49,9 +56,16 @@ public class UpdateServer implements ActionListener
 	{
 		return CurrentObjects;
 	}
+	public TreeMap<Integer, FactoryObject> getFactoryObjects()
+	{
+		TreeMap<Integer, FactoryObject> t = new TreeMap<Integer, FactoryObject>();
+		for (int i = 0; i < CurrentObjects.size(); i++)
+			t.put(i, CurrentObjects.get(i));
+		return t;
+	}
 	public void setCurrentObjects()
 	{
-		CurrentObjects.removeAll(CurrentObjects);
+		CurrentObjects.clear();
 		CurrentObjects.add(conv);
 		CurrentObjects.add(robot);
 		CurrentObjects.add(probot);
@@ -95,8 +109,8 @@ public class UpdateServer implements ActionListener
 	{
 		return ChangeData;
 	}
-	@Override
-	public void actionPerformed(ActionEvent arg0) 
+	
+	public void bringKit()
 	{
 		if (conv.getInKit() == null && count < 26)
 			conv.bringKit();
@@ -104,54 +118,132 @@ public class UpdateServer implements ActionListener
 		{
 			conv.moveKit();
 		}
-		
-		if (!robot.getIsMoving() && emptyStand() && conv.kitArrived() && count >= 50 && count <= 150)
+		count++;
+		if (count == 26)
 		{
-			for (int i = 0; i < 2; i++)
-			{
-				if (stands.get(i).getKit() == null)
-				{
-					robot.moveFromConveyorToStand(conv, stands.get(i), conv.getInKit(), 50);
-					break;
-				}
-			}
+			count = 0;
+			isBringKit = false;
+			isMoveToStand = true;
 		}
-		if (robot.getIsMoving() && count >= 50 && count < 150)
+	}
+	
+	public void moveToStand(int k)
+	{
+		if (!robot.getIsMoving() && emptyStand() && conv.kitArrived())
+		{
+				robot.moveFromConveyorToStand(conv, stands.get(k), conv.getInKit(), 0);
+		}
+		if (robot.getIsMoving())
 			robot.move();
-		if (!probot.isMoving() && count >= 150 && count <= 150 + 81){
-				Part p = new Part(860,300,"images/part2.png");
-				System.out.println(count);
-				parts.add(p);
-				probot.moveFromNest(200 ,stands.get(0),p, 1, 150);
+		count++;
+		if (count == 100)
+		{
+			count = 0;
+			isMoveToStand = false;
+			isMovePartstoStand = true;
 		}
-		if (probot.isMoving() && count >= 150 && count <= 150 + 81)
+	}
+	
+	public void movePartstoStand(int nest, int stand, int pos)
+	{
+		if (!probot.isMoving())
+		{
+			Part p = new Part(860,300,"images/part2.png");
+			parts.add(p);
+			probot.moveFromNest(nest/*200*/ ,stands.get(stand),p, pos, 0);
+		}
+		if (probot.isMoving())
 			probot.move();
-		
-	    if (!robot.getIsMoving() && stands.get(2).getKit() == null && count >= 232 && count < 332)
+		count++;
+		if (count == 81)
+		{
+			count = 0;
+			isMovePartstoStand = false;
+			isMoveToInspection = true;
+		}
+	}
+	
+	public void moveToInspection()
+	{
+		if (!robot.getIsMoving() && stands.get(2).getKit() == null)
 		{
 			for (int i = 0; i < 2; i++){
 				if (stands.get(i).getKit() != null){
-					robot.moveFromStandToStand(stands.get(i),stands.get(2), stands.get(i).getKit(), 232);
+					robot.moveFromStandToStand(stands.get(i),stands.get(2), stands.get(i).getKit(), 0);
 					break;
 				}
 			}
 		}
-		if (robot.getIsMoving() && count >= 232 && count < 332)
+		if (robot.getIsMoving())
 			robot.move();
+		count++;
+		if (count == 100)
+		{
+			count = 0;
+			isMoveToInspection = false;
+			isTakePic = true;
+		}
+	}
+	
+	public void takePic()
+	{
 		if (!robot.getIsMoving() && stands.get(2).getKit() != null && !stands.get(2).getKit().getPicTaken() && !cam.isMoving())
-			if (count >= 332 && count < 389)
-				cam.takePicture(stands.get(2), 332);
-		if (cam.isMoving && count >= 332 && count < 389)
+			cam.takePicture(stands.get(2), 0);
+		if (cam.isMoving)
 			cam.move();
-		if (!robot.getIsMoving() && stands.get(2).getKit() != null && count >= 389 && stands.get(2).getKit().getPicTaken())
-			robot.moveFromStandToConveyor(stands.get(2), conv, stands.get(2).getKit(), 389);
-		if (robot.getIsMoving() && count >= 389)
+		count++;
+		if (count == 57)
+		{
+			count = 0;
+			isTakePic = false;
+			isTakeToConveyor = true;
+		}
+	}
+	
+	public void takeToConveyor()
+	{
+		if (!robot.getIsMoving() && stands.get(2).getKit() != null && stands.get(2).getKit().getPicTaken())
+			robot.moveFromStandToConveyor(stands.get(2), conv, stands.get(2).getKit(), 0);
+		if (robot.getIsMoving())
 			robot.move();
-		if (conv.getOutKit() != null && count >= 489)
+		count++;
+		if (count == 100)
+		{
+			count = 0;
+			isTakeToConveyor = false;
+			isTakeKit = true;
+		}
+	}
+	public void takeKit()
+	{
+		if (conv.getOutKit() != null)
 			conv.takeKit();
+		count++;
+		if (count == 26)
+		{
+			count = 0;
+			isTakeKit = false;
+		}
+	}
+	@Override
+	public void actionPerformed(ActionEvent arg0) 
+	{
+		if (isBringKit)
+			bringKit();
+		if (isMoveToStand)
+			moveToStand(0);
+		if (isMovePartstoStand)
+			movePartstoStand(200, 0, 1);
+		if (isMoveToInspection)
+			moveToInspection();
+		if (isTakePic)
+			takePic();
+		if (isTakeToConveyor)
+			takeToConveyor();
+		if (isTakeKit)
+			takeKit();
 		LineObjects.set(0, new FactoryObject((int)robot.getX1(),(int)robot.getY1(),(int)robot.getX2(),(int)robot.getY2()));
 		LineObjects.set(1, new FactoryObject((int)probot.getX1(),(int)probot.getY1(),(int)probot.getX2(),(int)probot.getY2()));
-		count = (count + 1) % 1000;
 		ArrayList<FactoryObject> t = (ArrayList<FactoryObject>) CurrentObjects.clone();
 		setCurrentObjects();
 		if (t.size() <= CurrentObjects.size())
