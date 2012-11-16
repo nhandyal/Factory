@@ -165,10 +165,16 @@ class InputStreamListener extends Thread{
 				if(instruction.equals("register-client")){
 						int cID = instr.x;
 						parent.registerClientListener(nb, cID);
-						nb.setBridgeID(cID);
+						nb.setBridgeID(cID);											// set the bridge id to the registered client
 				}
 				else if(instruction.equals("UAD")){						// server --> client update animation data
 						readAnimationData(x);
+				}
+				else if(instruction.equals("SAD")){
+						syncAnimationData(x);
+				}
+				else if(instruction.equals("SYNC")){
+						parent.syncFrame(nb.getBridgeID());
 				}
 		}
 		
@@ -177,7 +183,7 @@ class InputStreamListener extends Thread{
 				ArrayList<TreeMap<Integer, Boolean>> mapArray = new ArrayList<TreeMap<Integer, Boolean>>();
 				ArrayList<TreeMap<Integer, FactoryObject>> dataArray = new ArrayList<TreeMap<Integer, FactoryObject>>();
 				
-				for(int i = 0; i <= expectedPackets; i++){
+				for(int i = 0; i < expectedPackets; i++){
 						try{
 								NetworkTransferObject frameData = (NetworkTransferObject)ois.readObject();
 								mapArray.add(frameData.changeMap);
@@ -196,7 +202,29 @@ class InputStreamListener extends Thread{
 								c.printStackTrace();
 						}
 				}
-				
 				parent.mergeChanges(mapArray, dataArray);
+		}
+		
+		void syncAnimationData(int expectedPackets){
+				ArrayList<TreeMap<Integer, FactoryObject>> dataArray = new ArrayList<TreeMap<Integer, FactoryObject>>();
+				for(int i = 0; i < expectedPackets; i++){
+						try{
+								TreeMap<Integer, FactoryObject> changeData = (TreeMap<Integer, FactoryObject>)ois.readObject();
+								dataArray.add(changeData);
+						}catch(IOException ie){
+								String message = ie.toString();
+								if(message.equals("java.io.EOFException")){
+										System.out.println("Connection lost");
+										parent.closeNetworkBridge(nb.getBridgeID());
+								}
+								else if(message.equals("java.net.SocketTimeoutException: Read timed out")){}
+								else{
+										ie.printStackTrace();		
+								}
+						}catch(ClassNotFoundException c){
+								c.printStackTrace();
+						}
+				}
+				parent.syncChanges(dataArray);
 		}
 }

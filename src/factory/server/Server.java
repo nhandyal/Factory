@@ -18,7 +18,7 @@ import javax.swing.Timer;
 import factory.global.network.*;
 import factory.global.data.*;
 import factory.server.managers.GuiManager;
-import factory.server.managers.laneManager.*;
+//import factory.server.managers.laneManager.*;
 
 /* Client Indeces
 Parts manager will be located at clientConnections index 0 etc.
@@ -42,7 +42,7 @@ public class Server implements ActionListener, NetworkManager{
 		Server(){
 				// initialize all class instance variables
 				icm = new InboundConnectionManager(this);
-				guiViews[1] = new LaneManager();
+				//guiViews[1] = new LaneManager();
 				changeMap = new ArrayList<TreeMap<Integer, Boolean>>(3);
 				changeData = new ArrayList<TreeMap<Integer, FactoryObject>>(3);
 				
@@ -71,10 +71,41 @@ public class Server implements ActionListener, NetworkManager{
 				clientConnections[cID] = newBridge;
 		}
 		
-		
+		// function to send the entire frame data to the client
+		public void syncFrame(int cID){
+				TreeMap<Integer, FactoryObject> changeData = new TreeMap<Integer, FactoryObject>();
+				Instruction instr = new Instruction("SAD",1);
+				switch(cID){
+						case 2:
+								guiViews[0].sync(changeData);
+								clientConnections[cID].writeData(instr);
+								clientConnections[cID].writeData(changeData);
+								break;
+						case 3:
+								guiViews[1].sync(changeData);
+								clientConnections[cID].writeData(instr);
+								clientConnections[cID].writeData(changeData);
+								break;
+						case 4:
+								guiViews[2].sync(changeData);
+								clientConnections[cID].writeData(instr);
+								clientConnections[cID].writeData(changeData);
+								break;
+						case 5:
+								instr.setX(3);
+								clientConnections[cID].writeData(instr);
+								for(int i = 0; i < 3; i++){
+										guiViews[i].sync(changeData);		
+										clientConnections[cID].writeData(changeData);
+										changeData.clear();
+								}
+								break;
+				}
+		}
+
 		// Client Specific
 		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){};
-		
+		public void syncChanges(ArrayList<TreeMap<Integer, FactoryObject>> dataArray){}
 		
 		// Global
 		public void closeNetworkBridge(int bridgeID){

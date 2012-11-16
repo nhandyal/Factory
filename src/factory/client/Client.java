@@ -36,6 +36,7 @@ public class Client implements NetworkManager{
 		
 		// server specific
 		public void registerClientListener(NetworkBridge newBridge, int cID){}
+		public void syncFrame(int cID){}
 		
 		
 		// client specific
@@ -69,6 +70,15 @@ public class Client implements NetworkManager{
 				}
 		}
 		
+		public void syncChanges(ArrayList<TreeMap<Integer,FactoryObject>> dataArray){
+				if(dataArray.size() == 1){
+						TreeMap<Integer, FactoryObject> changeData = dataArray.get(0);
+						frameAnimationData.putAll(changeData);
+				}
+				else{
+						System.out.println("Warning: Corrupt frame data");
+				}
+		}
 		
 		// global
 		public void closeNetworkBridge(int bridgeID){

@@ -35,4 +35,12 @@ public class Instruction implements java.io.Serializable{
 				this.x = x;
 				this.v = v;
 		}
+		
+		public void setX(int x){
+				this.x = x;
+		}
+		
+		public void setV(int v){
+				this.v = v;
+		}
 }
