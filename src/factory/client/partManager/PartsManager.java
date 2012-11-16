@@ -15,8 +15,8 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 	ThirdColumn tC; 
 	PartInfo pI; 
 	boolean part1Edit, part2Edit, part3Edit, part4Edit, part5Edit, part6Edit, part7Edit, part8Edit, part9Edit, part10Edit; 
-	int eightPartCounter; 
-	JButton newKit; int partIndexNumber; 
+	 
+	JButton newKit; 
 	ArrayList<Parts> listOfParts; 
 	JMenuBar optionMenuBar; JMenu optionMenu; JMenuItem resetOption, deletePartOption;
 	NetworkBridge nb1;
@@ -86,8 +86,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		part9Edit = false; 
 		part10Edit = false; 
 		
-		eightPartCounter = 0; 
-		partIndexNumber = 0; 
+
 
 		listOfParts = new ArrayList<Parts>(); 
 	}
@@ -133,14 +132,8 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 			}
 
 			Parts newPart1 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part1.png"));
-			if(partIndexNumber<=8){
-				listOfParts.add(newPart1); 
-				partIndexNumber++;
-			}
-			else{
-
-
-			}
+			
+				listOfParts.add(newPart1); 			
 		}
 		
 		//Second Button
@@ -169,10 +162,10 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				return; 
 			} 			
 			Parts newPart2 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part2.png"));
-			if(partIndexNumber<=8){
+			
 			listOfParts.add(newPart2); 
-			partIndexNumber++;
-			}
+			
+			
 		}
 		
 		//Third Button
@@ -203,7 +196,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 			} 			
 			Parts newPart3 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part3.png"));
 			listOfParts.add(newPart3); 
-			partIndexNumber++;
+			
 			
 		}
 		
@@ -234,7 +227,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 			} 			
 			Parts newPart4 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part4.png"));
 			listOfParts.add(newPart4); 
-			partIndexNumber++;
+			
 			
 		}
 		
@@ -266,7 +259,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 			} 			
 			Parts newPart5 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part5.png"));
 			listOfParts.add(newPart5); 
-			partIndexNumber++;
+			
 		}
 		
 		//Sixth Button
@@ -297,7 +290,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 			}			
 			Parts newPart6 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part6.png"));
 			listOfParts.add(newPart6); 
-			partIndexNumber++;
+			
 		}
 		
 		//Seventh Button
@@ -327,7 +320,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 			} 			
 			Parts newPart7 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part7.png"));
 			listOfParts.add(newPart7); 
-			partIndexNumber++;
+			
 		}
 		
 		//Eighth Button
@@ -357,7 +350,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 			} 			
 			Parts newPart8 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part8.png"));
 			listOfParts.add(newPart8); 
-			partIndexNumber++;
+			
 			
 		}
 		//Ninth Button
@@ -387,7 +380,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 			} 			
 			Parts newPart9 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part9.png"));
 			listOfParts.add(newPart9); 
-			partIndexNumber++;
+			
 		}
 		
 		//Tenth Button
@@ -417,13 +410,13 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 			} 			
 			Parts newPart10 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part10.png"));
 			listOfParts.add(newPart10); 
-			partIndexNumber++; 
+			
 		}
 		
 		if("Reset".equals(ae.getActionCommand())){
 			//everything resets and a new kit can be created
 			listOfParts.clear(); 
-			eightPartCounter = 0; 
+			
 		}
 	}
 		

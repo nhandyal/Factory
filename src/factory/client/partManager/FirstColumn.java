@@ -3,6 +3,8 @@ package factory.client.partManager;
 import java.awt.*; 
 import factory.global.data.*;
 import javax.swing.*; 
+
+
 public class FirstColumn extends JPanel {
 
 	private JPanel firstColumn;
