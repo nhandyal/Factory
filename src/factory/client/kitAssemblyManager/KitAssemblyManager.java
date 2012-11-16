@@ -15,7 +15,7 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
     //	UpdateServer us = new UpdateServer();
 	TreeMap<Integer, Boolean> ChangeMap;
 	TreeMap<Integer, FactoryObject> ChangeData;
-	ArrayList<FactoryObject> fos;
+        TreeMap<Integer, FactoryObject> fos;
         NetworkBridge nb;
 	public KitAssemblyManager()
         {
@@ -35,7 +35,7 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setColor(Color.GRAY);
 		g2.fillRect(0,0,800,800);
-		for (int i = 0; i < fos.size(); i++)
+		for (Integer i : fos.keySet())
 		{
 			FactoryObject t = fos.get(i);
 			if(t.isLine())
@@ -66,7 +66,7 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
 	    {
 		// check the write direction of the change map key
 		if (ChangeMap.get(key))
-		    fos.set(key, ChangeData.get(key));
+		    fos.put(key, ChangeData.get(key));
 		else
 		    fos.remove(key);
 	    }

@@ -12,6 +12,7 @@ package factory.global.data;
 
 // Java packages
 import java.io.*;
+import javax.swing.*;
 
 public class FactoryObject implements java.io.Serializable{
 
