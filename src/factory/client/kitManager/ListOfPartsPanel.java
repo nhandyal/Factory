@@ -1,3 +1,4 @@
+package factory.client.kitManager;
 import javax.swing.*; 
 import java.awt.*; 
 import java.util.*; 
