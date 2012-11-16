@@ -19,6 +19,7 @@ import factory.global.network.*;
 import factory.global.data.*;
 import factory.server.managers.GuiManager;
 //import factory.server.managers.laneManager.*;
+import factory.server.managers.factoryState.*;
 
 /* Client Indeces
 Parts manager will be located at clientConnections index 0 etc.
@@ -35,12 +36,14 @@ Parts manager will be located at clientConnections index 0 etc.
 public class Server implements ActionListener, NetworkManager{
 		NetworkBridge[] clientConnections = new NetworkBridge[6];
 		GuiManager[] guiViews = new GuiManager[4];
+		FactoryState fs;
 		InboundConnectionManager icm = null;
 		ArrayList<TreeMap<Integer, Boolean>> changeMap;
 		ArrayList<TreeMap<Integer, FactoryObject>> changeData;
 				
 		Server(){
 				// initialize all class instance variables
+				 fs = new FactoryState();
 				icm = new InboundConnectionManager(this);
 				//guiViews[1] = new LaneManager();
 				changeMap = new ArrayList<TreeMap<Integer, Boolean>>(3);
@@ -69,6 +72,11 @@ public class Server implements ActionListener, NetworkManager{
 		// Server Specific
 		public void registerClientListener(NetworkBridge newBridge, int cID){
 				clientConnections[cID] = newBridge;
+		}
+		
+		// function to update part data
+		public void updatePartData(TreeMap<Integer, Parts> partData){
+				fs.mergeParts(partData);
 		}
 		
 		// function to send the entire frame data to the client

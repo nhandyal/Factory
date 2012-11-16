@@ -91,6 +91,13 @@ public class NetworkBridge{
 				}
 		}
 		
+		// method to send parts data to server
+		public void sendPartData(Object partData){
+				Instruction instr = new Instruction("UPD");						// UPD == update part data
+				writeData(instr);
+				writeData(partData);
+		}
+		
 		public void setBridgeID(int id){
 				this.id = id;
 		}
@@ -176,6 +183,9 @@ class InputStreamListener extends Thread{
 				else if(instruction.equals("SYNC")){
 						parent.syncFrame(nb.getBridgeID());
 				}
+				else if(instruction.equals("UPD")){
+						readPartData();
+				}
 		}
 		
 		void readAnimationData(int expectedPackets){
@@ -227,4 +237,25 @@ class InputStreamListener extends Thread{
 				}
 				parent.syncChanges(dataArray);
 		}
+		
+		void readPartData(){
+				TreeMap<Integer, Parts> partData = null;
+				try{
+						partData = (TreeMap<Integer, Parts>)ois.readObject();
+				}catch(IOException ie){
+						String message = ie.toString();
+						if(message.equals("java.io.EOFException")){
+								System.out.println("Connection lost");
+								parent.closeNetworkBridge(nb.getBridgeID());
+						}
+						else if(message.equals("java.net.SocketTimeoutException: Read timed out")){}
+						else{
+								ie.printStackTrace();		
+						}
+				}catch(ClassNotFoundException c){
+						c.printStackTrace();
+				}
+				parent.updatePartData(partData);
+		}
+		
 }
