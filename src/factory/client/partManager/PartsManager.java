@@ -21,7 +21,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 	JMenuBar optionMenuBar; JMenu optionMenu; JMenuItem resetOption, deletePartOption;
 	NetworkBridge nb1;
 	public PartsManager(){	
-		nb1 = new NetworkBridge(this, "alurda.usc.edu", 8465, 0);
+		nb1 = new NetworkBridge(this, "aludra.usc.edu", 8465, 0);
 		optionMenuBar = new JMenuBar(); 
 		optionMenu = new JMenu("Options"); 
 		resetOption = new JMenuItem("Reset"); 
@@ -131,7 +131,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				return; 
 			}
 
-			Parts newPart1 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part1.png"));
+			Parts newPart1 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 0);
 			
 				listOfParts.add(newPart1); 			
 		}
@@ -161,7 +161,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				fC.getPartOneName().setText("Part 2"); 
 				return; 
 			} 			
-			Parts newPart2 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part2.png"));
+			Parts newPart2 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 2);
 			
 			listOfParts.add(newPart2); 
 			
@@ -194,7 +194,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				fC.getPartOneName().setText("Part 3"); 
 				return; 
 			} 			
-			Parts newPart3 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part3.png"));
+			Parts newPart3 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(),2);
 			listOfParts.add(newPart3); 
 			
 			
@@ -225,7 +225,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				fC.getPartOneName().setText("Part 4"); 
 				return; 
 			} 			
-			Parts newPart4 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part4.png"));
+			Parts newPart4 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 3);
 			listOfParts.add(newPart4); 
 			
 			
@@ -257,7 +257,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				fC.getPartOneName().setText("Part 5"); 
 				return; 
 			} 			
-			Parts newPart5 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part5.png"));
+			Parts newPart5 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 4);
 			listOfParts.add(newPart5); 
 			
 		}
@@ -288,7 +288,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				fC.getPartOneName().setText("Part 6"); 
 				return; 
 			}			
-			Parts newPart6 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part6.png"));
+			Parts newPart6 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 5);
 			listOfParts.add(newPart6); 
 			
 		}
@@ -318,7 +318,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				fC.getPartOneName().setText("Part 7"); 
 				return; 
 			} 			
-			Parts newPart7 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part7.png"));
+			Parts newPart7 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 6);
 			listOfParts.add(newPart7); 
 			
 		}
@@ -348,7 +348,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				fC.getPartOneName().setText("Part 8"); 
 				return; 
 			} 			
-			Parts newPart8 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part8.png"));
+			Parts newPart8 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 7);
 			listOfParts.add(newPart8); 
 			
 			
@@ -378,7 +378,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				fC.getPartOneName().setText("Part 9"); 
 				return; 
 			} 			
-			Parts newPart9 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part9.png"));
+			Parts newPart9 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 8);
 			listOfParts.add(newPart9); 
 			
 		}
@@ -408,7 +408,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				fC.getPartOneName().setText("Part 10"); 
 				return; 
 			} 			
-			Parts newPart10 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), new ImageIcon("part10.png"));
+			Parts newPart10 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 9);
 			listOfParts.add(newPart10); 
 			
 		}
