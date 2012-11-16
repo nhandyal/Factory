@@ -1,4 +1,4 @@
-
+package KitAssemblyManager;
 public class Gripper extends FactoryObject{
 	
 	Part[] parts;

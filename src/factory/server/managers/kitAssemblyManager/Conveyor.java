@@ -1,4 +1,4 @@
-package factory.server.managers.kitAssemblyManager;
+package KitAssemblyManager;
 
 import java.awt.event.*;
 import javax.swing.*;
@@ -17,7 +17,7 @@ public class Conveyor extends FactoryObject
 	int outStartx = 150;
 	int outStarty = 600;
 	int outFinishx = -100;
-	int outFinishy = 50;
+	int outFinishy = 600;
 	UpdateServer us;
 	public Conveyor(int xpos, int ypos, String image, UpdateServer us)
 	{
@@ -49,6 +49,7 @@ public class Conveyor extends FactoryObject
 			if (us.getCurrentObjects().get(i) == outKit){
 				outKit.setIsMoving(true);
                 us.getCurrentObjects().get(i).setPosition(outKit.getPositionX() + (outFinishx - outStartx)/25, outKit.getPositionY() + (outFinishy - outStarty)/25);
+                outKit.updateParts();
             }
 		}
 	}

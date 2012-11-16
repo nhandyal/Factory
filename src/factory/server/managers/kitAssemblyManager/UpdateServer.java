@@ -1,4 +1,4 @@
-package factory.server.managers.kitAssemblyManager;
+package KitAssemblyManager;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +21,7 @@ public class UpdateServer implements ActionListener
     ArrayList<Nest> nests;
 	Timer t;
 	int count = 0;
+	int countconv = 0;
 	int partscount = 0;
 	boolean isBringKit = true;
 	boolean isMoveToStand = false;
@@ -71,19 +72,22 @@ public class UpdateServer implements ActionListener
 	public void setCurrentObjects()
 	{
 		CurrentObjects.clear();
-		CurrentObjects.add(conv);
-		CurrentObjects.add(robot);
-		CurrentObjects.add(probot);
-		for (int i = 0; i < stands.size(); i++)
-			CurrentObjects.add(stands.get(i));
+		//CurrentObjects.add(conv);
+		//CurrentObjects.add(robot);
+		//CurrentObjects.add(probot);
+		//for (int i = 0; i < stands.size(); i++)
+			//CurrentObjects.add(stands.get(i));
+		
 		for (int i = 0; i < kits.size(); i++)
 			CurrentObjects.add(kits.get(i));
+		for (int i = 0; i < LineObjects.size(); i++)
+			CurrentObjects.add(LineObjects.get(i));
+		CurrentObjects.add(probot.getGripper());
 		for (int i = 0; i < parts.size(); i++)
 			CurrentObjects.add(parts.get(i));
 		CurrentObjects.add(cam);
-        CurrentObjects.add(probot.getGripper());
-		for (int i = 0; i < LineObjects.size(); i++)
-			CurrentObjects.add(LineObjects.get(i));
+		
+		
 	}
 	
 	public boolean emptyStand()
@@ -124,10 +128,10 @@ public class UpdateServer implements ActionListener
 		{
 			conv.moveKit();
 		}
-		count++;
-		if (count == 26)
+		countconv++;
+		if (countconv == 26)
 		{
-			count = 0;
+			countconv = 0;
 			isBringKit = false;
 			isMoveToStand = true;
 		}
@@ -146,6 +150,7 @@ public class UpdateServer implements ActionListener
 		{
 			count = 0;
 			isMoveToStand = false;
+			//isBringKit = true;
 			isMovePartstoStand = true;
 		}
 	}
@@ -159,11 +164,11 @@ public class UpdateServer implements ActionListener
                     Part[] p = new Part[4];
                     int[] indexes = new int[4];
                     for (int j = 0; j < p.length; j++){
-                        Part p1 = new Part(nests.get(j+2).getPositionX()+5,nests.get(j+2).getPositionY()+5,"src/part2.png");
+                        Part p1 = new Part(nests.get(j+2).getPositionX()+5,nests.get(j+2).getPositionY()+5,"images/part2.png");
                         parts.add(p1);
                         p[j] = p1;
                     }
-                    if (stands.get(i).getKit().getParts()[0] == null){
+                    if (stands.get(stand).getKit().getParts()[0] == null){
                         for (int j = 0; j < indexes.length; j++){
                             indexes[j] = j;
                         }
@@ -173,18 +178,19 @@ public class UpdateServer implements ActionListener
                             indexes[j] = j+4;
                         }
                     }
-                    probot.moveFromNest(stands.get(i),p,indexes,0);
+                    probot.moveFromNest(stands.get(stand),p,indexes,0);
                 }
             }
 		}
 		if (probot.isMoving())
 			probot.move();
 		count++;
-		if (count == 81)
+		if (count == 141)
 		{
 			count = 0;
 			isMovePartstoStand = false;
-			isMoveToInspection = true;
+			if (stands.get(stand).getKit().getIsComplete())
+				isMoveToInspection = true;
 		}
 	}
 	
@@ -207,6 +213,7 @@ public class UpdateServer implements ActionListener
 			count = 0;
 			isMoveToInspection = false;
 			isTakePic = true;
+			
 		}
 	}
 	
@@ -241,7 +248,7 @@ public class UpdateServer implements ActionListener
 	}
 	public void takeKit()
 	{
-		if (conv.getOutKit() != null && !conv.getOutKit().getIsMoving())
+		if (conv.getOutKit() != null)
 			conv.takeKit();
 		count++;
 		if (count == 26)
@@ -249,7 +256,7 @@ public class UpdateServer implements ActionListener
 			count = 0;
 			isTakeKit = false;
             conv.getOutKit().setIsMoving(false);
-            conv.getOutKit() = null;
+            conv.setOutKit(null);
 		}
 	}
     
@@ -280,15 +287,24 @@ public class UpdateServer implements ActionListener
 		if (isMoveToStand)
 			moveToStand(0);
 		if (isMovePartstoStand)
-			movePartstoStand(200, 0, 1);
+		{
+			int a[] = {0, 1, 2, 3};
+			movePartstoStand(200, 0, a);
+		}
+			
 		if (isMoveToInspection)
+		{
 			moveToInspection();
+		}
 		if (isTakePic)
 			takePic();
 		if (isTakeToConveyor)
 			takeToConveyor();
 		if (isTakeKit)
+		{
+			
 			takeKit();
+		}
         removeExtraKits();
 		LineObjects.set(0, new FactoryObject((int)robot.getX1(),(int)robot.getY1(),(int)robot.getX2(),(int)robot.getY2()));
 		LineObjects.set(1, new FactoryObject((int)probot.getX1(),(int)probot.getY1(),(int)probot.getX2(),(int)probot.getY2()));
@@ -323,7 +339,6 @@ public class UpdateServer implements ActionListener
 			for (int i = CurrentObjects.size(); i < t.size(); i++)
 			{
 				ChangeMap.put(i, false);
-				ChangeData.put(i, CurrentObjects.get(i));
 			}
 		}
 	}

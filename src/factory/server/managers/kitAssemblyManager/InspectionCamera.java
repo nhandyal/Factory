@@ -1,5 +1,4 @@
-package factory.server.managers.kitAssemblyManager;
-
+package KitAssemblyManager;
 import java.awt.event.*;
 import javax.swing.*;
 

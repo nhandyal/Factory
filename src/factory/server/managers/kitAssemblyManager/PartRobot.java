@@ -1,4 +1,4 @@
-package factory.server.managers.kitAssemblyManager;
+package KitAssemblyManager;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -148,7 +148,7 @@ public class PartRobot extends FactoryObject
             g.setPosition((int)x2,(int)y2);
             g.updateParts();
             csCount++;
-            m.repaint();
+           // m.repaint();
         }
         else if (csCount >= 120 && csCount < 140){
             if (csCount == 120){
@@ -157,15 +157,16 @@ public class PartRobot extends FactoryObject
                     g.removePart(j).setPosition((int)xdes2[j], (int)ydes2[j]);
                 }
             }
-            if (s2.getKit().getParts()[7] != null){
+           /* if (s2.getKit().getParts()[7] != null){
                 s2.getKit().setIsComplete(true);
-            }
+            }*/
+            s2.getKit().setIsComplete(true);
             x2 += (x1 - xdes2[0])/20;
             y2 += (y1 - ydes2[0])/20;
             g.setPosition((int)x2,(int)y2);
             g.updateParts();
             csCount++;
-            m.repaint();
+           // m.repaint();
         }
         else if (csCount == 140){
             csCount = 0;

@@ -1,4 +1,4 @@
-
+package KitAssemblyManager;
 public class Nest extends FactoryObject{
 	
 	public Nest(int xpos, int ypos, String image){

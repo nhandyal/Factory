@@ -1,4 +1,4 @@
-package factory.server.managers.kitAssemblyManager;
+package KitAssemblyManager;
 
 import java.util.*;
 

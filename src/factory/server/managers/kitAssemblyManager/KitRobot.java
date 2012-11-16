@@ -1,4 +1,4 @@
-package factory.server.managers.kitAssemblyManager;
+package KitAssemblyManager;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -89,11 +89,13 @@ public class KitRobot extends FactoryObject
 			x2 += (x1 - xdes1)/25;
 			y2 += (y1 - ydes1)/25;
 			holdObj.setPosition((int)x2,(int)y2);
+			holdObj.updateParts();
 		}
 		else if (csCount >= 50 && csCount < 75){
 			x2 += (xdes2 - x1)/25;
 			y2 += (ydes2 - y1)/25;
 			holdObj.setPosition((int)x2, (int)y2);
+			holdObj.updateParts();
 		}
 		else if (csCount >= 75 && csCount < 100){
 			if (csCount == 75){
