@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.util.*;
 
 public class Lane extends FactoryObject
@@ -7,22 +6,21 @@ public class Lane extends FactoryObject
 	ArrayList<Part> lane, nest;
 	ArrayList<Line> lines;
 	boolean laneActive;
-	String imageName;
 	int counter = 0;
 
-	public Lane(int initialPosX, int initialPosY, String image){
+	public Lane(int initialPosX, int initialPosY, int indx){
 		x = initialPosX;
 		y = initialPosY;
-		imageName = image;
+		index = indx;
 		
 		lane = new ArrayList<Part>();
 		nest = new ArrayList<Part>();
 		
 		// Create LaneLines
 		lines = new ArrayList<Line>();
-		lines.add(new Line((x+80),(y+1),(x+80),(y+35)));
-		lines.add(new Line((x+180),(y+1),(x+180),(y+35)));
-		lines.add(new Line((x+280),(y+1),(x+280),(y+35)));
+		lines.add(new Line((x+80),(y+1),(x+80),(y+35),(index)));
+		lines.add(new Line((x+180),(y+1),(x+180),(y+35),(index+1)));
+		lines.add(new Line((x+280),(y+1),(x+280),(y+35),(index+2)));
 	}
 
 	public void setActive(boolean b){
@@ -33,8 +31,8 @@ public class Lane extends FactoryObject
 		return laneActive;
 	}
 	
-	public void addPart(){
-		lane.add(new Part(x+317,y+16,imageName));
+	public void addPart(int img ,int i){
+		lane.add(new Part(x+317,y+16,img,i));
 		counter++;
 	}
 	

@@ -1,18 +1,22 @@
-import java.awt.*;
-import java.awt.geom.*;
-import javax.swing.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-
 public class FactoryObject {
 
-	int x, y, xf, yf;
+	int x, y, xf, yf, index = -5;
 	boolean isLine = false;
-	ImageIcon factoryObjectImage;
+	int imageIndex;
+	
+	public FactoryObject(){
+		x = 3;
+		y = 4;
+	}
 
 	public  void setPosition(int newPosX, int newPosY){
 		x = newPosX;
 		y = newPosY;
+	}
+	
+	public  void setPositionF(int newPosXF, int newPosYF){
+		xf = newPosXF;
+		yf = newPosYF;
 	}
 
 	public int getPositionX(){
@@ -30,17 +34,28 @@ public class FactoryObject {
 	public int getPositionYF(){
 		return yf;
 	}
+	
+	public void setIsLine(boolean b){
+		isLine = b;
+	}
 
 	public boolean getIsLine(){
 		return isLine;
 	}
 
-	public void setImage(String newImage){
-		factoryObjectImage = new ImageIcon(newImage);
+	public void setImage(int newImageIndex){
+		imageIndex = newImageIndex;
 	}
 
-	public ImageIcon getImage(){
-		return factoryObjectImage;
+	public int getImageIndex(){
+		return imageIndex;
 	}
-
+	
+	public void setIndex(int i){
+		index = i;
+	}
+	
+	public int getIndex(){
+		return index;
+	}
 }
