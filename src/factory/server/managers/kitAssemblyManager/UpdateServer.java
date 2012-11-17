@@ -88,7 +88,8 @@ public class UpdateServer implements GuiManager, Serializable
 		CurrentObjects.add(probot.getGripper());
 		for (int i = 0; i < parts.size(); i++)
 			CurrentObjects.add(parts.get(i));
-		CurrentObjects.add(cam);	
+		CurrentObjects.add(cam);
+        //CurrentObjects.get(0).print();
 	}
 	
 	public boolean emptyStand()
@@ -129,6 +130,7 @@ public class UpdateServer implements GuiManager, Serializable
 		{
 			conv.moveKit();
 		}
+        //kits.get(0).print();
 		countconv++;
 		if (countconv == 26)
 		{
@@ -282,26 +284,33 @@ public class UpdateServer implements GuiManager, Serializable
 	
 	public void update(TreeMap<Integer, Boolean> inputChangeMap, TreeMap<Integer, FactoryObject> inputChangeData)      													// ------------> update complete
 	{
-		ChangeMap = inputChangeMap;
-		ChangeData = inputChangeData;
+		//ChangeMap = inputChangeMap;
+		//ChangeData = inputChangeData;
 		
 		move();
 		 
-        
+        /*System.out.print("1st: ");
+        lastObjects.get(0).print();
+        System.out.print("2nd: ");
+        CurrentObjects.get(0).print();*/
+        inputChangeData.clear();
+        inputChangeMap.clear();
 		if (lastObjects.size() <= CurrentObjects.size())
 		{
 			for (int i = 0; i < lastObjects.size(); i++)
 			{
 				if (!lastObjects.get(i).equals(CurrentObjects.get(i)))
 				{
-					ChangeMap.put(i, true);
-					ChangeData.put(i, CurrentObjects.get(i));
+					//System.out.print(i + " :");
+                   // CurrentObjects.get(i).print();
+                    inputChangeMap.put(i, true);
+					inputChangeData.put(i, CurrentObjects.get(i));
 				}
 			}
 			for (int i = lastObjects.size(); i < CurrentObjects.size(); i++)
 			{
-				ChangeMap.put(i, true);
-				ChangeData.put(i, CurrentObjects.get(i));
+				inputChangeMap.put(i, true);
+				inputChangeData.put(i, CurrentObjects.get(i));
 			}
 		}
 		else
@@ -310,22 +319,27 @@ public class UpdateServer implements GuiManager, Serializable
 			{
 				if (!lastObjects.get(i).equals(CurrentObjects.get(i)))
 				{
-					ChangeMap.put(i, true);
-					ChangeData.put(i, CurrentObjects.get(i));
+					//System.out.print(i + " :");
+                    inputChangeMap.put(i, true);
+					inputChangeData.put(i, CurrentObjects.get(i));
 				}
 			}
 			for (int i = CurrentObjects.size(); i < lastObjects.size(); i++)
 			{
-				ChangeMap.put(i, false);
+				inputChangeMap.put(i, false);
 			}
 		}
-		//lastObjects = (ArrayList<FactoryObject>) CurrentObjects.clone();
+        		//lastObjects = (ArrayList<FactoryObject>) CurrentObjects.clone();
 	}
     
 	
 	public void move()
 	{
-		lastObjects = (ArrayList<FactoryObject>) CurrentObjects.clone();
+		lastObjects = new ArrayList<FactoryObject>();
+        for (int i = 0; i < CurrentObjects.size(); i++)
+        {
+            lastObjects.add((FactoryObject)CurrentObjects.get(i).clone());
+        }
         if (isBringKit)
 			bringKit();
 		if (isMoveToStand)

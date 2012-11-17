@@ -43,6 +43,7 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
 		}*/
 		//Graphics g = this.getGraphics();
 		//update(g);
+       // nb.sync();
 		repaint();
 	}
 	
@@ -86,11 +87,11 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
     // client specific
     public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray)
     {
-        System.out.println("FOS before merge");
+        /*System.out.println("FOS before merge");
 				for(Integer i : fos.keySet()){
 						System.out.print(i+" --> ");
 						fos.get(i).print();
-				}
+				}*/
 				
         if(mapArray.size() == 1)
         {
@@ -104,23 +105,27 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
             for (Integer i : t)
             {
                 if (changeMap.get(i))
+                {
+                    //changeData.get(i).print();
                     fos.put(i, changeData.get(i));
+                }
                 else
                     fos.remove(i);
             }
+           // System.out.println();
         }
         else
         {
             System.out.println("Warning: Corrupt frame data");
         }
 				
-				System.out.println("FOS after merge");
+				/*System.out.println("FOS after merge");
 				for(Integer i : fos.keySet()){
 						System.out.print(i+" --> ");
 						fos.get(i).print();
 				}
 				System.out.println();
-				System.out.println();
+				System.out.println();*/
     }
     
     public void syncChanges(ArrayList<TreeMap<Integer, FactoryObject>> dataArray)

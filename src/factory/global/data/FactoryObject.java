@@ -7,7 +7,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.io.*;
 
-public class FactoryObject implements java.io.Serializable{
+public class FactoryObject implements Serializable, Cloneable{
 
 	public int x;
 	public int y;
@@ -104,5 +104,19 @@ public class FactoryObject implements java.io.Serializable{
 	public void print(){
 		System.out.println("X: "+x+" Y: "+y+" ISL: "+isLine+" xf: "+xf+" yf: "+yf);
 	}
+    
+    public Object clone() {
+        
+        FactoryObject clone = null;
+        try
+        {
+            clone=(FactoryObject)super.clone();
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return clone;
+        
+    }
 
 }

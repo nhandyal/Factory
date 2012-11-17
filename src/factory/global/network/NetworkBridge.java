@@ -85,7 +85,8 @@ public class NetworkBridge{
 		
 		public void writeData(Object data){
 				try{
-						oos.writeObject(data);
+                        oos.reset();
+                        oos.writeObject(data);
 				}catch(IOException ie){
 						ie.printStackTrace();
 				}
@@ -201,6 +202,12 @@ class InputStreamListener extends Thread{
 				for(int i = 0; i < expectedPackets; i++){
 						try{
 								NetworkTransferObject frameData = (NetworkTransferObject)ois.readObject();
+                                for (Integer key : frameData.changeMap.keySet())
+                                {
+                                    if(frameData.changeMap.get(key))
+                                        frameData.changeData.get(key).print();
+                                }
+                                System.out.println();
 								mapArray.add(frameData.changeMap);
 								dataArray.add(frameData.changeData);
 						}catch(IOException ie){
