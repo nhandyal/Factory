@@ -41,10 +41,10 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
 			else
 				fos.remove(i);
 		}*/
-		Graphics g = this.getGraphics();
-		update(g);
+		//Graphics g = this.getGraphics();
+		//update(g);
        // nb.sync();
-		//repaint();
+		repaint();
 	}
 	
 	public void paint(Graphics g){

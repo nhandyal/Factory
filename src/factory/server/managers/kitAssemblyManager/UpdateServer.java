@@ -56,6 +56,12 @@ public class UpdateServer implements GuiManager, Serializable
 			nests.add(n1);
 			nests.add(n2);
 		}
+        Part[] p = new Part[8];
+        for (int i = 0; i < p.length; i++)
+        {
+            Part p1 = new Part(nests.get(i).getPositionX()+5,nests.get(i).getPositionY()+5,i);
+            parts.add(p1);
+        }
 		LineObjects.add(new FactoryObject((int)robot.getX1(),(int)robot.getY1(),(int)robot.getX2(),(int)robot.getY2()));
 		LineObjects.add(new FactoryObject((int)probot.getX1(),(int)probot.getY1(),(int)probot.getX2(),(int)probot.getY2()));
 		setCurrentObjects();
@@ -167,8 +173,8 @@ public class UpdateServer implements GuiManager, Serializable
                     Part[] p = new Part[4];
                     int[] indexes = new int[4];
                     for (int j = 0; j < p.length; j++){
-                        Part p1 = new Part(nests.get(j+2).getPositionX()+5,nests.get(j+2).getPositionY()+5,1);
-                        parts.add(p1);
+                        Part p1 = parts.get(pos[j]);
+                        //parts.add(p1);
                         p[j] = p1;
                     }
                     if (stands.get(stand).getKit().getParts()[0] == null){
@@ -346,7 +352,7 @@ public class UpdateServer implements GuiManager, Serializable
 			moveToStand(0);
 		if (isMovePartstoStand)
 		{
-			int a[] = {0, 1, 2, 3};
+			int a[] = {0, 1, 2, 5};
 			movePartstoStand(200, 0, a);
 		}
 			
