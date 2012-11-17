@@ -7,14 +7,17 @@ import java.awt.event.*;
 public class KitManager extends JFrame {
 	JPanel masterGrid;
 	KitSelector kS; 
-	
+	ListOfPartsPanel lP; 
+	int numberOfButtonsDecider; 
 	
 
 	public KitManager(){
+		numberOfButtonsDecider = 0; 
 		masterGrid = new JPanel(new GridLayout(3, 1)); 
 		kS = new KitSelector(); 
-		kS.createAButton(); 
-		kS.createAButton(); 
+		lP = new ListOfPartsPanel();
+		kS.createAButton( numberOfButtonsDecider); 
+		masterGrid.add(lP); 
 		masterGrid.add(kS); 		
 		add(masterGrid); 
 
