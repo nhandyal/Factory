@@ -1,3 +1,5 @@
+package factory.client.managers.laneManager;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferStrategy;
@@ -6,6 +8,9 @@ import javax.swing.*;
 import javax.swing.Timer;
 
 import java.util.*;
+
+// user packages
+import factory.global.data.*;
 
 public class LaneManager extends JFrame implements ActionListener
 {
@@ -98,24 +103,6 @@ public class LaneManager extends JFrame implements ActionListener
 		background = new ImageIcon("LMBG.png");
 		
 		// Create ImageList
-/*		images = new ArrayList<ImageIcon>();
-		images.add(new ImageIcon("part1.png"));		// index 0		part 1
-		images.add(new ImageIcon("part2.png"));		// index 1		part 2
-		images.add(new ImageIcon("part3.png"));		// index 2		part 3
-		images.add(new ImageIcon("part4.png"));		// index 3		part 4
-		images.add(new ImageIcon("part5.png"));		// index 4		part 5
-		images.add(new ImageIcon("part6.png"));		// index 5		part 6
-		images.add(new ImageIcon("part7.png"));		// index 6		part 7
-		images.add(new ImageIcon("part8.png"));		// index 7		part 8
-		images.add(new ImageIcon("part9.png"));		// index 8		part 9
-		images.add(new ImageIcon("part10.png"));	// index 9		part 10
-		images.add(new ImageIcon("bin.png"));		// index 10		bin
-		images.add(new ImageIcon("robot.png"));		// index 11		Kit/Part Picking/Gantry Robot
-		images.add(new ImageIcon("kit.png"));		// index 12		Kit
-		images.add(new ImageIcon("camera.png"));	// index 13		QA/Nest Cam
-		images.add(new ImageIcon("camflash.png"));	// index 14		Cam Flash
-		images.add(new ImageIcon("camline.png"));	// index 15		Nest Cam Line 	*/
-
 		images = new ImageArray();
 
 		// Start Counter

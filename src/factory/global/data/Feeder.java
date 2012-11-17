@@ -15,7 +15,6 @@ package factory.global.data;
 import java.io.*;
 
 public class Feeder extends FactoryObject implements Serializable{
-{
 
 	Lane lane1, lane2;
 	Bin bin;
