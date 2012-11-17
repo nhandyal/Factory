@@ -152,7 +152,8 @@ class InputStreamListener extends Thread{
 										parseInstruction(instr);
 						}catch(IOException i){
 								String message = i.toString();
-								if(message.equals("java.io.EOFException")){
+								//System.out.println(message);
+								if(message.equals("java.io.EOFException") || message.equals("java.net.SocketException: Connection reset")){
 										System.out.println("Connection lost");
 										parent.closeNetworkBridge(nb.getBridgeID());
 								}
@@ -202,17 +203,11 @@ class InputStreamListener extends Thread{
 				for(int i = 0; i < expectedPackets; i++){
 						try{
 								NetworkTransferObject frameData = (NetworkTransferObject)ois.readObject();
-                                for (Integer key : frameData.changeMap.keySet())
-                                {
-                                    if(frameData.changeMap.get(key))
-                                        frameData.changeData.get(key).print();
-                                }
-                                System.out.println();
 								mapArray.add(frameData.changeMap);
 								dataArray.add(frameData.changeData);
 						}catch(IOException ie){
 								String message = ie.toString();
-								if(message.equals("java.io.EOFException")){
+								if(message.equals("java.io.EOFException") || message.equals("java.net.SocketException: Connection reset")){
 										System.out.println("Connection lost");
 										parent.closeNetworkBridge(nb.getBridgeID());
 								}
@@ -236,7 +231,7 @@ class InputStreamListener extends Thread{
 								dataArray.add(changeData);
 						}catch(IOException ie){
 								String message = ie.toString();
-								if(message.equals("java.io.EOFException")){
+								if(message.equals("java.io.EOFException") || message.equals("java.net.SocketException: Connection reset")){
 										System.out.println("Connection lost");
 										parent.closeNetworkBridge(nb.getBridgeID());
 								}
@@ -257,7 +252,7 @@ class InputStreamListener extends Thread{
 						partData = (TreeMap<Integer, Parts>)ois.readObject();
 				}catch(IOException ie){
 						String message = ie.toString();
-						if(message.equals("java.io.EOFException")){
+						if(message.equals("java.io.EOFException") || message.equals("java.net.SocketException: Connection reset")){
 								System.out.println("Connection lost");
 								parent.closeNetworkBridge(nb.getBridgeID());
 						}
