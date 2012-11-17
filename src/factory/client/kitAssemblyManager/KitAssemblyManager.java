@@ -12,8 +12,8 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
 	
 	Timer t;
 	//UpdateServer us = new UpdateServer();
-    TreeMap<Integer, Boolean> ChangeMap = new TreeMap<Integer, Boolean>();
-    TreeMap<Integer, FactoryObject> ChangeData = new TreeMap<Integer, FactoryObject>();
+    //TreeMap<Integer, Boolean> ChangeMap = new TreeMap<Integer, Boolean>();
+    //TreeMap<Integer, FactoryObject> ChangeData = new TreeMap<Integer, FactoryObject>();
     TreeMap<Integer, FactoryObject> fos = new TreeMap<Integer, FactoryObject>();
 	ImageIcon bg = new ImageIcon("bin/factory/global/assets/KMBG.png");
     Image iBuffer;
@@ -86,19 +86,25 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
     // client specific
     public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray)
     {
-        
+        System.out.println("FOS before merge");
+				for(Integer i : fos.keySet()){
+						System.out.print(i+" --> ");
+						fos.get(i).print();
+				}
+				
         if(mapArray.size() == 1)
         {
+						
             TreeMap<Integer, Boolean> changeMap = mapArray.get(0);
             TreeMap<Integer, FactoryObject> changeData = dataArray.get(0);
             
             // iterate over all the keys present in changeMap
             // after this loop is complete, the frameAnimationData map will be accurately synced with the server copy
-            Set<Integer> t = ChangeMap.keySet();
+            Set<Integer> t = changeMap.keySet();
             for (Integer i : t)
             {
-                if (ChangeMap.get(i))
-                    fos.put(i, ChangeData.get(i));
+                if (changeMap.get(i))
+                    fos.put(i, changeData.get(i));
                 else
                     fos.remove(i);
             }
@@ -107,6 +113,14 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
         {
             System.out.println("Warning: Corrupt frame data");
         }
+				
+				System.out.println("FOS after merge");
+				for(Integer i : fos.keySet()){
+						System.out.print(i+" --> ");
+						fos.get(i).print();
+				}
+				System.out.println();
+				System.out.println();
     }
     
     public void syncChanges(ArrayList<TreeMap<Integer, FactoryObject>> dataArray)
@@ -125,7 +139,7 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
 		}
     }
     
-    public void syncFrame(int cID)
+    public void syncFrame()
     {
         
     }

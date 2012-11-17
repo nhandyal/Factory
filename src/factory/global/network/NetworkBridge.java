@@ -203,8 +203,6 @@ class InputStreamListener extends Thread{
 								NetworkTransferObject frameData = (NetworkTransferObject)ois.readObject();
 								mapArray.add(frameData.changeMap);
 								dataArray.add(frameData.changeData);
-								System.out.println("Client receiving CMAP: "+frameData.changeMap.size());
-								System.out.println("Client receiving DMAP: "+frameData.changeData.size());
 						}catch(IOException ie){
 								String message = ie.toString();
 								if(message.equals("java.io.EOFException")){

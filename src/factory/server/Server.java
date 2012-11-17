@@ -210,15 +210,6 @@ public class Server implements ActionListener, NetworkManager{
 				NetworkTransferObject kitAsmData = new NetworkTransferObject(changeMap.get(2), changeData.get(2));
 				
 				
-				System.out.println("Server sending CMAP: "+changeMap.get(2).size());
-				System.out.println("Client sending DMAP: "+changeData.get(2).size());
-				for(int i = 0; i < changeData.get(2).size(); i++){
-						changeData.get(2).get(i).print();
-				}
-				System.out.println();
-				System.out.println();
-				
-				
 				// now we can send all of the data to the appropriate clients prefaced by an update animation data instruction. FM will expect 3 NTO objects on the input stream
 				Instruction instr = new Instruction("UAD",1);
 				Instruction instrFM = new Instruction("UAD",3);

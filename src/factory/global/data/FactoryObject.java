@@ -102,7 +102,7 @@ public class FactoryObject implements java.io.Serializable{
 	}
 	
 	public void print(){
-		System.out.println("X: "x+"Y: "+"ISL: "isLine+"xf: "+xf+"yf: "+yf);
+		System.out.println("X: "+x+" Y: "+y+" ISL: "+isLine+" xf: "+xf+" yf: "+yf);
 	}
 
 }
