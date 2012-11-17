@@ -111,7 +111,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
     public void paint(Graphics g){
     	Graphics2D g2 = (Graphics2D)g;
 
-    	System.out.println("Paint Called");
+//    	System.out.println("Paint Called");
     	
 //		buildMap(animData);
     	
