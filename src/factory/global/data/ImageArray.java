@@ -39,6 +39,7 @@ public class ImageArray{
 		images.add(new ImageIcon("bin/factory/global/assets/camflash.png"));	// index 14		Cam Flash
 		images.add(new ImageIcon("bin/factory/global/assets/camline.png"));		// index 15		Nest Cam Line
         images.add(new ImageIcon("bin/factory/global/assets/gripper.png"));     // index 16     Gripper
+        images.add(new ImageIcon("bin/factory/global/assets/imageChart.png"));   //index 17     Image Chart
 	}
 
 	public ImageIcon getIcon(int i){

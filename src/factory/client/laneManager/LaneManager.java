@@ -9,8 +9,6 @@ import javax.swing.Timer;
 
 import java.util.*;
 
-// commit test
-
 // user packages
 import factory.global.network.*;
 import factory.global.data.*;
