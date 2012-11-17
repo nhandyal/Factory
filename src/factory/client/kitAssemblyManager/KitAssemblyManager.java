@@ -12,16 +12,17 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
 	
 	Timer t;
 	//UpdateServer us = new UpdateServer();
-	TreeMap<Integer, Boolean> ChangeMap;
-	TreeMap<Integer, FactoryObject> ChangeData;
-	TreeMap<Integer, FactoryObject> fos;
-	ImageIcon bg = new ImageIcon("../assets/KMBG.png");
-	Image iBuffer;
+    TreeMap<Integer, Boolean> ChangeMap = new TreeMap<Integer, Boolean>();
+    TreeMap<Integer, FactoryObject> ChangeData = new TreeMap<Integer, FactoryObject>();
+    TreeMap<Integer, FactoryObject> fos = new TreeMap<Integer, FactoryObject>();
+	ImageIcon bg = new ImageIcon("bin/factory/global/assets/KMBG.png");
+    Image iBuffer;
 	ImageArray images = new ImageArray();
     NetworkBridge nb;
 	public KitAssemblyManager(){
 		t = new Timer(25,this);
-        nb = new NetworkBridge(this, "aludra.usc.edu", 8465, 4);  
+        nb = new NetworkBridge(this, "aludra.usc.edu", 8465, 4);
+		nb.sync();
 		//fos = us.getFactoryObjects();
 		t.start();
 	}
@@ -40,9 +41,9 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
 			else
 				fos.remove(i);
 		}*/
-		Graphics g = this.getGraphics();
-		update(g);
-		//repaint();
+		//Graphics g = this.getGraphics();
+		//update(g);
+		repaint();
 	}
 	
 	public void paint(Graphics g){
@@ -71,10 +72,10 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
 		      iBuffer = this.createImage(400, 670);  
 		  }  
 		  Graphics gOffScreen = iBuffer.getGraphics();  
-		  Color c = gOffScreen.getColor();  
-		  gOffScreen.setColor(Color.BLUE);  
-		  gOffScreen.fillRect(0, 0, 800, 800);  
-		  gOffScreen.setColor(c);  
+		 // Color c = gOffScreen.getColor();  
+		 // gOffScreen.setColor(Color.BLUE);  
+		 // gOffScreen.fillRect(0, 0, 800, 800);  
+		 // gOffScreen.setColor(c);  
 		  paint(gOffScreen);  
 		  g.drawImage(iBuffer, 0, 0, null);
 	}
@@ -110,7 +111,18 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
     
     public void syncChanges(ArrayList<TreeMap<Integer, FactoryObject>> dataArray)
     {
-        //dataArray.get(0);
+        if (dataArray.size() == 1)
+		{
+			TreeMap<Integer, FactoryObject> changeData = dataArray.get(0);
+			fos.clear();
+			fos = changeData;
+			System.out.println("Syne Complete");
+			System.out.println(fos.size());
+		}
+		else
+		{
+			System.out.println("Warning: Corrupt frame data");
+		}
     }
     
     public void syncFrame(int cID)
