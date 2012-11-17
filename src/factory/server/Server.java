@@ -19,6 +19,7 @@ import factory.global.network.*;
 import factory.global.data.*;
 import factory.server.managers.GuiManager;
 import factory.server.managers.laneManager.*;
+import factory.server.managers.kitAssemblyManager.*;
 import factory.server.managers.factoryState.*;
 
 /* Client Indeces
@@ -45,7 +46,8 @@ public class Server implements ActionListener, NetworkManager{
 				// initialize all class instance variables
 				fs = new FactoryState();
 				icm = new InboundConnectionManager(this);
-				guiViews[1] = new LaneManager();
+				guiViews[1] = new LaneManager();																						// Lane
+				guiViews[2] = new UpdateServer();																						// Kit Asm 
 				changeMap = new ArrayList<TreeMap<Integer, Boolean>>(3);
 				changeData = new ArrayList<TreeMap<Integer, FactoryObject>>(3);
 				
@@ -96,6 +98,7 @@ public class Server implements ActionListener, NetworkManager{
 								break;
 						case 4:
 								guiViews[2].sync(changeData);
+								System.out.println("Server sync -- after update sync called: "+changeData.size());
 								clientConnections[cID].writeData(instr);
 								clientConnections[cID].writeData(changeData);
 								break;
@@ -155,7 +158,7 @@ public class Server implements ActionListener, NetworkManager{
 				guiViews[1].update(changeMap.get(1), changeData.get(1));
 				
 				// get update data for Kit Asm Manager
-				// guiViews[2].update(changeMap.get(2), changeData.get(2));
+				guiViews[2].update(changeMap.get(2), changeData.get(2));
 				
 				// at this point we have all of the updated factory animation data. We now need to send this to the client
 				// we need to create NetworkTransferObjects with the appropriate changeMap and changeData trees for the 3 managers
@@ -163,7 +166,7 @@ public class Server implements ActionListener, NetworkManager{
 				
 				//NetworkTransferObject gantryData = new NetworkTransferObject(changeMap.get(0), changeData.get(0));
 				NetworkTransferObject laneData = new NetworkTransferObject(changeMap.get(1), changeData.get(1));
-				//NetworkTransferObject kitAsmData = new NetworkTransferObject(changeMap.get0(2), changeData.get(2));
+				NetworkTransferObject kitAsmData = new NetworkTransferObject(changeMap.get(2), changeData.get(2));
 				
 				// now we can send all of the data to the appropriate clients prefaced by an update animation data instruction. FM will expect 3 NTO objects on the input stream
 				Instruction instr = new Instruction("UAD",1);
@@ -189,8 +192,8 @@ public class Server implements ActionListener, NetworkManager{
 												clientConnections[3].writeData(laneData);
 												break;
 										case 4:
-												//clientConnections[4].writeData(instr);
-												//clientConnections[4].writeData(kitAsmData);
+												clientConnections[4].writeData(instr);
+												clientConnections[4].writeData(kitAsmData);
 												break;
 										case 5:
 												//clientConnections[5].writeData(instrFM);

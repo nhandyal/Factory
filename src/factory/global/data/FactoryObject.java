@@ -5,8 +5,9 @@ import java.awt.geom.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.io.*;
 
-public class FactoryObject {
+public class FactoryObject implements java.io.Serializable{
 
 	public int x;
 	public int y;
