@@ -1,32 +1,51 @@
-/*
-** Authors: 		David Cox
-** Date: 			11/01/12
-** Project: 		Cs200-Factory
-** Description: 	FactoryObject that contains animation information for item on factory floor.
-** 					Is Serializable.
-** 
-** Pre-Conditions: 	None
-** Post-Conditions: None
-** 
-*/
 package factory.global.data;
 
-// Java packages
-import java.io.*;
-import javax.swing.ImageIcon;
+import java.awt.*;
+import java.awt.geom.*;
 import javax.swing.*;
+import java.awt.event.*;
+import java.util.ArrayList;
 
+public class FactoryObject {
 
-public class FactoryObject implements Serializable{
+	public int x;
+	public int y;
+	public boolean isLine;
+	public int xf;
+	public int yf;
+	public int index;
+	public int imageIndex;
+	//ImageIcon factoryObjectImage;
 
-	int x, y, xf, yf, index = -5;
-	boolean isLine = false;
-	int imageIndex;
+	public FactoryObject (int initialPosX, int initialPosY, int initialImage){
+		x = initialPosX;
+		y = initialPosY;
+		//setImage(initialImage);
+		isLine = false;
+	}
+	
+	public FactoryObject(int x, int y, int xf, int yf) {
+		this.x = x;
+		this.y = y;
+		this.xf = xf;
+		this.yf = yf;
+		isLine = true;
+	}
 	
 	public FactoryObject(){
 		x = 3;
 		y = 4;
 	}
+
+	/*public void setImage(String newImage)
+	{
+		factoryObjectImage = new ImageIcon(newImage);
+	}
+
+	public ImageIcon getImage()
+	{
+		return factoryObjectImage;
+	}*/
 
 	public  void setPosition(int newPosX, int newPosY){
 		x = newPosX;
@@ -50,11 +69,13 @@ public class FactoryObject implements Serializable{
 		return xf;
 	}
 
-	public int getPositionYF(){
+	public int getPositionYF()
+	{
 		return yf;
 	}
 	
-	public void setIsLine(boolean b){
+	public void setIsLine(boolean b)
+	{
 		isLine = b;
 	}
 
@@ -62,7 +83,8 @@ public class FactoryObject implements Serializable{
 		return isLine;
 	}
 
-	public void setImage(int newImageIndex){
+	public void setImage(int newImageIndex)
+	{
 		imageIndex = newImageIndex;
 	}
 
@@ -77,4 +99,5 @@ public class FactoryObject implements Serializable{
 	public int getIndex(){
 		return index;
 	}
+
 }

@@ -1,4 +1,6 @@
-package KitAssemblyManager;
+package factory.server.managers.kitAssemblyManager;
+
+import factory.global.data.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -16,7 +18,7 @@ public class InspectionCamera extends FactoryObject
 	boolean isMoving = false;
 	UpdateServer us;
 	int base;
-	public InspectionCamera(int xpos, int ypos, String image, UpdateServer us){
+	public InspectionCamera(int xpos, int ypos, int image, UpdateServer us){
 		super(xpos, ypos, image);
 		defaultx = x;
 		defaulty = y;

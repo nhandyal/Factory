@@ -1,4 +1,5 @@
 package factory.client.kitManager;
+import factory.global.data.*; 
 import javax.swing.*; 
 import java.awt.*; 
 import java.util.*;
@@ -8,24 +9,21 @@ public class KitSelector extends JPanel{
 	JPanel kitSelectorPanel;
 	JButton createThisKit; 
 	GridBagConstraints gbc;
+	TreeMap<Integer, Parts> updatableListOfParts; 
 	public KitSelector(){
-		kitSelectorPanel = new JPanel(new GridBagLayout());
-		gbc = new GridBagConstraints(); 
-		gbc.gridx = 1;
-		gbc.gridy = 0; 
+		updatableListOfParts = new TreeMap<Integer, Parts>(); 
+		kitSelectorPanel = new JPanel();
 		createThisKit = new JButton("Make This Kit"); 
-		kitSelectorPanel.add(createThisKit, gbc); 
+		kitSelectorPanel.add(createThisKit); 
 		add(kitSelectorPanel); 		
+		selectPartForKitButton = new JButton("No Parts Here Yet");
 	}
 
-	public void createAButton(){
-		selectPartForKitButton = new JButton("Select Part"); 
-		int y = 0; 
-		gbc.gridx = 0; 
-		gbc.gridy = y;
-		y++;
-		kitSelectorPanel.add(selectPartForKitButton, gbc);
-		
+	public void createAButton(int i){
+		i = 0; 
+		selectPartForKitButton = new JButton(updatableListOfParts.get(i).getName()); 
+		kitSelectorPanel.add(selectPartForKitButton);	
+		i++; 	
 	}
 
 

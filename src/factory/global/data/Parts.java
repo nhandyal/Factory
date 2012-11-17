@@ -26,6 +26,38 @@ public class Parts implements java.io.Serializable{
 			this.desc = desc; 
 			this.imageIndex = imageIndex; 
 		}
+
+		public int getPartNumber(){
+			return partNumber; 
+		}
+
+		public void setPartNumber(int partNumber){
+			this.partNumber = partNumber; 
+		}
+
+		public String getName(){
+			return name; 
+		}
+
+		public void setName(String name){
+			this.name = name; 
+		}
+
+		public String getDesc(){
+			return desc; 
+		}
+
+		public void setDesc(String desc){
+			this.desc = desc; 
+		}
+
+		public int getImageIndex(){
+			return imageIndex; 
+		}
+
+		public void setImageIndex(int imageIndex){
+			this.imageIndex = imageIndex; 
+		}
 }
 
 		
