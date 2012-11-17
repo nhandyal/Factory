@@ -171,11 +171,13 @@ public class UpdateServer implements GuiManager, Serializable
 			if (stands.get(stand).getKit() != null){
                 if (!stands.get(stand).getKit().getIsComplete()){
                     Part[] p = new Part[4];
+                    Nest[] n = new Nest[4];
                     int[] indexes = new int[4];
                     for (int j = 0; j < p.length; j++){
                         Part p1 = parts.get(pos[j]);
                         //parts.add(p1);
                         p[j] = p1;
+                        n[j] = nests.get(pos[j]);
                     }
                     if (stands.get(stand).getKit().getParts()[0] == null){
                         for (int j = 0; j < indexes.length; j++){
@@ -187,7 +189,7 @@ public class UpdateServer implements GuiManager, Serializable
                             indexes[j] = j+4;
                         }
                     }
-                    probot.moveFromNest(stands.get(stand),p,indexes,0);
+                    probot.moveFromNest(stands.get(stand),p,n,indexes,0);
                 }
             }
 		}
