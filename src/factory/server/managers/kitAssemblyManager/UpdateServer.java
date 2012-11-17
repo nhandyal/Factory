@@ -9,7 +9,7 @@ import java.util.*;
 import factory.server.managers.GuiManager;
 import java.io.*;
 
-public class UpdateServer implements GuiManager, java.io.Serializable
+public class UpdateServer implements GuiManager, Serializable
 {
 	ArrayList<FactoryObject> CurrentObjects = new ArrayList<FactoryObject>();
 	TreeMap<Integer, Boolean> ChangeMap = new TreeMap<Integer, Boolean>();

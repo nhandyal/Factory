@@ -21,7 +21,7 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
     NetworkBridge nb;
 	public KitAssemblyManager(){
 		t = new Timer(25,this);
-        nb = new NetworkBridge(this, "aludra.usc.edu", 8465, 4);
+        nb = new NetworkBridge(this, "localhost", 8465, 4);
 		nb.sync();
 		//fos = us.getFactoryObjects();
 		t.start();
