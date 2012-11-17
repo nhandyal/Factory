@@ -56,7 +56,7 @@ public class Server implements ActionListener, NetworkManager{
 				startAnimation = false;
 				
 				// initialize timer
-				t = new Timer(100,this);
+				t = new Timer(50,this);
 				
 				// start threads
 				icm.start();
