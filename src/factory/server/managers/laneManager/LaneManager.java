@@ -90,10 +90,14 @@ public class LaneManager implements GuiManager
 		
 		// Create 4 Feeders
 		feeders = new ArrayList<Feeder>();
-		feeders.add(new Feeder(lanes.get(0),lanes.get(1)));
-		feeders.add(new Feeder(lanes.get(2),lanes.get(3)));
-		feeders.add(new Feeder(lanes.get(4),lanes.get(5)));
-		feeders.add(new Feeder(lanes.get(6),lanes.get(7)));
+		feeders.add(new Feeder(313,54,19,index));
+		index++;
+		feeders.add(new Feeder(313,178,19,index));
+		index++;
+		feeders.add(new Feeder(313,302,19,index));
+		index++;
+		feeders.add(new Feeder(313,426,19,index));
+		index++;
 		
 		// Turn On Lane 0, Off Lanes 1-7
 		laneSwitch(8,0);
@@ -167,6 +171,13 @@ public class LaneManager implements GuiManager
 				map.put(lanes.get(i).getLanePart(j).getIndex(),lanes.get(i).getLanePart(j));
 			for(int j=0;j<lanes.get(i).getNestSize();j++)
 				map.put(lanes.get(i).getNestPart(j).getIndex(),lanes.get(i).getNestPart(j));
+		}
+
+		// Add Parts Low Lights
+		for(int i=0;i<4;i++){
+			if(feeders.get(i).getPush() <= feeders.get(i).getPartsLow() && feeders.get(i).getPush() > 0){
+				map.put(feeders.get(i).getIndex(),feeders.get(i));
+			}
 		}
 	}
 
@@ -277,4 +288,8 @@ public class LaneManager implements GuiManager
 		}
 		return nest;
 	}
+
+//	public Part pickNest(int i){
+//
+//	}
 }
