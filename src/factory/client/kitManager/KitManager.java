@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*; 
 import java.awt.event.*; 
 
-public class KitManager extends JFrame implements ActionListener {
+public class KitManager extends JFrame implements ActionListener, ItemListener {
 
 	JPanel kitPanel; 
 	KitList kL; 
@@ -29,6 +29,10 @@ public class KitManager extends JFrame implements ActionListener {
 
 		kL.getCreateKit().setActionCommand("Create"); 
 		kL.getCreateKit().addActionListener(this); 
+
+
+		pS.getBoxOfPart1().addItemListener(this); 
+
 		currentList = new TreeMap<Integer, Parts>(); 
 		listOfKits = new ArrayList<Kits>(); 
 		add(kitPanel);
@@ -67,8 +71,17 @@ public class KitManager extends JFrame implements ActionListener {
 			kI.getKitDescription().setText("Brief Description of Kit");
 			kI.getKitIDNumber().setText("ID");
 		}
-		
 	}
+
+	public void itemStateChanged(ItemEvent ie){
+		if(ie.getStateChange() == ItemEvent.SELECTED){
+			System.out.println("New Item Selected"); 
+
+		}
+
+	}
+		
+	
 	
 
 }
