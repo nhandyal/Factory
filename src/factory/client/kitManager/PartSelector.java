@@ -60,6 +60,108 @@ public class PartSelector extends JPanel{
 
 
 	}
+	public JPanel getPartsPanel() {
+		return partsPanel;
+	}
+	public void setPartsPanel(JPanel partsPanel) {
+		this.partsPanel = partsPanel;
+	}
+	public JComboBox getBoxOfPart1() {
+		return boxOfPart1;
+	}
+	public void setBoxOfPart1(JComboBox boxOfPart1) {
+		this.boxOfPart1 = boxOfPart1;
+	}
+	public JComboBox getBoxOfPart2() {
+		return boxOfPart2;
+	}
+	public void setBoxOfPart2(JComboBox boxOfPart2) {
+		this.boxOfPart2 = boxOfPart2;
+	}
+	public JComboBox getBoxOfPart3() {
+		return boxOfPart3;
+	}
+	public void setBoxOfPart3(JComboBox boxOfPart3) {
+		this.boxOfPart3 = boxOfPart3;
+	}
+	public JComboBox getBoxOfPart4() {
+		return boxOfPart4;
+	}
+	public void setBoxOfPart4(JComboBox boxOfPart4) {
+		this.boxOfPart4 = boxOfPart4;
+	}
+	public JComboBox getBoxOfPart5() {
+		return boxOfPart5;
+	}
+	public void setBoxOfPart5(JComboBox boxOfPart5) {
+		this.boxOfPart5 = boxOfPart5;
+	}
+	public JComboBox getBoxOfPart6() {
+		return boxOfPart6;
+	}
+	public void setBoxOfPart6(JComboBox boxOfPart6) {
+		this.boxOfPart6 = boxOfPart6;
+	}
+	public JComboBox getBoxOfPart7() {
+		return boxOfPart7;
+	}
+	public void setBoxOfPart7(JComboBox boxOfPart7) {
+		this.boxOfPart7 = boxOfPart7;
+	}
+	public JComboBox getBoxOfPart8() {
+		return boxOfPart8;
+	}
+	public void setBoxOfPart8(JComboBox boxOfPart8) {
+		this.boxOfPart8 = boxOfPart8;
+	}
+	public ArrayList<String> getPartNamesBox1() {
+		return partNamesBox1;
+	}
+	public void setPartNamesBox1(ArrayList<String> partNamesBox1) {
+		this.partNamesBox1 = partNamesBox1;
+	}
+	public ArrayList<String> getPartNamesBox2() {
+		return partNamesBox2;
+	}
+	public void setPartNamesBox2(ArrayList<String> partNamesBox2) {
+		this.partNamesBox2 = partNamesBox2;
+	}
+	public ArrayList<String> getPartNamesBox3() {
+		return partNamesBox3;
+	}
+	public void setPartNamesBox3(ArrayList<String> partNamesBox3) {
+		this.partNamesBox3 = partNamesBox3;
+	}
+	public ArrayList<String> getPartNamesBox4() {
+		return partNamesBox4;
+	}
+	public void setPartNamesBox4(ArrayList<String> partNamesBox4) {
+		this.partNamesBox4 = partNamesBox4;
+	}
+	public ArrayList<String> getPartNamesBox5() {
+		return partNamesBox5;
+	}
+	public void setPartNamesBox5(ArrayList<String> partNamesBox5) {
+		this.partNamesBox5 = partNamesBox5;
+	}
+	public ArrayList<String> getPartNamesBox6() {
+		return partNamesBox6;
+	}
+	public void setPartNamesBox6(ArrayList<String> partNamesBox6) {
+		this.partNamesBox6 = partNamesBox6;
+	}
+	public ArrayList<String> getPartNamesBox7() {
+		return partNamesBox7;
+	}
+	public void setPartNamesBox7(ArrayList<String> partNamesBox7) {
+		this.partNamesBox7 = partNamesBox7;
+	}
+	public ArrayList<String> getPartNamesBox8() {
+		return partNamesBox8;
+	}
+	public void setPartNamesBox8(ArrayList<String> partNamesBox8) {
+		this.partNamesBox8 = partNamesBox8;
+	}
 
 
 
