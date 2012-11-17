@@ -1,4 +1,4 @@
-
+package factory.client.kitManager;
 import java.util.*;
 import javax.swing.*; 
 import java.awt.*; 
@@ -6,28 +6,19 @@ import java.awt.event.*;
 
 public class KitManager extends JFrame {
 	JPanel masterGrid;
-	JTextField nameEnter; 
-	ListOfPartsPanel lopp = new ListOfPartsPanel(); 
-	JButton kitCreator; 
+	KitSelector kS; 
+	
+	
 
 	public KitManager(){
-		masterGrid = new JPanel(new GridBagLayout()); 
-		GridBagConstraints gbc = new GridBagConstraints(); 
-		
-		nameEnter = new JTextField("Enter Name of Kit"); 
-		gbc.gridx = 0; 
-		gbc.gridy = 0; 
-		masterGrid.add(nameEnter, gbc); 
-		lopp = new ListOfPartsPanel(); 
-		gbc.gridx = 0; 
-		gbc.gridy = 1; 
-		masterGrid.add(lopp, gbc); 
-		kitCreator = new JButton("Create Kit"); 
-		gbc.gridx = 0; 
-		gbc.gridy = 2; 
-		masterGrid.add(kitCreator, gbc); 
-		
+		masterGrid = new JPanel(new GridLayout(3, 1)); 
+		kS = new KitSelector(); 
+		kS.createAButton(); 
+		kS.createAButton(); 
+		masterGrid.add(kS); 		
 		add(masterGrid); 
+
+
 		
 		
 		
