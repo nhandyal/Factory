@@ -6,9 +6,9 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
+import factory.server.managers.GuiManager;
 
-import javax.swing.Timer;
-public class UpdateServer implements ActionListener 
+public class UpdateServer implements GuiManager
 {
 	ArrayList<FactoryObject> CurrentObjects = new ArrayList<FactoryObject>();
 	TreeMap<Integer, Boolean> ChangeMap = new TreeMap<Integer, Boolean>();
@@ -23,7 +23,6 @@ public class UpdateServer implements ActionListener
 	ArrayList<Kit> kits;
 	ArrayList<Part> parts;
     ArrayList<Nest> nests;
-	Timer t;
 	int count = 0;
 	int countconv = 0;
 	int partscount = 0;
@@ -60,21 +59,19 @@ public class UpdateServer implements ActionListener
 		LineObjects.add(new FactoryObject((int)probot.getX1(),(int)probot.getY1(),(int)probot.getX2(),(int)probot.getY2()));
 		setCurrentObjects();
 		lastObjects = (ArrayList<FactoryObject>) CurrentObjects.clone();
-		t = new Timer(50,this);
-		t.start();
 	}
 	
 	public ArrayList<FactoryObject> getCurrentObjects()
 	{
 		return CurrentObjects;
 	}
-	public TreeMap<Integer, FactoryObject> getFactoryObjects()
+	public void sync(TreeMap<Integer, FactoryObject> changeData)																			// frame sync
 	{
-		TreeMap<Integer, FactoryObject> t = new TreeMap<Integer, FactoryObject>();
-		for (int i = 0; i < CurrentObjects.size(); i++)
-			t.put(i, CurrentObjects.get(i));
-		return t;
+		for (int i = 0; i < CurrentObjects.size(); i++){
+			changeData.put(i, CurrentObjects.get(i));
+		}
 	}
+	
 	public void setCurrentObjects()
 	{
 		CurrentObjects.clear();
@@ -283,8 +280,13 @@ public class UpdateServer implements ActionListener
 		}
 	}
 	
-	public void update()
+	public void update(TreeMap<Integer, Boolean> inputChangeMap, TreeMap<Integer, FactoryObject> inputChangeData)      													// ------------> update complete
 	{
+		ChangeMap = inputChangeMap;
+		ChangeData = inputChangeData;
+		
+		move();
+		
 		if (lastObjects.size() <= CurrentObjects.size())
 		{
 			for (int i = 0; i < lastObjects.size(); i++)
@@ -319,8 +321,8 @@ public class UpdateServer implements ActionListener
 		lastObjects = (ArrayList<FactoryObject>) CurrentObjects.clone();
 	}
     
-	@Override
-	public void actionPerformed(ActionEvent arg0) 
+	
+	public void move()
 	{
 		if (isBringKit)
 			bringKit();

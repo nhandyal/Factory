@@ -95,7 +95,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 		public void syncChanges(ArrayList<TreeMap<Integer,FactoryObject>> dataArray){
 				if(dataArray.size() == 1){
 						TreeMap<Integer, FactoryObject> changeData = dataArray.get(0);
-						frameAnimationData.putAll(changeData);
+						frameAnimationData = changeData;
 						System.out.println("Sync complete");
 				}
 				else{
