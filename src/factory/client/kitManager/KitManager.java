@@ -16,7 +16,10 @@ public class KitManager extends JFrame {
 		masterGrid = new JPanel(new GridLayout(3, 1)); 
 		kS = new KitSelector(); 
 		lP = new ListOfPartsPanel();
-		kS.createAButton( numberOfButtonsDecider); 
+		while(numberOfButtonsDecider<kS.getUpdatableListOfParts().size()){
+			kS.createAButton( numberOfButtonsDecider);
+			numberOfButtonsDecider++;  
+		}
 		masterGrid.add(lP); 
 		masterGrid.add(kS); 		
 		add(masterGrid); 
