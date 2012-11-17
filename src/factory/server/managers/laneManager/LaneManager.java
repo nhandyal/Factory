@@ -118,31 +118,6 @@ public class LaneManager extends JFrame implements GuiManager
 		temp = new TreeMap<Integer,FactoryObject>();
 	}
 
-	
-/*	public void actionPerformed( ActionEvent ae ) {
-		//This will be called by the Timer	
-		for(int i=0;i<8;i++){
-			if(lanes.get(i).getActive() == true){		// if lane is on
-				if(counter==24){						// every 25th instance of timer
-					int partindx = feeders.get(i/2).getBin().getPart();
-//					System.out.println(partindx);
-					lanes.get(i).addPart(partindx,index);		// create a new part
-					index++;							// add 1 to index
-					feeders.get(i/2).pushPart();		// subtract 1 from feeder counter
-//					System.out.println(feeders.get());
-					counter = 0;						// reset counter
-				}
-				counter++;
-				if(feeders.get(i/2).getPush() == 0){	// if there are 36 parts on the lane
-					laneSwitch(i,i+1);					// turn off lane, turn on next lane
-					counter = 0;						// reset counter
-				}
-			}
-		}
-		update(changeMap,changeData);
-		repaint();
-    }		*/
-
 	public void laneSwitch(int x1, int x2){
 		if(x1<8){									// if lane exists
 			lanes.get(x1).setActive(false);			// turn lane off
@@ -177,10 +152,6 @@ public class LaneManager extends JFrame implements GuiManager
 				map.put(feeders.get(i).getBin().getIndex(),feeders.get(i).getBin());
 				map.put(feeders.get(i).getBin().getPartIcon().getIndex(),feeders.get(i).getBin().getPartIcon());
 				System.out.println("Feeder"+i+"s bin painted");
-//		for(int i=0;i<8;i++){
-//			if(bins.get(i).getVis() == true){
-//				map.put(bins.get(i).getIndex(),bins.get(i));
-//				map.put(bins.get(i).getPartIcon().getIndex(),bins.get(i).getPartIcon());
 			}
 		}
 
@@ -298,36 +269,11 @@ public class LaneManager extends JFrame implements GuiManager
 		}
 	}
 
-/*    public void paint(Graphics g){
-    	Graphics2D g2 = (Graphics2D)g;
-    	
-		sync(animData);
-    	
-    	Iterator k = changeMap.keySet().iterator();
-		while(k.hasNext()){
-			int i = (Integer) k.next();
-			if(animData.containsKey(i) == false){
-				animData.put(i,changeData.get(i));
-			}
-			else if(changeMap.get(i) == true){
-				animData.put(i,changeData.get(i));
-			}
+	public ArrayList<Part> getNest(int i){
+		ArrayList<Part> nest = new ArrayList<Part>();
+		for(int j=0;j<lanes.get(i).getNestSize();j++){
+			nest.add(lanes.get(i).getNestPart(j));
 		}
-
-		background.paintIcon(this,g2,0,0);
-
-		// Paint Updated List
-		k = animData.keySet().iterator();
-		while(k.hasNext()){
-			int i = (Integer) k.next();
-			if(i != 0 && animData.get(i).getIndex()> 0){
-				if(animData.get(i).getIsLine()== true)	// if object is a line draw a line
-					g2.drawLine(animData.get(i).getPositionX(),animData.get(i).getPositionY(),animData.get(i).getPositionXF(),animData.get(i).getPositionYF());
-				else{ 										//if object is not a line draw an ImageIcon
-					int img = animData.get(i).getImageIndex();
-					images.getIcon(img).paintIcon(this,g2,animData.get(i).getPositionX(),animData.get(i).getPositionY());
-				}
-			}
-		}
-    }		*/
+		return nest;
+	}
 }

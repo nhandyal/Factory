@@ -38,7 +38,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 		animData = new TreeMap<Integer,FactoryObject>();
 		temp = new TreeMap<Integer,FactoryObject>();
 		frameAnimationData = new TreeMap<Integer,FactoryObject>();
-		nb1 = new NetworkBridge(this,"aludra.usc.edu",8465,3);
+		nb1 = new NetworkBridge(this,"localhost",8465,3);
 		nb1.sync();
 	}
 
