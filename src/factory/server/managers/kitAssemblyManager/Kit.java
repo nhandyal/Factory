@@ -1,5 +1,7 @@
 package factory.server.managers.kitAssemblyManager;
 
+import factory.global.data.*;
+
 
 public class Kit extends FactoryObject
 {
@@ -7,7 +9,7 @@ public class Kit extends FactoryObject
 	boolean picTaken;
     boolean isMoving;
 	boolean isComplete;
-	public Kit(int xpos, int ypos, String image)
+	public Kit(int xpos, int ypos, int image)
 	{
 		super(xpos, ypos, image);
 		setImage(image);

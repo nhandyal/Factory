@@ -1,4 +1,6 @@
-package KitAssemblyManager;
+package factory.server.managers.kitAssemblyManager;
+
+import factory.global.data.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -23,17 +25,18 @@ public class PartRobot extends FactoryObject
 	int base;
 	UpdateServer us;
     int totalParts;
-    
-	public PartRobot(int xpos, int ypos, String image, UpdateServer us)
+    int imageHeight = 51;
+    int imageWidth = 50;
+	public PartRobot(int xpos, int ypos, int image, UpdateServer us)
 	{
 		super(xpos, ypos, image);
 		setImage(image);
 		this.us = us;
-		x1 = x + getImage().getIconWidth()/2;
-		x2 = x + getImage().getIconWidth()/2;
-		y1 = y + getImage().getIconHeight()/2;
-		y2 = y + getImage().getIconHeight()/2;
-        g = new Gripper((int)x2,(int)y2,"images/gripper.png");
+		x1 = x + imageWidth/2;
+		x2 = x + imageWidth/2;
+		y1 = y + imageHeight/2;
+		y2 = y + imageHeight/2;
+        g = new Gripper((int)x2,(int)y2,16);
 		xdes1 = new double[4];
 		ydes1 = new double[4];
 		xdes2 = new double[4];
@@ -86,7 +89,7 @@ public class PartRobot extends FactoryObject
 	public void move()
 	{
 		csCount = us.getCount() - base;
-		System.out.println(csCount);
+		//System.out.println(csCount);
 		if (csCount < 20){
             x2 += (xdes1[0]-x1)/20;
             y2 += (ydes1[0]-y1)/20;

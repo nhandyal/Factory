@@ -1,4 +1,6 @@
-package KitAssemblyManager;
+package factory.server.managers.kitAssemblyManager;
+
+import factory.global.data.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -21,15 +23,17 @@ public class KitRobot extends FactoryObject
 	boolean isMoving = false;
 	UpdateServer us;
 	int base = 0;
-	public KitRobot(int xpos, int ypos, String image, UpdateServer us)
+	int imageWidth = 50;
+	int imageHeight = 51;
+	public KitRobot(int xpos, int ypos, int image, UpdateServer us)
 	{
 		super(xpos, ypos, image);
 		setImage(image);
 		this.us = us;
-		x1 = x + getImage().getIconWidth()/2;
-		x2 = x + getImage().getIconWidth()/2;
-		y1 = y + getImage().getIconHeight()/2;
-		y2 = y + getImage().getIconHeight()/2;
+		x1 = x + imageWidth/2;
+		x2 = x + imageWidth/2;
+		y1 = y + imageHeight/2;
+		y2 = y + imageHeight/2;
 	}
 	
 	public void moveFromConveyorToStand(Conveyor c, KitStand ks, Kit k, int base){
@@ -108,8 +112,8 @@ public class KitRobot extends FactoryObject
 			y2 += (y1 - ydes2)/25;
 			if (csCount == 99)
 			{
-				x2 = this.getPositionX() + getImage().getIconWidth()/2;
-				y2 = this.getPositionY() + getImage().getIconHeight()/2;
+				x2 = this.getPositionX() + imageWidth/2;
+				y2 = this.getPositionY() + imageHeight/2;
 				s1 = null;
 				c1 = null;
 				s2 = null;

@@ -7,7 +7,7 @@ public class Test{
 
 	public static void main(String[] args) {
 		KitAssemblyManager k = new KitAssemblyManager();
-		k.setSize(800,800);
+		k.setSize(400,670);
 		k.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		k.setVisible(true);
 		
