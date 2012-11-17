@@ -98,6 +98,11 @@ public class NetworkBridge{
 				writeData(partData);
 		}
 		
+		public void sync(){
+				Instruction instr = new Instruction("SYNC");
+				writeData(instr);
+		}
+		
 		public void setBridgeID(int id){
 				this.id = id;
 		}
@@ -169,7 +174,7 @@ class InputStreamListener extends Thread{
 		void parseInstruction(Instruction instr){
 				String instruction = instr.instruction;
 				int x = instr.x;
-				if(instruction.equals("register-client")){
+				if(instruction.equals("register-client")){		// client -- > server register client
 						int cID = instr.x;
 						parent.registerClientListener(nb, cID);
 						nb.setBridgeID(cID);											// set the bridge id to the registered client
@@ -177,13 +182,13 @@ class InputStreamListener extends Thread{
 				else if(instruction.equals("UAD")){						// server --> client update animation data
 						readAnimationData(x);
 				}
-				else if(instruction.equals("SAD")){
+				else if(instruction.equals("SAD")){						// server --> client sync animation data
 						syncAnimationData(x);
 				}
-				else if(instruction.equals("SYNC")){
+				else if(instruction.equals("SYNC")){					// client --> server request sync animation data
 						parent.syncFrame(nb.getBridgeID());
 				}
-				else if(instruction.equals("UPD")){
+				else if(instruction.equals("UPD")){						// client --> server update part data
 						readPartData();
 				}
 		}

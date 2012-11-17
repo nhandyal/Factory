@@ -38,7 +38,8 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 		animData = new TreeMap<Integer,FactoryObject>();
 		temp = new TreeMap<Integer,FactoryObject>();
 		frameAnimationData = new TreeMap<Integer,FactoryObject>();
-		nb1 = new NetworkBridge(this,"aludra.usc.edu",8465,3);
+		nb1 = new NetworkBridge(this,"localhost",8465,3);
+		nb1.sync();
 	}
 
 	public static void main(String[] args){
@@ -58,7 +59,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 
     public void registerClientListener(NetworkBridge newBridge, int cID){}
 		public void syncFrame(int cID){}
-		
+		public void updatePartData(TreeMap<Integer, Parts> partData){}
 		
 		// client specific
 		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){

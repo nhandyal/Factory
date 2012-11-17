@@ -18,7 +18,7 @@ import javax.swing.Timer;
 import factory.global.network.*;
 import factory.global.data.*;
 import factory.server.managers.GuiManager;
-//import factory.server.managers.laneManager.*;
+import factory.server.managers.laneManager.*;
 import factory.server.managers.factoryState.*;
 
 /* Client Indeces
@@ -43,9 +43,9 @@ public class Server implements ActionListener, NetworkManager{
 				
 		Server(){
 				// initialize all class instance variables
-				 fs = new FactoryState();
+				fs = new FactoryState();
 				icm = new InboundConnectionManager(this);
-				//guiViews[1] = new LaneManager();
+				guiViews[1] = new LaneManager();
 				changeMap = new ArrayList<TreeMap<Integer, Boolean>>(3);
 				changeData = new ArrayList<TreeMap<Integer, FactoryObject>>(3);
 				
@@ -161,8 +161,8 @@ public class Server implements ActionListener, NetworkManager{
 				// we need to create NetworkTransferObjects with the appropriate changeMap and changeData trees for the 3 managers
 				// we will send all three NTO's to the fm so that it has all relevant data to paint
 				
-				NetworkTransferObject gantryData = new NetworkTransferObject(changeMap.get(0), changeData.get(0));
-				//NetworkTransferObject laneData = new NetworkTransferObject(changeMap.get(1), changeData.get(1));
+				//NetworkTransferObject gantryData = new NetworkTransferObject(changeMap.get(0), changeData.get(0));
+				NetworkTransferObject laneData = new NetworkTransferObject(changeMap.get(1), changeData.get(1));
 				//NetworkTransferObject kitAsmData = new NetworkTransferObject(changeMap.get0(2), changeData.get(2));
 				
 				// now we can send all of the data to the appropriate clients prefaced by an update animation data instruction. FM will expect 3 NTO objects on the input stream
@@ -181,12 +181,12 @@ public class Server implements ActionListener, NetworkManager{
 						if(clientConnections[i] != null){
 								switch(i){
 										case 2:
-												clientConnections[2].writeData(instr);
-												clientConnections[2].writeData(gantryData);
+												//clientConnections[2].writeData(instr);
+												//clientConnections[2].writeData(gantryData);
 												break;
 										case 3:
-												//clientConnections[3].writeData(instr);
-												//clientConnections[3].writeData(laneData);
+												clientConnections[3].writeData(instr);
+												clientConnections[3].writeData(laneData);
 												break;
 										case 4:
 												//clientConnections[4].writeData(instr);
