@@ -19,6 +19,7 @@ import factory.global.network.*;
 import factory.global.data.*;
 import factory.server.managers.GuiManager;
 import factory.server.managers.laneManager.*;
+import factory.server.managers.kitAssemblyManager.*;
 import factory.server.managers.factoryState.*;
 
 /* Client Indeces
@@ -40,17 +41,26 @@ public class Server implements ActionListener, NetworkManager{
 		InboundConnectionManager icm = null;
 		ArrayList<TreeMap<Integer, Boolean>> changeMap;
 		ArrayList<TreeMap<Integer, FactoryObject>> changeData;
+		Timer t;
+		boolean sync, startAnimation;
 				
 		Server(){
 				// initialize all class instance variables
 				fs = new FactoryState();
 				icm = new InboundConnectionManager(this);
-				guiViews[1] = new LaneManager();
+				guiViews[1] = new LaneManager();																						// Lane
+				guiViews[2] = new UpdateServer();																						// Kit Asm 
 				changeMap = new ArrayList<TreeMap<Integer, Boolean>>(3);
 				changeData = new ArrayList<TreeMap<Integer, FactoryObject>>(3);
+				sync = false;
+				startAnimation = false;
+				
+				// initialize timer
+				t = new Timer(50,this);
 				
 				// start threads
 				icm.start();
+				t.start();
 		}
 		
 		public static void main(String[] args){
@@ -62,7 +72,15 @@ public class Server implements ActionListener, NetworkManager{
 		// -------------------------------------------------------------------------------------- //
 		
 		public void actionPerformed(ActionEvent ae){
-				masterUpdate();
+				
+				if(sync){
+						masterSync();
+						startAnimation = true;
+						sync = false;
+				}
+				else if(startAnimation){
+						masterUpdate();
+				}
 		}
 		
 		// -------------------------------------------------------------------------------------- //
@@ -80,35 +98,8 @@ public class Server implements ActionListener, NetworkManager{
 		}
 		
 		// function to send the entire frame data to the client
-		public void syncFrame(int cID){
-				TreeMap<Integer, FactoryObject> changeData = new TreeMap<Integer, FactoryObject>();
-				Instruction instr = new Instruction("SAD",1);
-				switch(cID){
-						case 2:
-								guiViews[0].sync(changeData);
-								clientConnections[cID].writeData(instr);
-								clientConnections[cID].writeData(changeData);
-								break;
-						case 3:
-								guiViews[1].sync(changeData);
-								clientConnections[cID].writeData(instr);
-								clientConnections[cID].writeData(changeData);
-								break;
-						case 4:
-								guiViews[2].sync(changeData);
-								clientConnections[cID].writeData(instr);
-								clientConnections[cID].writeData(changeData);
-								break;
-						case 5:
-								instr.setX(3);
-								clientConnections[cID].writeData(instr);
-								for(int i = 0; i < 3; i++){
-										guiViews[i].sync(changeData);		
-										clientConnections[cID].writeData(changeData);
-										changeData.clear();
-								}
-								break;
-				}
+		public void syncFrame(){
+				sync = true;
 		}
 
 		// Client Specific
@@ -126,7 +117,60 @@ public class Server implements ActionListener, NetworkManager{
 		// ----------------------------------- Server Functions --------------------------------- //
 		// -------------------------------------------------------------------------------------- //
 		
+		private void masterSync(){
+				System.out.println("master sync called");
+				ArrayList<TreeMap<Integer, FactoryObject>> changeData = new ArrayList<TreeMap<Integer, FactoryObject>>();
+				TreeMap<Integer, Boolean> changeMap = null;
+				Instruction instr = new Instruction("SAD",1);
+				Instruction instrFM = new Instruction("SAD",3);
+				
+				// initialize changeData with empty TreeMaps
+				for(int i = 0; i < 3; i++){
+						TreeMap<Integer, FactoryObject> tempChangeData = new TreeMap<Integer, FactoryObject>();
+						changeData.add(tempChangeData);
+				}
+				
+				// call sync on all GuiManagers
+				//guiViews[0].sync(changeData.get(0));
+				//guiViews[1].sync(changeData.get(1));
+				guiViews[2].sync(changeData.get(2));
+				
+				// build NetworkTransferObjects for all the managers
+				//NetworkTransferObject gantryData = new NetworkTransferObject(changeMap, changeData.get(0));
+				//NetworkTransferObject laneData = new NetworkTransferObject(changeMap, changeData.get(1));
+				NetworkTransferObject kitAsmData = new NetworkTransferObject(changeMap, changeData.get(2));
+				
+				
+				// send data to the appropriate clients prefaced by a sync animation data instruction
+				for(int i = 2; i <= 5; i++){
+						// make sure client has connected and registered with the server before sending data
+						if(clientConnections[i] != null){
+								switch(i){
+										case 2:
+												//clientConnections[2].writeData(instr);
+												//clientConnections[2].writeData(gantryData);
+												break;
+										case 3:
+												//clientConnections[3].writeData(instr);
+												//clientConnections[3].writeData(laneData);
+												break;
+										case 4:
+												clientConnections[4].writeData(instr);
+												clientConnections[4].writeData(kitAsmData);
+												break;
+										case 5:
+												//clientConnections[5].writeData(instrFM);
+												//clientConnections[5].writeData(gantryData);
+												//clientConnections[5].writeData(laneData);
+												//clientConnections[5].writeData(kitAsmData);
+												break;
+								}
+						}
+				}
+		}
+		
 		private void masterUpdate(){
+				//System.out.println("Master Update Called");
 				/*
 				 * run updates on guiViews[0] - guiViews[2]
 				 * guiViews[3] == factoryManage; just needs a superset of the other 3 updates
@@ -152,18 +196,19 @@ public class Server implements ActionListener, NetworkManager{
 				//guiViews[0].update(changeMap.get(0), changeData.get(0));
 				
 				// get update data for Lane Manager
-				guiViews[1].update(changeMap.get(1), changeData.get(1));
+				//guiViews[1].update(changeMap.get(1), changeData.get(1));
 				
 				// get update data for Kit Asm Manager
-				// guiViews[2].update(changeMap.get(2), changeData.get(2));
+				guiViews[2].update(changeMap.get(2), changeData.get(2));
 				
 				// at this point we have all of the updated factory animation data. We now need to send this to the client
 				// we need to create NetworkTransferObjects with the appropriate changeMap and changeData trees for the 3 managers
 				// we will send all three NTO's to the fm so that it has all relevant data to paint
 				
 				//NetworkTransferObject gantryData = new NetworkTransferObject(changeMap.get(0), changeData.get(0));
-				NetworkTransferObject laneData = new NetworkTransferObject(changeMap.get(1), changeData.get(1));
-				//NetworkTransferObject kitAsmData = new NetworkTransferObject(changeMap.get0(2), changeData.get(2));
+				//NetworkTransferObject laneData = new NetworkTransferObject(changeMap.get(1), changeData.get(1));
+				NetworkTransferObject kitAsmData = new NetworkTransferObject(changeMap.get(2), changeData.get(2));
+				
 				
 				// now we can send all of the data to the appropriate clients prefaced by an update animation data instruction. FM will expect 3 NTO objects on the input stream
 				Instruction instr = new Instruction("UAD",1);
@@ -185,12 +230,12 @@ public class Server implements ActionListener, NetworkManager{
 												//clientConnections[2].writeData(gantryData);
 												break;
 										case 3:
-												clientConnections[3].writeData(instr);
-												clientConnections[3].writeData(laneData);
+												//clientConnections[3].writeData(instr);
+												//clientConnections[3].writeData(laneData);
 												break;
 										case 4:
-												//clientConnections[4].writeData(instr);
-												//clientConnections[4].writeData(kitAsmData);
+												clientConnections[4].writeData(instr);
+												clientConnections[4].writeData(kitAsmData);
 												break;
 										case 5:
 												//clientConnections[5].writeData(instrFM);

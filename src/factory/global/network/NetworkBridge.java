@@ -85,7 +85,8 @@ public class NetworkBridge{
 		
 		public void writeData(Object data){
 				try{
-						oos.writeObject(data);
+                        oos.reset();
+                        oos.writeObject(data);
 				}catch(IOException ie){
 						ie.printStackTrace();
 				}
@@ -151,13 +152,14 @@ class InputStreamListener extends Thread{
 										parseInstruction(instr);
 						}catch(IOException i){
 								String message = i.toString();
-								if(message.equals("java.io.EOFException")){
+								//System.out.println(message);
+								if(message.equals("java.io.EOFException") || message.equals("java.net.SocketException: Connection reset")){
 										System.out.println("Connection lost");
 										parent.closeNetworkBridge(nb.getBridgeID());
 								}
 								else if(message.equals("java.net.SocketTimeoutException: Read timed out")){}
 								else{
-										i.printStackTrace();		
+										i.printStackTrace();
 								}
 						}catch(ClassNotFoundException c){
 								c.printStackTrace();
@@ -186,7 +188,7 @@ class InputStreamListener extends Thread{
 						syncAnimationData(x);
 				}
 				else if(instruction.equals("SYNC")){					// client --> server request sync animation data
-						parent.syncFrame(nb.getBridgeID());
+						parent.syncFrame();
 				}
 				else if(instruction.equals("UPD")){						// client --> server update part data
 						readPartData();
@@ -205,7 +207,7 @@ class InputStreamListener extends Thread{
 								dataArray.add(frameData.changeData);
 						}catch(IOException ie){
 								String message = ie.toString();
-								if(message.equals("java.io.EOFException")){
+								if(message.equals("java.io.EOFException") || message.equals("java.net.SocketException: Connection reset")){
 										System.out.println("Connection lost");
 										parent.closeNetworkBridge(nb.getBridgeID());
 								}
@@ -224,11 +226,12 @@ class InputStreamListener extends Thread{
 				ArrayList<TreeMap<Integer, FactoryObject>> dataArray = new ArrayList<TreeMap<Integer, FactoryObject>>();
 				for(int i = 0; i < expectedPackets; i++){
 						try{
-								TreeMap<Integer, FactoryObject> changeData = (TreeMap<Integer, FactoryObject>)ois.readObject();
+								NetworkTransferObject nto = (NetworkTransferObject)ois.readObject();
+								TreeMap<Integer, FactoryObject> changeData = nto.changeData;
 								dataArray.add(changeData);
 						}catch(IOException ie){
 								String message = ie.toString();
-								if(message.equals("java.io.EOFException")){
+								if(message.equals("java.io.EOFException") || message.equals("java.net.SocketException: Connection reset")){
 										System.out.println("Connection lost");
 										parent.closeNetworkBridge(nb.getBridgeID());
 								}
@@ -249,7 +252,7 @@ class InputStreamListener extends Thread{
 						partData = (TreeMap<Integer, Parts>)ois.readObject();
 				}catch(IOException ie){
 						String message = ie.toString();
-						if(message.equals("java.io.EOFException")){
+						if(message.equals("java.io.EOFException") || message.equals("java.net.SocketException: Connection reset")){
 								System.out.println("Connection lost");
 								parent.closeNetworkBridge(nb.getBridgeID());
 						}

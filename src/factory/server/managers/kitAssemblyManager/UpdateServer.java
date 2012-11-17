@@ -6,24 +6,24 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
+import factory.server.managers.GuiManager;
+import java.io.*;
 
-import javax.swing.Timer;
-public class UpdateServer implements ActionListener 
+public class UpdateServer implements GuiManager, Serializable
 {
 	ArrayList<FactoryObject> CurrentObjects = new ArrayList<FactoryObject>();
 	TreeMap<Integer, Boolean> ChangeMap = new TreeMap<Integer, Boolean>();
 	TreeMap<Integer, FactoryObject> ChangeData = new TreeMap<Integer, FactoryObject>();
-	ArrayList<FactoryObject> lastObjects = new ArrayList<FactoryObject>();
-	InspectionCamera cam;
+    InspectionCamera cam;
 	Conveyor conv;
 	KitRobot robot;
 	PartRobot probot;
 	ArrayList<FactoryObject> LineObjects = new ArrayList<FactoryObject>();
+    ArrayList<FactoryObject> lastObjects = null;
 	ArrayList<KitStand> stands;
 	ArrayList<Kit> kits;
 	ArrayList<Part> parts;
     ArrayList<Nest> nests;
-	Timer t;
 	int count = 0;
 	int countconv = 0;
 	int partscount = 0;
@@ -56,25 +56,28 @@ public class UpdateServer implements ActionListener
 			nests.add(n1);
 			nests.add(n2);
 		}
+        Part[] p = new Part[8];
+        for (int i = 0; i < p.length; i++)
+        {
+            Part p1 = new Part(nests.get(i).getPositionX()+5,nests.get(i).getPositionY()+5,i);
+            parts.add(p1);
+        }
 		LineObjects.add(new FactoryObject((int)robot.getX1(),(int)robot.getY1(),(int)robot.getX2(),(int)robot.getY2()));
 		LineObjects.add(new FactoryObject((int)probot.getX1(),(int)probot.getY1(),(int)probot.getX2(),(int)probot.getY2()));
 		setCurrentObjects();
-		lastObjects = (ArrayList<FactoryObject>) CurrentObjects.clone();
-		t = new Timer(50,this);
-		t.start();
 	}
 	
 	public ArrayList<FactoryObject> getCurrentObjects()
 	{
 		return CurrentObjects;
 	}
-	public TreeMap<Integer, FactoryObject> getFactoryObjects()
+	public void sync(TreeMap<Integer, FactoryObject> changeData)																			// frame sync
 	{
-		TreeMap<Integer, FactoryObject> t = new TreeMap<Integer, FactoryObject>();
-		for (int i = 0; i < CurrentObjects.size(); i++)
-			t.put(i, CurrentObjects.get(i));
-		return t;
+		for (int i = 0; i < CurrentObjects.size(); i++){
+			changeData.put(i, CurrentObjects.get(i));
+		}
 	}
+	
 	public void setCurrentObjects()
 	{
 		CurrentObjects.clear();
@@ -91,7 +94,8 @@ public class UpdateServer implements ActionListener
 		CurrentObjects.add(probot.getGripper());
 		for (int i = 0; i < parts.size(); i++)
 			CurrentObjects.add(parts.get(i));
-		CurrentObjects.add(cam);	
+		CurrentObjects.add(cam);
+        //CurrentObjects.get(0).print();
 	}
 	
 	public boolean emptyStand()
@@ -132,6 +136,7 @@ public class UpdateServer implements ActionListener
 		{
 			conv.moveKit();
 		}
+        //kits.get(0).print();
 		countconv++;
 		if (countconv == 26)
 		{
@@ -168,8 +173,8 @@ public class UpdateServer implements ActionListener
                     Part[] p = new Part[4];
                     int[] indexes = new int[4];
                     for (int j = 0; j < p.length; j++){
-                        Part p1 = new Part(nests.get(j+2).getPositionX()+5,nests.get(j+2).getPositionY()+5,1);
-                        parts.add(p1);
+                        Part p1 = parts.get(pos[j]);
+                        //parts.add(p1);
                         p[j] = p1;
                     }
                     if (stands.get(stand).getKit().getParts()[0] == null){
@@ -283,22 +288,35 @@ public class UpdateServer implements ActionListener
 		}
 	}
 	
-	public void update()
+	public void update(TreeMap<Integer, Boolean> inputChangeMap, TreeMap<Integer, FactoryObject> inputChangeData)      													// ------------> update complete
 	{
+		//ChangeMap = inputChangeMap;
+		//ChangeData = inputChangeData;
+		
+		move();
+		 
+        /*System.out.print("1st: ");
+        lastObjects.get(0).print();
+        System.out.print("2nd: ");
+        CurrentObjects.get(0).print();*/
+        inputChangeData.clear();
+        inputChangeMap.clear();
 		if (lastObjects.size() <= CurrentObjects.size())
 		{
 			for (int i = 0; i < lastObjects.size(); i++)
 			{
 				if (!lastObjects.get(i).equals(CurrentObjects.get(i)))
 				{
-					ChangeMap.put(i, true);
-					ChangeData.put(i, CurrentObjects.get(i));
+					//System.out.print(i + " :");
+                   // CurrentObjects.get(i).print();
+                    inputChangeMap.put(i, true);
+					inputChangeData.put(i, CurrentObjects.get(i));
 				}
 			}
 			for (int i = lastObjects.size(); i < CurrentObjects.size(); i++)
 			{
-				ChangeMap.put(i, true);
-				ChangeData.put(i, CurrentObjects.get(i));
+				inputChangeMap.put(i, true);
+				inputChangeData.put(i, CurrentObjects.get(i));
 			}
 		}
 		else
@@ -307,28 +325,34 @@ public class UpdateServer implements ActionListener
 			{
 				if (!lastObjects.get(i).equals(CurrentObjects.get(i)))
 				{
-					ChangeMap.put(i, true);
-					ChangeData.put(i, CurrentObjects.get(i));
+					//System.out.print(i + " :");
+                    inputChangeMap.put(i, true);
+					inputChangeData.put(i, CurrentObjects.get(i));
 				}
 			}
 			for (int i = CurrentObjects.size(); i < lastObjects.size(); i++)
 			{
-				ChangeMap.put(i, false);
+				inputChangeMap.put(i, false);
 			}
 		}
-		lastObjects = (ArrayList<FactoryObject>) CurrentObjects.clone();
+        		//lastObjects = (ArrayList<FactoryObject>) CurrentObjects.clone();
 	}
     
-	@Override
-	public void actionPerformed(ActionEvent arg0) 
+	
+	public void move()
 	{
-		if (isBringKit)
+		lastObjects = new ArrayList<FactoryObject>();
+        for (int i = 0; i < CurrentObjects.size(); i++)
+        {
+            lastObjects.add((FactoryObject)CurrentObjects.get(i).clone());
+        }
+        if (isBringKit)
 			bringKit();
 		if (isMoveToStand)
 			moveToStand(0);
 		if (isMovePartstoStand)
 		{
-			int a[] = {0, 1, 2, 3};
+			int a[] = {0, 1, 2, 5};
 			movePartstoStand(200, 0, a);
 		}
 			

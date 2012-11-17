@@ -215,6 +215,7 @@ public class LaneManager extends JFrame implements GuiManager
 				temp.get(i).setIsLine(changeData.get(i).getIsLine());
 				if(changeData.get(i).getIsLine() == true){
 					temp.get(i).setPositionF(changeData.get(i).getPositionXF(),changeData.get(i).getPositionYF());
+					temp.get(i).setIsLine(true);
 				}
 				else{
 					temp.get(i).setImage(changeData.get(i).getImageIndex());
@@ -285,6 +286,14 @@ public class LaneManager extends JFrame implements GuiManager
 		k = changeData.keySet().iterator();
 		while(k.hasNext()){
 			int i = (Integer) k.next();
+			if(changeData.get(i).getIsLine() == true){
+				Line tempLine = new Line(changeData.get(i).getPositionX(),changeData.get(i).getPositionY(),changeData.get(i).getPositionXF(),changeData.get(i).getPositionYF(),changeData.get(i).getIndex());
+				changeData.put(i,new FactoryObject());
+				changeData.get(i).setPosition(tempLine.getPositionX(),tempLine.getPositionY());
+				changeData.get(i).setPositionF(tempLine.getPositionXF(),tempLine.getPositionYF());
+				changeData.get(i).setIsLine(true);
+				changeData.get(i).setIndex(tempLine.getIndex());
+			}
 //			System.out.println("changeData "+changeData.get(i).getIndex());
 		}
 	}

@@ -10,7 +10,7 @@ public class Test{
 		k.setSize(400,670);
 		k.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		k.setVisible(true);
-		
+		System.out.println(System.getProperty("user.dir"));
 		/*int i = 0;
 		while (i < 8)
 		{
