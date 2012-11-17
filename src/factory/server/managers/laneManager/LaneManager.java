@@ -36,21 +36,21 @@ public class LaneManager implements GuiManager
 		
 		// Create 8 lanes
 		lanes = new ArrayList<Lane>();
-		lanes.add(new Lane(16,73,index));
+		lanes.add(new Lane(1,73,index));
 		index+=3;
-		lanes.add(new Lane(16,108,index));
+		lanes.add(new Lane(1,108,index));
 		index+=3;
-		lanes.add(new Lane(16,197,index));
+		lanes.add(new Lane(1,197,index));
 		index+=3;
-		lanes.add(new Lane(16,232,index));
+		lanes.add(new Lane(1,232,index));
 		index+=3;
-		lanes.add(new Lane(16,321,index));
+		lanes.add(new Lane(1,321,index));
 		index+=3;
-		lanes.add(new Lane(16,356,index));
+		lanes.add(new Lane(1,356,index));
 		index+=3;
-		lanes.add(new Lane(16,445,index));
+		lanes.add(new Lane(1,445,index));
 		index+=3;
-		lanes.add(new Lane(16,480,index));
+		lanes.add(new Lane(1,480,index));
 		index+=3;	
 		
 		// Create 4 Dividers

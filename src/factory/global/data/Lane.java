@@ -46,7 +46,7 @@ public class Lane extends FactoryObject implements Serializable{
 	}
 	
 	public void addPart(int img ,int i){
-		lane.add(new Part(x+317,y+16,img,i));
+		lane.add(new Part(x+333,y+16,img,i));
 		counter++;
 	}
 	
