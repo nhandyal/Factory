@@ -157,7 +157,7 @@ class InputStreamListener extends Thread{
 								}
 								else if(message.equals("java.net.SocketTimeoutException: Read timed out")){}
 								else{
-										i.printStackTrace();		
+										i.printStackTrace();
 								}
 						}catch(ClassNotFoundException c){
 								c.printStackTrace();
@@ -224,7 +224,8 @@ class InputStreamListener extends Thread{
 				ArrayList<TreeMap<Integer, FactoryObject>> dataArray = new ArrayList<TreeMap<Integer, FactoryObject>>();
 				for(int i = 0; i < expectedPackets; i++){
 						try{
-								TreeMap<Integer, FactoryObject> changeData = (TreeMap<Integer, FactoryObject>)ois.readObject();
+								NetworkTransferObject nto = (NetworkTransferObject)ois.readObject();
+								TreeMap<Integer, FactoryObject> changeData = nto.changeData;
 								dataArray.add(changeData);
 						}catch(IOException ie){
 								String message = ie.toString();

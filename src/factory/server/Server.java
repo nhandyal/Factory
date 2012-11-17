@@ -99,8 +99,9 @@ public class Server implements ActionListener, NetworkManager{
 						case 4:
 								guiViews[2].sync(changeData);
 								System.out.println("Server sync -- after update sync called: "+changeData.size());
+								NetworkTransferObject nto = new NetworkTransferObject(null, changeData);
 								clientConnections[cID].writeData(instr);
-								clientConnections[cID].writeData(changeData);
+								clientConnections[cID].writeData(nto);
 								break;
 						case 5:
 								instr.setX(3);
