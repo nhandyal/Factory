@@ -13,7 +13,7 @@ import java.util.*;
 import factory.global.data.*;
 import factory.server.managers.GuiManager;
 
-public class LaneManager extends JFrame implements GuiManager
+public class LaneManager implements GuiManager
 {
 	ImageIcon background;
 //	ArrayList<ImageIcon> images;
@@ -195,7 +195,7 @@ public class LaneManager extends JFrame implements GuiManager
 		}
 
 		changeData.clear();
-		changeMap.clear();
+//		changeMap.clear();
 		
 		for(int i=0;i<8;i++){
 			if(lanes.get(i).getActive() == true){		// if lane is on
@@ -227,14 +227,15 @@ public class LaneManager extends JFrame implements GuiManager
 			int i = (Integer) k.next();
 			if(temp.containsKey(i) == true){
 				if(foc.compare(temp.get(i),changeData.get(i)) == 0){
-					changeMap.put(i,false);
+//					changeMap.put(i,false);
 				}
 				else{
 					changeMap.put(i,true);
 				}
 			}
-			else
+			else{
 				changeMap.put(i,true);
+			}
 		}
 		
 		// Delete extra mappings
@@ -242,8 +243,8 @@ public class LaneManager extends JFrame implements GuiManager
 		while(k.hasNext()){
 			int i = (Integer) k.next();
 			if(changeData.containsKey(i) == false){
-				changeData.put(i, new FactoryObject());
-				changeMap.put(i,true);
+//				changeData.put(i, new FactoryObject());
+				changeMap.put(i,false);
 			}
 		}
 		
