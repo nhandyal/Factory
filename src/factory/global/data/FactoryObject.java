@@ -100,5 +100,9 @@ public class FactoryObject implements java.io.Serializable{
 	public int getIndex(){
 		return index;
 	}
+	
+	public void print(){
+		System.out.println("X: "x+"Y: "+"ISL: "isLine+"xf: "+xf+"yf: "+yf);
+	}
 
 }

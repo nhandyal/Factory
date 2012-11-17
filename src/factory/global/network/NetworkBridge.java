@@ -186,7 +186,7 @@ class InputStreamListener extends Thread{
 						syncAnimationData(x);
 				}
 				else if(instruction.equals("SYNC")){					// client --> server request sync animation data
-						parent.syncFrame(nb.getBridgeID());
+						parent.syncFrame();
 				}
 				else if(instruction.equals("UPD")){						// client --> server update part data
 						readPartData();
@@ -203,6 +203,8 @@ class InputStreamListener extends Thread{
 								NetworkTransferObject frameData = (NetworkTransferObject)ois.readObject();
 								mapArray.add(frameData.changeMap);
 								dataArray.add(frameData.changeData);
+								System.out.println("Client receiving CMAP: "+frameData.changeMap.size());
+								System.out.println("Client receiving DMAP: "+frameData.changeData.size());
 						}catch(IOException ie){
 								String message = ie.toString();
 								if(message.equals("java.io.EOFException")){
