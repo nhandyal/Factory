@@ -14,12 +14,12 @@ public class UpdateServer implements GuiManager, Serializable
 	ArrayList<FactoryObject> CurrentObjects = new ArrayList<FactoryObject>();
 	TreeMap<Integer, Boolean> ChangeMap = new TreeMap<Integer, Boolean>();
 	TreeMap<Integer, FactoryObject> ChangeData = new TreeMap<Integer, FactoryObject>();
-	ArrayList<FactoryObject> lastObjects = new ArrayList<FactoryObject>();
-	InspectionCamera cam;
+    InspectionCamera cam;
 	Conveyor conv;
 	KitRobot robot;
 	PartRobot probot;
 	ArrayList<FactoryObject> LineObjects = new ArrayList<FactoryObject>();
+    ArrayList<FactoryObject> lastObjects = null;
 	ArrayList<KitStand> stands;
 	ArrayList<Kit> kits;
 	ArrayList<Part> parts;
@@ -59,7 +59,6 @@ public class UpdateServer implements GuiManager, Serializable
 		LineObjects.add(new FactoryObject((int)robot.getX1(),(int)robot.getY1(),(int)robot.getX2(),(int)robot.getY2()));
 		LineObjects.add(new FactoryObject((int)probot.getX1(),(int)probot.getY1(),(int)probot.getX2(),(int)probot.getY2()));
 		setCurrentObjects();
-		lastObjects = (ArrayList<FactoryObject>) CurrentObjects.clone();
 	}
 	
 	public ArrayList<FactoryObject> getCurrentObjects()
@@ -287,7 +286,8 @@ public class UpdateServer implements GuiManager, Serializable
 		ChangeData = inputChangeData;
 		
 		move();
-		
+		 
+        
 		if (lastObjects.size() <= CurrentObjects.size())
 		{
 			for (int i = 0; i < lastObjects.size(); i++)
@@ -319,13 +319,14 @@ public class UpdateServer implements GuiManager, Serializable
 				ChangeMap.put(i, false);
 			}
 		}
-		lastObjects = (ArrayList<FactoryObject>) CurrentObjects.clone();
+		//lastObjects = (ArrayList<FactoryObject>) CurrentObjects.clone();
 	}
     
 	
 	public void move()
 	{
-		if (isBringKit)
+		lastObjects = (ArrayList<FactoryObject>) CurrentObjects.clone();
+        if (isBringKit)
 			bringKit();
 		if (isMoveToStand)
 			moveToStand(0);
