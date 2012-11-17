@@ -7,8 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
 import factory.server.managers.GuiManager;
+import java.io.*;
 
-public class UpdateServer implements GuiManager
+public class UpdateServer implements GuiManager, java.io.Serializable
 {
 	ArrayList<FactoryObject> CurrentObjects = new ArrayList<FactoryObject>();
 	TreeMap<Integer, Boolean> ChangeMap = new TreeMap<Integer, Boolean>();
