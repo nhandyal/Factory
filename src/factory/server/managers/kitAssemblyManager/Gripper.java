@@ -1,9 +1,11 @@
-package KitAssemblyManager;
+package factory.server.managers.kitAssemblyManager;
+
+import factory.global.data.*;
 public class Gripper extends FactoryObject{
 	
 	Part[] parts;
 	
-	public Gripper(int xpos, int ypos, String image){
+	public Gripper(int xpos, int ypos, int image){
 		x = xpos;
 		y = ypos;
 		setImage(image);

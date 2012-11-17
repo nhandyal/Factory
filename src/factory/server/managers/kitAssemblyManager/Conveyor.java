@@ -1,5 +1,6 @@
-package KitAssemblyManager;
+package factory.server.managers.kitAssemblyManager;
 
+import factory.global.data.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -19,16 +20,16 @@ public class Conveyor extends FactoryObject
 	int outFinishx = -100;
 	int outFinishy = 600;
 	UpdateServer us;
-	public Conveyor(int xpos, int ypos, String image, UpdateServer us)
+	public Conveyor(int xpos, int ypos, int image, UpdateServer us)
 	{
-		super(xpos, ypos, image);
-		setImage(image);
+		super(xpos, ypos, -1);
+		//setImage(image);
 		this.us = us;
 	}
 	
 	public void bringKit()
 	{
-		inKit = new Kit(inStartx,inStarty,"images/kit.png");
+		inKit = new Kit(inStartx,inStarty,12);
 		us.getKits().add(inKit);
 	}
 	

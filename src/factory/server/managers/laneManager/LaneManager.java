@@ -1,4 +1,4 @@
-package factory.client.managers.laneManager;
+package factory.server.managers.laneManager;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -11,8 +11,9 @@ import java.util.*;
 
 // user packages
 import factory.global.data.*;
+import factory.server.managers.GuiManager;
 
-public class LaneManager extends JFrame implements ActionListener
+public class LaneManager extends JFrame implements GuiManager
 {
 	ImageIcon background;
 //	ArrayList<ImageIcon> images;
@@ -117,18 +118,8 @@ public class LaneManager extends JFrame implements ActionListener
 		temp = new TreeMap<Integer,FactoryObject>();
 	}
 
-	public static void main(String[] args){
-		LaneManager l = new LaneManager();
-		l.setVisible(true);
-		l.setSize(400,670);
-		l.createBufferStrategy(2);
-		l.setTitle("Lane Manager");
-		l.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		new Timer(5,l).start();
-	} //end main
-
-	public void actionPerformed( ActionEvent ae ) {
+	
+/*	public void actionPerformed( ActionEvent ae ) {
 		//This will be called by the Timer	
 		for(int i=0;i<8;i++){
 			if(lanes.get(i).getActive() == true){		// if lane is on
@@ -148,9 +139,9 @@ public class LaneManager extends JFrame implements ActionListener
 				}
 			}
 		}
-		update();
+		update(changeMap,changeData);
 		repaint();
-    }
+    }		*/
 
 	public void laneSwitch(int x1, int x2){
 		if(x1<8){									// if lane exists
@@ -173,7 +164,7 @@ public class LaneManager extends JFrame implements ActionListener
 		}
 	}
 
-	public void buildMap(TreeMap<Integer,FactoryObject> map){
+	public void sync(TreeMap<Integer,FactoryObject> map){
 		
 		// Add Dividers
 		for(int i=0;i<4;i++){
@@ -208,9 +199,9 @@ public class LaneManager extends JFrame implements ActionListener
 		}
 	}
 
-	public void update(){
+	public void update(TreeMap<Integer,Boolean> changeMap, TreeMap<Integer,FactoryObject> changeData){
 		
-		buildMap(changeData);
+		sync(changeData);
 		
 		temp.clear();
 		
@@ -234,11 +225,30 @@ public class LaneManager extends JFrame implements ActionListener
 		changeData.clear();
 		changeMap.clear();
 		
+		for(int i=0;i<8;i++){
+			if(lanes.get(i).getActive() == true){		// if lane is on
+				if(counter==24){						// every 25th instance of timer
+					int partindx = feeders.get(i/2).getBin().getPart();
+//					System.out.println(partindx);
+					lanes.get(i).addPart(partindx,index);		// create a new part
+					index++;							// add 1 to index
+					feeders.get(i/2).pushPart();		// subtract 1 from feeder counter
+//					System.out.println(feeders.get());
+					counter = 0;						// reset counter
+				}
+				counter++;
+				if(feeders.get(i/2).getPush() == 0){	// if there are 36 parts on the lane
+					laneSwitch(i,i+1);					// turn off lane, turn on next lane
+					counter = 0;						// reset counter
+				}
+			}
+		}
+		
 		// Move Elements
 		for(int i=0;i<8;i++)
 			lanes.get(i).moveParts();
 
-		buildMap(changeData);
+		sync(changeData);
 		
 		k = changeData.keySet().iterator();
 		while(k.hasNext()){
@@ -279,10 +289,10 @@ public class LaneManager extends JFrame implements ActionListener
 		}
 	}
 
-    public void paint(Graphics g){
+/*    public void paint(Graphics g){
     	Graphics2D g2 = (Graphics2D)g;
     	
-		buildMap(animData);
+		sync(animData);
     	
     	Iterator k = changeMap.keySet().iterator();
 		while(k.hasNext()){
@@ -310,5 +320,5 @@ public class LaneManager extends JFrame implements ActionListener
 				}
 			}
 		}
-    }
+    }		*/
 }

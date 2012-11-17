@@ -29,7 +29,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 	public LaneManager(){
 
 		// Create Backgroud Image
-		background = new ImageIcon("LMBG.png");
+		background = new ImageIcon("bin/factory/global/assets/LMBG.png");
 
 		images = new ImageArray();
 		
@@ -39,6 +39,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 		temp = new TreeMap<Integer,FactoryObject>();
 		frameAnimationData = new TreeMap<Integer,FactoryObject>();
 		nb1 = new NetworkBridge(this,"aludra.usc.edu",8465,3);
+		nb1.sync();
 	}
 
 	public static void main(String[] args){
@@ -49,7 +50,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 		l.setTitle("Lane Manager");
 		l.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		new Timer(5,l).start();
+		new Timer(50,l).start();
 	} //end main
 
 	public void actionPerformed( ActionEvent ae ) {
@@ -58,7 +59,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 
     public void registerClientListener(NetworkBridge newBridge, int cID){}
 		public void syncFrame(int cID){}
-		
+		public void updatePartData(TreeMap<Integer, Parts> partData){}
 		
 		// client specific
 		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){
@@ -95,6 +96,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 				if(dataArray.size() == 1){
 						TreeMap<Integer, FactoryObject> changeData = dataArray.get(0);
 						frameAnimationData.putAll(changeData);
+						System.out.println("Sync complete");
 				}
 				else{
 						System.out.println("Warning: Corrupt frame data");
@@ -108,11 +110,13 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 
     public void paint(Graphics g){
     	Graphics2D g2 = (Graphics2D)g;
+
+    	System.out.println("Paint Called");
     	
 //		buildMap(animData);
     	
     	Iterator k = changeMap.keySet().iterator();
-		while(k.hasNext()){
+/*		while(k.hasNext()){
 			int i = (Integer) k.next();
 			if(animData.containsKey(i) == false){
 				animData.put(i,changeData.get(i));
@@ -120,20 +124,20 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 			else if(changeMap.get(i) == true){
 				animData.put(i,changeData.get(i));
 			}
-		}
+		}	*/
 
 		background.paintIcon(this,g2,0,0);
 
 		// Paint Updated List
-		k = animData.keySet().iterator();
+		k = frameAnimationData.keySet().iterator();
 		while(k.hasNext()){
 			int i = (Integer) k.next();
-			if(i != 0 && animData.get(i).getIndex()> 0){
-				if(animData.get(i).getIsLine()== true)	// if object is a line draw a line
-					g2.drawLine(animData.get(i).getPositionX(),animData.get(i).getPositionY(),animData.get(i).getPositionXF(),animData.get(i).getPositionYF());
+			if(i != 0 && frameAnimationData.get(i).getIndex()> 0){
+				if(frameAnimationData.get(i).getIsLine()== true)	// if object is a line draw a line
+					g2.drawLine(frameAnimationData.get(i).getPositionX(),frameAnimationData.get(i).getPositionY(),frameAnimationData.get(i).getPositionXF(),frameAnimationData.get(i).getPositionYF());
 				else{ 										//if object is not a line draw an ImageIcon
-					int img = animData.get(i).getImageIndex();
-					images.getIcon(img).paintIcon(this,g2,animData.get(i).getPositionX(),animData.get(i).getPositionY());
+					int img = frameAnimationData.get(i).getImageIndex();
+					images.getIcon(img).paintIcon(this,g2,frameAnimationData.get(i).getPositionX(),frameAnimationData.get(i).getPositionY());
 				}
 			}
 		}

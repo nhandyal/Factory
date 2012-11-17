@@ -1,4 +1,6 @@
-package KitAssemblyManager;
+package factory.server.managers.kitAssemblyManager;
+
+import factory.global.data.*;
 
 import java.util.*;
 
@@ -6,7 +8,7 @@ public class KitStand extends FactoryObject{
 	
 	Kit currentKit;
 	
-	public KitStand(int xpos, int ypos, String image){
+	public KitStand(int xpos, int ypos, int image){
 		super(xpos, ypos, image);
 		setImage(image);
 	}

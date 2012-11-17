@@ -1,10 +1,12 @@
-package KitAssemblyManager;
+package factory.server.managers.kitAssemblyManager;
+
+import factory.global.data.*;
 
 import javax.swing.*;
 
 public class Part extends FactoryObject
 {
-	public Part(int initialPosX, int initialPosY, String initialImage){
+	public Part(int initialPosX, int initialPosY, int initialImage){
 		super(initialPosX, initialPosY, initialImage);
 		setImage(initialImage);
 	}
