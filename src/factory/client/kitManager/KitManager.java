@@ -1,11 +1,12 @@
 package factory.client.kitManager;
 import factory.global.data.*; 
+import factory.global.network.*;
 import java.util.*;
 import javax.swing.*; 
 import java.awt.*; 
 import java.awt.event.*; 
 
-public class KitManager extends JFrame implements ActionListener, ItemListener {
+public class KitManager extends JFrame implements ActionListener, ItemListener, NetworkManager {
 
 	JPanel kitPanel; 
 	KitList kL; 
@@ -15,8 +16,9 @@ public class KitManager extends JFrame implements ActionListener, ItemListener {
 	TreeMap<Integer, Parts> currentList;
 	TreeMap<Integer, Parts> finalizedList; 
 	ArrayList<Kits> listOfKits; 
+	NetworkBridge nb1;
 	public KitManager(){
-		
+		nb1 = new NetworkBridge(this, "aludra.usc.edu", 8465, 0);
 		kL = new KitList(); 
 		kI = new KitInfo(); 
 		pS = new PartSelector();
@@ -39,14 +41,14 @@ public class KitManager extends JFrame implements ActionListener, ItemListener {
 		pS.getBoxOfPart5().addItemListener(this); 
 		pS.getBoxOfPart6().addItemListener(this); 
 		pS.getBoxOfPart7().addItemListener(this); 
-		pS.getBoxOfPart7().addItemListener(this); 
+		pS.getBoxOfPart8().addItemListener(this); 
 
 		currentList = new TreeMap<Integer, Parts>();
 
  
 		pS.getBoxOfPart1().setEnabled(false); 
 		//pS.getBoxOfPart1().removeAllItems();
-		
+
 		for(int i = 0; i<currentList.size(); i++){
 			String nextName = currentList.get(i).getName(); 			
 			pS.getPartNamesBox1().add(nextName); //adds names to arraylist		
@@ -54,6 +56,7 @@ public class KitManager extends JFrame implements ActionListener, ItemListener {
 
 		}
 		pS.getBoxOfPart1().setEnabled(true); 
+		pS.getPartsPanel().revalidate(); 
 		
 		finalizedList = new TreeMap<Integer, Parts>();
 		listOfKits = new ArrayList<Kits>(); 
@@ -161,6 +164,29 @@ public class KitManager extends JFrame implements ActionListener, ItemListener {
 		}
 
 	}
+		
+		// -------------------------------------------------------------------------------------- //
+		// ----------------------------------- Network Manager ---------------------------------- //
+		// -------------------------------------------------------------------------------------- //
+		
+		// server specific
+		public void registerClientListener(NetworkBridge newBridge, int cID){}
+		public void syncFrame(){}
+		public void updatePartData(TreeMap<Integer, Parts>partData){}
+		
+		// client specific
+		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){}
+		
+		public void syncChanges(ArrayList<TreeMap<Integer,FactoryObject>> dataArray){}
+		
+		// global
+		public void closeNetworkBridge(int bridgeID){
+				nb1.close();
+		}
+		
+		// -------------------------------------------------------------------------------------- //
+		// ----------------------------------- End Network Manager ------------------------------ //
+		// -------------------------------------------------------------------------------------- //
 		
 	
 	
