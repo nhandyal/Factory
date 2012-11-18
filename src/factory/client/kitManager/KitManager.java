@@ -277,6 +277,7 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 						currentList.get(i).print();
 				}
 				updateBoxes(); // call combo box validation method
+				currentList.clear(); 
 				
 		}
 
