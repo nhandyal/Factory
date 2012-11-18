@@ -99,6 +99,11 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
     public void closeNetworkBridge(int bridgeID){
         nb.close();
     }
+    
+    public void updateKitData(ArrayList<Kits> kitData)
+    {
+    }
+
 		
 		// -------------------------------------------------------------------------------------- //
 		// ----------------------------------- End Network Manager ------------------------------ //

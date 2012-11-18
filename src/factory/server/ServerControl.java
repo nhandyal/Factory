@@ -16,11 +16,11 @@ public class ServerControl extends JPanel implements ActionListener{
 	LaneManager LM;
 	
 	JPanel overPanel = new JPanel();
-	JPanel laneGantryControl = new JPanel();
+	JPanel laneControl = new JPanel();
 	JPanel kitAssemblyControl = new JPanel();
-	JPanel lgComboBoxPanel = new JPanel();
+	JPanel lComboBoxPanel = new JPanel();
 	JPanel[] kComboBoxPanel = new JPanel[4];
-	JPanel laneGantryButtonPanel = new JPanel();
+	JPanel laneButtonPanel = new JPanel();
 	JPanel factoryControl = new JPanel();
 	JPanel fComboBoxPanel = new JPanel();
 	JPanel factoryButtonPanel = new JPanel();
@@ -29,7 +29,8 @@ public class ServerControl extends JPanel implements ActionListener{
 	JButton build1 = new JButton("Build Kit 1");
 	JButton build2 = new JButton("Build Kit 2");
 	JButton inspectionPicture = new JButton("Take Picture");
-	JButton inspection = new JButton("Move to Inspection Stand");
+	JButton inspection = new JButton("Move Kit 1 to Inspection Stand");
+    JButton inspection2 = new JButton("Move Kit 2 to Inspection Stand");
 	JButton standToConveyor = new JButton("Move from Inspection Stand to Conveyor");
 	JLabel kitAssemblyDesc = new JLabel("Kit Assembly Manager");
 	JComboBox[] indexChooser = new JComboBox[4];
@@ -40,7 +41,7 @@ public class ServerControl extends JPanel implements ActionListener{
 	JButton bringKit = new JButton("Bring Kit");
 	JButton takeKit = new JButton("Take Kit");
 	
-	JLabel laneGantryDesc = new JLabel("Lane and Gantry Manager");
+	JLabel laneDesc = new JLabel("Lane Manager");
 	String[] laneStrings = new String[8];
 	ArrayList<String> partStrings = new ArrayList<String>();
 	JComboBox laneChooser;
@@ -59,9 +60,10 @@ public class ServerControl extends JPanel implements ActionListener{
 	
 	public ServerControl(GuiManager kit, GuiManager LM){
 		
+		System.out.println(kit);
 		this.KitASM = (UpdateServer)kit;
 		this.LM = (LaneManager)LM;
-		
+		System.out.println(KitASM);
 		for (int i = 1; i < laneStrings.length+1; i++){
 			laneStrings[i-1] = "Lane " + i;
 		}
@@ -99,9 +101,9 @@ public class ServerControl extends JPanel implements ActionListener{
 		kitAssemblyControl.setLayout(new BoxLayout(kitAssemblyControl,BoxLayout.Y_AXIS));
 		for (int i = 0; i < kComboBoxPanel.length; i++)
 			kComboBoxPanel[i].setLayout(new FlowLayout());
-		laneGantryControl.setLayout(new BoxLayout(laneGantryControl,BoxLayout.Y_AXIS));
-		lgComboBoxPanel.setLayout(new FlowLayout());
-		laneGantryButtonPanel.setLayout(new BoxLayout(laneGantryButtonPanel,BoxLayout.Y_AXIS));
+		laneControl.setLayout(new BoxLayout(laneControl,BoxLayout.Y_AXIS));
+		lComboBoxPanel.setLayout(new FlowLayout());
+		laneButtonPanel.setLayout(new BoxLayout(laneButtonPanel,BoxLayout.Y_AXIS));
 		fComboBoxPanel.setLayout(new FlowLayout());
 		factoryButtonPanel.setLayout(new BoxLayout(factoryButtonPanel,BoxLayout.Y_AXIS));
 		factoryControl.setLayout(new BoxLayout(factoryControl,BoxLayout.Y_AXIS));
@@ -112,6 +114,7 @@ public class ServerControl extends JPanel implements ActionListener{
 		build2.addActionListener(this);
 		inspectionPicture.addActionListener(this);
 		inspection.addActionListener(this);
+        inspection2.addActionListener(this);
 		standToConveyor.addActionListener(this);
 		updateParts2.addActionListener(this);
 		bringKit.addActionListener(this);
@@ -136,20 +139,21 @@ public class ServerControl extends JPanel implements ActionListener{
 		kitAssemblyControl.add(build1);
 		kitAssemblyControl.add(build2);
 		kitAssemblyControl.add(inspection);
+        kitAssemblyControl.add(inspection2);
 		kitAssemblyControl.add(inspectionPicture);
 		kitAssemblyControl.add(standToConveyor);
 		kitAssemblyControl.add(takeKit);
 		kitAssemblyControl.add(updateParts2);
 		
-		lgComboBoxPanel.add(partChooser);
-		lgComboBoxPanel.add(laneChooser);
-		laneGantryControl.add(laneGantryDesc);
-		laneGantryControl.add(lgComboBoxPanel);
-		laneGantryButtonPanel.add(toggleLane);
-		laneGantryButtonPanel.add(nestPicture);
-		laneGantryButtonPanel.add(gantry);
-		laneGantryButtonPanel.add(updateParts);
-		laneGantryControl.add(laneGantryButtonPanel);
+		lComboBoxPanel.add(partChooser);
+		lComboBoxPanel.add(laneChooser);
+		laneControl.add(laneDesc);
+		laneControl.add(lComboBoxPanel);
+		laneButtonPanel.add(toggleLane);
+		laneButtonPanel.add(nestPicture);
+		laneButtonPanel.add(gantry);
+		laneButtonPanel.add(updateParts);
+		laneControl.add(laneButtonPanel);
 		
 		fComboBoxPanel.add(kitChooser);
 		fComboBoxPanel.add(kitQuantity);
@@ -160,7 +164,7 @@ public class ServerControl extends JPanel implements ActionListener{
 		factoryControl.add(factoryButtonPanel);
 		
 		overPanel.add(kitAssemblyControl);
-		overPanel.add(laneGantryControl);
+		overPanel.add(laneControl);
 		overPanel.add(factoryControl);
 		
 		add(overPanel);
@@ -168,14 +172,15 @@ public class ServerControl extends JPanel implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e){
 		if (e.getSource() == bringKit){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (KitASM.isFinished()){
 				KitASM.bringKit();
 			}
 		}
 		if (e.getSource() == conveyorToStand){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (KitASM.isFinished() /**/){
+
 				for (int i = 0; i < 2; i++){
-					if (KitASM.stands.get(i).getKit() == null){
+					if (KitASM.getStands().get(i).getKit() == null){
 						KitASM.moveToStand(i);
 						break;
 					}
@@ -184,7 +189,7 @@ public class ServerControl extends JPanel implements ActionListener{
 		}
 		/*
 		if (e.getSource() == build1){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (KitASM.isFinished() ){
 				int[] nests = new Part[4];
 				int[] indexes = new int[4];
 				for (int i = 0; i < nestChooser.length; i++){
@@ -205,7 +210,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			}
 		}
 		if (e.getSource() == build2){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (KitASM.isFinished() ){
 				int[] nests = new Part[4];
 				int[] indexes = new int[4];
 				for (int i = 0; i < nestChooser.length; i++){
@@ -227,22 +232,29 @@ public class ServerControl extends JPanel implements ActionListener{
 		}
 		*/
 		if (e.getSource() == inspectionPicture){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (KitASM.isFinished() ){
 				KitASM.takePic();
 			}
 		}
 		if (e.getSource() == inspection){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
-				KitASM.moveToInspection();
-			}
+			if (KitASM.isFinished() ){
+				KitASM.moveToInspection(0);
+            }
+			
 		}
+        if (e.getSource() == inspection2){
+                if (KitASM.isFinished() ){
+                    KitASM.moveToInspection(1);
+                    
+                }
+        }
 		if (e.getSource() == standToConveyor){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (KitASM.isFinished() ){
 				KitASM.takeToConveyor();
 			}
 		}
 		if (e.getSource() == takeKit){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (KitASM.isFinished() ){
 				KitASM.takeKit();
 			}
 		}
