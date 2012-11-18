@@ -85,8 +85,8 @@ public class NetworkBridge{
 		
 		public void writeData(Object data){
 				try{
-                        oos.reset();
-                        oos.writeObject(data);
+						oos.reset();
+            oos.writeObject(data);
 				}catch(IOException ie){
 						ie.printStackTrace();
 				}
@@ -265,5 +265,4 @@ class InputStreamListener extends Thread{
 				}
 				parent.updatePartData(partData);
 		}
-		
 }

@@ -94,6 +94,12 @@ public class Server implements ActionListener, NetworkManager{
 		// function to update part data
 		public void updatePartData(TreeMap<Integer, Parts> partData){
 				fs.mergeParts(partData);
+				if(clientConnections[1] != null){
+						// send update to kit manager
+						Instruction instr = new Instruction("UPD");
+						clientConnections[1].writeData(instr);
+						clientConnections[1].writeData(fs.getParts());
+				}
 		}
 		
 		// function to send the entire frame data to the client
