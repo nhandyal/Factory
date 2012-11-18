@@ -30,6 +30,8 @@ import factory.client.factoryManager.*;
 */
 
 public class FactoryManager extends JFrame implements ActionListener, NetworkManager{
+		JPanel masterPanel, animationContainer, GuiContainer;
+		CardLayout c1;
 		ArrayList<JPanel> animationFrames;
 		ArrayList<TreeMap<Integer, FactoryObject>> factoryAnimationData;
 		ImageArray images = new ImageArray();
@@ -37,16 +39,25 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 		NetworkBridge nb;
 		
 		FactoryManager(){
-				// set JFrame Properties
-				this.setLayout(new BoxLayout(this.getContentPane(),BoxLayout.X_AXIS));
+				// initialize JPanels and CardLayout
+				masterPanel = new JPanel();
+				animationContainer = new JPanel();
+				GuiContainer = new JPanel();
+				c1 = new CardLayout();
+				JButton test = new JButton("test");
+				test.addActionListener(this);
 				
-		
+				// set Panel and Frame properties
+				masterPanel.setLayout(c1);
+				animationContainer.setLayout(new BoxLayout(animationContainer,BoxLayout.X_AXIS));
+				
+				
 				// initialize class variables
 				factoryAnimationData = new ArrayList<TreeMap<Integer, FactoryObject>>();
 				for(int i = 0; i < 3; i++){
 						factoryAnimationData.add(new TreeMap<Integer, FactoryObject>());
 				}
-				nb = new NetworkBridge(this, "localhost", 8465, 5);
+				nb = new NetworkBridge(this, "aludra.usc.edu", 8465, 5);
 				animationFrames = new ArrayList<JPanel>();
 				animationFrames.add(new KASM(this));
 				animationFrames.add(new LM(this));
@@ -54,12 +65,21 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 				
 				// add panels to frame
 				for(JPanel frame : animationFrames){
-						this.add(frame);
+						animationContainer.add(frame);
 				}
+				GuiContainer.add(test);
+				
+				
+				masterPanel.add(animationContainer,"ac");
+				masterPanel.add(GuiContainer,"gc");
+				
+				this.add(masterPanel);
 				
 				// start threads
-				t.start();
-				nb.sync();
+				//t.start();
+				//nb.sync();
+				
+				c1.show(masterPanel, "gc");
 		}
 		
 		public static void main(String[] args){
@@ -81,9 +101,12 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 		}
 		
 		public void actionPerformed(ActionEvent ae){
+				c1.show(masterPanel,"ac");
+				/*
 				for(JPanel frame : animationFrames){
 						frame.repaint();
 				}
+				*/
 		}
 		
 		// -------------------------------------------------------------------------------------- //
@@ -94,6 +117,7 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 		public void registerClientListener(NetworkBridge newBridge, int cID){}
 		public void syncFrame(){}
 		public void updatePartData(TreeMap<Integer, Parts> partData){}
+		public void updateKitData(ArrayList<Kits> kitData){}
 		
 		// client specific
 		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){

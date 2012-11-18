@@ -18,15 +18,26 @@ import factory.global.data.*;
 
 public class FactoryState{
 		TreeMap<Integer, Parts> factoryPartData;
+		ArrayList<Kits> factoryKits;
 
-		public FactoryState(){
-				factoryPartData = new TreeMap<Integer, Parts>();
-		}
+		public FactoryState(){}
 		
 		public void mergeParts(TreeMap<Integer, Parts> newParts){
-				System.out.println("merge parts called");
 				factoryPartData = newParts;
-				System.out.println("parts updated");
+				for(Integer i : factoryPartData.keySet()){
+						factoryPartData.get(i).print();
+				}
+				System.out.println();
+				System.out.println();
+		}
+		
+		public void mergeKits(ArrayList<Kits> newKits){
+				System.out.println("mergre kits FS called");
+				factoryKits = newKits;
+				for(Kits current : factoryKits){
+						current.print();
+				}
+				System.out.println("kits updated");
 		}
 		
 		public TreeMap<Integer, Parts> getParts(){

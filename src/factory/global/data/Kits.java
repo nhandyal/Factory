@@ -2,7 +2,7 @@ package factory.global.data;
 import java.io.*;
 import javax.swing.*;
 import java.util.*; 
-public class Kits{
+public class Kits implements java.io.Serializable{
 
 	String name; 
 	TreeMap<Integer, Parts> listOfParts; 
@@ -30,6 +30,10 @@ public class Kits{
 
 	public int getKitID(){
 		return kitID;
+	}
+	
+	public void print(){
+		System.out.print("name: "+name+" description: "+description+" kitid: "+kitID);
 	}
 
 }
