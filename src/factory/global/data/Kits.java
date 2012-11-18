@@ -2,7 +2,7 @@ package factory.global.data;
 import java.io.*;
 import javax.swing.*;
 import java.util.*; 
-public class Kits{
+public class Kits implements java.io.Serializable{
 
 	String name; 
 	TreeMap<Integer, Parts> listOfParts; 

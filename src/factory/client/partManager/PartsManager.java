@@ -163,6 +163,10 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					listOfParts.put(savedCounter, newPart1); 
 				}
 
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
+				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
+				pI.getPartDescription().setText("Short Description of Part Here"); 
+
 
 				 
 
@@ -213,6 +217,9 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					newPart2.setDesc(pI.getPartDescription().getText()); 
 					listOfParts.put(savedCounter, newPart2); 
 				}
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
+				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
+				pI.getPartDescription().setText("Short Description of Part Here"); 
 			nb1.sendPartData(listOfParts); 
 			
 		}
@@ -262,6 +269,9 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					newPart3.setDesc(pI.getPartDescription().getText()); 
 					listOfParts.put(savedCounter, newPart3); 
 				}
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
+				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
+				pI.getPartDescription().setText("Short Description of Part Here"); 
 			nb1.sendPartData(listOfParts);
 			
 		}
@@ -310,6 +320,9 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					newPart4.setDesc(pI.getPartDescription().getText()); 
 					listOfParts.put(savedCounter, newPart4); 
 				}
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
+				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
+				pI.getPartDescription().setText("Short Description of Part Here"); 
 			nb1.sendPartData(listOfParts);
 			
 		}
@@ -359,6 +372,9 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					newPart5.setDesc(pI.getPartDescription().getText()); 
 					listOfParts.put(savedCounter, newPart5); 
 				} 
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
+				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
+				pI.getPartDescription().setText("Short Description of Part Here"); 
 			nb1.sendPartData(listOfParts);
 		}
 		
@@ -407,6 +423,9 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					newPart6.setDesc(pI.getPartDescription().getText()); 
 					listOfParts.put(savedCounter, newPart6); 
 				} 
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
+				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
+				pI.getPartDescription().setText("Short Description of Part Here"); 
 			nb1.sendPartData(listOfParts);
 		}
 		
@@ -454,6 +473,9 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					newPart7.setDesc(pI.getPartDescription().getText()); 
 					listOfParts.put(savedCounter, newPart7); 
 				}
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
+				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
+				pI.getPartDescription().setText("Short Description of Part Here"); 
 			nb1.sendPartData(listOfParts); 
 		}
 		
@@ -501,6 +523,9 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				newPart8.setDesc(pI.getPartDescription().getText()); 
 				listOfParts.put(savedCounter, newPart8); 
 				}
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
+				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
+				pI.getPartDescription().setText("Short Description of Part Here"); 
 			nb1.sendPartData(listOfParts); 
 			
 		}
@@ -548,6 +573,9 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					newPart9.setDesc(pI.getPartDescription().getText()); 
 					listOfParts.put(savedCounter, newPart9); 
 				}
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
+				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
+				pI.getPartDescription().setText("Short Description of Part Here"); 
 			nb1.sendPartData(listOfParts); 
 		}
 		
@@ -595,6 +623,9 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					newPart10.setDesc(pI.getPartDescription().getText()); 
 					listOfParts.put(savedCounter, newPart10); 
 				}
+				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
+				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
+				pI.getPartDescription().setText("Short Description of Part Here"); 
 			nb1.sendPartData(listOfParts); 
 		}
 		
@@ -613,6 +644,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		public void registerClientListener(NetworkBridge newBridge, int cID){}
 		public void syncFrame(){}
 		public void updatePartData(TreeMap<Integer, Parts>partData){}
+		public void updateKitData(ArrayList<Kits>kitData){};
 		
 		// client specific
 		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){}
