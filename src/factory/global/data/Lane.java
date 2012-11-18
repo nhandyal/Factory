@@ -19,7 +19,7 @@ public class Lane extends FactoryObject implements Serializable{
 
 	ArrayList<Part> lane, nest;
 	ArrayList<Line> lines;
-	boolean laneActive, picNeeded;
+	boolean laneActive, picNeeded, nestFull;
 	int counter = 0;
 
 	public Lane(int initialPosX, int initialPosY, int indx){
@@ -31,6 +31,7 @@ public class Lane extends FactoryObject implements Serializable{
 		nest = new ArrayList<Part>();
 
 		picNeeded = false;
+		nestFull = false;
 		
 		// Create LaneLines
 		lines = new ArrayList<Line>();
@@ -49,7 +50,6 @@ public class Lane extends FactoryObject implements Serializable{
 	
 	public void addPart(int img ,int i){
 		lane.add(new Part(x+332,y+16,img,i));
-		counter++;
 	}
 	
 	public Part getLanePart(int i){
@@ -68,8 +68,12 @@ public class Lane extends FactoryObject implements Serializable{
 		return nest.size();
 	}
 
-	public int getTotalLaneSize(){
-		return counter;
+	public ArrayList<Part> getLane(){
+		return lane;
+	}
+
+	public ArrayList<Part> getNest(){
+		return nest;
 	}
 	
 	public Line getLaneLine(int i){
@@ -90,18 +94,27 @@ public class Lane extends FactoryObject implements Serializable{
 		for(int i=0;i<nest.size();i++)
 			nest.get(i).setIsMoving(false);
 
+		if(nest.size() == 0){
+			nestFull = false;
+			counter = 0;
+		}
+
 		if(laneActive == true){														// if lane is on
 			for(int i=0;i<lane.size();i++){
-				if(nest.size()<9){													// if nest is not full
+				if(nestFull == false){												// if nest is not full
 					lane.get(i).moveLeft();											// move part left
 					if(lane.get(i).getPositionX()<=(x+40)){							// if part is at 40
-						nest.add(lane.get(i));										// move it to the nest
+						nest.add(counter,lane.get(i));										// move it to the nest
+						System.out.println("Part "+counter+" added\nnestFull: "+nestFull);
+						counter++;
 						lane.remove(i);
-						if(nest.size() == 9)
+						if(nest.size() == 9){
 							picNeeded = true;
+							nestFull = true;
+						}
 					}
 				}
-				if(nest.size()==9){													// if nest is full
+				if(nestFull == true){												// if nest is full
 					if(lane.get(i).getPositionX()<=((x+50)+((i/3)*10))){			// if part (in groups of 3) is at 50,60,70,...
 						if(i%3 == 0 && lane.get(i).getPositionY()>=(y+6))			// if part is first in group and is greater than 6
 							lane.get(i).moveUp();									// move up
@@ -113,14 +126,43 @@ public class Lane extends FactoryObject implements Serializable{
 				}
 			}
 			for(int i=0;i<nest.size();i++){
-				if(nest.get(i).getPositionX()<=((x+5)+((i/3)*15))){					// if nest part (in groups of 3) is at 5,20,35
+/*				if(nest.get(i).getPositionX()<=((x+5)+((i/3)*15))){					// if nest part (in groups of 3) is at 5,20,35
 					if(i%3 == 0 && nest.get(i).getPositionY()>=(y+6))				// if part is first in group and is greater than 6
 						nest.get(i).moveUp();										// move up
 					else if(i%3 == 1 && nest.get(i).getPositionY()<=(y+26))			// if part is second in group an is less than 26
 						nest.get(i).moveDown();										//move down
 				}
 				else																// if part isn't at 5,20,35
-					nest.get(i).moveLeft();											// move part left
+					nest.get(i).moveLeft();											// move part move left 	*/
+				switch(i){
+					case 0:
+						nest.get(i).moveTo((x+5),(y+6));
+						break;
+					case 1:
+						nest.get(i).moveTo((x+5),(y+16));
+						break;
+					case 2:
+						nest.get(i).moveTo((x+5),(y+26));
+						break;
+					case 3:
+						nest.get(i).moveTo((x+20),(y+6));
+						break;
+					case 4:
+						nest.get(i).moveTo((x+20),(y+16));
+						break;
+					case 5:
+						nest.get(i).moveTo((x+20),(y+26));
+						break;
+					case 6:
+						nest.get(i).moveTo((x+35),(y+6));
+						break;
+					case 7:
+						nest.get(i).moveTo((x+35),(y+16));
+						break;
+					case 8:	
+						nest.get(i).moveTo((x+35),(y+26));
+						break;
+				}
 			}
 			for(int i=0;i<3;i++){
 				lines.get(i).moveLeft();											// move lanelines left
