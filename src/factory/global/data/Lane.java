@@ -105,7 +105,7 @@ public class Lane extends FactoryObject implements Serializable{
 					lane.get(i).moveLeft();											// move part left
 					if(lane.get(i).getPositionX()<=(x+40)){							// if part is at 40
 						nest.add(counter,lane.get(i));										// move it to the nest
-						System.out.println("Part "+counter+" added\nnestFull: "+nestFull);
+//						System.out.println("Part "+counter+" added\nnestFull: "+nestFull);
 						counter++;
 						lane.remove(i);
 						if(nest.size() == 9){

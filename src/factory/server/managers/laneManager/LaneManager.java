@@ -102,9 +102,11 @@ public class LaneManager implements GuiManager
 		cam = new Camera(264,28,13,Integer.MAX_VALUE);
 		
 		// Turn On Lane 0, Off Lanes 1-7
-		laneSwitch(8,0);
-		for(int i=1;i<8;i++)
+//		laneSwitch(8,0);
+		for(int i=0;i<8;i++)
 			lanes.get(i).setActive(false);
+
+		addBin(0,bins.get(0),100);
 
 		// Create Backgroud Image
 		background = new ImageIcon("LMBG.png");
@@ -129,7 +131,7 @@ public class LaneManager implements GuiManager
 
 		for(int i=0;i<4;i++){
 			if(lanes.get(i*2).getActive() == true || lanes.get((i*2)+1).getActive() == true){	// if a lane is on
-				if(counter==24 && feeders.get(i).getPush() > 0){								// every 25th instance of timer
+				if(counter==24){// && feeders.get(i).getPush() > 0){								// every 25th instance of timer
 					if(dividers.get(i).getPositionY() > dividers.get(i).getPositionYF())		// if the divider is in the lower position
 						lanes.get(i*2).addPart(feeders.get(i).getBin().getPart(),index);		// create a new part in upper lane
 					else																		// if the divider is in the upper position
@@ -140,16 +142,16 @@ public class LaneManager implements GuiManager
 				}
 				counter++;
 
-				if(lanes.get(i*2).getActive() == true)
-					autoLaneSwitch(i*2);
-				else if(lanes.get(i*2+1).getActive() == true)
-					autoLaneSwitch(i*2+1);
+//				if(lanes.get(i*2).getActive() == true)
+//					autoLaneSwitch(i*2);
+//				else if(lanes.get(i*2+1).getActive() == true)
+//					autoLaneSwitch(i*2+1);
 
 				lanes.get(i*2).moveParts();
 				lanes.get(i*2+1).moveParts();
 				
-				takePicture(i*2);
-				takePicture(i*2+1);
+//				takePicture(i*2);
+//				takePicture(i*2+1);
 			}
 		}
 
@@ -180,10 +182,10 @@ public class LaneManager implements GuiManager
 
 	public void laneSwitch(int x1, int x2){
 		if(x1<8){										// if lane exists
-//			lanes.get(x1).setActive(false);				// turn lane off
+			lanes.get(x1).setActive(false);				// turn lane off
 //			feeders.get(x1/2).removeBin();				// remove bin from feeder
 			removeBin(x1/2);
-			purgeNest(x1);
+//			purgeNest(x1);
 		}
 		if(x2<8){										// if lane exists
 			lanes.get(x2).setActive(true);				// turn lane on
@@ -206,17 +208,22 @@ public class LaneManager implements GuiManager
 
 	public void dividerToggle(int i){
 		if(dividers.get(i).getPositionY() > dividers.get(i).getPositionYF())
-			dividers.get(i).dividerUp();
+			dividers.get(i).dividerDown();
 		else
 			dividers.get(i).dividerDown();
 	}
 
 	public void purgeLane(int i){
+		for(int j=0;i<lanes.get(i).getLaneSize();j++)
+			lanes.get(i).getLanePart(j).setIndex(-5);
 		lanes.get(i).getLane().clear();
 	}
 
 	public void purgeNest(int i){
+		for(int j=0;i<lanes.get(i).getNestSize();j++)
+			lanes.get(i).getNestPart(j).setIndex(-5);
 		lanes.get(i).getNest().clear();
+		//System.out.println(lanes.get(i).getNestSize());
 	}
 
 	public void addBin(int i, Bin b, int pnum){
