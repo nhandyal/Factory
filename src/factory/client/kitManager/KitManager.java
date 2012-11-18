@@ -39,14 +39,14 @@ public class KitManager extends JFrame implements ActionListener, ItemListener {
 		pS.getBoxOfPart5().addItemListener(this); 
 		pS.getBoxOfPart6().addItemListener(this); 
 		pS.getBoxOfPart7().addItemListener(this); 
-		pS.getBoxOfPart7().addItemListener(this); 
+		pS.getBoxOfPart8().addItemListener(this); 
 
 		currentList = new TreeMap<Integer, Parts>();
 
  
 		pS.getBoxOfPart1().setEnabled(false); 
 		//pS.getBoxOfPart1().removeAllItems();
-		
+
 		for(int i = 0; i<currentList.size(); i++){
 			String nextName = currentList.get(i).getName(); 			
 			pS.getPartNamesBox1().add(nextName); //adds names to arraylist		
@@ -54,6 +54,7 @@ public class KitManager extends JFrame implements ActionListener, ItemListener {
 
 		}
 		pS.getBoxOfPart1().setEnabled(true); 
+		pS.getPartsPanel().revalidate(); 
 		
 		finalizedList = new TreeMap<Integer, Parts>();
 		listOfKits = new ArrayList<Kits>(); 
