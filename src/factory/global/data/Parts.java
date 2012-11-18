@@ -58,6 +58,13 @@ public class Parts implements java.io.Serializable{
 		public void setImageIndex(int imageIndex){
 			this.imageIndex = imageIndex; 
 		}
+		
+		public void print(){
+				System.out.print("partNumber: "+partNumber);
+				System.out.print(" name: "+name);
+				System.out.print(" desc: "+desc);
+				System.out.println(" ImageIndex: "+imageIndex);
+		}
 }
 
 		

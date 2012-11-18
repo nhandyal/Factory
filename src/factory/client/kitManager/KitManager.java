@@ -18,7 +18,7 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 	ArrayList<Kits> listOfKits; 
 	NetworkBridge nb1;
 	public KitManager(){
-		nb1 = new NetworkBridge(this, "aludra.usc.edu", 8465, 0);
+		//nb1 = new NetworkBridge(this, "aludra.usc.edu", 8465, 1);
 		kL = new KitList(); 
 		kI = new KitInfo(); 
 		pS = new PartSelector();
@@ -172,10 +172,16 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 		// server specific
 		public void registerClientListener(NetworkBridge newBridge, int cID){}
 		public void syncFrame(){}
-		public void updatePartData(TreeMap<Integer, Parts>partData){}
+		
 		
 		// client specific
 		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){}
+		public void updatePartData(TreeMap<Integer, Parts> partData){
+				currentList = partData;
+				for(Integer i : currentList.keySet()){
+						currentList.get(i).print();
+				}
+		}
 		
 		public void syncChanges(ArrayList<TreeMap<Integer,FactoryObject>> dataArray){}
 		
