@@ -1,6 +1,6 @@
 Team 14
 ======
-##Compiing
+##Compiling
 All source files for the project are located under the src folder. When compiling you must specify the sourcepath when compiing. Recommended compile settings are:
 ```r
 javac -d bin -sourcepath src [path to source file]
