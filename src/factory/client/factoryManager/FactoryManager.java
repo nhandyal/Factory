@@ -46,7 +46,7 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 				for(int i = 0; i < 3; i++){
 						factoryAnimationData.add(new TreeMap<Integer, FactoryObject>());
 				}
-				nb = new NetworkBridge(this, "aludra.usc.edu", 8465, 5);
+				nb = new NetworkBridge(this, "localhost", 8465, 5);
 				animationFrames = new ArrayList<JPanel>();
 				animationFrames.add(new KASM(this));
 				animationFrames.add(new LM(this));
