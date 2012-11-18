@@ -34,7 +34,7 @@ public class ServerControl extends JPanel implements ActionListener{
 	JLabel kitAssemblyDesc = new JLabel("Kit Assembly Manager");
 	JComboBox[] indexChooser = new JComboBox[4];
 	String[] indexStrings = new String[8];
-	JComboBox[] partChooser2 = new JComboBox[4];
+	JComboBox[] nestChooser = new JComboBox[4];
 	JButton updateParts2 = new JButton("Update Part List");
 	JButton bringKit = new JButton("Bring Kit");
 	JButton takeKit = new JButton("Take Kit");
@@ -77,8 +77,8 @@ public class ServerControl extends JPanel implements ActionListener{
 		}
 		laneChooser = new JComboBox(laneStrings);
 		partChooser = new JComboBox(partStrings.toArray());
-		for (int i = 0; i < partChooser2.length; i++)
-			partChooser2[i] = new JComboBox(partStrings.toArray());
+		for (int i = 0; i < nestChooser.length; i++)
+			nestChooser[i] = new JComboBox(partStrings.toArray());
 		kitChooser = new JComboBox(kitStrings.toArray());
 		for (int i = 0; i < indexChooser.length; i++)
 			indexChooser[i] = new JComboBox(indexStrings);
@@ -115,7 +115,7 @@ public class ServerControl extends JPanel implements ActionListener{
 		updateKits.addActionListener(this);
 		
 		for (int i = 0; i < kComboBoxPanel.length; i++){
-			kComboBoxPanel[i].add(partChooser2[i]);
+			kComboBoxPanel[i].add(nestChooser[i]);
 			kComboBoxPanel[i].add(indexChooser[i]);
 		}
 		kitAssemblyControl.add(kitAssemblyDesc);
@@ -172,9 +172,26 @@ public class ServerControl extends JPanel implements ActionListener{
 				}
 			}
 		}
+		/*
 		if (e.getSource() == build1){
 			if (!KitASM.cam.isMoving() && !KitASM.robot.isMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
-				
+				int[] nests = new Part[4];
+				int[] indexes = new int[4];
+				for (int i = 0; i < nestChooser.length; i++){
+					String name = nestChooser[i].getSelectedItem();
+					if (index != "Unused"){
+						//convert name to part (call it part p)
+						parts[i] = p;
+					}
+				}
+				for (int i = 0; i < indexChooser.length; i++){
+					String index = indexChooser[i].getSelectedItem().substring(9);
+					if (index != "Unused"){
+						int j = Integer.parseInt(index);
+						indexes[i] = j;
+					}
+				}
+				movePartsToStand(nest, KitASM.stands.get(0), indexes);
 			}
 		}
 		if (e.getSource() == build2){
@@ -182,6 +199,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			
 			}
 		}
+		*/
 		if (e.getSource() == inspectionPicture){
 			if (!KitASM.cam.isMoving() && !KitASM.robot.isMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
 				KitASM.takePic();
@@ -213,10 +231,10 @@ public class ServerControl extends JPanel implements ActionListener{
 			partChooser.removeAllItems();
 			for (int i = 0; i < partStrings.size(); i++)
 				partChooser.addItem(partStrings.get(i));
-			for (int i = 0; i < partChooser2.length; i++){
-				partChooser2[i].removeAllItems();
+			for (int i = 0; i < nestChooser.length; i++){
+				nestChooser[i].removeAllItems();
 				for (int j = 0; j < partStrings.size(); j++)
-					partChooser2[i].addItem(partStrings.get(j));
+					nestChooser[i].addItem(partStrings.get(j));
 			}
 		}
 		if (e.getSource() == makeKits){

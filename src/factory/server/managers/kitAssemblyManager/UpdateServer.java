@@ -14,20 +14,22 @@ public class UpdateServer implements GuiManager, Serializable
 	ArrayList<FactoryObject> CurrentObjects = new ArrayList<FactoryObject>();
 	TreeMap<Integer, Boolean> ChangeMap = new TreeMap<Integer, Boolean>();
 	TreeMap<Integer, FactoryObject> ChangeData = new TreeMap<Integer, FactoryObject>();
-    InspectionCamera cam;
-	Conveyor conv;
-	KitRobot robot;
-	PartRobot probot;
+    public InspectionCamera cam;
+	public Conveyor conv;
+	public KitRobot robot;
+	public PartRobot probot;
 	ArrayList<FactoryObject> LineObjects = new ArrayList<FactoryObject>();
     ArrayList<FactoryObject> lastObjects = null;
-	ArrayList<KitStand> stands;
-	ArrayList<Kit> kits;
-	ArrayList<Part> parts;
-    ArrayList<Nest> nests;
+	public ArrayList<KitStand> stands;
+	public ArrayList<Kit> kits;
+	public ArrayList<Part> parts;
+    public ArrayList<Nest> nests;
 	int count = 0;
 	int countconv = 0;
 	int partscount = 0;
-	boolean isBringKit = true;
+	int k;
+	int a[] = new int[4];
+	boolean isBringKit = false;
 	boolean isMoveToStand = false;
 	boolean isMovePartstoStand = false;
 	boolean isMoveToInspection = false;
@@ -130,138 +132,188 @@ public class UpdateServer implements GuiManager, Serializable
 	
 	public void bringKit()
 	{
-		if (conv.getInKit() == null && count < 26)
-			conv.bringKit();
-		if (!conv.kitArrived() && count < 26)
-		{
-			conv.moveKit();
+		if (isBringKit)
+		{	
+			if (conv.getInKit() == null && count < 26)
+				conv.bringKit();
+			if (!conv.kitArrived() && count < 26)
+			{
+				conv.moveKit();
+			}
+			//kits.get(0).print();
+			countconv++;
 		}
-        //kits.get(0).print();
-		countconv++;
+        else
+            isBringKit = true;
 		if (countconv == 26)
 		{
 			countconv = 0;
 			isBringKit = false;
-			isMoveToStand = true;
+			//isMoveToStand = true;
 		}
 	}
 	
 	public void moveToStand(int k)
 	{
-		if (!robot.getIsMoving() && emptyStand() && conv.kitArrived())
+		if (isMoveToStand)
 		{
+			if (!robot.getIsMoving() && emptyStand() && conv.kitArrived())
+			{
 				robot.moveFromConveyorToStand(conv, stands.get(k), conv.getInKit(), 0);
+			}
+			if (robot.getIsMoving())
+				robot.move();
+			count++;
 		}
-		if (robot.getIsMoving())
-			robot.move();
-		count++;
+        else
+        {
+            isMoveToStand = true;
+            this.k  = k;
+        }
 		if (count == 100)
 		{
 			count = 0;
 			isMoveToStand = false;
 			//isBringKit = true;
-			isMovePartstoStand = true;
+			//isMovePartstoStand = true;
 		}
 	}
 	
 	public void movePartstoStand(int nest, int stand, int[] pos)
 	{
-		if (!probot.isMoving())
+		if (isMovePartstoStand)
 		{
-			if (stands.get(stand).getKit() != null){
-                if (!stands.get(stand).getKit().getIsComplete()){
-                    Part[] p = new Part[4];
-                    Nest[] n = new Nest[4];
-                    int[] indexes = new int[4];
-                    for (int j = 0; j < p.length; j++){
-                        Part p1 = parts.get(pos[j]);
-                        //parts.add(p1);
-                        p[j] = p1;
-                        n[j] = nests.get(pos[j]);
-                    }
-                    if (stands.get(stand).getKit().getParts()[0] == null){
-                        for (int j = 0; j < indexes.length; j++){
-                            indexes[j] = j;
-                        }
-                    }
-                    else{
-                        for (int j = 0; j < indexes.length; j++){
-                            indexes[j] = j+4;
-                        }
-                    }
-                    probot.moveFromNest(stands.get(stand),p,n,indexes,0);
-                }
-            }
+			if (!probot.isMoving())
+			{
+				if (stands.get(stand).getKit() != null){
+					if (!stands.get(stand).getKit().getIsComplete()){
+						Part[] p = new Part[4];
+						Nest[] n = new Nest[4];
+						int[] indexes = new int[4];
+						for (int j = 0; j < p.length; j++){
+							Part p1 = parts.get(pos[j]);
+							//Part p1 = new Part(nests.get(j).getPosition()X,
+							//nests.get(j).getPositionY(), 1);
+							//parts.add(p1);
+							p[j] = p1;
+							n[j] = nests.get(pos[j]);
+						}
+						if (stands.get(stand).getKit().getParts()[0] == null){
+							for (int j = 0; j < indexes.length; j++){
+								indexes[j] = j;
+							}
+						}
+						else{
+							for (int j = 0; j < indexes.length; j++){
+								indexes[j] = j+4;
+							}
+						}
+						probot.moveFromNest(stands.get(stand),p,n,indexes,0);
+					}
+				}
+			}
+			if (probot.isMoving())
+				probot.move();
+			count++;
 		}
-		if (probot.isMoving())
-			probot.move();
-		count++;
+        else
+        {
+            isMovePartstoStand = true;
+            this.k = stand;
+            this.a = pos;
+        }
 		if (count == 141)
 		{
 			count = 0;
 			isMovePartstoStand = false;
-			if (stands.get(stand).getKit().getIsComplete())
-				isMoveToInspection = true;
+			//if (stands.get(stand).getKit().getIsComplete())
+				//isMoveToInspection = true;
 		}
 	}
 	
 	public void moveToInspection()
 	{
-		if (!robot.getIsMoving() && stands.get(2).getKit() == null)
+		int stand = -1;
+		for (int i = 0; i < 2; i++)
 		{
-			for (int i = 0; i < 2; i++){
-				if (stands.get(i).getKit() != null){
-					robot.moveFromStandToStand(stands.get(i),stands.get(2), stands.get(i).getKit(), 0);
-					break;
-				}
+			if (stands.get(i).getKit() != null)
+			{
+				stand = i;
+				break;
 			}
 		}
-		if (robot.getIsMoving())
-			robot.move();
-		count++;
+		if(isMoveToInspection)
+        {
+            if (!robot.getIsMoving() && stands.get(2).getKit() == null)
+            {
+                robot.moveFromStandToStand(stands.get(stand),stands.get(2), stands.get(stand).getKit(), 0);
+            }
+            if (robot.getIsMoving())
+                robot.move();
+            count++;
+        }
+        else if (stands.get(stand).getKit().getIsComplete())
+		{
+			isMoveToInspection = true;
+		}
 		if (count == 100)
 		{
 			count = 0;
 			isMoveToInspection = false;
-			isTakePic = true;
+			//isTakePic = true;
 			
 		}
 	}
 	
 	public void takePic()
 	{
-		if (!robot.getIsMoving() && stands.get(2).getKit() != null && !stands.get(2).getKit().getPicTaken() && !cam.isMoving())
-			cam.takePicture(stands.get(2), 0);
-		if (cam.isMoving)
-			cam.move();
-		count++;
+		if (isTakePic)
+        {
+            if (!robot.getIsMoving() && stands.get(2).getKit() != null && !stands.get(2).getKit().getPicTaken() && !cam.isMoving())
+                cam.takePicture(stands.get(2), 0);
+            if (cam.isMoving)
+                cam.move();
+            count++;
+        }
+        else
+            isTakePic = true;
 		if (count == 57)
 		{
 			count = 0;
 			isTakePic = false;
-			isTakeToConveyor = true;
+			//isTakeToConveyor = true;
 		}
 	}
 	
 	public void takeToConveyor()
 	{
-		if (!robot.getIsMoving() && stands.get(2).getKit() != null && stands.get(2).getKit().getPicTaken())
-			robot.moveFromStandToConveyor(stands.get(2), conv, stands.get(2).getKit(), 0);
-		if (robot.getIsMoving())
-			robot.move();
-		count++;
+		if (isTakeToConveyor)
+        {
+            if (!robot.getIsMoving() && stands.get(2).getKit() != null && stands.get(2).getKit().getPicTaken())
+                robot.moveFromStandToConveyor(stands.get(2), conv, stands.get(2).getKit(), 0);
+            if (robot.getIsMoving())
+                robot.move();
+            count++;
+        }
+        else
+            isTakeToConveyor = true;
 		if (count == 100)
 		{
 			count = 0;
 			isTakeToConveyor = false;
-			isTakeKit = true;
+			//isTakeKit = true;
 		}
 	}
 	public void takeKit()
 	{
-		if (conv.getOutKit() != null)
+		if (isTakeKit)
+        {
+            if (conv.getOutKit() != null)
 			conv.takeKit();
-		count++;
+            count++;
+        }
+        else
+            isTakeKit = true;
 		if (count == 26)
 		{
 			count = 0;
@@ -269,6 +321,7 @@ public class UpdateServer implements GuiManager, Serializable
             conv.getOutKit().setIsMoving(false);
             conv.setOutKit(null);
 		}
+        
 	}
     
     public void removeExtraKits(){
@@ -351,11 +404,11 @@ public class UpdateServer implements GuiManager, Serializable
         if (isBringKit)
 			bringKit();
 		if (isMoveToStand)
-			moveToStand(0);
+			moveToStand(k);
 		if (isMovePartstoStand)
 		{
-			int a[] = {0, 1, 2, 5};
-			movePartstoStand(200, 0, a);
+			//int a[] = {0, 1, 2, 5};
+			movePartstoStand(200, k, a);
 		}
 			
 		if (isMoveToInspection)

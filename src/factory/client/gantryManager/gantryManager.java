@@ -1,4 +1,4 @@
-package factory.client.laneManager;
+package factory.client.gantryManager;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -13,7 +13,7 @@ import java.util.*;
 import factory.global.network.*;
 import factory.global.data.*;
 
-public class LaneManager extends JFrame implements ActionListener, NetworkManager
+public class gantryManager extends JFrame implements ActionListener, NetworkManager
 {
 	NetworkBridge nb1;
 	TreeMap<Integer,FactoryObject> frameAnimationData;
@@ -26,7 +26,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 	TreeMap<Integer,FactoryObject> temp;
 	TreeMap<Integer,FactoryObject> animData;
 
-	public LaneManager(){
+	public gantryManager(){
 
 		// Create Backgroud Image
 		background = new ImageIcon("bin/factory/global/assets/LMBG.png");
@@ -43,7 +43,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 	}
 
 	public static void main(String[] args){
-		LaneManager l = new LaneManager();
+		gantryManager l = new gantryManager();
 		l.setVisible(true);
 		l.setSize(400,670);
 		l.createBufferStrategy(2);
