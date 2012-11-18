@@ -25,8 +25,13 @@ public class GantryManager implements GuiManager, Serializable
 	public gantryRobot robot;
 	int counter, index;
     public boolean isMoveToBin = false;
+    public boolean isMoveToFeeder = false;
+    public boolean isMoveToPoint = false;
+    public boolean isRemoveBin = false;
     public int bin;
-	
+	public int feeder;
+    public int x;
+    public int y;
 	TreeMap<Integer,Boolean> changeMap;
 	TreeMap<Integer,FactoryObject> temp;
 	TreeMap<Integer,FactoryObject> changeData;
@@ -111,6 +116,10 @@ public class GantryManager implements GuiManager, Serializable
     {
         if (isMoveToBin)
             robot.moveToBin(bin);
+        if (isMoveToFeeder)
+            robot.moveToFeeder(feeder);
+        if (isMoveToPoint)
+            robot.moveToPoint(x, y);
     }
 	public void update(TreeMap<Integer,Boolean> changeMap, TreeMap<Integer,FactoryObject> changeData){
 		
