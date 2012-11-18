@@ -54,11 +54,12 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 				for(int i = 0; i < 3; i++){
 						factoryAnimationData.add(new TreeMap<Integer, FactoryObject>());
 				}
-				//nb = new NetworkBridge(this, "aludra.usc.edu", 8465, 5);
+				nb = new NetworkBridge(this, "localhost", 8465, 5);
 				fmg = new FactoryManagerGUI(this);
 				animationFrames = new ArrayList<JPanel>();
 				animationFrames.add(new KASM(this));
 				animationFrames.add(new LM(this));
+				animationFrames.add(new GM(this));
 				t = new Timer(25,this);
 				
 				// add animation managers to animationContainer
@@ -73,17 +74,17 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 				this.add(masterPanel);
 				
 				// start threads
-				//t.start();
-				//nb.sync();
+				t.start();
+				nb.sync();
 				
-				c1.show(masterPanel, "gc");
+				c1.show(masterPanel, "ac");
 		}
 		
 		public static void main(String[] args){
 				FactoryManager fm = new FactoryManager();
 				
 				// set frame properties
-				fm.setSize(755,670);
+				fm.setSize(1155,670);
 				fm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				fm.setTitle("FactoryManager");
 				fm.setVisible(true);
@@ -98,12 +99,10 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 		}
 		
 		public void actionPerformed(ActionEvent ae){
-				c1.show(masterPanel,"ac");
-				/*
+				//c1.show(masterPanel,"ac");
 				for(JPanel frame : animationFrames){
 						frame.repaint();
 				}
-				*/
 		}
 		
 		// -------------------------------------------------------------------------------------- //
@@ -118,7 +117,7 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 		
 		// client specific
 		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){
-				if(mapArray.size() == 2){
+				if(mapArray.size() == 3){
 						TreeMap<Integer, Boolean> changeMap;
 						TreeMap<Integer, FactoryObject> changeData, currentFrameData;
 						
@@ -155,7 +154,7 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 		}
 		
 		public void syncChanges(ArrayList<TreeMap<Integer,FactoryObject>> dataArray){
-				if(dataArray.size() == 2){
+				if(dataArray.size() == 3){
 						for(int i = 0; i < dataArray.size(); i++){
 								factoryAnimationData.set(i, dataArray.get(i));
 						}

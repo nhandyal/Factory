@@ -25,8 +25,8 @@ public class gantryManager extends JFrame implements ActionListener, NetworkMana
 	public gantryManager(){
 			t = new Timer(25,this);
     nb = new NetworkBridge(this, "localhost", 8465, 2);
-			//nb.sync();
-			//t.start();
+			nb.sync();
+			t.start();
 	}
 
 	public static void main(String[] args){

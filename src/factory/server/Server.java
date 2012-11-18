@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import factory.global.network.*;
 import factory.global.data.*;
 import factory.server.managers.GuiManager;
+import factory.server.managers.gantryManager.*;
 import factory.server.managers.laneManager.*;
 import factory.server.managers.kitAssemblyManager.*;
 import factory.server.managers.factoryState.*;
@@ -52,6 +53,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				// initialize all class instance variables
 				fs = new FactoryState();
 				icm = new InboundConnectionManager(this);
+				guiViews[0] = new gantryManager();
 				guiViews[1] = new LaneManager();																						// Lane
 				guiViews[2] = new UpdateServer();																						// Kit Asm 
 				changeMap = new ArrayList<TreeMap<Integer, Boolean>>(3);
@@ -60,8 +62,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				startAnimation = false;
 				
 				// initialize server control panel
-				SCP = new ServerControl(guiViews[2], guiViews[1]);
-				System.out.println(guiViews[2]);
+				SCP = new ServerControl(guiViews[2], guiViews[1],fs);
 				this.add(SCP);	
 				// initialize timer
 				t = new Timer(50,this);
@@ -105,7 +106,6 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 		
 		// function to update part data
 		public void updatePartData(TreeMap<Integer, Parts> partData){
-				System.out.println("merge parts called");
 				fs.mergeParts(partData);
 				
 				if(clientConnections[1] != null){
@@ -117,7 +117,6 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 		}
 		
 		public void updateKitData(ArrayList<Kits> kitData){
-				System.out.println("update kit data called");
 				fs.mergeKits(kitData);
 		}
 		
@@ -142,11 +141,10 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 		// -------------------------------------------------------------------------------------- //
 		
 		private void masterSync(){
-				System.out.println("master sync called");
 				ArrayList<TreeMap<Integer, FactoryObject>> changeData = new ArrayList<TreeMap<Integer, FactoryObject>>();
 				TreeMap<Integer, Boolean> changeMap = null;
 				Instruction instr = new Instruction("SAD",1);
-				Instruction instrFM = new Instruction("SAD",2);
+				Instruction instrFM = new Instruction("SAD",3);
 				
 				// initialize changeData with empty TreeMaps
 				for(int i = 0; i < 3; i++){
@@ -155,12 +153,12 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				}
 				
 				// call sync on all GuiManagers
-				//guiViews[0].sync(changeData.get(0));
+				guiViews[0].sync(changeData.get(0));
 				guiViews[1].sync(changeData.get(1));
 				guiViews[2].sync(changeData.get(2));
 				
 				// build NetworkTransferObjects for all the managers
-				//NetworkTransferObject gantryData = new NetworkTransferObject(changeMap, changeData.get(0));
+				NetworkTransferObject gantryData = new NetworkTransferObject(changeMap, changeData.get(0));
 				NetworkTransferObject laneData = new NetworkTransferObject(changeMap, changeData.get(1));
 				NetworkTransferObject kitAsmData = new NetworkTransferObject(changeMap, changeData.get(2));
 				
@@ -171,8 +169,8 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 						if(clientConnections[i] != null){
 								switch(i){
 										case 2:
-												//clientConnections[2].writeData(instr);
-												//clientConnections[2].writeData(gantryData);
+												clientConnections[2].writeData(instr);
+												clientConnections[2].writeData(gantryData);
 												break;
 										case 3:
 												clientConnections[3].writeData(instr);
@@ -186,7 +184,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 												clientConnections[5].writeData(instrFM);
 												clientConnections[5].writeData(kitAsmData);
 												clientConnections[5].writeData(laneData);
-												//clientConnections[5].writeData(gantryData);
+												clientConnections[5].writeData(gantryData);
 												break;
 								}
 						}
@@ -216,7 +214,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				}
 				
 				// get update data for Gantry Manager
-				//guiViews[0].update(changeMap.get(0), changeData.get(0));
+				guiViews[0].update(changeMap.get(0), changeData.get(0));
 				
 				// get update data for Lane Manager
 				guiViews[1].update(changeMap.get(1), changeData.get(1));
@@ -228,14 +226,14 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				// we need to create NetworkTransferObjects with the appropriate changeMap and changeData trees for the 3 managers
 				// we will send all three NTO's to the fm so that it has all relevant data to paint
 				
-				//NetworkTransferObject gantryData = new NetworkTransferObject(changeMap.get(0), changeData.get(0));
+				NetworkTransferObject gantryData = new NetworkTransferObject(changeMap.get(0), changeData.get(0));
 				NetworkTransferObject laneData = new NetworkTransferObject(changeMap.get(1), changeData.get(1));
 				NetworkTransferObject kitAsmData = new NetworkTransferObject(changeMap.get(2), changeData.get(2));
 				
 				
 				// now we can send all of the data to the appropriate clients prefaced by an update animation data instruction. FM will expect 3 NTO objects on the input stream
 				Instruction instr = new Instruction("UAD",1);
-				Instruction instrFM = new Instruction("UAD",2);
+				Instruction instrFM = new Instruction("UAD",3);
 				
 				/*
 				 * send the update animation data instruction along with the appropriate NTO to all animation managers
@@ -249,8 +247,8 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 						if(clientConnections[i] != null){
 								switch(i){
 										case 2:
-												//clientConnections[2].writeData(instr);
-												//clientConnections[2].writeData(gantryData);
+												clientConnections[2].writeData(instr);
+												clientConnections[2].writeData(gantryData);
 												break;
 										case 3:
 												clientConnections[3].writeData(instr);
@@ -264,7 +262,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 												clientConnections[5].writeData(instrFM);
 												clientConnections[5].writeData(kitAsmData);
 												clientConnections[5].writeData(laneData);
-												//clientConnections[5].writeData(gantryData);
+												clientConnections[5].writeData(gantryData);
 												break;
 								}
 						}

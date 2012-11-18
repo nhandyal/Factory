@@ -9,22 +9,22 @@ import java.util.*;
 // user packages
 import factory.global.data.*;
 
-public class LM extends JPanel{
+public class GM extends JPanel{
 		TreeMap<Integer,FactoryObject> frameAnimationData;
 		ImageIcon background;
 		ImageArray images;
 		FactoryManager parent;
 		
-		public LM(FactoryManager parent){
+		public GM(FactoryManager parent){
 				this.parent = parent;
-				background = new ImageIcon("bin/factory/global/assets/LMBG.png");		// Create Backgroud Image
+				background = new ImageIcon("bin/factory/global/assets/GMBG.png");		// Create Backgroud Image
 				images = parent.getImageArray();																		// Bind image array with factoryManager
 				
 				
 				// set panel properties
-				this.setMinimumSize(new Dimension(334,670));
-				this.setMaximumSize(new Dimension(334,670));
-				this.setPreferredSize(new Dimension(334,670));
+				this.setMinimumSize(new Dimension(400,670));
+				this.setMaximumSize(new Dimension(400,670));
+				this.setPreferredSize(new Dimension(400,670));
 		}
 		
     public void paintComponent(Graphics g){
@@ -48,6 +48,6 @@ public class LM extends JPanel{
     }
 		
 		private void refreshAnimationData(){
-				frameAnimationData = parent.getFrameData(1);																// Bind frame animation data with factoryManager
+				frameAnimationData = parent.getFrameData(2);																// Bind frame animation data with factoryManager
 		}
 }

@@ -9,11 +9,13 @@ import factory.global.data.*;
 import factory.server.managers.GuiManager;
 import factory.server.managers.laneManager.*;
 import factory.server.managers.kitAssemblyManager.*;
+import factory.server.managers.factoryState.*;
 
 public class ServerControl extends JPanel implements ActionListener{
 	
 	UpdateServer KitASM;
 	LaneManager LM;
+	FactoryState fs;
 	
 	JPanel overPanel = new JPanel();
 	JPanel laneControl = new JPanel();
@@ -37,19 +39,14 @@ public class ServerControl extends JPanel implements ActionListener{
 	String[] indexStrings = new String[8];
 	JComboBox[] nestChooser = new JComboBox[4];
 	String[] nestStrings = new String[8];
-	JButton updateParts2 = new JButton("Update Part List");
 	JButton bringKit = new JButton("Bring Kit");
 	JButton takeKit = new JButton("Take Kit");
 	
 	JLabel laneDesc = new JLabel("Lane Manager");
 	String[] laneStrings = new String[8];
-	ArrayList<String> partStrings = new ArrayList<String>();
 	JComboBox laneChooser;
-	JComboBox partChooser;
 	JButton toggleLane = new JButton("Turn Lane On/Off");
 	JButton nestPicture = new JButton("Picture of Nest");
-	JButton gantry = new JButton("Add Part to Lane");
-	JButton updateParts = new JButton("Update Part List");
 	
 	JLabel factoryControlDesc = new JLabel("Factory Production Manager");
 	ArrayList<String> kitStrings = new ArrayList<String>();
@@ -58,12 +55,13 @@ public class ServerControl extends JPanel implements ActionListener{
 	JButton makeKits = new JButton("Make Kits");
 	JButton updateKits = new JButton("Update Kit List");
 	
-	public ServerControl(GuiManager kit, GuiManager LM){
+	public ServerControl(GuiManager kit, GuiManager LM, FactoryState fs){
 		
-		System.out.println(kit);
+		
 		this.KitASM = (UpdateServer)kit;
 		this.LM = (LaneManager)LM;
-		System.out.println(KitASM);
+		this.fs = fs;
+		
 		for (int i = 1; i < laneStrings.length+1; i++){
 			laneStrings[i-1] = "Lane " + i;
 		}
@@ -79,16 +77,11 @@ public class ServerControl extends JPanel implements ActionListener{
 			else
 				nestStrings[i-1] = "Nest " + i;
 		}
-		for (int i = 1; i < 11; i++){
-			String s = "Part " + i;
-			partStrings.add(s);
-		}
 		for (int i = 1; i < 6; i++){
 			String s = "Kit " + i;
 			kitStrings.add(s);
 		}
 		laneChooser = new JComboBox(laneStrings);
-		partChooser = new JComboBox(partStrings.toArray());
 		for (int i = 0; i < nestChooser.length; i++)
 			nestChooser[i] = new JComboBox(nestStrings);
 		kitChooser = new JComboBox(kitStrings.toArray());
@@ -116,13 +109,11 @@ public class ServerControl extends JPanel implements ActionListener{
 		inspection.addActionListener(this);
         inspection2.addActionListener(this);
 		standToConveyor.addActionListener(this);
-		updateParts2.addActionListener(this);
 		bringKit.addActionListener(this);
 		takeKit.addActionListener(this);
 		
 		toggleLane.addActionListener(this);
 		nestPicture.addActionListener(this);
-		updateParts.addActionListener(this);
 		
 		makeKits.addActionListener(this);
 		updateKits.addActionListener(this);
@@ -143,16 +134,12 @@ public class ServerControl extends JPanel implements ActionListener{
 		kitAssemblyControl.add(inspectionPicture);
 		kitAssemblyControl.add(standToConveyor);
 		kitAssemblyControl.add(takeKit);
-		kitAssemblyControl.add(updateParts2);
 		
-		lComboBoxPanel.add(partChooser);
 		lComboBoxPanel.add(laneChooser);
 		laneControl.add(laneDesc);
 		laneControl.add(lComboBoxPanel);
 		laneButtonPanel.add(toggleLane);
 		laneButtonPanel.add(nestPicture);
-		laneButtonPanel.add(gantry);
-		laneButtonPanel.add(updateParts);
 		laneControl.add(laneButtonPanel);
 		
 		fComboBoxPanel.add(kitChooser);
@@ -263,17 +250,6 @@ public class ServerControl extends JPanel implements ActionListener{
 		}
 		if (e.getSource() == nestPicture){
 		
-		}
-		if (e.getSource() == updateParts || e.getSource() == updateParts2){
-			//Get parts list from server, set it to partStrings
-			partChooser.removeAllItems();
-			for (int i = 0; i < partStrings.size(); i++)
-				partChooser.addItem(partStrings.get(i));
-			for (int i = 0; i < nestChooser.length; i++){
-				nestChooser[i].removeAllItems();
-				for (int j = 0; j < partStrings.size(); j++)
-					nestChooser[i].addItem(partStrings.get(j));
-			}
 		}
 		if (e.getSource() == makeKits){
 		
