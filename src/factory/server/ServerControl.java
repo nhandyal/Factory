@@ -66,13 +66,13 @@ public class ServerControl extends JPanel implements ActionListener{
 			laneStrings[i-1] = "Lane " + i;
 		}
 		for (int i = 0; i < indexStrings.length+1; i++){
-			if (i = 0)
+			if (i == 0)
 				indexStrings[i] = "Section -";
 			else
 				indexStrings[i-1] = "Section " + i;
 		}
 		for (int i = 0; i < nestStrings.length+1; i++){
-			if (i = 0)
+			if (i == 0)
 				nestStrings[i] = "Nest -";
 			else
 				nestStrings[i-1] = "Nest " + i;
