@@ -13,133 +13,105 @@ import java.util.*;
 import factory.global.network.*;
 import factory.global.data.*;
 
-public class gantryManager extends JFrame implements ActionListener, NetworkManager
-{
-	NetworkBridge nb1;
-	TreeMap<Integer,FactoryObject> frameAnimationData;
-
-	ImageIcon background;
-	ImageArray images;
+public class gantryManager extends JFrame implements ActionListener, NetworkManager {
 	
-	TreeMap<Integer,Boolean> changeMap;
-	TreeMap<Integer,FactoryObject> changeData;
-	TreeMap<Integer,FactoryObject> temp;
-	TreeMap<Integer,FactoryObject> animData;
+	Timer t;
+	TreeMap<Integer, FactoryObject> fos = new TreeMap<Integer, FactoryObject>();
+	ImageIcon bg = new ImageIcon("bin/factory/global/assets/GMBG.png");
+    Image iBuffer;
+	ImageArray images = new ImageArray();
+    NetworkBridge nb;
 
 	public gantryManager(){
-
-		// Create Backgroud Image
-		background = new ImageIcon("bin/factory/global/assets/LMBG.png");
-
-		images = new ImageArray();
-		
-		changeMap = new TreeMap<Integer,Boolean>();
-		changeData = new TreeMap<Integer,FactoryObject>();
-		animData = new TreeMap<Integer,FactoryObject>();
-		temp = new TreeMap<Integer,FactoryObject>();
-		frameAnimationData = new TreeMap<Integer,FactoryObject>();
-		nb1 = new NetworkBridge(this,"aludra.usc.edu",8465,3);
-		nb1.sync();
+			t = new Timer(25,this);
+    nb = new NetworkBridge(this, "localhost", 8465, 2);
+			nb.sync();
+			t.start();
 	}
 
-	public static void main(String[] args){
-		gantryManager l = new gantryManager();
-		l.setVisible(true);
-		l.setSize(400,670);
-		l.createBufferStrategy(2);
-		l.setTitle("Lane Manager");
-		l.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		new Timer(50,l).start();
-	} //end main
-
-	/*public void actionPerformed( ActionEvent ae ) {
+	public void actionPerformed(ActionEvent ae){
 		repaint();
-    }
+	}
 
-    public void registerClientListener(NetworkBridge newBridge, int cID){}
-		public void syncFrame(int cID){}
-		public void updatePartData(TreeMap<Integer, Parts> partData){}
-		
-		// client specific
-		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){
+	public void paint(Graphics g){
+			Graphics2D g2 = (Graphics2D)g;
+			bg.paintIcon(this, g2, 0, 0);
+			for (Integer i : fos.keySet()){
+					FactoryObject t = fos.get(i);
+					if(t.getIsLine()){
+							g2.setColor(Color.WHITE);
+							g2.drawLine(t.getPositionX(), t.getPositionY(), t.getPositionXF(), t.getPositionYF());
+					}	
+					else{
+							ImageIcon tmp = images.getIcon(t.getImageIndex());
+							tmp.paintIcon(this, g2, t.getPositionX(), t.getPositionY());
+					}
+			}
+	}
+
+	public void update(Graphics g){  
+			if(iBuffer == null){  
+					iBuffer = this.createImage(400, 670);  
+			}  
+			Graphics gOffScreen = iBuffer.getGraphics();
+			paint(gOffScreen);  
+			g.drawImage(iBuffer, 0, 0, null);
+	}
+
+
+    // -------------------------------------------------------------------------------------- //
+	// ----------------------------------- Network Manager ---------------------------------- //
+	// -------------------------------------------------------------------------------------- //
+	
+	// server specific
+	public void registerClientListener(NetworkBridge newBridge, int cID){}
+	public void syncFrame(){}
+	public void updatePartData(TreeMap<Integer, Parts> partData){}
+	
+	// client specific
+	public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){
+			
+			if(mapArray.size() == 1){
+					TreeMap<Integer, Boolean> changeMap = mapArray.get(0);
+					TreeMap<Integer, FactoryObject> changeData = dataArray.get(0);
 				
-				if(mapArray.size() == 1){
-						TreeMap<Integer, Boolean> changeMap = mapArray.get(0);
-						TreeMap<Integer, FactoryObject> changeData = dataArray.get(0);
-						
-						// --- change in this block --- //
-						
-						// iterate over all the keys present in changeMap
-						// after this loop is complete, the frameAnimationData map will be accurately synced with the server copy
-						for(Integer key : changeMap.keySet()){
-								// check the write direction of the change map key
-								if(changeMap.get(key)){
-										// write new factory object to animation frame
-										FactoryObject newAnimationData = changeData.get(key);
-										frameAnimationData.put(key,newAnimationData);
-								}
-								else{
-										// delete the factory object from frameAnimationData
-										frameAnimationData.remove(key);
-								}
-						}
-						
-						// --- End block -- //
-				}
-				else{
-						System.out.println("Warning: Corrupt frame data");
-				}
-		}
-		
-		public void syncChanges(ArrayList<TreeMap<Integer,FactoryObject>> dataArray){
-				if(dataArray.size() == 1){
-						TreeMap<Integer, FactoryObject> changeData = dataArray.get(0);
-						frameAnimationData = changeData;
-						System.out.println("Sync complete");
-				}
-				else{
-						System.out.println("Warning: Corrupt frame data");
-				}
-		}
-		
-		// global
-		public void closeNetworkBridge(int bridgeID){
-				nb1.close();
-		}
-
-   /* public void paint(Graphics g){
-    	Graphics2D g2 = (Graphics2D)g;
-
-//    	System.out.println("Paint Called");
-    	
-//		buildMap(animData);
-    	
-    	Iterator k = changeMap.keySet().iterator();
-//comment block//	while(k.hasNext()){
-			int i = (Integer) k.next();
-			if(animData.containsKey(i) == false){
-				animData.put(i,changeData.get(i));
+					// iterate over all the keys present in changeMap
+					// after this loop is complete, the frameAnimationData map will be accurately synced with the server copy
+					for(Integer key : changeMap.keySet()){
+							// check the write direction of the change map key
+							if(changeMap.get(key)){
+									// write new factory object to animation frame
+									FactoryObject newAnimationData = changeData.get(key);
+									frameAnimationData.put(key,newAnimationData);
+							}
+							else{
+									// delete the factory object from frameAnimationData
+									frameAnimationData.remove(key);
+							}
+					}
 			}
-			else if(changeMap.get(i) == true){
-				animData.put(i,changeData.get(i));
+			else{
+					System.out.println("Warning: Corrupt frame data");
 			}
-		}	//end block//
-
-		background.paintIcon(this,g2,0,0);
-
-		// Paint Updated List
-		k = frameAnimationData.keySet().iterator();
-		while(k.hasNext()){
-			int i = (Integer) k.next();
-			if(i != 0 && frameAnimationData.get(i).getIndex()> 0){
-				if(frameAnimationData.get(i).getIsLine()== true)	// if object is a line draw a line
-					g2.drawLine(frameAnimationData.get(i).getPositionX(),frameAnimationData.get(i).getPositionY(),frameAnimationData.get(i).getPositionXF(),frameAnimationData.get(i).getPositionYF());
-				else{ 										//if object is not a line draw an ImageIcon
-					int img = frameAnimationData.get(i).getImageIndex();
-					images.getIcon(img).paintIcon(this,g2,frameAnimationData.get(i).getPositionX(),frameAnimationData.get(i).getPositionY());
-				}
+	}
+	
+	public void syncChanges(ArrayList<TreeMap<Integer,FactoryObject>> dataArray){
+			if(dataArray.size() == 1){
+					TreeMap<Integer, FactoryObject> changeData = dataArray.get(0);
+					frameAnimationData = changeData;
+					System.out.println("Sync complete");
 			}
-		}
-    }*/
+			else{
+				System.out.println("Warning: Corrupt frame data");
+			}
+	}
+	
+	// global
+	public void closeNetworkBridge(int bridgeID){
+			nb1.close();
+	}
+	
+	// -------------------------------------------------------------------------------------- //
+	// ----------------------------------- End Network Manager ------------------------------ //
+	// -------------------------------------------------------------------------------------- //		
 }

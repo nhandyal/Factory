@@ -13,7 +13,6 @@ public class Kits implements java.io.Serializable{
 		this.listOfParts = listOfParts; 
 		this.description = description; 
 		this.kitID = kitID; 
-
 	}
 	
 	public String getName(){

@@ -30,11 +30,12 @@ import factory.client.factoryManager.*;
 */
 
 public class FactoryManager extends JFrame implements ActionListener, NetworkManager{
-		JPanel masterPanel, animationContainer, GuiContainer;
+		JPanel masterPanel, animationContainer;
 		CardLayout c1;
 		ArrayList<JPanel> animationFrames;
 		ArrayList<TreeMap<Integer, FactoryObject>> factoryAnimationData;
 		ImageArray images = new ImageArray();
+		FactoryManagerGUI fmg;
 		Timer t;
 		NetworkBridge nb;
 		
@@ -42,36 +43,32 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 				// initialize JPanels and CardLayout
 				masterPanel = new JPanel();
 				animationContainer = new JPanel();
-				GuiContainer = new JPanel();
 				c1 = new CardLayout();
-				JButton test = new JButton("test");
-				test.addActionListener(this);
 				
 				// set Panel and Frame properties
 				masterPanel.setLayout(c1);
 				animationContainer.setLayout(new BoxLayout(animationContainer,BoxLayout.X_AXIS));
-				
 				
 				// initialize class variables
 				factoryAnimationData = new ArrayList<TreeMap<Integer, FactoryObject>>();
 				for(int i = 0; i < 3; i++){
 						factoryAnimationData.add(new TreeMap<Integer, FactoryObject>());
 				}
-				nb = new NetworkBridge(this, "aludra.usc.edu", 8465, 5);
+				//nb = new NetworkBridge(this, "aludra.usc.edu", 8465, 5);
+				fmg = new FactoryManagerGUI(this);
 				animationFrames = new ArrayList<JPanel>();
 				animationFrames.add(new KASM(this));
 				animationFrames.add(new LM(this));
 				t = new Timer(25,this);
 				
-				// add panels to frame
+				// add animation managers to animationContainer
 				for(JPanel frame : animationFrames){
 						animationContainer.add(frame);
 				}
-				GuiContainer.add(test);
 				
-				
+				// add the container panels to the JFrame
 				masterPanel.add(animationContainer,"ac");
-				masterPanel.add(GuiContainer,"gc");
+				masterPanel.add(fmg,"gc");
 				
 				this.add(masterPanel);
 				
