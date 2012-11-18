@@ -21,9 +21,10 @@ public class LaneManager implements GuiManager
 	ArrayList<Bin> bins;
 	ArrayList<Line> dividers;
 	ArrayList<Feeder> feeders;
-	int counter, index;
+	int index, counter, counter2;
 	FOComparator foc;
 	ImageArray images;
+	Camera cam;
 	
 	TreeMap<Integer,Boolean> changeMap;
 	TreeMap<Integer,FactoryObject> temp;
@@ -98,6 +99,10 @@ public class LaneManager implements GuiManager
 		index++;
 		feeders.add(new Feeder(313,426,19,index));
 		index++;
+
+		// Create Camera
+		cam = new Camera(264,28,13,Integer.MAX_VALUE);
+//		index += 3;
 		
 		// Turn On Lane 0, Off Lanes 1-7
 		laneSwitch(8,0);
@@ -110,8 +115,9 @@ public class LaneManager implements GuiManager
 		// Create ImageList
 		images = new ImageArray();
 
-		// Start Counter
+		// Start Counters
 		counter = 0;
+		counter2 = 0;
 		
 		// Initialize comparator
 		foc = new FOComparator();
@@ -167,17 +173,33 @@ public class LaneManager implements GuiManager
 					map.put(lanes.get(i).getLaneLine(j).getIndex(),lanes.get(i).getLaneLine(j));
 			}
 			// Parts (Lanes and Nests)
-			for(int j=0;j<lanes.get(i).getLaneSize();j++)
-				map.put(lanes.get(i).getLanePart(j).getIndex(),lanes.get(i).getLanePart(j));
+			for(int j=0;j<lanes.get(i).getLaneSize();j++){
+//				if(lanes.get(i).getLanePart(j).getIndex() != 35)
+					map.put(lanes.get(i).getLanePart(j).getIndex(),lanes.get(i).getLanePart(j));
+			}
 			for(int j=0;j<lanes.get(i).getNestSize();j++)
 				map.put(lanes.get(i).getNestPart(j).getIndex(),lanes.get(i).getNestPart(j));
 		}
 
 		// Add Parts Low Lights
 		for(int i=0;i<4;i++){
-			if(feeders.get(i).getPush() <= feeders.get(i).getPartsLow() && feeders.get(i).getPush() > 0){
+			if(feeders.get(i).getPush() <= feeders.get(i).getPartsLow() && (lanes.get(i*2).getActive() == true || lanes.get((i*2)+1).getActive() == true)){
 				map.put(feeders.get(i).getIndex(),feeders.get(i));
 			}
+		}
+
+		// Add Camera
+		map.put(cam.getIndex(),cam);
+		map.put((Integer.MAX_VALUE - 1),new FactoryObject());
+		map.get(Integer.MAX_VALUE - 1).setPosition((cam.getPositionX()+14),0);
+		map.get(Integer.MAX_VALUE - 1).setIndex(Integer.MAX_VALUE - 1);
+		map.get(Integer.MAX_VALUE - 1).setImage(15);
+		if(cam.getTakenPicture() == true && counter2 == 0){
+			map.put((Integer.MAX_VALUE - 2),new FactoryObject());
+			map.get(Integer.MAX_VALUE - 2).setPosition(cam.getPositionX(),cam.getPositionY());
+			map.get(Integer.MAX_VALUE - 2).setIndex(Integer.MAX_VALUE - 2);
+			map.get(Integer.MAX_VALUE - 2).setImage(14);
+			cam.setTakenPicture(false);
 		}
 	}
 
@@ -210,7 +232,7 @@ public class LaneManager implements GuiManager
 		
 		for(int i=0;i<8;i++){
 			if(lanes.get(i).getActive() == true){		// if lane is on
-				if(counter==24){						// every 25th instance of timer
+				if(counter==24 && feeders.get(i/2).getPush() > 0){			// every 25th instance of timer
 					int partindx = feeders.get(i/2).getBin().getPart();
 //					System.out.println(partindx);
 					lanes.get(i).addPart(partindx,index);		// create a new part
@@ -220,7 +242,14 @@ public class LaneManager implements GuiManager
 					counter = 0;						// reset counter
 				}
 				counter++;
-				if(feeders.get(i/2).getPush() == 0){	// if there are 36 parts on the lane
+
+				boolean partsStopped = true;
+				for(int j=0;j<lanes.get(i).getLaneSize();j++){
+					if(lanes.get(i).getLanePart(j).getIsMoving() == true)
+						partsStopped = false;
+				}
+
+				if(feeders.get(i/2).getPush() == 0 && partsStopped == true){	// if bin is empty
 					laneSwitch(i,i+1);					// turn off lane, turn on next lane
 					counter = 0;						// reset counter
 				}
@@ -228,8 +257,19 @@ public class LaneManager implements GuiManager
 		}
 		
 		// Move Elements
-		for(int i=0;i<8;i++)
+		for(int i=0;i<8;i++){
 			lanes.get(i).moveParts();
+			if(lanes.get(i).getPicNeeded() == true && cam.getHasPath() == false){
+				cam.setPath(lanes.get(i).getPositionX(),lanes.get(i).getPositionY(),i);
+			}
+		}
+
+		cam.move();
+		if(cam.getTakenPicture() == true){					// if the camera has taken a picture
+			lanes.get(cam.getNest()).setPicNeeded(false);	// tell the nest a picture is taken
+			counter2 = 0;
+		}
+
 
 		sync(changeData);
 		
@@ -265,6 +305,11 @@ public class LaneManager implements GuiManager
 			if(changeMap.get(i) == false)
 				changeData.remove(i);
 		}
+
+//		System.out.println(counter2);
+		counter2++;
+		if(counter2 > 3)
+			changeMap.put((Integer.MAX_VALUE - 2), false);
 		
 		k = changeData.keySet().iterator();
 		while(k.hasNext()){
