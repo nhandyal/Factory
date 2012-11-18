@@ -14,7 +14,9 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 	SecondColumn sC; 
 	ThirdColumn tC; 
 	PartInfo pI; 
+	Parts newPart1, newPart2, newPart3, newPart4, newPart5, newPart6, newPart7, newPart8, newPart9, newPart10;
 	boolean part1Edit, part2Edit, part3Edit, part4Edit, part5Edit, part6Edit, part7Edit, part8Edit, part9Edit, part10Edit; 
+	boolean isPart1New, isPart2New, isPart3New, isPart4New, isPart5New, isPart6New, isPart7New, isPart8New, isPart9New, isPart10New; 
 	int listCounter; 
 	JButton newKit; 
 	TreeMap<Integer, Parts> listOfParts; 
@@ -85,6 +87,17 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		part8Edit = false; 
 		part9Edit = false; 
 		part10Edit = false; 
+
+		isPart1New = true; 
+		isPart2New = true; 
+		isPart3New = true; 
+		isPart4New = true; 
+		isPart5New = true; 
+		isPart6New = true; 
+		isPart7New = true; 
+		isPart8New = true; 
+		isPart9New = true; 
+		isPart10New = true; 
 		
 
 		listCounter = 0; 
@@ -130,11 +143,29 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				fC.getPartOneName().setText("Part 1"); 
 				return; 
 			}
+				int savedCounter = 0; 
+				
+				if(isPart1New){
+					newPart1 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 0);
+					listOfParts.put(listCounter, newPart1); 
+					savedCounter = listCounter; 
+					listCounter++; 	
+					tC.getFirstPartButton().setText("E");
+					isPart1New = false; 
+				}
+				else{
+					 
+					String indexString = pI.getPartIndexNumber().getText();
+					int indexInt = Integer.parseInt(indexString);
+					newPart1.setPartNumber(indexInt); 
+					newPart1.setName(pI.getEnterNameHere().getText());
+					newPart1.setDesc(pI.getPartDescription().getText()); 
+					listOfParts.put(savedCounter, newPart1); 
+				}
 
-			Parts newPart1 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 0);
-			
-				listOfParts.put(listCounter, newPart1); 		
-				listCounter++; 	
+
+				 
+
 				nb1.sendPartData(listOfParts); 
 		}
 		
@@ -163,10 +194,25 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				fC.getPartOneName().setText("Part 2"); 
 				return; 
 			} 			
-			Parts newPart2 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 2);
-			
-			listOfParts.put(listCounter, newPart2); 
-			listCounter++; 
+			int savedCounter = 0; 
+				
+				if(isPart2New){
+					newPart2 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 0);
+					listOfParts.put(listCounter, newPart2); 
+					savedCounter = listCounter; 
+					listCounter++; 	
+					tC.getSecondPartButton().setText("E");
+					isPart2New = false; 
+				}
+				else{
+					 
+					String indexString = pI.getPartIndexNumber().getText();
+					int indexInt = Integer.parseInt(indexString);
+					newPart2.setPartNumber(indexInt); 
+					newPart2.setName(pI.getEnterNameHere().getText());
+					newPart2.setDesc(pI.getPartDescription().getText()); 
+					listOfParts.put(savedCounter, newPart2); 
+				}
 			nb1.sendPartData(listOfParts); 
 			
 		}
@@ -197,10 +243,26 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				fC.getPartOneName().setText("Part 3"); 
 				return; 
 			} 			
-			Parts newPart3 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(),2);
-			listOfParts.put(listCounter, newPart3); 
-			listCounter++; 
-			nb1.sendPartData(listOfParts); 
+			int savedCounter = 0; 
+				
+				if(isPart3New){
+					newPart3 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 0);
+					listOfParts.put(listCounter, newPart3); 
+					savedCounter = listCounter; 
+					listCounter++; 	
+					tC.getThirdPartButton().setText("E");
+					isPart3New = false; 
+				}
+				else{
+					 
+					String indexString = pI.getPartIndexNumber().getText();
+					int indexInt = Integer.parseInt(indexString);
+					newPart3.setPartNumber(indexInt); 
+					newPart3.setName(pI.getEnterNameHere().getText());
+					newPart3.setDesc(pI.getPartDescription().getText()); 
+					listOfParts.put(savedCounter, newPart3); 
+				}
+			nb1.sendPartData(listOfParts);
 			
 		}
 		
@@ -229,10 +291,26 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				fC.getPartOneName().setText("Part 4"); 
 				return; 
 			} 			
-			Parts newPart4 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 3);
-			listOfParts.put(listCounter, newPart4); 
-			listCounter++; 
-			nb1.sendPartData(listOfParts); 
+			int savedCounter = 0; 
+				
+				if(isPart4New){
+					newPart4 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 0);
+					listOfParts.put(listCounter, newPart4); 
+					savedCounter = listCounter; 
+					listCounter++; 	
+					tC.getFourthPartButton().setText("E");
+					isPart4New = false; 
+				}
+				else{
+					 
+					String indexString = pI.getPartIndexNumber().getText();
+					int indexInt = Integer.parseInt(indexString);
+					newPart4.setPartNumber(indexInt); 
+					newPart4.setName(pI.getEnterNameHere().getText());
+					newPart4.setDesc(pI.getPartDescription().getText()); 
+					listOfParts.put(savedCounter, newPart4); 
+				}
+			nb1.sendPartData(listOfParts);
 			
 		}
 		
@@ -262,10 +340,26 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				fC.getPartOneName().setText("Part 5"); 
 				return; 
 			} 			
-			Parts newPart5 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 4);
-			listOfParts.put(listCounter, newPart5); 
-			listCounter++; 
-			nb1.sendPartData(listOfParts); 
+			int savedCounter = 0; 
+				
+				if(isPart5New){
+					newPart5 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 0);
+					listOfParts.put(listCounter, newPart5); 
+					savedCounter = listCounter; 
+					listCounter++; 	
+					tC.getFifthPartButton().setText("E");
+					isPart5New = false; 
+				}
+				else{
+					 
+					String indexString = pI.getPartIndexNumber().getText();
+					int indexInt = Integer.parseInt(indexString);
+					newPart5.setPartNumber(indexInt); 
+					newPart5.setName(pI.getEnterNameHere().getText());
+					newPart5.setDesc(pI.getPartDescription().getText()); 
+					listOfParts.put(savedCounter, newPart5); 
+				} 
+			nb1.sendPartData(listOfParts);
 		}
 		
 		//Sixth Button
@@ -294,10 +388,26 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				fC.getPartOneName().setText("Part 6"); 
 				return; 
 			}			
-			Parts newPart6 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 5);
-			listOfParts.put(listCounter, newPart6); 
-			listCounter++; 
-			nb1.sendPartData(listOfParts); 
+			int savedCounter = 0; 
+				
+				if(isPart6New){
+					newPart6 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 0);
+					listOfParts.put(listCounter, newPart6); 
+					savedCounter = listCounter; 
+					listCounter++; 	
+					tC.getSixthPartButton().setText("E");
+					isPart6New = false; 
+				}
+				else{
+					 
+					String indexString = pI.getPartIndexNumber().getText();
+					int indexInt = Integer.parseInt(indexString);
+					newPart6.setPartNumber(indexInt); 
+					newPart6.setName(pI.getEnterNameHere().getText());
+					newPart6.setDesc(pI.getPartDescription().getText()); 
+					listOfParts.put(savedCounter, newPart6); 
+				} 
+			nb1.sendPartData(listOfParts);
 		}
 		
 		//Seventh Button
@@ -325,9 +435,25 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				fC.getPartOneName().setText("Part 7"); 
 				return; 
 			} 			
-			Parts newPart7 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 6);
-			listOfParts.put(listCounter, newPart7); 
-			listCounter++; 
+			int savedCounter = 0; 
+				
+				if(isPart7New){
+					newPart7 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 0);
+					listOfParts.put(listCounter, newPart7); 
+					savedCounter = listCounter; 
+					listCounter++; 	
+					tC.getSeventhPartButton().setText("E");
+					isPart7New = false; 
+				}
+				else{
+					 
+					String indexString = pI.getPartIndexNumber().getText();
+					int indexInt = Integer.parseInt(indexString);
+					newPart7.setPartNumber(indexInt); 
+					newPart7.setName(pI.getEnterNameHere().getText());
+					newPart7.setDesc(pI.getPartDescription().getText()); 
+					listOfParts.put(savedCounter, newPart7); 
+				}
 			nb1.sendPartData(listOfParts); 
 		}
 		
@@ -356,9 +482,25 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				fC.getPartOneName().setText("Part 8"); 
 				return; 
 			} 			
-			Parts newPart8 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 7);
-			listOfParts.put(listCounter, newPart8); 
-			listCounter++; 
+			int savedCounter = 0; 
+				
+			if(isPart8New){
+				newPart8 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 0);
+				listOfParts.put(listCounter, newPart8); 
+				savedCounter = listCounter; 
+				listCounter++; 	
+				tC.getEighthPartButton().setText("E");
+				isPart8New = false; 
+			}
+			else{
+					 
+				String indexString = pI.getPartIndexNumber().getText();
+				int indexInt = Integer.parseInt(indexString);
+				newPart8.setPartNumber(indexInt); 
+				newPart8.setName(pI.getEnterNameHere().getText());
+				newPart8.setDesc(pI.getPartDescription().getText()); 
+				listOfParts.put(savedCounter, newPart8); 
+				}
 			nb1.sendPartData(listOfParts); 
 			
 		}
@@ -387,9 +529,25 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				fC.getPartOneName().setText("Part 9"); 
 				return; 
 			} 			
-			Parts newPart9 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 8);
-			listOfParts.put(listCounter, newPart9); 
-			listCounter++; 
+			int savedCounter = 0; 
+				
+				if(isPart9New){
+					newPart9 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 0);
+					listOfParts.put(listCounter, newPart9); 
+					savedCounter = listCounter; 
+					listCounter++; 	
+					tC.getNinthPartButton().setText("E");
+					isPart9New = false; 
+				}
+				else{
+					 
+					String indexString = pI.getPartIndexNumber().getText();
+					int indexInt = Integer.parseInt(indexString);
+					newPart9.setPartNumber(indexInt); 
+					newPart9.setName(pI.getEnterNameHere().getText());
+					newPart9.setDesc(pI.getPartDescription().getText()); 
+					listOfParts.put(savedCounter, newPart9); 
+				}
 			nb1.sendPartData(listOfParts); 
 		}
 		
@@ -418,9 +576,25 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				fC.getPartOneName().setText("Part 10"); 
 				return; 
 			} 			
-			Parts newPart10 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 9);
-			listOfParts.put(listCounter, newPart10); 
-			listCounter++; 
+			int savedCounter = 0; 
+				
+				if(isPart10New){
+					newPart10 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 0);
+					listOfParts.put(listCounter, newPart10); 
+					savedCounter = listCounter; 
+					listCounter++; 	
+					tC.getTenthPartButton().setText("E");
+					isPart10New = false; 
+				}
+				else{
+					 
+					String indexString = pI.getPartIndexNumber().getText();
+					int indexInt = Integer.parseInt(indexString);
+					newPart10.setPartNumber(indexInt); 
+					newPart10.setName(pI.getEnterNameHere().getText());
+					newPart10.setDesc(pI.getPartDescription().getText()); 
+					listOfParts.put(savedCounter, newPart10); 
+				}
 			nb1.sendPartData(listOfParts); 
 		}
 		
