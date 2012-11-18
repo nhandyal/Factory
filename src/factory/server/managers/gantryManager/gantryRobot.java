@@ -8,12 +8,12 @@ import javax.swing.*;
 import javax.swing.Timer;
 
 import java.util.*;
-
+import java.io.*;
 // user packages
 import factory.global.data.*;
 import factory.server.managers.GuiManager;
 
-public class gantryRobot extends FactoryObject
+public class gantryRobot extends FactoryObject implements Serializable
 {
 	ImageIcon robot;
 	ImageArray images;
@@ -30,8 +30,8 @@ public class gantryRobot extends FactoryObject
 	ArrayList<Feeder> feeders;
 
 	Bin possessedBin;
-	
-	public gantryRobot(int initialPosX, int initialPosY, int initialImage, ArrayList<Bin> binlist, ArrayList<Feeder> feederlist, int i){
+	GantryManager f;
+	public gantryRobot(int initialPosX, int initialPosY, int initialImage, ArrayList<Bin> binlist, ArrayList<Feeder> feederlist, int i, GantryManager f){
 		x = initialPosX;
 		y = initialPosY;
 		setImage(initialImage);
@@ -39,12 +39,13 @@ public class gantryRobot extends FactoryObject
 		feeders = feederlist;
 		hasBin = false;
 		index = i;
+        this.f = f;
 	}
 
 	public void moveToBin(int bin){
 		System.out.println("moving to the bin");
-		hasBin = false;
-		while(hasBin == false){
+        f.bin = bin;
+        f.isMoveToBin = true;
 			nextDestX = bins.get(bin).getPositionX() - 40;
 			nextDestY = bins.get(bin).getPositionY() - 20;
 			if (x < nextDestX){
@@ -65,14 +66,13 @@ public class gantryRobot extends FactoryObject
 
 			if(x == nextDestX && y == nextDestY){
 				pickupBin(bin);
-				hasBin = true;
+				f.isMoveToBin = false;
 			}
-		}
 	}
 
 	public void moveToPoint(int x, int y){
 		hasBin = true;
-		while(hasBin == true){
+		
 			nextDestX = x + 40;
 			nextDestY = y - 20;
 			if (x < nextDestX){
@@ -99,13 +99,11 @@ public class gantryRobot extends FactoryObject
 				possessedBin.x = x;
 				possessedBin.y = y;
 			}
-		}
 		
 	}
 
 	public void moveToFeeder(int feeder){
 		hasBin = true;
-		while(hasBin == true){
 			nextDestX = feeders.get(feeder).getPositionX() + 40;
 			nextDestY = feeders.get(feeder).getPositionY() - 20;
 			if (x < nextDestX){
@@ -133,7 +131,6 @@ public class gantryRobot extends FactoryObject
 				possessedBin.y = feeders.get(feeder).getPositionY();
 				hasBin = false;
 			}
-		}
 	}
 
 	public void removeBin(int bin){
