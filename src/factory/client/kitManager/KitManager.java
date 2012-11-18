@@ -46,128 +46,8 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 
 		currentList = new TreeMap<Integer, Parts>();
 
+		updateBoxes(); 
 
-
-
-
-
-
-
-		updatePartData(currentList); 
-		pS.getPartsPanel().revalidate(); 
- 
-		//COMBO BOX 1
-		for(int i = 0; i<currentList.size(); i++){
-			String nextName = currentList.get(i).getName(); 			
-			pS.getPartNamesBox1().add(nextName); //adds names to arraylist			
-		}
-		pS.getBoxOfPart1().setEnabled(false); 
-		pS.getBoxOfPart1().removeAllItems();
-		for(int i = 0; i<pS.getPartNamesBox1().size(); i++){
-			pS.getBoxOfPart1().addItem(pS.getPartNamesBox1().get(i));
-		}
-		pS.getBoxOfPart1().setEnabled(true); 
-		pS.getPartsPanel().revalidate(); 
-
-
-
-
-		//COMBO BOX 2
-		for(int i = 0; i<currentList.size(); i++){
-			String nextName = currentList.get(i).getName(); 			
-			pS.getPartNamesBox2().add(nextName); //adds names to arraylist			
-		}
-		pS.getBoxOfPart2().setEnabled(false); 
-		pS.getBoxOfPart2().removeAllItems();
-		for(int i = 0; i<pS.getPartNamesBox1().size(); i++){
-			pS.getBoxOfPart2().addItem(pS.getPartNamesBox2().get(i));
-		}
-		pS.getBoxOfPart2().setEnabled(true); 
-		pS.getPartsPanel().revalidate();
-
-
-		//COMBO BOX 3
-		for(int i = 0; i<currentList.size(); i++){
-			String nextName = currentList.get(i).getName(); 			
-			pS.getPartNamesBox3().add(nextName); //adds names to arraylist			
-		}
-		pS.getBoxOfPart3().setEnabled(false); 
-		pS.getBoxOfPart3().removeAllItems();
-		for(int i = 0; i<pS.getPartNamesBox3().size(); i++){
-			pS.getBoxOfPart3().addItem(pS.getPartNamesBox3().get(i));
-		}
-		pS.getBoxOfPart3().setEnabled(true); 
-		pS.getPartsPanel().revalidate();
-
-		//COMBO BOX 4
-		for(int i = 0; i<currentList.size(); i++){
-			String nextName = currentList.get(i).getName(); 			
-			pS.getPartNamesBox4().add(nextName); //adds names to arraylist			
-		}
-		pS.getBoxOfPart4().setEnabled(false); 
-		pS.getBoxOfPart4().removeAllItems();
-		for(int i = 0; i<pS.getPartNamesBox4().size(); i++){
-			pS.getBoxOfPart4().addItem(pS.getPartNamesBox4().get(i));
-		}
-		pS.getBoxOfPart4().setEnabled(true); 
-		pS.getPartsPanel().revalidate();
-
-
-
-		//COMBO BOX 5
-		for(int i = 0; i<currentList.size(); i++){
-			String nextName = currentList.get(i).getName(); 			
-			pS.getPartNamesBox5().add(nextName); //adds names to arraylist			
-		}
-		pS.getBoxOfPart5().setEnabled(false); 
-		pS.getBoxOfPart5().removeAllItems();
-		for(int i = 0; i<pS.getPartNamesBox5().size(); i++){
-			pS.getBoxOfPart5().addItem(pS.getPartNamesBox5().get(i));
-		}
-		pS.getBoxOfPart5().setEnabled(true); 
-		pS.getPartsPanel().revalidate();
-
-
-		//COMBO BOX 6
-		for(int i = 0; i<currentList.size(); i++){
-			String nextName = currentList.get(i).getName(); 			
-			pS.getPartNamesBox6().add(nextName); //adds names to arraylist			
-		}
-		pS.getBoxOfPart6().setEnabled(false); 
-		pS.getBoxOfPart6().removeAllItems();
-		for(int i = 0; i<pS.getPartNamesBox6().size(); i++){
-			pS.getBoxOfPart6().addItem(pS.getPartNamesBox6().get(i));
-		}
-		pS.getBoxOfPart6().setEnabled(true); 
-		pS.getPartsPanel().revalidate();
-
-
-		//COMBO BOX 7
-		for(int i = 0; i<currentList.size(); i++){
-			String nextName = currentList.get(i).getName(); 			
-			pS.getPartNamesBox7().add(nextName); //adds names to arraylist			
-		}
-		pS.getBoxOfPart7().setEnabled(false); 
-		pS.getBoxOfPart7().removeAllItems();
-		for(int i = 0; i<pS.getPartNamesBox7().size(); i++){
-			pS.getBoxOfPart7().addItem(pS.getPartNamesBox7().get(i));
-		}
-		pS.getBoxOfPart7().setEnabled(true); 
-		pS.getPartsPanel().revalidate();
-
-
-		//COMBO BOX 8
-		for(int i = 0; i<currentList.size(); i++){
-			String nextName = currentList.get(i).getName(); 			
-			pS.getPartNamesBox8().add(nextName); //adds names to arraylist			
-		}
-		pS.getBoxOfPart8().setEnabled(false); 
-		pS.getBoxOfPart8().removeAllItems();
-		for(int i = 0; i<pS.getPartNamesBox8().size(); i++){
-			pS.getBoxOfPart8().addItem(pS.getPartNamesBox8().get(i));
-		}
-		pS.getBoxOfPart8().setEnabled(true); 
-		pS.getPartsPanel().revalidate();
 
 
 		
@@ -279,6 +159,105 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 
 	}
 		
+		public void updateBoxes(){ 
+			//COMBO BOX 1
+			for(int i = 0; i<currentList.size(); i++){
+				String nextName = currentList.get(i).getName(); 			
+				pS.getPartNamesBox1().add(nextName); //adds names to arraylist			
+			}
+			pS.getBoxOfPart1().setEnabled(false); 
+			pS.getBoxOfPart1().removeAllItems();
+			for(int i = 0; i<pS.getPartNamesBox1().size(); i++){
+				pS.getBoxOfPart1().addItem(pS.getPartNamesBox1().get(i));
+			}
+				pS.getBoxOfPart1().setEnabled(true); 
+				pS.getPartsPanel().revalidate(); 
+			//COMBO BOX 2
+			for(int i = 0; i<currentList.size(); i++){
+				String nextName = currentList.get(i).getName(); 			
+				pS.getPartNamesBox2().add(nextName); //adds names to arraylist			
+			}
+			pS.getBoxOfPart2().setEnabled(false); 
+			pS.getBoxOfPart2().removeAllItems();
+			for(int i = 0; i<pS.getPartNamesBox1().size(); i++){
+				pS.getBoxOfPart2().addItem(pS.getPartNamesBox2().get(i));
+			}
+			pS.getBoxOfPart2().setEnabled(true); 
+			pS.getPartsPanel().revalidate();
+			//COMBO BOX 3
+			for(int i = 0; i<currentList.size(); i++){
+				String nextName = currentList.get(i).getName(); 			
+				pS.getPartNamesBox3().add(nextName); //adds names to arraylist			
+			}
+			pS.getBoxOfPart3().setEnabled(false); 
+			pS.getBoxOfPart3().removeAllItems();
+			for(int i = 0; i<pS.getPartNamesBox3().size(); i++){
+				pS.getBoxOfPart3().addItem(pS.getPartNamesBox3().get(i));
+			}
+			pS.getBoxOfPart3().setEnabled(true); 
+			pS.getPartsPanel().revalidate();
+			//COMBO BOX 4
+			for(int i = 0; i<currentList.size(); i++){
+				String nextName = currentList.get(i).getName(); 			
+				pS.getPartNamesBox4().add(nextName); //adds names to arraylist			
+			}
+			pS.getBoxOfPart4().setEnabled(false); 
+			pS.getBoxOfPart4().removeAllItems();
+			for(int i = 0; i<pS.getPartNamesBox4().size(); i++){
+				pS.getBoxOfPart4().addItem(pS.getPartNamesBox4().get(i));
+			}
+			pS.getBoxOfPart4().setEnabled(true); 
+			pS.getPartsPanel().revalidate();
+			//COMBO BOX 5
+			for(int i = 0; i<currentList.size(); i++){
+				String nextName = currentList.get(i).getName(); 			
+				pS.getPartNamesBox5().add(nextName); //adds names to arraylist			
+			}
+			pS.getBoxOfPart5().setEnabled(false); 
+			pS.getBoxOfPart5().removeAllItems();
+			for(int i = 0; i<pS.getPartNamesBox5().size(); i++){
+				pS.getBoxOfPart5().addItem(pS.getPartNamesBox5().get(i));
+			}
+			pS.getBoxOfPart5().setEnabled(true); 
+			pS.getPartsPanel().revalidate();
+			//COMBO BOX 6
+			for(int i = 0; i<currentList.size(); i++){
+				String nextName = currentList.get(i).getName(); 			
+				pS.getPartNamesBox6().add(nextName); //adds names to arraylist			
+			}
+			pS.getBoxOfPart6().setEnabled(false); 
+			pS.getBoxOfPart6().removeAllItems();
+			for(int i = 0; i<pS.getPartNamesBox6().size(); i++){
+				pS.getBoxOfPart6().addItem(pS.getPartNamesBox6().get(i));
+			}
+			pS.getBoxOfPart6().setEnabled(true); 
+			pS.getPartsPanel().revalidate();
+			//COMBO BOX 7
+			for(int i = 0; i<currentList.size(); i++){
+				String nextName = currentList.get(i).getName(); 			
+				pS.getPartNamesBox7().add(nextName); //adds names to arraylist			
+			}
+			pS.getBoxOfPart7().setEnabled(false); 
+			pS.getBoxOfPart7().removeAllItems();
+			for(int i = 0; i<pS.getPartNamesBox7().size(); i++){
+				pS.getBoxOfPart7().addItem(pS.getPartNamesBox7().get(i));
+			}
+			pS.getBoxOfPart7().setEnabled(true); 
+			pS.getPartsPanel().revalidate();
+			//COMBO BOX 8
+			for(int i = 0; i<currentList.size(); i++){
+				String nextName = currentList.get(i).getName(); 			
+				pS.getPartNamesBox8().add(nextName); //adds names to arraylist			
+			}
+			pS.getBoxOfPart8().setEnabled(false); 
+			pS.getBoxOfPart8().removeAllItems();
+			for(int i = 0; i<pS.getPartNamesBox8().size(); i++){
+				pS.getBoxOfPart8().addItem(pS.getPartNamesBox8().get(i));
+			}
+			pS.getBoxOfPart8().setEnabled(true); 
+			pS.getPartsPanel().revalidate();
+		}
+
 		// -------------------------------------------------------------------------------------- //
 		// ----------------------------------- Network Manager ---------------------------------- //
 		// -------------------------------------------------------------------------------------- //
@@ -296,7 +275,8 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 				for(Integer i : currentList.keySet()){
 						currentList.get(i).print();
 				}
-				// call combo box validation method
+				updateBoxes(); // call combo box validation method
+				
 		}
 		
 		public void syncChanges(ArrayList<TreeMap<Integer,FactoryObject>> dataArray){}
