@@ -24,8 +24,9 @@ public class FactoryState{
 		}
 		
 		public void mergeParts(TreeMap<Integer, Parts> newParts){
-				factoryPartData.putAll(newParts);
-				System.out.println("part recieved");
+				System.out.println("merge parts called");
+				factoryPartData = newParts;
+				System.out.println("parts updated");
 		}
 		
 		public TreeMap<Integer, Parts> getParts(){

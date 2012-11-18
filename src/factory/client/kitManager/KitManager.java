@@ -18,7 +18,7 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 	ArrayList<Kits> listOfKits; 
 	NetworkBridge nb1;
 	public KitManager(){
-		//nb1 = new NetworkBridge(this, "aludra.usc.edu", 8465, 1);
+		nb1 = new NetworkBridge(this, "aludra.usc.edu", 8465, 1);
 		kL = new KitList(); 
 		kI = new KitInfo(); 
 		pS = new PartSelector();
