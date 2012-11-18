@@ -54,6 +54,7 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 
 
 		updatePartData(currentList); 
+		pS.getPartsPanel().revalidate(); 
  
 		//COMBO BOX 1
 		for(int i = 0; i<currentList.size(); i++){
