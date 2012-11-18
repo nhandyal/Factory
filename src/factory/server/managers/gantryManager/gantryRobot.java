@@ -23,7 +23,10 @@ public class gantryRobot extends FactoryObject
 
 	boolean hasBin;
 
-	ArrayList<Bin> bins;	
+	ArrayList<Bin> bins;
+
+	int[] binYArray = {105, 146, 187, 229, 270, 311, 353, 393, 434, 475};
+
 	ArrayList<Feeder> feeders;
 
 	Bin possessedBin;
@@ -64,7 +67,38 @@ public class gantryRobot extends FactoryObject
 		}
 	}
 
+	public void moveToPoint(int x, int y){
+		hasBin = true;
+		nextDestX = x + 40;
+		nextDestY = y - 20;
+		if (x < nextDestX){
+			x+=2;
+			possessedBin.x+=2;
+		}
+
+		else if (x > nextDestX){
+			x-=2;
+			possessedBin.x-=2;
+		}
+
+		if(y < nextDestY){
+			y+=2;
+			possessedBin.y+=2;
+		}
+
+		else if (y > nextDestY){
+			y-=2;
+			possessedBin.y-=2;
+		}
+
+		if(x == nextDestX && y == nextDestY){
+			possessedBin.x = x;
+			possessedBin.y = y;
+		}
+	}
+
 	public void moveToFeeder(int feeder){
+		hasBin = true;
 		nextDestX = feeders.get(feeder).getPositionX() + 40;
 		nextDestY = feeders.get(feeder).getPositionY() - 20;
 		if (x < nextDestX){
@@ -91,6 +125,17 @@ public class gantryRobot extends FactoryObject
 			possessedBin.x = feeders.get(feeder).getPositionX();
 			possessedBin.y = feeders.get(feeder).getPositionY();
 		}
+	}
+
+	public void removeBin(int bin){
+		if(hasBin == false){
+			moveToBin(bin);
+		}
+		
+		else if(hasBin == true){
+			moveToPoint(340, binYArray[bin]);
+		}
+
 	}
 
 	public void pickupBin(int grabbedBin){

@@ -49,7 +49,6 @@ public class ServerControl extends JPanel implements ActionListener{
 	JLabel laneDesc = new JLabel("Lane Manager");
 	String[] laneStrings = new String[8];
 	JComboBox laneChooser;
-	JComboBox nestChooser2;
 	JComboBox feederChooser2;
 	JButton toggleLane = new JButton("Turn Lane On/Off");
 	JButton toggleDivider = new JButton("Toggle Divider Up/Down");
@@ -109,7 +108,6 @@ public class ServerControl extends JPanel implements ActionListener{
 		laneChooser = new JComboBox(laneStrings);
 		for (int i = 0; i < nestChooser.length; i++)
 			nestChooser[i] = new JComboBox(nestStrings);
-		nestChooser2 = new JComboBox(nestStrings);
 		kitChooser = new JComboBox(kitStrings.toArray());
 		for (int i = 0; i < indexChooser.length; i++)
 			indexChooser[i] = new JComboBox(indexStrings);
@@ -174,7 +172,7 @@ public class ServerControl extends JPanel implements ActionListener{
 		kitAssemblyControl.add(takeKit);
 		
 		lComboBoxPanel.add(laneChooser);
-		lComboBoxPanel.add(nestChooser2);
+		lComboBoxPanel.add(feederChooser2);
 		laneControl.add(laneDesc);
 		laneControl.add(lComboBoxPanel);
 		laneButtonPanel.add(toggleLane);
@@ -252,9 +250,6 @@ public class ServerControl extends JPanel implements ActionListener{
 						indexes[i] = j;
 					}
 				}
-				for (int i = 0; i < 4; i++){
-					System.out.println(nests[i] + " " + indexes[i]);
-				}
 				KitASM.movePartstoStand(0, 0, nests, indexes);
 			}
 		}
@@ -268,7 +263,7 @@ public class ServerControl extends JPanel implements ActionListener{
 				}
 				for (int i = 0; i < nestChooser.length; i++){
 					String nest = (String)nestChooser[i].getSelectedItem();
-					nest = nest.substring(8);
+					nest = nest.substring(5);
 					if (!nest.equals("-")){
 						int j = Integer.parseInt(nest);
 						j -= 1;
@@ -323,13 +318,11 @@ public class ServerControl extends JPanel implements ActionListener{
 			LM.laneToggle(lane);
 		}
 		if (e.getSource() == nestPicture){
-			String n = (String)nestChooser2.getSelectedItem();
+			String n = (String)laneChooser.getSelectedItem();
 			n = n.substring(5);
-			if (!n.equals("-")){
-				int nest = Integer.parseInt(n);
-				nest -= 1;
-				LM.takePicture(nest);
-			}
+			int nest = Integer.parseInt(n);
+			nest -= 1;
+			LM.takePicture(nest);
 		}
 		if (e.getSource() == makeKits){
 		
@@ -345,23 +338,28 @@ public class ServerControl extends JPanel implements ActionListener{
 			b = b.substring(4);
 			int bin = Integer.parseInt(b);
 			bin -= 1;
-			//GM.robot.moveToBin(bin);
+			GM.robot.moveToBin(bin);
 		}
 		if (e.getSource() == moveToFeeder){
 			String f = (String)feederChooser2.getSelectedItem();
 			f = f.substring(7);
 			int feeder = Integer.parseInt(f);
 			feeder -= 1;
-			//GM.robot.moveToFeeder(feeder);
+			GM.robot.moveToFeeder(feeder);
 		}
 		if (e.getSource() == purgeNest){
-			String n = (String)nestChooser2.getSelectedItem();
+			String n = (String)laneChooser.getSelectedItem();
 			n = n.substring(5);
+
 			if (!n.equals("-")){
 				int nest = Integer.parseInt(n);
 				nest -= 1;
 				LM.purgeNest(nest);
 			}
+			
+			int nest = Integer.parseInt(n);
+			nest -= 1;
+			LM.purgeNest(nest);
 		}
 		if (e.getSource() == purgeLane){
 			String l = (String)laneChooser.getSelectedItem();
@@ -375,7 +373,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			f = f.substring(7);
 			int feeder = Integer.parseInt(f);
 			feeder -= 1;
-			//GM.removeBin(feeder);
+			GM.robot.removeBin(feeder);
 			LM.removeBin(feeder);
 		}
 		if (e.getSource() == toggleDivider){
