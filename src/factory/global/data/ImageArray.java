@@ -2,7 +2,7 @@
 ** Authors:			Timi Okuboyejo
 ** Date: 			11/15/12
 ** Project: 		Cs200-Factory
-** Description: 	Contains information for bins(parts, coordinates, etc)
+** Description: 	Contains imageIcons
 ** 					Is Serializable.
 ** 
 ** Pre-Conditions: 	None
@@ -33,7 +33,7 @@ public class ImageArray{
 		images.add(new ImageIcon("bin/factory/global/assets/part9.png"));		// index 8		part 9
 		images.add(new ImageIcon("bin/factory/global/assets/part10.png"));		// index 9		part 10
 		images.add(new ImageIcon("bin/factory/global/assets/bin.png"));			// index 10		bin
-		images.add(new ImageIcon("bin/factory/global/assets/robot.png"));		// index 11		Kit/Part Picking
+		images.add(new ImageIcon("bin/factory/global/assets/robot.png"));		// index 11		Kit/Part Picking Robot
 		images.add(new ImageIcon("bin/factory/global/assets/kit.png"));			// index 12		Kit
 		images.add(new ImageIcon("bin/factory/global/assets/camera.png"));		// index 13		QA/Nest Cam
 		images.add(new ImageIcon("bin/factory/global/assets/camflash.png"));	// index 14		Cam Flash
