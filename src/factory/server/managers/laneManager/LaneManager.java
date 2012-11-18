@@ -130,7 +130,7 @@ public class LaneManager implements GuiManager
 	public void laneManagement(){
 
 		for(int i=0;i<4;i++){
-			if(lanes.get(i*2).getActive() == true || lanes.get((i*2)+1).getActive() == true){	// if a lane is on
+			if((lanes.get(i*2).getActive() == true && dividers.get(i).getPositionY() > dividers.get(i).getPositionYF()) || (lanes.get((i*2)+1).getActive() == true && dividers.get(i).getPositionY() < dividers.get(i).getPositionYF())){	// if a lane is on
 				if(counter==24){// && feeders.get(i).getPush() > 0){								// every 25th instance of timer
 					if(dividers.get(i).getPositionY() > dividers.get(i).getPositionYF())		// if the divider is in the lower position
 						lanes.get(i*2).addPart(feeders.get(i).getBin().getPart(),index);		// create a new part in upper lane
@@ -214,15 +214,17 @@ public class LaneManager implements GuiManager
 	}
 
 	public void purgeLane(int i){
-		for(int j=0;i<lanes.get(i).getLaneSize();j++)
-			lanes.get(i).getLanePart(j).setIndex(-5);
-		lanes.get(i).getLane().clear();
+		lanes.get(i).purgeLane();
+//		for(int j=0;i<lanes.get(i).getLaneSize();j++)
+//			lanes.get(i).getLanePart(j).setIndex(-5);
+//		lanes.get(i).getLane().clear();
 	}
 
 	public void purgeNest(int i){
-		for(int j=0;i<lanes.get(i).getNestSize();j++)
-			lanes.get(i).getNestPart(j).setIndex(-5);
-		lanes.get(i).getNest().clear();
+		lanes.get(i).purgeNest();
+//		for(int j=0;i<lanes.get(i).getNestSize();j++)
+//			lanes.get(i).getNestPart(j).setIndex(-5);
+//		lanes.get(i).getNest().clear();
 		//System.out.println(lanes.get(i).getNestSize());
 	}
 
