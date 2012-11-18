@@ -23,9 +23,12 @@ public class FactoryState{
 		public FactoryState(){}
 		
 		public void mergeParts(TreeMap<Integer, Parts> newParts){
-				System.out.println("merge parts called");
 				factoryPartData = newParts;
-				System.out.println("parts updated");
+				for(Integer i : factoryPartData.keySet()){
+						factoryPartData.get(i).print();
+				}
+				System.out.println();
+				System.out.println();
 		}
 		
 		public void mergeKits(ArrayList<Kits> newKits){
