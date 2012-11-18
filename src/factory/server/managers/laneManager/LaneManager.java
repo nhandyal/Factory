@@ -130,11 +130,11 @@ public class LaneManager implements GuiManager
 	public void laneManagement(){
 
 		for(int i=0;i<4;i++){
-			if((lanes.get(i*2).getActive() == true && dividers.get(i).getPositionY() > dividers.get(i).getPositionYF()) || (lanes.get((i*2)+1).getActive() == true && dividers.get(i).getPositionY() < dividers.get(i).getPositionYF())){	// if a lane is on
+			if(lanes.get(i*2).getActive() == true || lanes.get((i*2)+1).getActive() == true){	// if a lane is on
 				if(counter==24){// && feeders.get(i).getPush() > 0){								// every 25th instance of timer
-					if(dividers.get(i).getPositionY() > dividers.get(i).getPositionYF())		// if the divider is in the lower position
+					if(dividers.get(i).getPositionY() > dividers.get(i).getPositionYF() && lanes.get(i*2).getActive() == true)		// if the divider is in the lower position
 						lanes.get(i*2).addPart(feeders.get(i).getBin().getPart(),index);		// create a new part in upper lane
-					else																		// if the divider is in the upper position
+					else if(dividers.get(i).getPositionY() < dividers.get(i).getPositionYF() && lanes.get(i*2+1).getActive() == true)		// if the divider is in the lower position																		// if the divider is in the upper position
 						lanes.get((i*2)+1).addPart(feeders.get(i).getBin().getPart(),index);	// create a new part in lower lane
 					index++;																	// Add one to index
 					feeders.get(i).pushPart();													// subtract 1 from feeder counter
@@ -208,13 +208,15 @@ public class LaneManager implements GuiManager
 
 	public void dividerToggle(int i){
 		if(dividers.get(i).getPositionY() > dividers.get(i).getPositionYF())
-			dividers.get(i).dividerDown();
+			dividers.get(i).dividerUp();
 		else
 			dividers.get(i).dividerDown();
 	}
 
 	public void purgeLane(int i){
+		sync(changeData);
 		lanes.get(i).purgeLane();
+		sync(changeData);
 //		for(int j=0;i<lanes.get(i).getLaneSize();j++)
 //			lanes.get(i).getLanePart(j).setIndex(-5);
 //		lanes.get(i).getLane().clear();
@@ -291,7 +293,7 @@ public class LaneManager implements GuiManager
 		k = temp.keySet().iterator();
 		while(k.hasNext()){
 			int i = (Integer) k.next();
-			if(changeData.containsKey(i) == false){		// If the cuurent frame doesn't have an object from the previous frame
+			if(changeData.containsKey(i) == false){		// If the current frame doesn't have an object from the previous frame
 				changeMap.put(i,false);					// tell the changeMap
 			}
 		}
