@@ -43,6 +43,7 @@ public class Feeder extends FactoryObject implements Serializable{
 	public void addBin(Bin b){
 		bin = b;
 		bin.setVis(true);
+		bin.setPosition(x+34,y+43);
 	}
 	
 	public void removeBin(){
