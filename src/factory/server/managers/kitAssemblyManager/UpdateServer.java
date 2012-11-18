@@ -277,6 +277,7 @@ public class UpdateServer implements GuiManager, Serializable
             isMovePartstoStand = true;
             this.k = stand;
             this.a = pos;
+            this.b = indexes;
         }
 		if (count == 141)
 		{
@@ -518,8 +519,8 @@ public class UpdateServer implements GuiManager, Serializable
 			moveToStand(k);
 		if (isMovePartstoStand)
 		{
-			int a[] = {0, 1, 2, 5};
-			int b[] = {0,4,6,8};
+			//int a[] = {0, 1, 2, 5};
+			//int b[] = {0,4,6,8};
 			movePartstoStand(200, k, a, b);
 		}
 			
