@@ -13,6 +13,7 @@ public class KitManager extends JFrame implements ActionListener, ItemListener {
 	PartSelector pS; 
 	Kits newKit; 
 	TreeMap<Integer, Parts> currentList;
+	TreeMap<Integer, Parts> finalizedList; 
 	ArrayList<Kits> listOfKits; 
 	public KitManager(){
 		
@@ -32,8 +33,16 @@ public class KitManager extends JFrame implements ActionListener, ItemListener {
 
 
 		pS.getBoxOfPart1().addItemListener(this); 
+		pS.getBoxOfPart2().addItemListener(this); 
+		pS.getBoxOfPart3().addItemListener(this); 
+		pS.getBoxOfPart4().addItemListener(this); 
+		pS.getBoxOfPart5().addItemListener(this); 
+		pS.getBoxOfPart6().addItemListener(this); 
+		pS.getBoxOfPart7().addItemListener(this); 
+		pS.getBoxOfPart7().addItemListener(this); 
 
-		currentList = new TreeMap<Integer, Parts>(); 
+		currentList = new TreeMap<Integer, Parts>(); 		
+		finalizedList = new TreeMap<Integer, Parts>();
 		listOfKits = new ArrayList<Kits>(); 
 		add(kitPanel);
 		
@@ -63,7 +72,7 @@ public class KitManager extends JFrame implements ActionListener, ItemListener {
 				System.out.println("Exception found - did not enter in an integer");
 				kI.getKitIDNumber().setText("ID");
 			}
-			newKit = new Kits(kI.getKitNameText().getText(), currentList, kI.getKitDescription().getText(), kitIDNumber); 
+			newKit = new Kits(kI.getKitNameText().getText(), finalizedList, kI.getKitDescription().getText(), kitIDNumber); 
 			listOfKits.add(newKit); 
 			//send to server code inserted here
 
@@ -75,7 +84,66 @@ public class KitManager extends JFrame implements ActionListener, ItemListener {
 
 	public void itemStateChanged(ItemEvent ie){
 		if(ie.getStateChange() == ItemEvent.SELECTED){
-			System.out.println("New Item Selected"); 
+			
+			 for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
+			 	if(pS.getBoxOfPart1().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
+			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
+			 		 finalizedList.put(0, newPart); 			 		 
+			 	}
+			 }
+
+
+
+			for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
+			 	if(pS.getBoxOfPart2().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
+			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
+			 		 finalizedList.put(1, newPart); 			 		  
+			 	}
+			 }
+
+
+			 for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
+			 	if(pS.getBoxOfPart3().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
+			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
+			 		 finalizedList.put(2, newPart); 			 		 
+			 	}
+			 }
+
+
+			 for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
+			 	if(pS.getBoxOfPart4().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
+			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
+			 		 finalizedList.put(3, newPart); 			 		 
+			 	}
+			 }
+
+			 for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
+			 	if(pS.getBoxOfPart5().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
+			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
+			 		 finalizedList.put(4, newPart); 			 		 
+			 	}
+			 }
+
+			  for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
+			 	if(pS.getBoxOfPart6().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
+			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
+			 		 finalizedList.put(5, newPart); 			 		 
+			 	}
+			 }
+
+			 for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
+			 	if(pS.getBoxOfPart7().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
+			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
+			 		 finalizedList.put(6, newPart); 			 		 
+			 	}
+			 }
+
+			 for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
+			 	if(pS.getBoxOfPart8().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
+			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
+			 		 finalizedList.put(7, newPart); 			 		 
+			 	}
+			 }
 
 		}
 

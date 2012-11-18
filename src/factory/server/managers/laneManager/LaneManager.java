@@ -123,7 +123,7 @@ public class LaneManager implements GuiManager
 			lanes.get(x1).setActive(false);			// turn lane off
 			bins.get(x1).setVis(false);				// turn bin off
 			feeders.get(x1/2).removeBin();			// remove bin
-			System.out.println("Feeder"+x2/2+" hasBin() == "+feeders.get(x1/2).hasBin());
+			//System.out.println("Feeder"+x2/2+" hasBin() == "+feeders.get(x1/2).hasBin());
 			dividers.get(x1/2).dividerNeutral();	// put divider in neutral position
 		}
 		if(x2<8){									// if lane exists
@@ -151,7 +151,7 @@ public class LaneManager implements GuiManager
 			if(feeders.get(i).hasBin() == true){
 				map.put(feeders.get(i).getBin().getIndex(),feeders.get(i).getBin());
 				map.put(feeders.get(i).getBin().getPartIcon().getIndex(),feeders.get(i).getBin().getPartIcon());
-				System.out.println("Feeder"+i+"s bin painted");
+				//System.out.println("Feeder"+i+"s bin painted");
 			}
 		}
 

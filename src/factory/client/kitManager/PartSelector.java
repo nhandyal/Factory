@@ -16,6 +16,7 @@ public class PartSelector extends JPanel{
 
 		partNamesBox1 = new ArrayList<String>(); 
 		partNamesBox1.add("Part 1"); 
+		 
 		boxOfPart1 = new JComboBox(partNamesBox1.toArray());
 		partsPanel.add(boxOfPart1); 
 		
