@@ -9,10 +9,13 @@
 package factory.server;
 
 // Java packages
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.Timer;
 import java.util.TreeMap;
 import java.util.ArrayList;
-import java.awt.event.*;
-import javax.swing.Timer;
+
 
 // User packages
 import factory.global.network.*;
@@ -34,9 +37,10 @@ Parts manager will be located at clientConnections index 0 etc.
 -------------------------------------------------------------------
 */
 
-public class Server implements ActionListener, NetworkManager{
+public class Server extends JFrame implements ActionListener, NetworkManager{
 		NetworkBridge[] clientConnections = new NetworkBridge[6];
 		GuiManager[] guiViews = new GuiManager[4];
+		ServerControl SCP;
 		FactoryState fs;
 		InboundConnectionManager icm = null;
 		ArrayList<TreeMap<Integer, Boolean>> changeMap;
@@ -55,6 +59,9 @@ public class Server implements ActionListener, NetworkManager{
 				sync = false;
 				startAnimation = false;
 				
+				// initialize server control panel
+				SCP = new ServerControl((UpdateServer)guiViews[2], (LaneManager)guiViews[1]);
+				
 				// initialize timer
 				t = new Timer(50,this);
 				
@@ -65,6 +72,10 @@ public class Server implements ActionListener, NetworkManager{
 		
 		public static void main(String[] args){
 				Server si = new Server();
+				si.setSize(755,670);
+				si.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				si.setTitle("Server Controls");
+				si.setVisible(true);
 		}
 		
 		// -------------------------------------------------------------------------------------- //

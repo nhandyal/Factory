@@ -1,9 +1,19 @@
+package factory.server;
+
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class ServerControl extends JFrame implements ActionListener{
+import factory.global.data.*;
+import factory.server.managers.GuiManager;
+import factory.server.managers.laneManager.*;
+import factory.server.managers.kitAssemblyManager.*;
+
+public class ServerControl extends JPanel implements ActionListener{
+	
+	UpdateServer KitASM;
+	LaneManager LM;
 	
 	JPanel overPanel = new JPanel();
 	JPanel laneGantryControl = new JPanel();
@@ -46,7 +56,11 @@ public class ServerControl extends JFrame implements ActionListener{
 	JButton makeKits = new JButton("Make Kits");
 	JButton updateKits = new JButton("Update Kit List");
 	
-	public ServerControl(){
+	public ServerControl(GuiManager kit, GuiManager LM){
+		
+		this.KitASM = (UpdateServer)kit;
+		this.LM = (LaneManager)LM;
+		
 		for (int i = 1; i < laneStrings.length+1; i++){
 			laneStrings[i-1] = "Lane " + i;
 		}
@@ -144,48 +158,48 @@ public class ServerControl extends JFrame implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e){
 		if (e.getSource() == bringKit){
-			if (!updateServer.cam.isMoving() && !updateServer.robot.isMoving() && !updateServer.probot.isMoving() && !updateServer.conv.getOutKit().getIsMoving()){
-				updateServer.bringKit();
+			if (!KitASM.cam.isMoving() && !KitASM.robot.isMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+				KitASM.bringKit();
 			}
 		}
 		if (e.getSource() == conveyorToStand){
-			if (!updateServer.cam.isMoving() && !updateServer.robot.isMoving() && !updateServer.probot.isMoving() && !updateServer.conv.getOutKit().getIsMoving()){
+			if (!KitASM.cam.isMoving() && !KitASM.robot.isMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
 				for (int i = 0; i < 2; i++){
-					if (updateServer.stands.get(i).getKit() == null){
-						updateServer.moveToStand(i);
+					if (KitASM.stands.get(i).getKit() == null){
+						KitASM.moveToStand(i);
 						break;
 					}
 				}
 			}
 		}
 		if (e.getSource() == build1){
-			if (!updateServer.cam.isMoving() && !updateServer.robot.isMoving() && !updateServer.probot.isMoving() && !updateServer.conv.getOutKit().getIsMoving()){
+			if (!KitASM.cam.isMoving() && !KitASM.robot.isMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
 				
 			}
 		}
 		if (e.getSource() == build2){
-			if (!updateServer.cam.isMoving() && !updateServer.robot.isMoving() && !updateServer.probot.isMoving() && !updateServer.conv.getOutKit().getIsMoving()){
+			if (!KitASM.cam.isMoving() && !KitASM.robot.isMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
 			
 			}
 		}
 		if (e.getSource() == inspectionPicture){
-			if (!updateServer.cam.isMoving() && !updateServer.robot.isMoving() && !updateServer.probot.isMoving() && !updateServer.conv.getOutKit().getIsMoving()){
-				updateServer.takePic();
+			if (!KitASM.cam.isMoving() && !KitASM.robot.isMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+				KitASM.takePic();
 			}
 		}
 		if (e.getSource() == inspection){
-			if (!updateServer.cam.isMoving() && !updateServer.robot.isMoving() && !updateServer.probot.isMoving() && !updateServer.conv.getOutKit().getIsMoving()){
-				updateServer.moveToInspection();
+			if (!KitASM.cam.isMoving() && !KitASM.robot.isMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+				KitASM.moveToInspection();
 			}
 		}
 		if (e.getSource() == standToConveyor){
-			if (!updateServer.cam.isMoving() && !updateServer.robot.isMoving() && !updateServer.probot.isMoving() && !updateServer.conv.getOutKit().getIsMoving()){
-				updateServer.takeToConveyor();
+			if (!KitASM.cam.isMoving() && !KitASM.robot.isMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+				KitASM.takeToConveyor();
 			}
 		}
 		if (e.getSource() == takeKit){
-			if (!updateServer.cam.isMoving() && !updateServer.robot.isMoving() && !updateServer.probot.isMoving() && !updateServer.conv.getOutKit().getIsMoving()){
-				updateServer.takeKit();
+			if (!KitASM.cam.isMoving() && !KitASM.robot.isMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+				KitASM.takeKit();
 			}
 		}
 		if (e.getSource() == toggleLane){
@@ -215,12 +229,5 @@ public class ServerControl extends JFrame implements ActionListener{
 				kitChooser.addItem(kitStrings.get(i));
 		}
 	}
-	
-	public static void main(String[] args){
-		ServerControl s = new ServerControl();
-		s.setSize(920,500);
-		s.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		s.setVisible(true);
-	}
-	
+		
 }
