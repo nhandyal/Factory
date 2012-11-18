@@ -162,18 +162,28 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 		
 		public void updateBoxes(){ 
 			//COMBO BOX 1
+
+			for(int i = 0; i<currentList.size(); i++){
+				String removeName = currentList.get(i).getName(); 
+				pS.getPartNamesBox1().remove(removeName); 
+			}
 			for(int i = 0; i<currentList.size(); i++){
 				String nextName = currentList.get(i).getName(); 			
 				pS.getPartNamesBox1().add(nextName); //adds names to arraylist			
 			}
-			pS.getBoxOfPart1().setEnabled(false); 
+			pS.getBoxOfPart1().setEnabled(false); 			
 			pS.getBoxOfPart1().removeAllItems();
 			for(int i = 0; i<pS.getPartNamesBox1().size(); i++){
+
 				pS.getBoxOfPart1().addItem(pS.getPartNamesBox1().get(i));
 			}
 				pS.getBoxOfPart1().setEnabled(true); 
 				pS.getPartsPanel().revalidate(); 
 			//COMBO BOX 2
+			for(int i = 0; i<currentList.size(); i++){
+				String removeName = currentList.get(i).getName(); 
+				pS.getPartNamesBox2().remove(removeName); 
+			}
 			for(int i = 0; i<currentList.size(); i++){
 				String nextName = currentList.get(i).getName(); 			
 				pS.getPartNamesBox2().add(nextName); //adds names to arraylist			
@@ -187,6 +197,10 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 			pS.getPartsPanel().revalidate();
 			//COMBO BOX 3
 			for(int i = 0; i<currentList.size(); i++){
+				String removeName = currentList.get(i).getName(); 
+				pS.getPartNamesBox3().remove(removeName); 
+			}
+			for(int i = 0; i<currentList.size(); i++){
 				String nextName = currentList.get(i).getName(); 			
 				pS.getPartNamesBox3().add(nextName); //adds names to arraylist			
 			}
@@ -198,6 +212,10 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 			pS.getBoxOfPart3().setEnabled(true); 
 			pS.getPartsPanel().revalidate();
 			//COMBO BOX 4
+			for(int i = 0; i<currentList.size(); i++){
+				String removeName = currentList.get(i).getName(); 
+				pS.getPartNamesBox4().remove(removeName); 
+			}
 			for(int i = 0; i<currentList.size(); i++){
 				String nextName = currentList.get(i).getName(); 			
 				pS.getPartNamesBox4().add(nextName); //adds names to arraylist			
@@ -211,6 +229,10 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 			pS.getPartsPanel().revalidate();
 			//COMBO BOX 5
 			for(int i = 0; i<currentList.size(); i++){
+				String removeName = currentList.get(i).getName(); 
+				pS.getPartNamesBox5().remove(removeName); 
+			}
+			for(int i = 0; i<currentList.size(); i++){
 				String nextName = currentList.get(i).getName(); 			
 				pS.getPartNamesBox5().add(nextName); //adds names to arraylist			
 			}
@@ -222,6 +244,10 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 			pS.getBoxOfPart5().setEnabled(true); 
 			pS.getPartsPanel().revalidate();
 			//COMBO BOX 6
+			for(int i = 0; i<currentList.size(); i++){
+				String removeName = currentList.get(i).getName(); 
+				pS.getPartNamesBox6().remove(removeName); 
+			}
 			for(int i = 0; i<currentList.size(); i++){
 				String nextName = currentList.get(i).getName(); 			
 				pS.getPartNamesBox6().add(nextName); //adds names to arraylist			
@@ -235,6 +261,10 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 			pS.getPartsPanel().revalidate();
 			//COMBO BOX 7
 			for(int i = 0; i<currentList.size(); i++){
+				String removeName = currentList.get(i).getName(); 
+				pS.getPartNamesBox7().remove(removeName); 
+			}
+			for(int i = 0; i<currentList.size(); i++){
 				String nextName = currentList.get(i).getName(); 			
 				pS.getPartNamesBox7().add(nextName); //adds names to arraylist			
 			}
@@ -246,6 +276,10 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 			pS.getBoxOfPart7().setEnabled(true); 
 			pS.getPartsPanel().revalidate();
 			//COMBO BOX 8
+			for(int i = 0; i<currentList.size(); i++){
+				String removeName = currentList.get(i).getName(); 
+				pS.getPartNamesBox8().remove(removeName); 
+			}
 			for(int i = 0; i<currentList.size(); i++){
 				String nextName = currentList.get(i).getName(); 			
 				pS.getPartNamesBox8().add(nextName); //adds names to arraylist			
