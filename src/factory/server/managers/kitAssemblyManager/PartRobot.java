@@ -62,7 +62,7 @@ public class PartRobot extends FactoryObject
 			s2 = ks;
 			for (int m = 0; m < p.length; m++){
 				if (p[m] != null){
-					xdes1[m] = p[m].getPositionX();
+					xdes1[m] = p[m].getPositionX() - 20;
 					ydes1[m] = p[m].getPositionY();
 				}
 			}
