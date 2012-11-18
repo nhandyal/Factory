@@ -1,6 +1,29 @@
 Team 14
 ======
-##Compiling
+##Compile and Run Commands
+The following commands will compile and run all nescessary files. To compile / run indavidual files please read the appropriate sections below.
+###Compile Instructions
+```r
+javac -d bin -sourcepath src src/factory/server/Server.java
+javac -d bin -sourcepath src src/factory/client/partManager/PartsManager.java
+javac -d bin -sourcepath src src/factory/client/kitManager/KitManager.java
+javac -b bin -sourcepath src src/factory/client/factoryManager/FactoryManager.java
+javac -d bin -sourcepath src src/factory/client/kitAssemblyManager/KitAssemblyManager.java
+javac -d bin -sourcepath src src/factory/client/laneManager/LaneManager.java
+javac -d bin -sourcepath src src/factory/client/gantryManager/GantryManager.java
+```
+###Run Instructions
+```r
+java -classpath bin factory.server.Server
+java -classpath bin factory.client.partManager.PartsManager
+java -classpath bin factory.client.kitManager.KitManager
+java -classpath bin factory.client.factoryManager.FactoryManager
+java -classpath bin factory.client.kitAssemblyManager.KitAssemblyManager
+java -classpath bin factory.client.laneManager.LaneManager
+java -classpath bin factory.client.gantryManager.GantryManager
+```
+
+##Compiling Indavidual Files
 All source files for the project are located under the src folder. When compiling you must specify the sourcepath when compiing. Recommended compile settings are:
 ```r
 javac -d bin -sourcepath src [path to source file]

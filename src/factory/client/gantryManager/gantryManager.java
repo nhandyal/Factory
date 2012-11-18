@@ -13,7 +13,7 @@ import java.util.*;
 import factory.global.network.*;
 import factory.global.data.*;
 
-public class gantryManager extends JFrame implements ActionListener, NetworkManager {
+public class GantryManager extends JFrame implements ActionListener, NetworkManager {
 	
 	Timer t;
 	TreeMap<Integer, FactoryObject> frameAnimationData = new TreeMap<Integer, FactoryObject>();
@@ -22,7 +22,7 @@ public class gantryManager extends JFrame implements ActionListener, NetworkMana
 	ImageArray images = new ImageArray();
     NetworkBridge nb;
 
-	public gantryManager(){
+	public GantryManager(){
 			t = new Timer(25,this);
     nb = new NetworkBridge(this, "localhost", 8465, 2);
 			nb.sync();
@@ -30,7 +30,7 @@ public class gantryManager extends JFrame implements ActionListener, NetworkMana
 	}
 
 	public static void main(String[] args){
-		gantryManager l = new gantryManager();
+		GantryManager l = new GantryManager();
 		l.setVisible(true);
 		l.setSize(400,670);
 		l.createBufferStrategy(2);

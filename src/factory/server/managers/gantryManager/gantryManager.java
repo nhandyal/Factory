@@ -13,7 +13,7 @@ import java.util.*;
 import factory.global.data.*;
 import factory.server.managers.GuiManager;
 
-public class gantryManager implements GuiManager
+public class GantryManager implements GuiManager
 {
 	ImageIcon background;
 	ArrayList<Bin> bins;
@@ -28,7 +28,7 @@ public class gantryManager implements GuiManager
 	TreeMap<Integer,FactoryObject> changeData;
 	TreeMap<Integer,FactoryObject> animData;
 
-	public gantryManager(){
+	public GantryManager(){
 	
 		index = 1;
 
