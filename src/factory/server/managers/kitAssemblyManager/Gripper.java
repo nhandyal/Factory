@@ -24,7 +24,7 @@ public class Gripper extends FactoryObject{
 	public void updateParts(){
 		for (int i = 0; i < parts.length; i++){
 			if (parts[i] != null)
-				parts[i].setPosition(x+10+20*i,y+5);
+				parts[i].setPosition(x+5,y+10+20*i);
 		}
 	}
 	
