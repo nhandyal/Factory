@@ -53,7 +53,7 @@ public class PartRobot extends FactoryObject
 		return 4;
 	}
 	
-	public void moveFromNest(KitStand ks, Part[] p, Nest[]n, int[] i, int base){
+	public void moveFromNest(KitStand ks, Part[] p, Nest[] n, int[] i, int base){
 		if (ks.getKit() != null){
 			isMoving = true;
 			this.base = base;
