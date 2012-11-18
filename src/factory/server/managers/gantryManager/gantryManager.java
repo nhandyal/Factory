@@ -1,4 +1,4 @@
-package factory.server.managers.gantryManager;
+//package factory.server.managers.gantryManager;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -10,15 +10,18 @@ import javax.swing.Timer;
 import java.util.*;
 
 // user packages
-import factory.global.data.*;
-import factory.server.managers.GuiManager;
+//import factory.global.data.*;
+//import factory.server.managers.GuiManager;
 
-public class gantryManager extends JFrame implements GuiManager
+public class gantryManager extends JFrame implements ActionListener //implements GuiManager
 {
 	ImageIcon background;
 	ArrayList<Bin> bins;
+	ArrayList<Feeder> feeders;
 	FOComparator foc;
 	ImageArray images;
+	gantryRobot robot;
+	int counter, index;
 	
 	TreeMap<Integer,Boolean> changeMap;
 	TreeMap<Integer,FactoryObject> temp;
@@ -27,34 +30,43 @@ public class gantryManager extends JFrame implements GuiManager
 
 	public gantryManager(){
 	
-		index = 1;
+		index = 18;
 
 
 		// Create 10 Bins
 		bins = new ArrayList<Bin>();
-		bins.add(new Bin(348,98,10,index,0));
+		bins.add(new Bin(340,105,10,index,0));
 		index+=2;
-		bins.add(new Bin(348,98,10,index,1));
+		bins.add(new Bin(340,146,10,index,1));
 		index+=2;
-		bins.add(new Bin(348,221,10,index,2));
+		bins.add(new Bin(340,187,10,index,2));
 		index+=2;
-		bins.add(new Bin(348,221,10,index,3));
+		bins.add(new Bin(340,229,10,index,3));
 		index+=2;
-		bins.add(new Bin(348,345,10,index,4));
+		bins.add(new Bin(340,270,10,index,4));
 		index+=2;
-		bins.add(new Bin(348,345,10,index,5));
+		bins.add(new Bin(340,311,10,index,5));
 		index+=2;
-		bins.add(new Bin(348,470,10,index,6));
+		bins.add(new Bin(340,353,10,index,6));
 		index+=2;
-		bins.add(new Bin(348,470,10,index,7));
+		bins.add(new Bin(340,393,10,index,7));
 		index+=2;
-		bins.add(new Bin(348,470,10,index,8));
+		bins.add(new Bin(340,434,10,index,8));
 		index+=2;
-		bins.add(new Bin(348,470,10,index,9));
+		bins.add(new Bin(340,475,10,index,9));
 		index+=2;
 
+		feeders = new ArrayList<Feeder>();
+
+		feeders.add(new Feeder(30, 107));
+		feeders.add(new Feeder(30, 232));
+		feeders.add(new Feeder(30, 357));
+		feeders.add(new Feeder(30, 480));
+
+		robot = new gantryRobot(200,335,18,bins, feeders);
+
 		// Create Backgroud Image
-		background = new ImageIcon("LMBG.png");
+		background = new ImageIcon("GMBG.png");
 		
 		// Create ImageList
 		images = new ImageArray();
@@ -65,16 +77,27 @@ public class gantryManager extends JFrame implements GuiManager
 		// Initialize comparator
 		foc = new FOComparator();
 		
-		changeMap = new TreeMap<Integer,Boolean>();
-		changeData = new TreeMap<Integer,FactoryObject>();
-		animData = new TreeMap<Integer,FactoryObject>();
-		temp = new TreeMap<Integer,FactoryObject>();
+		//changeMap = new TreeMap<Integer,Boolean>();
+		//changeData = new TreeMap<Integer,FactoryObject>();
+		//animData = new TreeMap<Integer,FactoryObject>();
+		//temp = new TreeMap<Integer,FactoryObject>();
 	}
 
+	public static void main(String[] args){
+		gantryManager l = new gantryManager();
+		l.setVisible(true);
+		l.setSize(400,670);
+		l.createBufferStrategy(2);
+		l.setTitle("Gantry Manager");
+		l.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		new Timer(50,l).start();
+	} //end main
+
 	
-/*	public void actionPerformed( ActionEvent ae ) {
+	public void actionPerformed( ActionEvent ae ) {
 		//This will be called by the Timer	
-		for(int i=0;i<8;i++){
+		/*for(int i=0;i<8;i++){
 			if(lanes.get(i).getActive() == true){		// if lane is on
 				if(counter==24){						// every 25th instance of timer
 					int partindx = feeders.get(i/2).getBin().getPart();
@@ -92,9 +115,17 @@ public class gantryManager extends JFrame implements GuiManager
 				}
 			}
 		}
-		update(changeMap,changeData);
+		update(changeMap,changeData);*/
+		if(robot.hasBin == false){
+			robot.moveToBin(1);
+		}
+
+		else if(robot.hasBin == true){
+			robot.moveToFeeder(3);
+		}
+		
 		repaint();
-    }		*/
+    }
 
 	/*public void sync(TreeMap<Integer,FactoryObject> map){
 		
@@ -136,12 +167,22 @@ public class gantryManager extends JFrame implements GuiManager
 		
 	}*/
 
-/*    public void paint(Graphics g){
+    public void paint(Graphics g){
     	Graphics2D g2 = (Graphics2D)g;
+    	background.paintIcon(this,g2,0,0);
+
+    	for (int i=0; i<10; i++){
+			images.getIcon(10).paintIcon(this,g2,bins.get(i).getPositionX(),bins.get(i).getPositionY());
+		}
+
+		images.getIcon(18).paintIcon(this,g2,robot.getPositionX(),robot.getPositionY());
+
+
+		//images.getIcon(10).paintIcon(this,g2,bins.get(0).getPositionX(),bins.get(0).getPositionY());
     	
-		sync(animData);
+		//sync(animData);
     	
-    	Iterator k = changeMap.keySet().iterator();
+    	/*Iterator k = changeMap.keySet().iterator();
 		while(k.hasNext()){
 			int i = (Integer) k.next();
 			if(animData.containsKey(i) == false){
@@ -150,12 +191,10 @@ public class gantryManager extends JFrame implements GuiManager
 			else if(changeMap.get(i) == true){
 				animData.put(i,changeData.get(i));
 			}
-		}
-
-		background.paintIcon(this,g2,0,0);
+		}*/
 
 		// Paint Updated List
-		k = animData.keySet().iterator();
+		/*k = animData.keySet().iterator();
 		while(k.hasNext()){
 			int i = (Integer) k.next();
 			if(i != 0 && animData.get(i).getIndex()> 0){
@@ -166,6 +205,6 @@ public class gantryManager extends JFrame implements GuiManager
 					images.getIcon(img).paintIcon(this,g2,animData.get(i).getPositionX(),animData.get(i).getPositionY());
 				}
 			}
-		}
-    }		*/
+		}*/
+    }		
 }
