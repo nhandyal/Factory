@@ -71,10 +71,11 @@ public class ServerControl extends JPanel implements ActionListener{
 	String[] feederStrings = new String[4];
 	JButton moveToBin = new JButton("Move to Bin");
 	JButton moveToFeeder = new JButton("Move to Feeder");
+	Server server;
 	
-	public ServerControl(GuiManager kit, GuiManager LM, GuiManager GM, FactoryState fs){
-		
-		
+	public ServerControl(GuiManager kit, GuiManager LM, GuiManager GM, FactoryState fs, Server serv){
+		server = serv;
+
 		this.KitASM = (UpdateServer)kit;
 		this.LM = (LaneManager)LM;
 		this.GM = (GantryManager)GM;
@@ -311,6 +312,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			}
 		}
 		if (e.getSource() == toggleLane){
+			server.sync = true;
 			String l = (String)laneChooser.getSelectedItem();
 			l = l.substring(5);
 			int lane = Integer.parseInt(l);
@@ -318,6 +320,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			LM.laneToggle(lane);
 		}
 		if (e.getSource() == nestPicture){
+			server.sync = true;
 			String n = (String)laneChooser.getSelectedItem();
 			n = n.substring(5);
 			int nest = Integer.parseInt(n);
@@ -348,6 +351,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			GM.robot.moveToFeeder(feeder);
 		}
 		if (e.getSource() == purgeNest){
+			server.sync = true;
 			String n = (String)laneChooser.getSelectedItem();
 			n = n.substring(5);
 
@@ -362,6 +366,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			LM.purgeNest(nest);
 		}
 		if (e.getSource() == purgeLane){
+			server.sync = true;
 			String l = (String)laneChooser.getSelectedItem();
 			l = l.substring(5);
 			int lane = Integer.parseInt(l);
@@ -369,6 +374,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			LM.purgeLane(lane);
 		}
 		if (e.getSource() == purgeFeeder){
+			server.sync = true;
 			String f = (String)feederChooser2.getSelectedItem();
 			f = f.substring(7);
 			int feeder = Integer.parseInt(f);
@@ -377,6 +383,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			LM.removeBin(feeder);
 		}
 		if (e.getSource() == toggleDivider){
+			server.sync = true;
 			String f = (String)feederChooser2.getSelectedItem();
 			f = f.substring(7);
 			int feeder = Integer.parseInt(f);
