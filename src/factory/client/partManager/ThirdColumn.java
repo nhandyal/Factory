@@ -1,78 +1,87 @@
 package factory.client.partManager;
 import java.awt.*; 
 import factory.global.data.*;
-import javax.swing.*; 
+import javax.swing.*;
 
-public class ThirdColumn extends JPanel{
-	private JPanel thirdColumn; 
+
+public class ThirdColumn extends JPanel implements ActionListener{
 	private JLabel partSelectTitle; 
 	private JButton firstPartButton, secondPartButton, thirdPartButton, fourthPartButton,
-	fifthPartButton, sixthPartButton, seventhPartButton, eighthPartButton, ninthPartButton, tenthPartButton; 
-	public ThirdColumn(){
-		thirdColumn = new JPanel(new GridBagLayout()); 
-		GridBagConstraints gbc = new GridBagConstraints(); 
+	fifthPartButton, sixthPartButton, seventhPartButton, eighthPartButton, ninthPartButton, tenthPartButton;
+	PartsManager parent;
+	JButton[] deleteButtons = new JButton[10];
+	public ThirdColumn(PartsManager parent){
+		this.parent = parent;
+		JPanel buttonContainer = new JPanel();
+		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+		buttonContainer.setLayout(new GridLayout(10,2));
 		partSelectTitle = new JLabel("Select Part"); 
-		gbc.gridx = 0; 
-		gbc.gridy = 0; 
-		thirdColumn.add(partSelectTitle, gbc);  // adds Select Parts Title
-		firstPartButton = new JButton("N"); 
-		gbc.gridx = 0; 
-		gbc.gridy = 1; 
-		thirdColumn.add(firstPartButton, gbc); // adds JButtons to select
-		
+		firstPartButton = new JButton("N");
 		secondPartButton = new JButton("N"); 
-		gbc.gridx = 0; 
-		gbc.gridy = 2; 
-		thirdColumn.add(secondPartButton, gbc); // adds JButtons to select
-		
 		thirdPartButton = new JButton("N"); 
-		gbc.gridx = 0; 
-		gbc.gridy = 3; 
-		thirdColumn.add(thirdPartButton, gbc); // adds JButtons to select
-		
 		fourthPartButton = new JButton("N"); 
-		gbc.gridx = 0; 
-		gbc.gridy = 4; 
-		thirdColumn.add(fourthPartButton, gbc); // adds JButtons to select
-		
 		fifthPartButton = new JButton("N"); 
-		gbc.gridx = 0; 
-		gbc.gridy = 5; 
-		thirdColumn.add(fifthPartButton, gbc); // adds JButtons to select
-		add(thirdColumn);
-		
 		sixthPartButton = new JButton("N"); 
-		gbc.gridx = 0; 
-		gbc.gridy = 6; 
-		thirdColumn.add(sixthPartButton, gbc); // adds JButtons to select
-		
 		seventhPartButton = new JButton("N"); 
-		gbc.gridx = 0; 
-		gbc.gridy = 7; 
-		thirdColumn.add(seventhPartButton, gbc); // adds JButtons to select
-		
 		eighthPartButton = new JButton("N"); 
-		gbc.gridx = 0; 
-		gbc.gridy = 8; 
-		thirdColumn.add(eighthPartButton, gbc); // adds JButtons to select
-		
 		ninthPartButton = new JButton("N"); 
-		gbc.gridx = 0; 
-		gbc.gridy = 9; 
-		thirdColumn.add(ninthPartButton, gbc); // adds JButtons to select
+		tenthPartButton = new JButton("N");
+		for(int i = 0; i < 10; i++){
+				JButton temp = new JButton("Delete");
+				temp.addActionListener(this);
+				deleteButtons[i] = temp;
+				switch(i){
+						case 0:
+								buttonContainer.add(firstPartButton);
+								buttonContainer.add(deleteButtons[i]);
+								break;
+						case 1:
+								buttonContainer.add(secondPartButton);
+								buttonContainer.add(deleteButtons[i]);
+								break;
+						case 2:
+								buttonContainer.add(thirdPartButton);
+								buttonContainer.add(deleteButtons[i]);
+								break;
+						case 3:
+								buttonContainer.add(fourthPartButton);
+								buttonContainer.add(deleteButtons[i]);
+								break;
+						case 4:
+								buttonContainer.add(fifthPartButton);
+								buttonContainer.add(deleteButtons[i]);
+								break;
+						case 5:
+								buttonContainer.add(sixthPartButton);
+								buttonContainer.add(deleteButtons[i]);
+								break;
+						case 6:
+								buttonContainer.add(seventhPartButton);
+								buttonContainer.add(deleteButtons[i]);
+								break;
+						case 7:
+								buttonContainer.add(eighthPartButton);
+								buttonContainer.add(deleteButtons[i]);
+								break;
+						case 9:
+								buttonContainer.add(ninthPartButton);
+								buttonContainer.add(deleteButtons[i]);
+								break;
+						case 10:
+								buttonContainer.add(tenthPartButton);
+								buttonContainer.add(deleteButtons[i]);
+								break;
+				}
+		}
 		
-		tenthPartButton = new JButton("N"); 
-		gbc.gridx = 0; 
-		gbc.gridy = 10; 
-		thirdColumn.add(tenthPartButton, gbc); // adds JButtons to select
+		this.add(partSelectTitle);
+		this.add(buttonContainer);
 		
 		
 	}
-	public JPanel getThirdColumn() {
-		return thirdColumn;
-	}
-	public void setThirdColumn(JPanel thirdColumn) {
-		this.thirdColumn = thirdColumn;
+	
+	public void actionPerformed(ActionEvent ae){
+		
 	}
 	public JLabel getPartSelectTitle() {
 		return partSelectTitle;

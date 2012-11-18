@@ -49,7 +49,8 @@ public class InspectionCamera extends FactoryObject
 	
 	public void move()
 	{
-		count = us.getCount() - base; 
+		count = us.getCount() - base;
+        us.setFlash(false);
 		if (count < 25){
 			x += (finalx - initialx)/25;
 			y += (finaly - initialy)/25;
@@ -65,6 +66,7 @@ public class InspectionCamera extends FactoryObject
 			reset();
 			takePicture = false;
 			k.setPicTaken(true);
+            us.setFlash(true);
 			count++;
 		}
 		else if (count >= 30 && count < 56){
