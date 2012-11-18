@@ -141,7 +141,6 @@ public class UpdateServer implements GuiManager, Serializable
 		if (countconv == 26)
 		{
 			countconv = 0;
-			conv.setInKit(null);
 			isBringKit = false;
 			isMoveToStand = true;
 		}
