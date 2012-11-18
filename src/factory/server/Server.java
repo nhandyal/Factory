@@ -169,7 +169,6 @@ public class Server implements ActionListener, NetworkManager{
 		}
 		
 		private void masterUpdate(){
-				//System.out.println("Master Update Called");
 				/*
 				 * run updates on guiViews[0] - guiViews[2]
 				 * guiViews[3] == factoryManage; just needs a superset of the other 3 updates
@@ -211,7 +210,7 @@ public class Server implements ActionListener, NetworkManager{
 				
 				// now we can send all of the data to the appropriate clients prefaced by an update animation data instruction. FM will expect 3 NTO objects on the input stream
 				Instruction instr = new Instruction("UAD",1);
-				Instruction instrFM = new Instruction("UAD",3);
+				Instruction instrFM = new Instruction("UAD",2);
 				
 				/*
 				 * send the update animation data instruction along with the appropriate NTO to all animation managers
@@ -237,10 +236,10 @@ public class Server implements ActionListener, NetworkManager{
 												clientConnections[4].writeData(kitAsmData);
 												break;
 										case 5:
-												//clientConnections[5].writeData(instrFM);
+												clientConnections[5].writeData(instrFM);
+												clientConnections[5].writeData(kitAsmData);
+												clientConnections[5].writeData(laneData);
 												//clientConnections[5].writeData(gantryData);
-												//clientConnections[5].writeData(laneData);
-												//clientConnections[5].writeData(kitAsmData);
 												break;
 								}
 						}

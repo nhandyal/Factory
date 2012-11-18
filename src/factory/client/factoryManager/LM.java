@@ -28,6 +28,7 @@ public class LM extends JPanel{
 		}
 		
     public void paintComponent(Graphics g){
+				System.out.println("KASM paint called");
 				Graphics2D g2 = (Graphics2D)g;
 				refreshAnimationData();
 				background.paintIcon(this,g2,0,0);

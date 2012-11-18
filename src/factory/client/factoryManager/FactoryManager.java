@@ -46,11 +46,11 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 				for(int i = 0; i < 3; i++){
 						factoryAnimationData.add(new TreeMap<Integer, FactoryObject>());
 				}
-				nb = new NetworkBridge(this, "localhost", 8465, 5);
+				nb = new NetworkBridge(this, "aludra.usc.edu", 8465, 5);
 				animationFrames = new ArrayList<JPanel>();
 				animationFrames.add(new KASM(this));
 				animationFrames.add(new LM(this));
-				
+				t = new Timer(25,this);
 				
 				// add panels to frame
 				for(JPanel frame : animationFrames){
@@ -58,7 +58,7 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 				}
 				
 				// start threads
-				t = new Timer(25,this);
+				t.start();
 				nb.sync();
 		}
 		
@@ -81,7 +81,9 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 		}
 		
 		public void actionPerformed(ActionEvent ae){
-				
+				for(JPanel frame : animationFrames){
+						frame.repaint();
+				}
 		}
 		
 		// -------------------------------------------------------------------------------------- //
@@ -95,30 +97,40 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 		
 		// client specific
 		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){
-				/*
 				if(mapArray.size() == 2){
-						TreeMap<Integer, Boolean> changeMap = mapArray.get(0);
-						TreeMap<Integer, FactoryObject> changeData = dataArray.get(0);
-					
-						// iterate over all the keys present in changeMap
-						// after this loop is complete, the frameAnimationData map will be accurately synced with the server copy
-						for(Integer key : changeMap.keySet()){
-								// check the write direction of the change map key
-								if(changeMap.get(key)){
-										// write new factory object to animation frame
-										FactoryObject newAnimationData = changeData.get(key);
-										frameAnimationData.put(key,newAnimationData);
+						TreeMap<Integer, Boolean> changeMap;
+						TreeMap<Integer, FactoryObject> changeData, currentFrameData;
+						
+						for(int i = 0; i < mapArray.size(); i++){
+								changeMap = mapArray.get(i);
+								changeData = dataArray.get(i);
+								currentFrameData = factoryAnimationData.get(i);
+								// iterate over all the keys present in changeMap
+								// after this loop is complete, the frameAnimationData map will be accurately synced with the server copy
+								for(Integer key : changeMap.keySet()){
+										// check the write direction of the change map key
+										if(changeMap.get(key)){
+												// write new factory object to animation frame
+												FactoryObject newAnimationData = changeData.get(key);
+												currentFrameData.put(key,newAnimationData);
+										}
+										else{
+												// delete the factory object from currentFrame
+												currentFrameData.remove(key);
+										}
 								}
-								else{
-										// delete the factory object from frameAnimationData
-										frameAnimationData.remove(key);
+								/*
+								System.out.println("currentFrameData: "+i);
+								for(Integer j : currentFrameData.keySet()){
+										System.out.print(j+" --- ");
+										currentFrameData.get(j).print();
 								}
+								*/
 						}
 				}
 				else{
 						System.out.println("Warning: Corrupt frame data");
 				}
-				*/
 		}
 		
 		public void syncChanges(ArrayList<TreeMap<Integer,FactoryObject>> dataArray){
