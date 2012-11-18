@@ -37,12 +37,13 @@ public class PartRobot extends FactoryObject
 		y1 = y + imageHeight/2;
 		y2 = y + imageHeight/2;
         g = new Gripper((int)x2,(int)y2,16);
+        //locations of all the parts we will pick up
 		xdes1 = new double[4];
 		ydes1 = new double[4];
 		xdes2 = new double[4];
 		ydes2 = new double[4];
 	}
-    
+    //return the amount of parts in an array
     public int findTotalParts(Part[] p){
 		for (int m = 0; m < p.length; m++){
 			if (p[m] == null){
@@ -57,18 +58,23 @@ public class PartRobot extends FactoryObject
 		if (ks.getKit() != null){
 			isMoving = true;
 			this.base = base;
+			//store parts to pick up
 			for (int k = 0; k < p.length; k++)
 				holdObj[k] = p[k];
 			s2 = ks;
+			//store destinations
 			for (int m = 0; m < p.length; m++){
 				if (p[m] != null){
 					xdes1[m] = n[m].getPositionX() - 20;
 					ydes1[m] = n[m].getPositionY();
 				}
 			}
+			//find total parts
             totalParts = findTotalParts(p);
+            //set kit indexes parts go to
 			for (int j = 0; j < i.length; j++)
 				kitIndex[j] = i[j];
+			//find each final destination based on where in the kit it needs to go
 			for (int l = 0; l < kitIndex.length; l++){
 				if (kitIndex[l] > 3)
 					ydes2[l] = ks.getKit().getPositionY() + 25;
@@ -90,14 +96,17 @@ public class PartRobot extends FactoryObject
 	{
 		csCount = us.getCount() - base;
 		//System.out.println(csCount);
+		//move to first nest
 		if (csCount < 20){
             x2 += (xdes1[0]-x1)/20;
             y2 += (ydes1[0]-y1)/20;
             g.setPosition((int)x2,(int)y2);
+            //add part to gripper
             if (csCount == 19)
                 g.addPart(holdObj[0]);
             csCount++;
         }
+        //move to second nest
         else if (csCount >= 20 && csCount < 40){
             if (totalParts >= 2)
             {
@@ -109,10 +118,12 @@ public class PartRobot extends FactoryObject
                 g.updateParts();
                 csCount++;
             }
+            //if no more parts to pick up go back to part robot center
             else
                 csCount = 80;
         }
         else if (csCount >= 40 && csCount < 60){
+            //move to third nest
             if (totalParts >= 3){
                 x2 += (xdes1[2] - xdes1[1])/20;
                 y2 += (ydes1[2] - ydes1[1])/20;
@@ -122,10 +133,12 @@ public class PartRobot extends FactoryObject
                 g.updateParts();
                 csCount++;
             }
+            //if no more parts to pick up go back to part robot center
             else
                 csCount = 80;
         }
         else if (csCount >= 60 && csCount < 80){
+            //move to fourth nest
             if (totalParts >= 4){
                 x2 += (xdes1[3] - xdes1[2])/20;
                 y2 += (ydes1[3] - ydes1[2])/20;
@@ -135,9 +148,11 @@ public class PartRobot extends FactoryObject
                 g.updateParts();
                 csCount++;
             }
+            //if no more parts to pick up go back to part robot center
             else
                 csCount = 80;
         }
+        //go back to part robot center
         else if (csCount >= 80 && csCount < 100){
             x2 += (x1 - xdes1[totalParts-1])/20;
             y2 += (y1 - ydes1[totalParts-1])/20;
@@ -145,6 +160,7 @@ public class PartRobot extends FactoryObject
             g.updateParts();
             csCount++;
         }
+        //go to kit index
         else if (csCount >= 100 && csCount < 120){
             x2 += (xdes2[0] - x1)/20;
             y2 += (ydes2[0] - y1)/20;
@@ -153,6 +169,7 @@ public class PartRobot extends FactoryObject
             csCount++;
            // m.repaint();
         }
+        //go back to robot center
         else if (csCount >= 120 && csCount < 140){
             if (csCount == 120){
                 for (int j = 0; j < totalParts; j++){
@@ -168,6 +185,7 @@ public class PartRobot extends FactoryObject
             csCount++;
            // m.repaint();
         }
+        //reset everything
         else if (csCount == 140){
             csCount = 0;
             isMoving = false;

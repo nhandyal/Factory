@@ -10,7 +10,7 @@ public class Part extends FactoryObject
 		super(initialPosX, initialPosY, initialImage);
 		setImage(initialImage);
 	}
-
+	//methods used in lane manager
 	public void moveLeft(){
 		x -= 2;
 	}

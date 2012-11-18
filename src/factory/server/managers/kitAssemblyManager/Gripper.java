@@ -13,6 +13,7 @@ public class Gripper extends FactoryObject{
 	}
 	
 	public void addPart(Part p){
+		//check for first available opening in gripper
 		for (int i = 0; i < parts.length; i++){
 			if (parts[i] == null){
 				parts[i] = p;
@@ -22,6 +23,7 @@ public class Gripper extends FactoryObject{
 	}
 	
 	public void updateParts(){
+		//make sure all the parts in the gripper move as the gripper moves
 		for (int i = 0; i < parts.length; i++){
 			if (parts[i] != null)
 				parts[i].setPosition(x+5,y+10+20*i);
