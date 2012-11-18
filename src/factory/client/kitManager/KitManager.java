@@ -176,11 +176,13 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 		
 		// client specific
 		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){}
+		
 		public void updatePartData(TreeMap<Integer, Parts> partData){
 				currentList = partData;
 				for(Integer i : currentList.keySet()){
 						currentList.get(i).print();
 				}
+				// call combo box validation method
 		}
 		
 		public void syncChanges(ArrayList<TreeMap<Integer,FactoryObject>> dataArray){}
