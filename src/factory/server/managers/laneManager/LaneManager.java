@@ -181,13 +181,14 @@ public class LaneManager implements GuiManager
 	public void laneSwitch(int x1, int x2, int pnum){
 		if(x1<8){										// if lane exists
 			lanes.get(x1).setActive(false);				// turn lane off
-			feeders.get(x1/2).removeBin();				// remove bin from feeder
-//			dividers.get(x1/2).dividerNeutral();		// put divider in neutral position
+//			feeders.get(x1/2).removeBin();				// remove bin from feeder
+			removeBin(x1/2);
 		}
 		if(x2<8){										// if lane exists
 			lanes.get(x2).setActive(true);				// turn lane on
-			feeders.get(x2/2).addBin(bins.get(x2));		// add bin to feeder
-			feeders.get(x2/2).setPush(pnum);			// set # of parts to make
+//			feeders.get(x2/2).addBin(bins.get(x2));		// add bin to feeder
+//			feeders.get(x2/2).setPush(pnum);			// set # of parts to make
+			addBin(x2/2,bins.get(x2),36);
 			if(x2%2 == 0)								// if upper lane
 				dividers.get(x2/2).dividerDown();		// put divider in lower position
 			if(x2%2 == 1)								// if lower lane
