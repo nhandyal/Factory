@@ -88,6 +88,7 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 			kI.getKitNameText().setText("Name");
 			kI.getKitDescription().setText("Brief Description of Kit");
 			kI.getKitIDNumber().setText("ID");
+			nb1.sendKitData(listOfKits);
 		}
 	}
 
@@ -276,8 +277,11 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 						currentList.get(i).print();
 				}
 				updateBoxes(); // call combo box validation method
+				currentList.clear(); 
 				
 		}
+
+		public void updateKitData(ArrayList<Kits>kitData){};
 		
 		public void syncChanges(ArrayList<TreeMap<Integer,FactoryObject>> dataArray){}
 		
