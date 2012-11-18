@@ -41,7 +41,20 @@ public class KitManager extends JFrame implements ActionListener, ItemListener {
 		pS.getBoxOfPart7().addItemListener(this); 
 		pS.getBoxOfPart7().addItemListener(this); 
 
-		currentList = new TreeMap<Integer, Parts>(); 		
+		currentList = new TreeMap<Integer, Parts>();
+
+ 
+		pS.getBoxOfPart1().setEnabled(false); 
+		//pS.getBoxOfPart1().removeAllItems();
+		
+		for(int i = 0; i<currentList.size(); i++){
+			String nextName = currentList.get(i).getName(); 			
+			pS.getPartNamesBox1().add(nextName); //adds names to arraylist		
+			pS.getBoxOfPart1().addItem(pS.getPartNamesBox1().get(i)); //updates ComboBox
+
+		}
+		pS.getBoxOfPart1().setEnabled(true); 
+		
 		finalizedList = new TreeMap<Integer, Parts>();
 		listOfKits = new ArrayList<Kits>(); 
 		add(kitPanel);
