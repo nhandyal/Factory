@@ -132,12 +132,12 @@ public class Server implements ActionListener, NetworkManager{
 				
 				// call sync on all GuiManagers
 				//guiViews[0].sync(changeData.get(0));
-				//guiViews[1].sync(changeData.get(1));
+				guiViews[1].sync(changeData.get(1));
 				guiViews[2].sync(changeData.get(2));
 				
 				// build NetworkTransferObjects for all the managers
 				//NetworkTransferObject gantryData = new NetworkTransferObject(changeMap, changeData.get(0));
-				//NetworkTransferObject laneData = new NetworkTransferObject(changeMap, changeData.get(1));
+				NetworkTransferObject laneData = new NetworkTransferObject(changeMap, changeData.get(1));
 				NetworkTransferObject kitAsmData = new NetworkTransferObject(changeMap, changeData.get(2));
 				
 				
@@ -151,8 +151,8 @@ public class Server implements ActionListener, NetworkManager{
 												//clientConnections[2].writeData(gantryData);
 												break;
 										case 3:
-												//clientConnections[3].writeData(instr);
-												//clientConnections[3].writeData(laneData);
+												clientConnections[3].writeData(instr);
+												clientConnections[3].writeData(laneData);
 												break;
 										case 4:
 												clientConnections[4].writeData(instr);
@@ -196,7 +196,7 @@ public class Server implements ActionListener, NetworkManager{
 				//guiViews[0].update(changeMap.get(0), changeData.get(0));
 				
 				// get update data for Lane Manager
-				//guiViews[1].update(changeMap.get(1), changeData.get(1));
+				guiViews[1].update(changeMap.get(1), changeData.get(1));
 				
 				// get update data for Kit Asm Manager
 				guiViews[2].update(changeMap.get(2), changeData.get(2));
@@ -206,7 +206,7 @@ public class Server implements ActionListener, NetworkManager{
 				// we will send all three NTO's to the fm so that it has all relevant data to paint
 				
 				//NetworkTransferObject gantryData = new NetworkTransferObject(changeMap.get(0), changeData.get(0));
-				//NetworkTransferObject laneData = new NetworkTransferObject(changeMap.get(1), changeData.get(1));
+				NetworkTransferObject laneData = new NetworkTransferObject(changeMap.get(1), changeData.get(1));
 				NetworkTransferObject kitAsmData = new NetworkTransferObject(changeMap.get(2), changeData.get(2));
 				
 				
@@ -230,8 +230,8 @@ public class Server implements ActionListener, NetworkManager{
 												//clientConnections[2].writeData(gantryData);
 												break;
 										case 3:
-												//clientConnections[3].writeData(instr);
-												//clientConnections[3].writeData(laneData);
+												clientConnections[3].writeData(instr);
+												clientConnections[3].writeData(laneData);
 												break;
 										case 4:
 												clientConnections[4].writeData(instr);

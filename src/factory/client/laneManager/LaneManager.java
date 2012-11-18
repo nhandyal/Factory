@@ -93,6 +93,13 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 	}
 		
 	public void syncChanges(ArrayList<TreeMap<Integer,FactoryObject>> dataArray){
+		System.out.println("frameAnimationData before sync");
+				for(Integer i : frameAnimationData.keySet()){
+						System.out.print(i+" --> ");
+						frameAnimationData.get(i).print();
+				}
+				
+				
 		if(dataArray.size() == 1){
 			TreeMap<Integer, FactoryObject> changeData = dataArray.get(0);
 			frameAnimationData = changeData;
@@ -101,6 +108,14 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 		else{
 			System.out.println("Warning: Corrupt frame data");
 		}
+		
+		System.out.println("frameAnimationData after sync");
+				for(Integer i : frameAnimationData.keySet()){
+						System.out.print(i+" --> ");
+						frameAnimationData.get(i).print();
+				}
+				System.out.println();
+				System.out.println();
 	}
 		
 	// global
@@ -115,7 +130,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
     	
 //		buildMap(animData);
     	
-    	Iterator k = changeMap.keySet().iterator();
+    	//Iterator k = changeMap.keySet().iterator();
 /*		while(k.hasNext()){
 			int i = (Integer) k.next();
 			if(animData.containsKey(i) == false){
@@ -129,7 +144,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 		background.paintIcon(this,g2,0,0);
 
 		// Paint Updated List
-		k = frameAnimationData.keySet().iterator();
+		Iterator k = frameAnimationData.keySet().iterator();
 		while(k.hasNext()){
 			int i = (Integer) k.next();
 			if(i != 0 && frameAnimationData.get(i).getIndex()> 0){
