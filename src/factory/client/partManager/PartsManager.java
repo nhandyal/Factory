@@ -437,7 +437,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		
 		// server specific
 		public void registerClientListener(NetworkBridge newBridge, int cID){}
-		public void syncFrame(int cID){}
+		public void syncFrame(){}
 		public void updatePartData(TreeMap<Integer, Parts>partData){}
 		
 		// client specific
