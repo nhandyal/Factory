@@ -27,6 +27,7 @@ public class LaneManager implements GuiManager
 	
 	TreeMap<Integer,Boolean> changeMap;
 	TreeMap<Integer,FactoryObject> temp;
+	TreeMap<Integer,FactoryObject> purgeData;
 	TreeMap<Integer,FactoryObject> changeData;
 
 	public LaneManager(){
@@ -122,6 +123,7 @@ public class LaneManager implements GuiManager
 		foc = new FOComparator();
 		
 		// Initialize TreeMaps
+		purgeData = new TreeMap<Integer,FactoryObject>();
 		changeMap = new TreeMap<Integer,Boolean>();
 		changeData = new TreeMap<Integer,FactoryObject>();
 		temp = new TreeMap<Integer,FactoryObject>();
@@ -214,9 +216,15 @@ public class LaneManager implements GuiManager
 	}
 
 	public void purgeLane(int i){
-		sync(changeData);
 		lanes.get(i).purgeLane();
-		sync(changeData);
+
+		sync(purgeData);
+		Iterator k = purgeData.keySet().iterator();
+		while(k.hasNext()){
+			int j = (Integer) k.next();
+			changeMap.put(j,false);
+		}
+//		sync(changeData);
 //		for(int j=0;i<lanes.get(i).getLaneSize();j++)
 //			lanes.get(i).getLanePart(j).setIndex(-5);
 //		lanes.get(i).getLane().clear();
@@ -270,7 +278,7 @@ public class LaneManager implements GuiManager
 
 		changeData.clear();
 		
-		// Server Control
+		// Automated Mvmt
 		laneManagement();
 
 		// Get current frame data
