@@ -241,23 +241,25 @@ public class UpdateServer implements GuiManager, Serializable
             if (!probot.isMoving())
 			{
                 if (stands.get(stand).getKit() != null){
-					if (!stands.get(stand).getKit().getIsComplete()){ 
-						Part[] p = new Part[4];
-						Nest[] n = new Nest[4];
-						for (int j = 0; j < p.length; j++){
-							Part p1 = parts.get(pos[j]);
+					
+                    Part[] p = new Part[4];
+                    Nest[] n = new Nest[4];
+                    for (int j = 0; j < p.length; j++){
+                        if (pos[j] != -1)
+                        {
+                            Part p1 = parts.get(pos[j]);
 							//Part p1 = new Part(nests.get(j).getPosition()X,
 							//nests.get(j).getPositionY(), 1);
 							//parts.add(p1);
-							p[j] = p1;
-							n[j] = nests.get(pos[j]);
-						}
-						probot.moveFromNest(stands.get(stand),p,n,indexes,0); //call the robot to do the animation
-                        isFinished = false;
-                        flag = false;
-                        f = false;
-                        count++;
-					}
+                            p[j] = p1;
+                            n[j] = nests.get(pos[j]);
+                        }
+                    }
+                    probot.moveFromNest(stands.get(stand),p,n,indexes,0); //call the robot to do the animation
+                    isFinished = false;
+                    flag = false;
+                    f = false;
+                    count++;
 				}
 			}
 			if (probot.isMoving())

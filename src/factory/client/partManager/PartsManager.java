@@ -44,7 +44,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		sC = new SecondColumn(); 
 		partsGrid.add(sC); 		
 		//Third Column			
-		tC = new ThirdColumn(); 
+		tC = new ThirdColumn(this); 
 		partsGrid.add(tC); 	
 		
 		
@@ -126,7 +126,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part1Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartOneName().setText(nameText); 
+			fC.getPartOneName().setText("Part 1: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
@@ -189,7 +189,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part2Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartTwoName().setText(nameText); 
+			fC.getPartTwoName().setText("Part 2: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
@@ -238,7 +238,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part3Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartThreeName().setText(nameText); 
+			fC.getPartThreeName().setText("Part 3: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
@@ -288,7 +288,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part4Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartFourName().setText(nameText); 
+			fC.getPartFourName().setText("Part 4: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
@@ -338,7 +338,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part5Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartFiveName().setText(nameText); 
+			fC.getPartFiveName().setText("Part 5: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
@@ -387,7 +387,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part6Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartSixName().setText(nameText); 
+			fC.getPartSixName().setText("Part 6: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
@@ -435,7 +435,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part7Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartSevenName().setText(nameText); 
+			fC.getPartSevenName().setText("Part 7: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
@@ -483,7 +483,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part8Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartEightName().setText(nameText); 
+			fC.getPartEightName().setText("Part 8: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
@@ -531,7 +531,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part9Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartNineName().setText(nameText); 
+			fC.getPartNineName().setText("Part 9: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
@@ -579,7 +579,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part10Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartTenName().setText(nameText); 
+			fC.getPartTenName().setText("Part 10: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
@@ -625,6 +625,91 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 			
 		}
 	}
+		
+		public void deletePart(int pID){
+				switch(pID){
+						case 1:
+								if(newPart1 != null){
+										fC.getPartOneName().setText("Unused"); 
+										listOfParts.remove(newPart1.getMapIndex());
+										isPart1New = true;
+										tC.getFirstPartButton().setText("N");
+								}
+								break;
+						case 2:
+								if(newPart2 != null){
+										fC.getPartTwoName().setText("Unused"); 
+										listOfParts.remove(newPart2.getMapIndex());
+										isPart2New = true;
+										tC.getSecondPartButton().setText("N");
+								}
+								break;
+						case 3:
+								if(newPart3 != null){
+										fC.getPartThreeName().setText("Unused"); 
+										listOfParts.remove(newPart3.getMapIndex());
+										isPart3New = true;
+										tC.getThirdPartButton().setText("N");
+								}
+								break;
+						case 4:
+								if(newPart4 != null){
+										fC.getPartFourName().setText("Unused"); 
+										listOfParts.remove(newPart4.getMapIndex());
+										isPart4New = true;
+										tC.getFourthPartButton().setText("N");
+								}
+								break;
+						case 5:
+								if(newPart5 != null){
+										fC.getPartFiveName().setText("Unused"); 
+										listOfParts.remove(newPart5.getMapIndex());
+										isPart5New = true;
+										tC.getFifthPartButton().setText("N");
+								}
+								break;
+						case 6:
+								if(newPart6 != null){
+										fC.getPartSixName().setText("Unused"); 
+										listOfParts.remove(newPart6.getMapIndex());
+										isPart6New = true;
+										tC.getSixthPartButton().setText("N");
+								}
+								break;
+						case 7:
+								if(newPart7 != null){
+										fC.getPartSevenName().setText("Unused"); 
+										listOfParts.remove(newPart7.getMapIndex());
+										isPart7New = true;
+										tC.getSeventhPartButton().setText("N");
+								}
+								break;
+						case 8:
+								if(newPart8 != null){
+										fC.getPartEightName().setText("Unused"); 
+										listOfParts.remove(newPart8.getMapIndex());
+										isPart8New = true;
+										tC.getEighthPartButton().setText("N");
+								}
+								break;
+						case 9:
+								if(newPart9 != null){
+										fC.getPartNineName().setText("Unused"); 
+										listOfParts.remove(newPart9.getMapIndex());
+										isPart9New = true;
+										tC.getNinthPartButton().setText("N");
+								}
+								break;
+						case 10:
+								if(newPart10 != null){
+										fC.getPartTenName().setText("Unused"); 
+										listOfParts.remove(newPart10.getMapIndex());
+										isPart10New = true;
+										tC.getTenthPartButton().setText("N");
+								}
+								break;
+				}
+		}
 		
 		// -------------------------------------------------------------------------------------- //
 		// ----------------------------------- Network Manager ---------------------------------- //
