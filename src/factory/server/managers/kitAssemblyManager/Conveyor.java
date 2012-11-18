@@ -30,6 +30,7 @@ public class Conveyor extends FactoryObject
 	public void bringKit()
 	{
 		inKit = new Kit(inStartx,inStarty,12);
+		inKit.setIsMoving(true);
 		us.getKits().add(inKit);
 	}
 	
