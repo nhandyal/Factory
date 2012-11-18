@@ -102,7 +102,11 @@ public class Server implements ActionListener, NetworkManager{
 						clientConnections[1].writeData(instr);
 						clientConnections[1].writeData(fs.getParts());
 				}
-				
+		}
+		
+		public void updateKitData(ArrayList<Kits> kitData){
+				System.out.println("update kit data called");
+				fs.mergeKits(kitData);
 		}
 		
 		// function to send the entire frame data to the client

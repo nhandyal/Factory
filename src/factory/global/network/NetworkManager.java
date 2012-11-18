@@ -11,7 +11,6 @@ public interface NetworkManager{
 		// server specific
 		public void registerClientListener(NetworkBridge newBridge, int cID);
 		public void syncFrame();
-		public void updatePartData(TreeMap<Integer, Parts> partData);
 		
 		// client specific
 		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray);
@@ -19,5 +18,6 @@ public interface NetworkManager{
 		
 		// general
 		public void closeNetworkBridge(int bridgeID);
-		
+		public void updatePartData(TreeMap<Integer, Parts> partData);
+		public void updateKitData(ArrayList<Kits> kitData);
 }

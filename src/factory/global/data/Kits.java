@@ -31,5 +31,9 @@ public class Kits{
 	public int getKitID(){
 		return kitID;
 	}
+	
+	public void print(){
+		System.out.print("name: "+name+" description: "+description+" kitid: "+kitID);
+	}
 
 }
