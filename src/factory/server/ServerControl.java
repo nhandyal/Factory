@@ -158,12 +158,12 @@ public class ServerControl extends JPanel implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e){
 		if (e.getSource() == bringKit){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.isMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
 				KitASM.bringKit();
 			}
 		}
 		if (e.getSource() == conveyorToStand){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.isMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
 				for (int i = 0; i < 2; i++){
 					if (KitASM.stands.get(i).getKit() == null){
 						KitASM.moveToStand(i);
@@ -174,7 +174,7 @@ public class ServerControl extends JPanel implements ActionListener{
 		}
 		/*
 		if (e.getSource() == build1){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.isMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
 				int[] nests = new Part[4];
 				int[] indexes = new int[4];
 				for (int i = 0; i < nestChooser.length; i++){
@@ -195,28 +195,28 @@ public class ServerControl extends JPanel implements ActionListener{
 			}
 		}
 		if (e.getSource() == build2){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.isMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
 			
 			}
 		}
 		*/
 		if (e.getSource() == inspectionPicture){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.isMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
 				KitASM.takePic();
 			}
 		}
 		if (e.getSource() == inspection){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.isMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
 				KitASM.moveToInspection();
 			}
 		}
 		if (e.getSource() == standToConveyor){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.isMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
 				KitASM.takeToConveyor();
 			}
 		}
 		if (e.getSource() == takeKit){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.isMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
 				KitASM.takeKit();
 			}
 		}
