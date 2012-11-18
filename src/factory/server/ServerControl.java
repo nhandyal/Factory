@@ -178,7 +178,7 @@ public class ServerControl extends JPanel implements ActionListener{
 		gantryControl.add(moveToBin);
 		gantryControl.add(moveToFeeder);
 		gantryControl.add(purgeFeeder);
-		//gantryControl.add(addBin);
+		gantryControl.add(addBin);
 		
 		overPanel.add(kitAssemblyControl);
 		overPanel.add(laneControl);
@@ -359,8 +359,9 @@ public class ServerControl extends JPanel implements ActionListener{
 			feeder -= 1;
 			LM.dividerToggle(feeder);
 		}
-		/*
+		
 		if (e.getSource() == addBin){
+			server.sync = true;
 			String f = (String)feederChooser.getSelectedItem();
 			f = f.substring(7);
 			int feeder = Integer.parseInt(f);
@@ -371,7 +372,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			bin -= 1;
 			LM.addBin2(feeder,bin,36);
 		}
-		*/
+		
 	}
 		
 }

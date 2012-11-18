@@ -15,7 +15,6 @@ import factory.server.managers.GuiManager;
 
 public class LaneManager implements GuiManager
 {
-	ImageIcon background;
 	ArrayList<Lane> lanes;
 	ArrayList<Bin> bins;
 	ArrayList<Line> dividers;
@@ -108,9 +107,6 @@ public class LaneManager implements GuiManager
 			lanes.get(i).setActive(false);
 
 		addBin(0,bins.get(0),36);
-
-		// Create Backgroud Image
-		background = new ImageIcon("LMBG.png");
 		
 		// Create ImageList
 		images = new ImageArray();
