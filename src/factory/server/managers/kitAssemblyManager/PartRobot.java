@@ -53,7 +53,7 @@ public class PartRobot extends FactoryObject
 		return 4;
 	}
 	
-	public void moveFromNest(KitStand ks, Part[] p, int[] i, int base){
+	public void moveFromNest(KitStand ks, Part[] p, Nest[]n, int[] i, int base){
 		if (ks.getKit() != null){
 			isMoving = true;
 			this.base = base;
@@ -62,8 +62,8 @@ public class PartRobot extends FactoryObject
 			s2 = ks;
 			for (int m = 0; m < p.length; m++){
 				if (p[m] != null){
-					xdes1[m] = p[m].getPositionX() - 20;
-					ydes1[m] = p[m].getPositionY();
+					xdes1[m] = n[m].getPositionX() - 20;
+					ydes1[m] = n[m].getPositionY();
 				}
 			}
             totalParts = findTotalParts(p);

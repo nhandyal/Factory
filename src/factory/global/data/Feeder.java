@@ -16,14 +16,15 @@ import java.io.*;
 
 public class Feeder extends FactoryObject implements Serializable{
 
-	Lane lane1, lane2;
 	Bin bin;
-	int push;
+	int push, intlpush;
 
-	public Feeder(Lane l1, Lane l2){
+	public Feeder(int xPos, int yPos, int image, int i){
 		push = 0;
-		lane1 = l1;
-		lane2 = l2;
+		x = xPos;
+		y = yPos;
+		index = i;
+		setImage(image);
 	}
 	
 	public void pushPart(){
@@ -36,6 +37,7 @@ public class Feeder extends FactoryObject implements Serializable{
 	
 	public void setPush(int p){
 		push = p;
+		intlpush = p;
 	}
 	
 	public void addBin(Bin b){
@@ -60,6 +62,6 @@ public class Feeder extends FactoryObject implements Serializable{
 	}
 	
 	public int getPartsLow(){
-		return (push/4);
+		return (intlpush/6);
 	}
 }

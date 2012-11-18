@@ -19,13 +19,14 @@ public class Lane extends FactoryObject implements Serializable{
 
 	ArrayList<Part> lane, nest;
 	ArrayList<Line> lines;
-	boolean laneActive;
+	boolean laneActive, nestFull;
 	int counter = 0;
 
 	public Lane(int initialPosX, int initialPosY, int indx){
 		x = initialPosX;
 		y = initialPosY;
 		index = indx;
+		nestFull = false;
 		
 		lane = new ArrayList<Part>();
 		nest = new ArrayList<Part>();
@@ -46,7 +47,7 @@ public class Lane extends FactoryObject implements Serializable{
 	}
 	
 	public void addPart(int img ,int i){
-		lane.add(new Part(x+317,y+16,img,i));
+		lane.add(new Part(x+332,y+16,img,i));
 		counter++;
 	}
 	
@@ -111,5 +112,12 @@ public class Lane extends FactoryObject implements Serializable{
 					lines.get(i).reset();											// add 300 to its value
 			}
 		}
+	}
+
+	public void removeNest(){
+		lane.get(0).setPosition(nest.get(8).getPositionX(),nest.get(8).getPositionY());
+		nest.remove(8);
+		nest.add(lane.get(0));
+		lane.remove(0);
 	}
 }
