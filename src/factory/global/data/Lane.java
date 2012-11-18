@@ -19,14 +19,13 @@ public class Lane extends FactoryObject implements Serializable{
 
 	ArrayList<Part> lane, nest;
 	ArrayList<Line> lines;
-	boolean laneActive, nestFull;
+	boolean laneActive, takenPicture;
 	int counter = 0;
 
 	public Lane(int initialPosX, int initialPosY, int indx){
 		x = initialPosX;
 		y = initialPosY;
 		index = indx;
-		nestFull = false;
 		
 		lane = new ArrayList<Part>();
 		nest = new ArrayList<Part>();
