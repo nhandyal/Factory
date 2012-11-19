@@ -252,9 +252,6 @@ public class ServerControl extends JPanel implements ActionListener{
 						indexes[i] = j;
 					}
 				}
-				for (int i = 0; i < 4; i++){
-					System.out.println(nests[i] + " " + indexes[i]);
-				}
 				KitASM.movePartstoStand(0, 0, nests, indexes);
 			}
 		}
@@ -268,7 +265,7 @@ public class ServerControl extends JPanel implements ActionListener{
 				}
 				for (int i = 0; i < nestChooser.length; i++){
 					String nest = (String)nestChooser[i].getSelectedItem();
-					nest = nest.substring(8);
+					nest = nest.substring(5);
 					if (!nest.equals("-")){
 						int j = Integer.parseInt(nest);
 						j -= 1;
@@ -320,7 +317,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			l = l.substring(5);
 			int lane = Integer.parseInt(l);
 			lane -= 1;
-			//LM.laneToggle(lane);
+			LM.laneToggle(lane);
 		}
 		if (e.getSource() == nestPicture){
 			String n = (String)nestChooser2.getSelectedItem();
@@ -345,14 +342,14 @@ public class ServerControl extends JPanel implements ActionListener{
 			b = b.substring(4);
 			int bin = Integer.parseInt(b);
 			bin -= 1;
-			//GM.robot.moveToBin(bin);
+			//GM.getRobot().moveToBin(bin);
 		}
 		if (e.getSource() == moveToFeeder){
 			String f = (String)feederChooser2.getSelectedItem();
 			f = f.substring(7);
 			int feeder = Integer.parseInt(f);
 			feeder -= 1;
-			//GM.robot.moveToFeeder(feeder);
+			//GM.getRobot().moveToFeeder(feeder);
 		}
 		if (e.getSource() == purgeNest){
 			String n = (String)nestChooser2.getSelectedItem();
@@ -360,7 +357,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			if (!n.equals("-")){
 				int nest = Integer.parseInt(n);
 				nest -= 1;
-				//LM.purgeNest(nest);
+				LM.purgeNest(nest);
 			}
 		}
 		if (e.getSource() == purgeLane){
@@ -368,7 +365,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			l = l.substring(5);
 			int lane = Integer.parseInt(l);
 			lane -= 1;
-			//LM.purgeLane(lane);
+			LM.purgeLane(lane);
 		}
 		if (e.getSource() == purgeFeeder){
 			String f = (String)feederChooser2.getSelectedItem();
@@ -376,14 +373,14 @@ public class ServerControl extends JPanel implements ActionListener{
 			int feeder = Integer.parseInt(f);
 			feeder -= 1;
 			//GM.removeBin(feeder);
-			//LM.removeBin(feeder);
+			LM.removeBin(feeder);
 		}
 		if (e.getSource() == toggleDivider){
 			String f = (String)feederChooser2.getSelectedItem();
 			f = f.substring(7);
 			int feeder = Integer.parseInt(f);
 			feeder -= 1;
-			//LM.dividerToggle(feeder);
+			LM.dividerToggle(feeder);
 		}
 	}
 		
