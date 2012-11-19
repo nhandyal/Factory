@@ -22,7 +22,7 @@ public class GantryManager implements GuiManager
 	ArrayList<Feeder> feeders;
 	FOComparator foc;
 	ImageArray images;
-	gantryRobot robot;
+	public gantryRobot robot;
 	int counter, index;
 	
 	TreeMap<Integer,Boolean> changeMap;
@@ -133,13 +133,13 @@ public class GantryManager implements GuiManager
 		changeData.clear();
 	//		changeMap.clear();
 
-		if(robot.hasBin == false){
+		/*if(robot.hasBin == false){
 			robot.moveToBin(1);
 		}
 
 		else if(robot.hasBin == true){
 			robot.moveToFeeder(3);
-		}
+		}*/
 		
 
 		sync(changeData);
