@@ -16,11 +16,11 @@ public class ServerControl extends JPanel implements ActionListener{
 	LaneManager LM;
 	
 	JPanel overPanel = new JPanel();
-	JPanel laneGantryControl = new JPanel();
+	JPanel laneControl = new JPanel();
 	JPanel kitAssemblyControl = new JPanel();
-	JPanel lgComboBoxPanel = new JPanel();
+	JPanel lComboBoxPanel = new JPanel();
 	JPanel[] kComboBoxPanel = new JPanel[4];
-	JPanel laneGantryButtonPanel = new JPanel();
+	JPanel laneButtonPanel = new JPanel();
 	JPanel factoryControl = new JPanel();
 	JPanel fComboBoxPanel = new JPanel();
 	JPanel factoryButtonPanel = new JPanel();
@@ -41,7 +41,7 @@ public class ServerControl extends JPanel implements ActionListener{
 	JButton bringKit = new JButton("Bring Kit");
 	JButton takeKit = new JButton("Take Kit");
 	
-	JLabel laneGantryDesc = new JLabel("Lane and Gantry Manager");
+	JLabel laneDesc = new JLabel("Lane Manager");
 	String[] laneStrings = new String[8];
 	ArrayList<String> partStrings = new ArrayList<String>();
 	JComboBox laneChooser;
@@ -101,9 +101,9 @@ public class ServerControl extends JPanel implements ActionListener{
 		kitAssemblyControl.setLayout(new BoxLayout(kitAssemblyControl,BoxLayout.Y_AXIS));
 		for (int i = 0; i < kComboBoxPanel.length; i++)
 			kComboBoxPanel[i].setLayout(new FlowLayout());
-		laneGantryControl.setLayout(new BoxLayout(laneGantryControl,BoxLayout.Y_AXIS));
-		lgComboBoxPanel.setLayout(new FlowLayout());
-		laneGantryButtonPanel.setLayout(new BoxLayout(laneGantryButtonPanel,BoxLayout.Y_AXIS));
+		laneControl.setLayout(new BoxLayout(laneControl,BoxLayout.Y_AXIS));
+		lComboBoxPanel.setLayout(new FlowLayout());
+		laneButtonPanel.setLayout(new BoxLayout(laneButtonPanel,BoxLayout.Y_AXIS));
 		fComboBoxPanel.setLayout(new FlowLayout());
 		factoryButtonPanel.setLayout(new BoxLayout(factoryButtonPanel,BoxLayout.Y_AXIS));
 		factoryControl.setLayout(new BoxLayout(factoryControl,BoxLayout.Y_AXIS));
@@ -145,15 +145,15 @@ public class ServerControl extends JPanel implements ActionListener{
 		kitAssemblyControl.add(takeKit);
 		kitAssemblyControl.add(updateParts2);
 		
-		lgComboBoxPanel.add(partChooser);
-		lgComboBoxPanel.add(laneChooser);
-		laneGantryControl.add(laneGantryDesc);
-		laneGantryControl.add(lgComboBoxPanel);
-		laneGantryButtonPanel.add(toggleLane);
-		laneGantryButtonPanel.add(nestPicture);
-		laneGantryButtonPanel.add(gantry);
-		laneGantryButtonPanel.add(updateParts);
-		laneGantryControl.add(laneGantryButtonPanel);
+		lComboBoxPanel.add(partChooser);
+		lComboBoxPanel.add(laneChooser);
+		laneControl.add(laneDesc);
+		laneControl.add(lComboBoxPanel);
+		laneButtonPanel.add(toggleLane);
+		laneButtonPanel.add(nestPicture);
+		laneButtonPanel.add(gantry);
+		laneButtonPanel.add(updateParts);
+		laneControl.add(laneButtonPanel);
 		
 		fComboBoxPanel.add(kitChooser);
 		fComboBoxPanel.add(kitQuantity);
@@ -164,7 +164,7 @@ public class ServerControl extends JPanel implements ActionListener{
 		factoryControl.add(factoryButtonPanel);
 		
 		overPanel.add(kitAssemblyControl);
-		overPanel.add(laneGantryControl);
+		overPanel.add(laneControl);
 		overPanel.add(factoryControl);
 		
 		add(overPanel);
