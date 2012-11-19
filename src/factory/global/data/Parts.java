@@ -71,9 +71,9 @@ public class Parts implements java.io.Serializable{
 		}
 		
 		public void print(){
+				System.out.print("MI: "+mapIndex);
 				System.out.print("partNumber: "+partNumber);
 				System.out.print(" name: "+name);
-				System.out.print(" desc: "+desc);
 				System.out.println(" ImageIndex: "+imageIndex);
 		}
 }

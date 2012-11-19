@@ -210,6 +210,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				
 				if(isPart2New){
 					newPart2 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 1);
+					newPart2.setMapIndex(listCounter); 
 					listOfParts.put(listCounter, newPart2); 
 					savedCounter = listCounter; 
 					listCounter++; 	
@@ -260,6 +261,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				
 				if(isPart3New){
 					newPart3 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 2);
+					newPart3.setMapIndex(listCounter); 
 					listOfParts.put(listCounter, newPart3); 
 					savedCounter = listCounter; 
 					listCounter++; 	
@@ -309,6 +311,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				
 				if(isPart4New){
 					newPart4 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 3);
+					newPart4.setMapIndex(listCounter); 
 					listOfParts.put(listCounter, newPart4); 
 					savedCounter = listCounter; 
 					listCounter++; 	
@@ -359,6 +362,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				
 				if(isPart5New){
 					newPart5 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 4);
+					newPart5.setMapIndex(listCounter); 
 					listOfParts.put(listCounter, newPart5); 
 					savedCounter = listCounter; 
 					listCounter++; 	
@@ -408,6 +412,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				
 				if(isPart6New){
 					newPart6 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 5);
+					newPart6.setMapIndex(listCounter); 
 					listOfParts.put(listCounter, newPart6); 
 					savedCounter = listCounter; 
 					listCounter++; 	
@@ -456,6 +461,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				
 				if(isPart7New){
 					newPart7 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 6);
+					newPart7.setMapIndex(listCounter); 
 					listOfParts.put(listCounter, newPart7); 
 					savedCounter = listCounter; 
 					listCounter++; 	
@@ -504,6 +510,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				
 			if(isPart8New){
 				newPart8 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 7);
+				newPart8.setMapIndex(listCounter); 
 				listOfParts.put(listCounter, newPart8); 
 				savedCounter = listCounter; 
 				listCounter++; 	
@@ -552,6 +559,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				
 				if(isPart9New){
 					newPart9 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 8);
+					newPart9.setMapIndex(listCounter); 
 					listOfParts.put(listCounter, newPart9); 
 					savedCounter = listCounter; 
 					listCounter++; 	
@@ -600,6 +608,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				
 				if(isPart10New){
 					newPart10 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 9);
+					newPart10.setMapIndex(listCounter); 
 					listOfParts.put(listCounter, newPart10); 
 					savedCounter = listCounter; 
 					listCounter++; 	
