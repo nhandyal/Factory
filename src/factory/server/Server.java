@@ -53,7 +53,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				// initialize all class instance variables
 				fs = new FactoryState();
 				icm = new InboundConnectionManager(this);
-				guiViews[0] = new gantryManager();
+				guiViews[0] = new GantryManager();																					// Gantry
 				guiViews[1] = new LaneManager();																						// Lane
 				guiViews[2] = new UpdateServer();																						// Kit Asm 
 				changeMap = new ArrayList<TreeMap<Integer, Boolean>>(3);
