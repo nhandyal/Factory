@@ -43,19 +43,19 @@ public class gantryRobot extends FactoryObject
 		nextDestX = bins.get(bin).getPositionX() - 40;
 		nextDestY = bins.get(bin).getPositionY() - 20;
 		if (x < nextDestX){
-			x++;
+			x+=2;
 		}
 
 		else if (x > nextDestX){
-			x--;
+			x-=2;
 		}
 
 		if(y < nextDestY){
-			y++;
+			y+=2;
 		}
 
 		else if (y > nextDestY){
-			y--;
+			y-=2;
 		}
 
 		if(x == nextDestX && y == nextDestY){
@@ -68,23 +68,23 @@ public class gantryRobot extends FactoryObject
 		nextDestX = feeders.get(feeder).getPositionX() + 40;
 		nextDestY = feeders.get(feeder).getPositionY() - 20;
 		if (x < nextDestX){
-			x++;
-			possessedBin.x = possessedBin.x + 1;
+			x+=2;
+			possessedBin.x+=2;
 		}
 
 		else if (x > nextDestX){
-			x--;
-			possessedBin.x--;
+			x-=2;
+			possessedBin.x-=2;
 		}
 
 		if(y < nextDestY){
-			y++;
-			possessedBin.y++;
+			y+=2;
+			possessedBin.y+=2;
 		}
 
 		else if (y > nextDestY){
-			y--;
-			possessedBin.y--;
+			y-=2;
+			possessedBin.y-=2;
 		}
 
 		if(x == nextDestX && y == nextDestY){
