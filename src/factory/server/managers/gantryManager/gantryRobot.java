@@ -1,4 +1,4 @@
-//package factory.server.managers.gantryManager;
+package factory.server.managers.gantryManager;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -10,10 +10,10 @@ import javax.swing.Timer;
 import java.util.*;
 
 // user packages
-//import factory.global.data.*;
-//import factory.server.managers.GuiManager;
+import factory.global.data.*;
+import factory.server.managers.GuiManager;
 
-public class gantryRobot extends FactoryObject //implements GuiManager
+public class gantryRobot extends FactoryObject implements GuiManager
 {
 	ImageIcon robot;
 	ImageArray images;
@@ -28,13 +28,14 @@ public class gantryRobot extends FactoryObject //implements GuiManager
 
 	Bin possessedBin;
 	
-	public gantryRobot(int initialPosX, int initialPosY, int initialImage, ArrayList<Bin> binlist, ArrayList<Feeder> feederlist){
+	public gantryRobot(int initialPosX, int initialPosY, int initialImage, ArrayList<Bin> binlist, ArrayList<Feeder> feederlist, int i){
 		x = initialPosX;
 		y = initialPosY;
 		setImage(initialImage);
 		bins = binlist;
 		feeders = feederlist;
 		hasBin = false;
+		index = i;
 	}
 
 	public void moveToBin(int bin){

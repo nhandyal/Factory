@@ -62,6 +62,6 @@ public class Feeder extends FactoryObject implements Serializable{
 	}
 	
 	public int getPartsLow(){
-		return (intlpush/6);
+		return (intlpush/10);
 	}
 }

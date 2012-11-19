@@ -19,7 +19,7 @@ public class Lane extends FactoryObject implements Serializable{
 
 	ArrayList<Part> lane, nest;
 	ArrayList<Line> lines;
-	boolean laneActive, takenPicture;
+	boolean laneActive, picNeeded;
 	int counter = 0;
 
 	public Lane(int initialPosX, int initialPosY, int indx){
@@ -29,6 +29,8 @@ public class Lane extends FactoryObject implements Serializable{
 		
 		lane = new ArrayList<Part>();
 		nest = new ArrayList<Part>();
+
+		picNeeded = false;
 		
 		// Create LaneLines
 		lines = new ArrayList<Line>();
@@ -74,7 +76,20 @@ public class Lane extends FactoryObject implements Serializable{
 		return lines.get(i);
 	}
 
+	public void setPicNeeded(boolean b){
+		picNeeded = b;
+	}
+
+	public boolean getPicNeeded(){
+		return picNeeded;
+	}
+
 	public void moveParts(){														// All Relative to Lane
+		for(int i=0;i<lane.size();i++)
+			lane.get(i).setIsMoving(false);
+		for(int i=0;i<nest.size();i++)
+			nest.get(i).setIsMoving(false);
+
 		if(laneActive == true){														// if lane is on
 			for(int i=0;i<lane.size();i++){
 				if(nest.size()<9){													// if nest is not full
@@ -82,6 +97,8 @@ public class Lane extends FactoryObject implements Serializable{
 					if(lane.get(i).getPositionX()<=(x+40)){							// if part is at 40
 						nest.add(lane.get(i));										// move it to the nest
 						lane.remove(i);
+						if(nest.size() == 9)
+							picNeeded = true;
 					}
 				}
 				if(nest.size()==9){													// if nest is full
