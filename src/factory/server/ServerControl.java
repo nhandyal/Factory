@@ -350,6 +350,13 @@ public class ServerControl extends JPanel implements ActionListener{
 		if (e.getSource() == purgeNest){
 			String n = (String)laneChooser.getSelectedItem();
 			n = n.substring(5);
+
+			if (!n.equals("-")){
+				int nest = Integer.parseInt(n);
+				nest -= 1;
+				LM.purgeNest(nest);
+			}
+			
 			int nest = Integer.parseInt(n);
 			nest -= 1;
 			LM.purgeNest(nest);
