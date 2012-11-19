@@ -39,6 +39,7 @@ public class UpdateServer implements GuiManager, Serializable
 	boolean isTakeKit = false;
     boolean isFinished = true;
     boolean isFlashed = false;
+    boolean flag = false;
 	@SuppressWarnings("unchecked")
 	public UpdateServer()
 	{
@@ -150,20 +151,30 @@ public class UpdateServer implements GuiManager, Serializable
 	{
 		if (isBringKit) //the control signal
 		{	
-			if (conv.getInKit() == null && count < 26)
+			flag = true;
+            boolean f = true;
+            if (conv.getInKit() == null && count < 26)
             {
 				conv.bringKit();
                 countconv++;
                 isFinished = false;
+                flag = false;
+                f = false;
+                
             }
 			if (!conv.kitArrived() && count < 26)
 			{
 				conv.moveKit();
-                countconv++;
-                isFinished = false;
+                f = false;
+                if (flag)
+                    countconv++;
+                    isFinished = false;
+
 			}
-			//kits.get(0).print();
-					}
+            if (f)
+                isBringKit = false;
+            			//kits.get(0).print();
+        }
         else
             isBringKit = true;
 		if (countconv == 26)
@@ -179,18 +190,30 @@ public class UpdateServer implements GuiManager, Serializable
 	{
 		if (isMoveToStand)
 		{
-			if (!robot.getIsMoving() && emptyStand() && conv.kitArrived())
+			flag = true;
+            boolean f = true;
+            if (!robot.getIsMoving() && emptyStand() && conv.kitArrived())
 			{
 				robot.moveFromConveyorToStand(conv, stands.get(k), conv.getInKit(), 0); //call the robot to do the animation
                 count++;
                 isFinished = false;
+                flag = false;
+                f = false;
+                
 			}
 			if (robot.getIsMoving())
             {
 				robot.move();
-                count++;
-                isFinished = false;
+                f = false;
+                if (flag)
+                {
+                    count++;
+                    isFinished = false;
+                }
             }
+            if (f)
+                isMoveToStand = false;
+            
 			
 		}
         else
@@ -212,7 +235,9 @@ public class UpdateServer implements GuiManager, Serializable
 	{
 		if (isMovePartstoStand)
 		{
-			if (!probot.isMoving())
+			flag = true;
+            boolean f = true;
+            if (!probot.isMoving())
 			{
                 if (stands.get(stand).getKit() != null){
 					if (!stands.get(stand).getKit().getIsComplete()){ 
@@ -228,6 +253,8 @@ public class UpdateServer implements GuiManager, Serializable
 						}
 						probot.moveFromNest(stands.get(stand),p,n,indexes,0); //call the robot to do the animation
                         isFinished = false;
+                        flag = false;
+                        f = false;
                         count++;
 					}
 				}
@@ -235,9 +262,15 @@ public class UpdateServer implements GuiManager, Serializable
 			if (probot.isMoving())
             {
 				probot.move();
-                count++;
-                isFinished = false;
+                f = false;
+                if (flag)
+                {
+                    count++;
+                    isFinished = false;
+                }
             }
+            if (f)
+                isMovePartstoStand = false;
 		}
         else
         {
@@ -259,18 +292,28 @@ public class UpdateServer implements GuiManager, Serializable
 	{
 		if(isMoveToInspection)
         {
-            if (!robot.getIsMoving() && stands.get(2).getKit() == null)
+            flag = true;
+            boolean f = true;
+            if (!robot.getIsMoving() && stands.get(2).getKit() == null && stands.get(stand).getKit() != null)
             {
                 robot.moveFromStandToStand(stands.get(stand),stands.get(2), stands.get(stand).getKit(), 0); //call the robot to do the animation
                 count++;
                 isFinished = false;
+                flag = false;
+                f = false;
             }
             if (robot.getIsMoving())
             {
                 robot.move();
-                count++;
-                isFinished = false;
+                if (flag)
+                {
+                    count++;
+                    isFinished = false;
+                    f = false;
+                }
             }
+            if (f)
+                isMoveToInspection = false;
         }
         else /*if (stands.get(stand).getKit().getIsComplete())*/
 		{
@@ -291,20 +334,29 @@ public class UpdateServer implements GuiManager, Serializable
 	{
 		if (isTakePic)
         {
+            flag = true;
+            boolean f = true;
             if (!robot.getIsMoving() && stands.get(2).getKit() != null && !stands.get(2).getKit().getPicTaken() && !cam.isMoving())
             {
                 cam.takePicture(stands.get(2), 0); //call the robot to do the animation
                 count++;
                 isFinished = false;
+                flag = false;
+                f = false;
             }
                 
             if (cam.isMoving)
             {
                 cam.move();
-                count++;
-                isFinished = false;
+                if (flag)
+                {
+                    count++;
+                    isFinished = false;
+                }
+                f = false;
             }
-            isFinished = false;
+            if (f)
+                isTakePic = false;
         }
         else
             isTakePic = true;
@@ -321,18 +373,28 @@ public class UpdateServer implements GuiManager, Serializable
 	{
 		if (isTakeToConveyor)
         {
+            flag = true;
+            boolean f = true;
             if (!robot.getIsMoving() && stands.get(2).getKit() != null && stands.get(2).getKit().getPicTaken())
             {
                 robot.moveFromStandToConveyor(stands.get(2), conv, stands.get(2).getKit(), 0); //call the robot to do the animation
                 count++;
                 isFinished = false;
+                flag = false;
+                f = false;
             }
             if (robot.getIsMoving())
             {
                 robot.move();
-                count++;
-                isFinished = false;
+                f = false;
+                if (flag)
+                {
+                    count++;
+                    isFinished = false;
+                }
             }
+            if (f)
+                isTakeToConveyor = false;
         }
         else
             isTakeToConveyor = true;
@@ -354,7 +416,8 @@ public class UpdateServer implements GuiManager, Serializable
                 count++;
                 isFinished = false;
             }
-           
+            else
+                isTakeKit = false;
         }
         else
             isTakeKit = true;
