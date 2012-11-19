@@ -342,14 +342,14 @@ public class ServerControl extends JPanel implements ActionListener{
 			b = b.substring(4);
 			int bin = Integer.parseInt(b);
 			bin -= 1;
-			//GM.getRobot().moveToBin(bin);
+			GM.robot.moveToBin(bin);
 		}
 		if (e.getSource() == moveToFeeder){
 			String f = (String)feederChooser2.getSelectedItem();
 			f = f.substring(7);
 			int feeder = Integer.parseInt(f);
 			feeder -= 1;
-			//GM.getRobot().moveToFeeder(feeder);
+			GM.robot.moveToFeeder(feeder);
 		}
 		if (e.getSource() == purgeNest){
 			String n = (String)nestChooser2.getSelectedItem();
@@ -372,7 +372,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			f = f.substring(7);
 			int feeder = Integer.parseInt(f);
 			feeder -= 1;
-			//GM.removeBin(feeder);
+			GM.robot.removeBin(feeder);
 			LM.removeBin(feeder);
 		}
 		if (e.getSource() == toggleDivider){
