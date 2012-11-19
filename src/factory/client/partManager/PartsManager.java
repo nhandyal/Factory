@@ -126,7 +126,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part1Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartOneName().setText(nameText); 
+			fC.getPartOneName().setText("Part 1: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
@@ -189,7 +189,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part2Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartTwoName().setText(nameText); 
+			fC.getPartTwoName().setText("Part 2: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
@@ -238,7 +238,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part3Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartThreeName().setText(nameText); 
+			fC.getPartThreeName().setText("Part 3: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
@@ -288,7 +288,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part4Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartFourName().setText(nameText); 
+			fC.getPartFourName().setText("Part 4: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
@@ -338,7 +338,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part5Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartFiveName().setText(nameText); 
+			fC.getPartFiveName().setText("Part 5: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
@@ -387,7 +387,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part6Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartSixName().setText(nameText); 
+			fC.getPartSixName().setText("Part 6: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
@@ -435,7 +435,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part7Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartSevenName().setText(nameText); 
+			fC.getPartSevenName().setText("Part 7: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
@@ -483,7 +483,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part8Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartEightName().setText(nameText); 
+			fC.getPartEightName().setText("Part 8: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
@@ -531,7 +531,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part9Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartNineName().setText(nameText); 
+			fC.getPartNineName().setText("Part 9: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
@@ -579,7 +579,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		}
 		if("Create Part".equals(ae.getActionCommand()) && part10Edit == true){
 			String nameText = pI.getEnterNameHere().getText(); 
-			fC.getPartTenName().setText(nameText); 
+			fC.getPartTenName().setText("Part 10: "+nameText); 
 			fC.setVisible(false);
 			tC.setVisible(true); 
 			fC.setVisible(true);
