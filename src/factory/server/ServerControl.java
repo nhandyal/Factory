@@ -49,7 +49,6 @@ public class ServerControl extends JPanel implements ActionListener{
 	JLabel laneDesc = new JLabel("Lane Manager");
 	String[] laneStrings = new String[8];
 	JComboBox laneChooser;
-	JComboBox nestChooser2;
 	JComboBox feederChooser2;
 	JButton toggleLane = new JButton("Turn Lane On/Off");
 	JButton toggleDivider = new JButton("Toggle Divider Up/Down");
@@ -109,7 +108,6 @@ public class ServerControl extends JPanel implements ActionListener{
 		laneChooser = new JComboBox(laneStrings);
 		for (int i = 0; i < nestChooser.length; i++)
 			nestChooser[i] = new JComboBox(nestStrings);
-		nestChooser2 = new JComboBox(nestStrings);
 		kitChooser = new JComboBox(kitStrings.toArray());
 		for (int i = 0; i < indexChooser.length; i++)
 			indexChooser[i] = new JComboBox(indexStrings);
@@ -174,7 +172,7 @@ public class ServerControl extends JPanel implements ActionListener{
 		kitAssemblyControl.add(takeKit);
 		
 		lComboBoxPanel.add(laneChooser);
-		lComboBoxPanel.add(nestChooser2);
+		lComboBoxPanel.add(feederChooser2);
 		laneControl.add(laneDesc);
 		laneControl.add(lComboBoxPanel);
 		laneButtonPanel.add(toggleLane);
@@ -320,13 +318,11 @@ public class ServerControl extends JPanel implements ActionListener{
 			LM.laneToggle(lane);
 		}
 		if (e.getSource() == nestPicture){
-			String n = (String)nestChooser2.getSelectedItem();
+			String n = (String)laneChooser.getSelectedItem();
 			n = n.substring(5);
-			if (!n.equals("-")){
-				int nest = Integer.parseInt(n);
-				nest -= 1;
-				LM.takePicture(nest);
-			}
+			int nest = Integer.parseInt(n);
+			nest -= 1;
+			LM.takePicture(nest);
 		}
 		if (e.getSource() == makeKits){
 		
@@ -352,13 +348,11 @@ public class ServerControl extends JPanel implements ActionListener{
 			GM.robot.moveToFeeder(feeder);
 		}
 		if (e.getSource() == purgeNest){
-			String n = (String)nestChooser2.getSelectedItem();
+			String n = (String)laneChooser.getSelectedItem();
 			n = n.substring(5);
-			if (!n.equals("-")){
-				int nest = Integer.parseInt(n);
-				nest -= 1;
-				LM.purgeNest(nest);
-			}
+			int nest = Integer.parseInt(n);
+			nest -= 1;
+			LM.purgeNest(nest);
 		}
 		if (e.getSource() == purgeLane){
 			String l = (String)laneChooser.getSelectedItem();
