@@ -62,7 +62,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				startAnimation = false;
 				
 				// initialize server control panel
-				SCP = new ServerControl(guiViews[2], guiViews[1]);
+				SCP = new ServerControl(guiViews[2], guiViews[1],fs);
 				System.out.println(guiViews[2]);
 				//this.add(SCP);	
 				// initialize timer
