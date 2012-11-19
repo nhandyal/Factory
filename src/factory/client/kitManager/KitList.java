@@ -11,9 +11,9 @@ public class KitList extends JPanel{
 	public KitList(){
 		kitLister = new JPanel(); 
 		kitLister.setLayout(new BoxLayout(kitLister, BoxLayout.Y_AXIS));
-		listOfKits = new JLabel("<HTML>List Of Kits<BR><BR><BR></HTML>"); 
+		//listOfKits = new JLabel("<HTML>List Of Kits<BR><BR><BR></HTML>"); 
 		createKit = new JButton("Create Kit");  		
-		kitLister.add(listOfKits); 
+		//kitLister.add(listOfKits); 
 		kitLister.add(createKit); 
 		add(kitLister); 
 	}
