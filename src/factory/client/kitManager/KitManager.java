@@ -14,12 +14,14 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 	PartSelector pS; 
 	Kits newKit; 
 	TreeMap<Integer, Parts> currentList;
-	TreeMap<Integer, Parts> finalizedList; 
+	TreeMap<Integer, Parts> finalizedList;
+	TreeMap<Integer, Parts> previousList;
 	ArrayList<Kits> listOfKits; 
 	NetworkBridge nb1;
 	int globalCounter; 
+	
 	public KitManager(){
-		nb1 = new NetworkBridge(this, "aludra.usc.edu", 8465, 1);
+		nb1 = new NetworkBridge(this, "localhost", 8465, 1);
 		kL = new KitList(); 
 		kI = new KitInfo(); 
 		pS = new PartSelector();
@@ -46,6 +48,7 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 
 
 		currentList = new TreeMap<Integer, Parts>();
+		previousList = currentList;
 
 		updateBoxes(); 
 
@@ -76,7 +79,7 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 	
 	public void actionPerformed(ActionEvent ae){
 		if("Create".equals(ae.getActionCommand())){
-			if(globalCounter<4){
+			if(finalizedList.size()<4){
 				System.out.println("Sorry - less than 4 parts"); 
 			}
 			else{
@@ -105,210 +108,117 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 
 	public void itemStateChanged(ItemEvent ie){
 		if(ie.getStateChange() == ItemEvent.SELECTED){
+			// box 1
+			int[] values = new int[8];
+			for(int i = 0; i < 8; i++){
+				values[i] = -2;
+			}
 			
-			 for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
-			 	if(pS.getBoxOfPart1().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
-			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
-			 		 finalizedList.put(0, newPart);	
-			 		 globalCounter++; 		 		  			 		 
-			 	}
-			 }
-
-
-
-			for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
-			 	if(pS.getBoxOfPart2().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
-			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
-			 		 finalizedList.put(1, newPart); 	
-			 		 globalCounter++; 
-			 	}
-			 }
-
-
-			 for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
-			 	if(pS.getBoxOfPart3().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
-			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
-			 		 finalizedList.put(2, newPart); 
-			 		 globalCounter++; 			 		 
-			 	}
-			 }
-
-
-			 for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
-			 	if(pS.getBoxOfPart4().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
-			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
-			 		 finalizedList.put(3, newPart); 
-			 		 globalCounter++; 			 		 
-			 	}
-			 }
-
-			 for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
-			 	if(pS.getBoxOfPart5().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
-			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
-			 		 finalizedList.put(4, newPart); 	
-			 		 globalCounter++; 		 		 
-			 	}
-			 }
-
-			  for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
-			 	if(pS.getBoxOfPart6().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
-			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
-			 		 finalizedList.put(5, newPart); 	
-			 		 globalCounter++; 		 		 
-			 	}
-			 }
-
-			 for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
-			 	if(pS.getBoxOfPart7().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
-			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
-			 		 finalizedList.put(6, newPart); 	
-			 		 globalCounter++; 		 		 
-			 	}
-			 }
-
-			 for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
-			 	if(pS.getBoxOfPart8().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
-			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
-			 		 finalizedList.put(7, newPart); 
-			 		 globalCounter++; 			 		 
-			 	}
-			 }
-
+			JComboBox box1 = pS.getBoxOfPart1();
+			JComboBox box2 = pS.getBoxOfPart2();
+			JComboBox box3 = pS.getBoxOfPart3();
+			JComboBox box4 = pS.getBoxOfPart4();
+			JComboBox box5 = pS.getBoxOfPart5();
+			JComboBox box6 = pS.getBoxOfPart6();
+			JComboBox box7 = pS.getBoxOfPart7();
+			JComboBox box8 = pS.getBoxOfPart8();
+			
+			String b1 = "";
+			String b2 = "";
+			String b3 = "";
+			String b4 = "";
+			String b5 = "";
+			String b6 = "";
+			String b7 = "";
+			String b8 = "";
+			try{
+				if(box1 != null)
+						 b1 = box1.getSelectedItem().toString();
+				if(box2 != null)
+						b2 = box2.getSelectedItem().toString();
+				if(box3 != null)
+						b3 = box3.getSelectedItem().toString();
+				if(box4 != null)
+						b4 = box4.getSelectedItem().toString();
+				if(box5 != null)
+						b5 = box5.getSelectedItem().toString();
+				if(box6 != null)
+						b6 = box6.getSelectedItem().toString();
+				if(box7 != null)
+						b7 = box7.getSelectedItem().toString();
+				if(box8 != null)
+						b8 = box8.getSelectedItem().toString();
+			}catch(Exception e){
+				
+			}
+			
+			for(Integer i : currentList.keySet()){
+				Parts temp = currentList.get(i);
+				String pName = temp.getName();
+				if(b1.equals(pName))
+						values[0] = i;
+				else if(b2.equals(pName))
+						values[1] = i;
+				else if(b3.equals(pName))
+						values[2] = i;
+				else if(b4.equals(pName))
+						values[3] = i;
+				else if(b5.equals(pName))
+						values[4] = i;
+				else if(b6.equals(pName))
+						values[5] = i;
+				else if(b7.equals(pName))
+						values[6] = i;
+				else if(b8.equals(pName))
+						values[7] = i;
+			}
+		
+		
+				for(int i = 0; i < 8; i++){
+					if(values[i] != -2){
+							// add the part to the finalized list
+							finalizedList.put(i, currentList.get(values[i]));
+					}
+				}
+				System.out.println(finalizedList.size());
 		}
-
 	}
 		
 		public void updateBoxes(){ 
 			//COMBO BOX 1
-
-			for(int i = 0; i<currentList.size(); i++){
-				String removeName = currentList.get(i).getName(); 
-				pS.getPartNamesBox1().remove(removeName); 
+				// first for loop removes old list
+				
+				pS.getBoxOfPart1().removeAllItems();
+				pS.getBoxOfPart2().removeAllItems();
+				pS.getBoxOfPart3().removeAllItems();
+				pS.getBoxOfPart4().removeAllItems();
+				pS.getBoxOfPart5().removeAllItems();
+				pS.getBoxOfPart6().removeAllItems();
+				pS.getBoxOfPart7().removeAllItems();
+				pS.getBoxOfPart8().removeAllItems(); 
+		
+			
+			for(Integer i : currentList.keySet()){
+				String nextName = currentList.get(i).getName();
+				pS.getPartNamesBox1().add(nextName);
+				pS.getPartNamesBox2().add(nextName);
+				pS.getPartNamesBox3().add(nextName);
+				pS.getPartNamesBox4().add(nextName);
+				pS.getPartNamesBox5().add(nextName);
+				pS.getPartNamesBox6().add(nextName);
+				pS.getPartNamesBox7().add(nextName);
+				pS.getPartNamesBox8().add(nextName);
+				pS.getBoxOfPart1().addItem(nextName);
+				pS.getBoxOfPart2().addItem(nextName);
+				pS.getBoxOfPart3().addItem(nextName);
+				pS.getBoxOfPart4().addItem(nextName);
+				pS.getBoxOfPart5().addItem(nextName);
+				pS.getBoxOfPart6().addItem(nextName);
+				pS.getBoxOfPart7().addItem(nextName);
+				pS.getBoxOfPart8().addItem(nextName);
 			}
-			for(int i = 0; i<currentList.size(); i++){
-				String nextName = currentList.get(i).getName(); 			
-				pS.getPartNamesBox1().add(nextName); //adds names to arraylist			
-			}
-			pS.getBoxOfPart1().setEnabled(false); 			
-			pS.getBoxOfPart1().removeAllItems();
-			for(int i = 0; i<pS.getPartNamesBox1().size(); i++){
-
-				pS.getBoxOfPart1().addItem(pS.getPartNamesBox1().get(i));
-			}
-				pS.getBoxOfPart1().setEnabled(true); 
-				pS.getPartsPanel().revalidate(); 
-			//COMBO BOX 2
-			for(int i = 0; i<currentList.size(); i++){
-				String removeName = currentList.get(i).getName(); 
-				pS.getPartNamesBox2().remove(removeName); 
-			}
-			for(int i = 0; i<currentList.size(); i++){
-				String nextName = currentList.get(i).getName(); 			
-				pS.getPartNamesBox2().add(nextName); //adds names to arraylist			
-			}
-			pS.getBoxOfPart2().setEnabled(false); 
-			pS.getBoxOfPart2().removeAllItems();
-			for(int i = 0; i<pS.getPartNamesBox1().size(); i++){
-				pS.getBoxOfPart2().addItem(pS.getPartNamesBox2().get(i));
-			}
-			pS.getBoxOfPart2().setEnabled(true); 
-			pS.getPartsPanel().revalidate();
-			//COMBO BOX 3
-			for(int i = 0; i<currentList.size(); i++){
-				String removeName = currentList.get(i).getName(); 
-				pS.getPartNamesBox3().remove(removeName); 
-			}
-			for(int i = 0; i<currentList.size(); i++){
-				String nextName = currentList.get(i).getName(); 			
-				pS.getPartNamesBox3().add(nextName); //adds names to arraylist			
-			}
-			pS.getBoxOfPart3().setEnabled(false); 
-			pS.getBoxOfPart3().removeAllItems();
-			for(int i = 0; i<pS.getPartNamesBox3().size(); i++){
-				pS.getBoxOfPart3().addItem(pS.getPartNamesBox3().get(i));
-			}
-			pS.getBoxOfPart3().setEnabled(true); 
-			pS.getPartsPanel().revalidate();
-			//COMBO BOX 4
-			for(int i = 0; i<currentList.size(); i++){
-				String removeName = currentList.get(i).getName(); 
-				pS.getPartNamesBox4().remove(removeName); 
-			}
-			for(int i = 0; i<currentList.size(); i++){
-				String nextName = currentList.get(i).getName(); 			
-				pS.getPartNamesBox4().add(nextName); //adds names to arraylist			
-			}
-			pS.getBoxOfPart4().setEnabled(false); 
-			pS.getBoxOfPart4().removeAllItems();
-			for(int i = 0; i<pS.getPartNamesBox4().size(); i++){
-				pS.getBoxOfPart4().addItem(pS.getPartNamesBox4().get(i));
-			}
-			pS.getBoxOfPart4().setEnabled(true); 
-			pS.getPartsPanel().revalidate();
-			//COMBO BOX 5
-			for(int i = 0; i<currentList.size(); i++){
-				String removeName = currentList.get(i).getName(); 
-				pS.getPartNamesBox5().remove(removeName); 
-			}
-			for(int i = 0; i<currentList.size(); i++){
-				String nextName = currentList.get(i).getName(); 			
-				pS.getPartNamesBox5().add(nextName); //adds names to arraylist			
-			}
-			pS.getBoxOfPart5().setEnabled(false); 
-			pS.getBoxOfPart5().removeAllItems();
-			for(int i = 0; i<pS.getPartNamesBox5().size(); i++){
-				pS.getBoxOfPart5().addItem(pS.getPartNamesBox5().get(i));
-			}
-			pS.getBoxOfPart5().setEnabled(true); 
-			pS.getPartsPanel().revalidate();
-			//COMBO BOX 6
-			for(int i = 0; i<currentList.size(); i++){
-				String removeName = currentList.get(i).getName(); 
-				pS.getPartNamesBox6().remove(removeName); 
-			}
-			for(int i = 0; i<currentList.size(); i++){
-				String nextName = currentList.get(i).getName(); 			
-				pS.getPartNamesBox6().add(nextName); //adds names to arraylist			
-			}
-			pS.getBoxOfPart6().setEnabled(false); 
-			pS.getBoxOfPart6().removeAllItems();
-			for(int i = 0; i<pS.getPartNamesBox6().size(); i++){
-				pS.getBoxOfPart6().addItem(pS.getPartNamesBox6().get(i));
-			}
-			pS.getBoxOfPart6().setEnabled(true); 
-			pS.getPartsPanel().revalidate();
-			//COMBO BOX 7
-			for(int i = 0; i<currentList.size(); i++){
-				String removeName = currentList.get(i).getName(); 
-				pS.getPartNamesBox7().remove(removeName); 
-			}
-			for(int i = 0; i<currentList.size(); i++){
-				String nextName = currentList.get(i).getName(); 			
-				pS.getPartNamesBox7().add(nextName); //adds names to arraylist			
-			}
-			pS.getBoxOfPart7().setEnabled(false); 
-			pS.getBoxOfPart7().removeAllItems();
-			for(int i = 0; i<pS.getPartNamesBox7().size(); i++){
-				pS.getBoxOfPart7().addItem(pS.getPartNamesBox7().get(i));
-			}
-			pS.getBoxOfPart7().setEnabled(true); 
-			pS.getPartsPanel().revalidate();
-			//COMBO BOX 8
-			for(int i = 0; i<currentList.size(); i++){
-				String removeName = currentList.get(i).getName(); 
-				pS.getPartNamesBox8().remove(removeName); 
-			}
-			for(int i = 0; i<currentList.size(); i++){
-				String nextName = currentList.get(i).getName(); 			
-				pS.getPartNamesBox8().add(nextName); //adds names to arraylist			
-			}
-			pS.getBoxOfPart8().setEnabled(false); 
-			pS.getBoxOfPart8().removeAllItems();
-			for(int i = 0; i<pS.getPartNamesBox8().size(); i++){
-				pS.getBoxOfPart8().addItem(pS.getPartNamesBox8().get(i));
-			}
-			pS.getBoxOfPart8().setEnabled(true); 
-			pS.getPartsPanel().revalidate();
+			
+			previousList = currentList;
 		}
 
 		// -------------------------------------------------------------------------------------- //

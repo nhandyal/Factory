@@ -23,7 +23,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 	JMenuBar optionMenuBar; JMenu optionMenu; JMenuItem resetOption, deletePartOption;
 	NetworkBridge nb1;
 	public PartsManager(){	
-		nb1 = new NetworkBridge(this, "aludra.usc.edu", 8465, 0);
+		nb1 = new NetworkBridge(this, "localhost", 8465, 0);
 		optionMenuBar = new JMenuBar(); 
 		optionMenu = new JMenu("Options"); 
 		resetOption = new JMenuItem("Reset"); 
