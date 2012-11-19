@@ -102,7 +102,7 @@ public class LaneManager implements GuiManager
 		cam = new Camera(264,28,13,Integer.MAX_VALUE);
 		
 		// Turn On Lane 0, Off Lanes 1-7
-		laneSwitch(8,0,36);
+		laneSwitch(8,0);
 		for(int i=1;i<8;i++)
 			lanes.get(i).setActive(false);
 
@@ -167,8 +167,8 @@ public class LaneManager implements GuiManager
 			if(lanes.get(i).getLanePart(j).getIsMoving() == true)
 				partsStopped = false;
 		}
-		if(feeders.get(i/2).getPush() == 0 && partsStopped == true){	// if bin is empty and the parts have stopped moving
-			laneSwitch(i,i+1,36);										// turn off lane, turn on next lane
+		if(feeders.get(i/2).getPush() == 0){// && partsStopped == true){	// if bin is empty and the parts have stopped moving
+			laneSwitch(i,i+1);										// turn off lane, turn on next lane
 			counter = 0;												// reset counter
 		}
 	}
@@ -178,22 +178,45 @@ public class LaneManager implements GuiManager
 			cam.setPath(lanes.get(i).getPositionX(),lanes.get(i).getPositionY(),i);		// Tell the camera to go to the nest
 	}
 
-	public void laneSwitch(int x1, int x2, int pnum){
+	public void laneSwitch(int x1, int x2){
 		if(x1<8){										// if lane exists
-			lanes.get(x1).setActive(false);				// turn lane off
+//			lanes.get(x1).setActive(false);				// turn lane off
 //			feeders.get(x1/2).removeBin();				// remove bin from feeder
 			removeBin(x1/2);
+			purgeNest(x1);
 		}
 		if(x2<8){										// if lane exists
 			lanes.get(x2).setActive(true);				// turn lane on
 //			feeders.get(x2/2).addBin(bins.get(x2));		// add bin to feeder
 //			feeders.get(x2/2).setPush(pnum);			// set # of parts to make
-			addBin(x2/2,bins.get(x2),36);
+			addBin(x2/2,bins.get(x2),24);
 			if(x2%2 == 0)								// if upper lane
 				dividers.get(x2/2).dividerDown();		// put divider in lower position
 			if(x2%2 == 1)								// if lower lane
 				dividers.get(x2/2).dividerUp();			// put divider in upper position
 		}
+	}
+
+	public void laneToggle(int i){
+		if(lanes.get(i).getActive() == true)
+			lanes.get(i).setActive(false);
+		else
+			lanes.get(i).setActive(true);
+	}
+
+	public void dividerToggle(int i){
+		if(dividers.get(i).getPositionY() > dividers.get(i).getPositionYF())
+			dividers.get(i).dividerUp();
+		else
+			dividers.get(i).dividerDown();
+	}
+
+	public void purgeLane(int i){
+		lanes.get(i).getLane().clear();
+	}
+
+	public void purgeNest(int i){
+		lanes.get(i).getNest().clear();
 	}
 
 	public void addBin(int i, Bin b, int pnum){

@@ -30,6 +30,7 @@ public class UpdateServer implements GuiManager, Serializable
 	int partscount = 0;
 	int k;
 	int a[] = new int[4];
+	int b[] = new int[4];
 	boolean isBringKit = false;
 	boolean isMoveToStand = false;
 	boolean isMovePartstoStand = false;
@@ -244,12 +245,15 @@ public class UpdateServer implements GuiManager, Serializable
 						Part[] p = new Part[4];
 						Nest[] n = new Nest[4];
 						for (int j = 0; j < p.length; j++){
-							Part p1 = parts.get(pos[j]);
+							if (pos[j] != -1)
+                            {
+                                Part p1 = parts.get(pos[j]);
 							//Part p1 = new Part(nests.get(j).getPosition()X,
 							//nests.get(j).getPositionY(), 1);
 							//parts.add(p1);
-							p[j] = p1;
-							n[j] = nests.get(pos[j]);
+                                p[j] = p1;
+                                n[j] = nests.get(pos[j]);
+                            }
 						}
 						probot.moveFromNest(stands.get(stand),p,n,indexes,0); //call the robot to do the animation
                         isFinished = false;
@@ -277,6 +281,7 @@ public class UpdateServer implements GuiManager, Serializable
             isMovePartstoStand = true;
             this.k = stand;
             this.a = pos;
+            this.b = indexes;
         }
 		if (count == 141)
 		{
@@ -518,8 +523,8 @@ public class UpdateServer implements GuiManager, Serializable
 			moveToStand(k);
 		if (isMovePartstoStand)
 		{
-			int a[] = {0, 1, 2, 5};
-			int b[] = {0,4,6,8};
+			//int a[] = {0, 1, 2, 5};
+			//int b[] = {0,4,6,8};
 			movePartstoStand(200, k, a, b);
 		}
 			
