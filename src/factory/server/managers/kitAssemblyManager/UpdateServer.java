@@ -179,7 +179,7 @@ public class UpdateServer implements GuiManager, Serializable
 		}
 	}
 	
-	public void movePartstoStand(int nest, int stand, int[] pos)
+	public void movePartstoStand(int nest, int stand, int[] pos, int[] indexes)
 	{
 		if (isMovePartstoStand)
 		{
@@ -189,7 +189,6 @@ public class UpdateServer implements GuiManager, Serializable
 					if (!stands.get(stand).getKit().getIsComplete()){
 						Part[] p = new Part[4];
 						Nest[] n = new Nest[4];
-						int[] indexes = new int[4];
 						for (int j = 0; j < p.length; j++){
 							Part p1 = parts.get(pos[j]);
 							//Part p1 = new Part(nests.get(j).getPosition()X,
@@ -197,16 +196,6 @@ public class UpdateServer implements GuiManager, Serializable
 							//parts.add(p1);
 							p[j] = p1;
 							n[j] = nests.get(pos[j]);
-						}
-						if (stands.get(stand).getKit().getParts()[0] == null){
-							for (int j = 0; j < indexes.length; j++){
-								indexes[j] = j;
-							}
-						}
-						else{
-							for (int j = 0; j < indexes.length; j++){
-								indexes[j] = j+4;
-							}
 						}
 						probot.moveFromNest(stands.get(stand),p,n,indexes,0);
 					}
@@ -407,8 +396,9 @@ public class UpdateServer implements GuiManager, Serializable
 			moveToStand(k);
 		if (isMovePartstoStand)
 		{
-			//int a[] = {0, 1, 2, 5};
-			movePartstoStand(200, k, a);
+			int a[] = {0, 1, 2, 5};
+			int b[] = {0,4,6,8};
+			movePartstoStand(200, k, a, b);
 		}
 			
 		if (isMoveToInspection)
