@@ -44,7 +44,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		sC = new SecondColumn(); 
 		partsGrid.add(sC); 		
 		//Third Column			
-		tC = new ThirdColumn(); 
+		tC = new ThirdColumn(this); 
 		partsGrid.add(tC); 	
 		
 		
@@ -625,6 +625,91 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 			
 		}
 	}
+		
+		public void deletePart(int pID){
+				switch(pID){
+						case 1:
+								if(newPart1 != null){
+										fC.getPartOneName().setText("Unused"); 
+										listOfParts.remove(newPart1.getMapIndex());
+										isPart1New = true;
+										tC.getFirstPartButton().setText("N");
+								}
+								break;
+						case 2:
+								if(newPart2 != null){
+										fC.getPartTwoName().setText("Unused"); 
+										listOfParts.remove(newPart2.getMapIndex());
+										isPart2New = true;
+										tC.getSecondPartButton().setText("N");
+								}
+								break;
+						case 3:
+								if(newPart3 != null){
+										fC.getPartThreeName().setText("Unused"); 
+										listOfParts.remove(newPart3.getMapIndex());
+										isPart3New = true;
+										tC.getThirdPartButton().setText("N");
+								}
+								break;
+						case 4:
+								if(newPart4 != null){
+										fC.getPartFourName().setText("Unused"); 
+										listOfParts.remove(newPart4.getMapIndex());
+										isPart4New = true;
+										tC.getFourthPartButton().setText("N");
+								}
+								break;
+						case 5:
+								if(newPart5 != null){
+										fC.getPartFiveName().setText("Unused"); 
+										listOfParts.remove(newPart5.getMapIndex());
+										isPart5New = true;
+										tC.getFifthPartButton().setText("N");
+								}
+								break;
+						case 6:
+								if(newPart6 != null){
+										fC.getPartSixName().setText("Unused"); 
+										listOfParts.remove(newPart6.getMapIndex());
+										isPart6New = true;
+										tC.getSixthPartButton().setText("N");
+								}
+								break;
+						case 7:
+								if(newPart7 != null){
+										fC.getPartSevenName().setText("Unused"); 
+										listOfParts.remove(newPart7.getMapIndex());
+										isPart7New = true;
+										tC.getSeventhPartButton().setText("N");
+								}
+								break;
+						case 8:
+								if(newPart8 != null){
+										fC.getPartEightName().setText("Unused"); 
+										listOfParts.remove(newPart8.getMapIndex());
+										isPart8New = true;
+										tC.getEighthPartButton().setText("N");
+								}
+								break;
+						case 9:
+								if(newPart9 != null){
+										fC.getPartNineName().setText("Unused"); 
+										listOfParts.remove(newPart9.getMapIndex());
+										isPart9New = true;
+										tC.getNinthPartButton().setText("N");
+								}
+								break;
+						case 10:
+								if(newPart10 != null){
+										fC.getPartTenName().setText("Unused"); 
+										listOfParts.remove(newPart10.getMapIndex());
+										isPart10New = true;
+										tC.getTenthPartButton().setText("N");
+								}
+								break;
+				}
+		}
 		
 		// -------------------------------------------------------------------------------------- //
 		// ----------------------------------- Network Manager ---------------------------------- //

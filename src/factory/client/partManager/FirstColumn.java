@@ -21,52 +21,52 @@ public class FirstColumn extends JPanel {
 		firstColumn.add(lineSkip); 
 
 		// 1
-		partOneName = new JLabel("Part 1"); 		
+		partOneName = new JLabel("Unused"); 		
 		firstColumn.add(partOneName); // adds Parts Names
 		JLabel lineSkip1 = new JLabel("<HTML><BR></HTML>");
 		//firstColumn.add(lineSkip1);
 		// 2
-		partTwoName = new JLabel("Part 2"); 
+		partTwoName = new JLabel("Unused"); 
 		firstColumn.add(partTwoName); // adds Parts Names
 		JLabel lineSkip2 = new JLabel("<HTML><BR></HTML>");
 		//firstColumn.add(lineSkip2);
 		// 3
-		partThreeName = new JLabel("Part 3"); 
+		partThreeName = new JLabel("Unused"); 
 		firstColumn.add(partThreeName); // adds Parts Names
 		JLabel lineSkip3 = new JLabel("<HTML><BR></HTML>");
 		//firstColumn.add(lineSkip3);
 		// 4
-		partFourName = new JLabel("Part 4"); 
+		partFourName = new JLabel("Unused"); 
 		firstColumn.add(partFourName); // adds Parts Names
 		JLabel lineSkip4 = new JLabel("<HTML><BR></HTML>");
 		//firstColumn.add(lineSkip4);
 		// 5
-		partFiveName = new JLabel("Part 5"); 
+		partFiveName = new JLabel("Unused"); 
 		firstColumn.add(partFiveName); // adds Parts Names
 		JLabel lineSkip5 = new JLabel("<HTML><BR></HTML>");
 		//firstColumn.add(lineSkip5);
 		// 6
-		partSixName = new JLabel("Part 6");  
+		partSixName = new JLabel("Unused");  
 		firstColumn.add(partSixName); // adds Parts Names
 		JLabel lineSkip6 = new JLabel("<HTML><BR></HTML>");
 		//firstColumn.add(lineSkip6);
 		// 7
-		partSevenName = new JLabel("Part 7"); 		
+		partSevenName = new JLabel("Unused"); 		
 		firstColumn.add(partSevenName); // adds Parts Names
 		JLabel lineSkip7 = new JLabel("<HTML><BR></HTML>");
 		//firstColumn.add(lineSkip7);
 		//8
-		partEightName = new JLabel("Part 8");  
+		partEightName = new JLabel("Unused");  
 		firstColumn.add(partEightName); // adds Parts Names
 		JLabel lineSkip8 = new JLabel("<HTML><BR></HTML>");
 		//firstColumn.add(lineSkip8);
 		//9
-		partNineName = new JLabel("Part 9"); 
+		partNineName = new JLabel("Unused"); 
 		firstColumn.add(partNineName); // adds Parts Names
 		JLabel lineSkip9 = new JLabel("<HTML><BR></HTML>");
 		//firstColumn.add(lineSkip9);
 		//10
-		partTenName = new JLabel("Part 10");  
+		partTenName = new JLabel("Unused");  
 		firstColumn.add(partTenName); // adds Parts Names
 		JLabel lineSkip10 = new JLabel("<HTML><BR></HTML>");
 		//firstColumn.add(lineSkip10);
