@@ -15,7 +15,6 @@ import factory.server.managers.GuiManager;
 
 public class LaneManager implements GuiManager
 {
-	ImageIcon background;
 	ArrayList<Lane> lanes;
 	ArrayList<Bin> bins;
 	ArrayList<Line> dividers;
@@ -107,10 +106,7 @@ public class LaneManager implements GuiManager
 		for(int i=0;i<8;i++)
 			lanes.get(i).setActive(false);
 
-		addBin(0,bins.get(0),100);
-
-		// Create Backgroud Image
-		background = new ImageIcon("LMBG.png");
+		addBin(0,bins.get(0),36);
 		
 		// Create ImageList
 		images = new ImageArray();
@@ -133,7 +129,7 @@ public class LaneManager implements GuiManager
 
 		for(int i=0;i<4;i++){
 			if(lanes.get(i*2).getActive() == true || lanes.get((i*2)+1).getActive() == true){	// if a lane is on
-				if(counter==24){// && feeders.get(i).getPush() > 0){								// every 25th instance of timer
+				if(counter==24 && feeders.get(i).getPush() > 0){								// every 25th instance of timer
 					if(dividers.get(i).getPositionY() > dividers.get(i).getPositionYF() && lanes.get(i*2).getActive() == true)		// if the divider is in the lower position
 						lanes.get(i*2).addPart(feeders.get(i).getBin().getPart(),index);		// create a new part in upper lane
 					else if(dividers.get(i).getPositionY() < dividers.get(i).getPositionYF() && lanes.get(i*2+1).getActive() == true)		// if the divider is in the lower position																		// if the divider is in the upper position
@@ -193,7 +189,7 @@ public class LaneManager implements GuiManager
 			lanes.get(x2).setActive(true);				// turn lane on
 //			feeders.get(x2/2).addBin(bins.get(x2));		// add bin to feeder
 //			feeders.get(x2/2).setPush(pnum);			// set # of parts to make
-			addBin(x2/2,bins.get(x2),24);
+//			addBin(x2/2,bins.get(x2),24);
 			if(x2%2 == 0)								// if upper lane
 				dividers.get(x2/2).dividerDown();		// put divider in lower position
 			if(x2%2 == 1)								// if lower lane
@@ -240,6 +236,11 @@ public class LaneManager implements GuiManager
 
 	public void addBin(int i, Bin b, int pnum){
 		feeders.get(i).addBin(b);
+		feeders.get(i).setPush(pnum);
+	}
+
+	public void addBin2(int i, int b, int pnum){
+		feeders.get(i).addBin(bins.get(b));
 		feeders.get(i).setPush(pnum);
 	}
 
