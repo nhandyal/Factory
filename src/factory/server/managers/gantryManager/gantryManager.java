@@ -1,4 +1,4 @@
-//package factory.server.managers.gantryManager;
+package factory.server.managers.gantryManager;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -10,10 +10,10 @@ import javax.swing.Timer;
 import java.util.*;
 
 // user packages
-//import factory.global.data.*;
-//import factory.server.managers.GuiManager;
+import factory.global.data.*;
+import factory.server.managers.GuiManager;
 
-public class gantryManager extends JFrame implements ActionListener //implements GuiManager
+public class gantryManager implements GuiManager
 {
 	ImageIcon background;
 	ArrayList<Bin> bins;
@@ -30,7 +30,7 @@ public class gantryManager extends JFrame implements ActionListener //implements
 
 	public gantryManager(){
 	
-		index = 18;
+		index = 1;
 
 
 		// Create 10 Bins
@@ -58,12 +58,16 @@ public class gantryManager extends JFrame implements ActionListener //implements
 
 		feeders = new ArrayList<Feeder>();
 
-		feeders.add(new Feeder(30, 107));
-		feeders.add(new Feeder(30, 232));
-		feeders.add(new Feeder(30, 357));
-		feeders.add(new Feeder(30, 480));
+		feeders.add(new Feeder(30,107,19,index));
+		index += 2;
+		feeders.add(new Feeder(30,232,19,index));
+		index += 2;
+		feeders.add(new Feeder(30,357,19,index));
+		index += 2;
+		feeders.add(new Feeder(30,480,19,index));
+		index += 2;
 
-		robot = new gantryRobot(200,335,18,bins, feeders);
+		robot = new gantryRobot(200,335,18,bins,feeders, index);
 
 		// Create Backgroud Image
 		background = new ImageIcon("GMBG.png");
@@ -83,39 +87,50 @@ public class gantryManager extends JFrame implements ActionListener //implements
 		//temp = new TreeMap<Integer,FactoryObject>();
 	}
 
-	public static void main(String[] args){
-		gantryManager l = new gantryManager();
-		l.setVisible(true);
-		l.setSize(400,670);
-		l.createBufferStrategy(2);
-		l.setTitle("Gantry Manager");
-		l.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		new Timer(50,l).start();
-	} //end main
-
 	
-	public void actionPerformed( ActionEvent ae ) {
-		//This will be called by the Timer	
-		/*for(int i=0;i<8;i++){
-			if(lanes.get(i).getActive() == true){		// if lane is on
-				if(counter==24){						// every 25th instance of timer
-					int partindx = feeders.get(i/2).getBin().getPart();
-//					System.out.println(partindx);
-					lanes.get(i).addPart(partindx,index);		// create a new part
-					index++;							// add 1 to index
-					feeders.get(i/2).pushPart();		// subtract 1 from feeder counter
-//					System.out.println(feeders.get());
-					counter = 0;						// reset counter
+	public void sync(TreeMap<Integer,FactoryObject> map){
+			
+		// Add Bins
+		for(int i=0;i<10;i++){
+			map.put(bins.get(i).getIndex(),bins.get(i));
+		}
+
+		// Add Feeders
+		for(int i=0;i<4;i++){
+			map.put(feeders.get(i).getIndex(),feeders.get(i));
+		}
+
+		map.put(robot.getIndex(), robot);
+
+	}
+
+	public void update(TreeMap<Integer,Boolean> changeMap, TreeMap<Integer,FactoryObject> changeData){
+		
+		sync(changeData);
+		
+		temp.clear();
+		
+		Iterator k = changeData.keySet().iterator();
+		while(k.hasNext()){
+			int i = (Integer) k.next();
+			if(changeData.get(i).getIndex() > 0){
+				temp.put(i,new FactoryObject());
+				temp.get(i).setPosition(changeData.get(i).getPositionX(),changeData.get(i).getPositionY());
+				temp.get(i).setIndex(changeData.get(i).getIndex());
+				temp.get(i).setIsLine(changeData.get(i).getIsLine());
+				if(changeData.get(i).getIsLine() == true){
+					temp.get(i).setPositionF(changeData.get(i).getPositionXF(),changeData.get(i).getPositionYF());
+					temp.get(i).setIsLine(true);
 				}
-				counter++;
-				if(feeders.get(i/2).getPush() == 0){	// if there are 36 parts on the lane
-					laneSwitch(i,i+1);					// turn off lane, turn on next lane
-					counter = 0;						// reset counter
+				else{
+					temp.get(i).setImage(changeData.get(i).getImageIndex());
 				}
 			}
 		}
-		update(changeMap,changeData);*/
+
+		changeData.clear();
+	//		changeMap.clear();
+
 		if(robot.hasBin == false){
 			robot.moveToBin(1);
 		}
@@ -124,87 +139,46 @@ public class gantryManager extends JFrame implements ActionListener //implements
 			robot.moveToFeeder(3);
 		}
 		
-		repaint();
-    }
 
-	/*public void sync(TreeMap<Integer,FactoryObject> map){
+		sync(changeData);
 		
-		// Add Dividers
-		for(int i=0;i<4;i++){
-			map.put(dividers.get(i).getIndex(),dividers.get(i));
-		}
-
-		// Add Bins (if visible)
-		for(int i=0;i<4;i++){
-			if(feeders.get(i).hasBin() == true){
-				map.put(feeders.get(i).getBin().getIndex(),feeders.get(i).getBin());
-				map.put(feeders.get(i).getBin().getPartIcon().getIndex(),feeders.get(i).getBin().getPartIcon());
-				System.out.println("Feeder"+i+"s bin painted");
-//		for(int i=0;i<8;i++){
-//			if(bins.get(i).getVis() == true){
-//				map.put(bins.get(i).getIndex(),bins.get(i));
-//				map.put(bins.get(i).getPartIcon().getIndex(),bins.get(i).getPartIcon());
-			}
-		}
-
-		// Add Lane Content
-		for(int i=0;i<8;i++){
-			// LaneLines
-			for(int j=0;j<3;j++){
-				if(lanes.get(i).getLaneLine(j).getPositionX() <= 334)
-					map.put(lanes.get(i).getLaneLine(j).getIndex(),lanes.get(i).getLaneLine(j));
-			}
-			// Parts (Lanes and Nests)
-			for(int j=0;j<lanes.get(i).getLaneSize();j++)
-				map.put(lanes.get(i).getLanePart(j).getIndex(),lanes.get(i).getLanePart(j));
-			for(int j=0;j<lanes.get(i).getNestSize();j++)
-				map.put(lanes.get(i).getNestPart(j).getIndex(),lanes.get(i).getNestPart(j));
-		}
-	}*/
-
-	/*public void update(TreeMap<Integer,Boolean> changeMap, TreeMap<Integer,FactoryObject> changeData){
-		
-		
-	}*/
-
-    public void paint(Graphics g){
-    	Graphics2D g2 = (Graphics2D)g;
-    	background.paintIcon(this,g2,0,0);
-
-    	for (int i=0; i<10; i++){
-			images.getIcon(10).paintIcon(this,g2,bins.get(i).getPositionX(),bins.get(i).getPositionY());
-		}
-
-		images.getIcon(18).paintIcon(this,g2,robot.getPositionX(),robot.getPositionY());
-
-
-		//images.getIcon(10).paintIcon(this,g2,bins.get(0).getPositionX(),bins.get(0).getPositionY());
-    	
-		//sync(animData);
-    	
-    	/*Iterator k = changeMap.keySet().iterator();
+		k = changeData.keySet().iterator();
 		while(k.hasNext()){
 			int i = (Integer) k.next();
-			if(animData.containsKey(i) == false){
-				animData.put(i,changeData.get(i));
-			}
-			else if(changeMap.get(i) == true){
-				animData.put(i,changeData.get(i));
-			}
-		}*/
-
-		// Paint Updated List
-		/*k = animData.keySet().iterator();
-		while(k.hasNext()){
-			int i = (Integer) k.next();
-			if(i != 0 && animData.get(i).getIndex()> 0){
-				if(animData.get(i).getIsLine()== true)	// if object is a line draw a line
-					g2.drawLine(animData.get(i).getPositionX(),animData.get(i).getPositionY(),animData.get(i).getPositionXF(),animData.get(i).getPositionYF());
-				else{ 										//if object is not a line draw an ImageIcon
-					int img = animData.get(i).getImageIndex();
-					images.getIcon(img).paintIcon(this,g2,animData.get(i).getPositionX(),animData.get(i).getPositionY());
+			if(temp.containsKey(i) == true){
+				if(foc.compare(temp.get(i),changeData.get(i)) == 0){
+	//					changeMap.put(i,false);
+				}
+				else{
+					changeMap.put(i,true);
 				}
 			}
-		}*/
-    }		
+			else{
+				changeMap.put(i,true);
+			}
+		}
+		
+		// Delete extra mappings
+		k = temp.keySet().iterator();
+		while(k.hasNext()){
+			int i = (Integer) k.next();
+			if(changeData.containsKey(i) == false){
+	//				changeData.put(i, new FactoryObject());
+				changeMap.put(i,false);
+			}
+		}
+		
+		k = changeMap.keySet().iterator();
+		while(k.hasNext()){
+			int i = (Integer) k.next();
+			if(changeMap.get(i) == false)
+				changeData.remove(i);
+		}
+		
+		k = changeData.keySet().iterator();
+		while(k.hasNext()){
+			int i = (Integer) k.next();
+	//			System.out.println("changeData "+changeData.get(i).getIndex());
+		}
+	}		
 }
