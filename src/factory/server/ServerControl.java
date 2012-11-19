@@ -70,7 +70,8 @@ public class ServerControl extends JPanel implements ActionListener{
 	JComboBox feederChooser;
 	String[] binStrings = new String[10];
 	String[] feederStrings = new String[4];
-	JButton putBin = new JButton("Add Bin to Feeder");
+	JButton moveToBin = new JButton("Move to Bin");
+	JButton moveToFeeder = new JButton("Move to Feeder");
 	
 	public ServerControl(GuiManager kit, GuiManager LM, GuiManager GM, FactoryState fs){
 		
@@ -141,7 +142,6 @@ public class ServerControl extends JPanel implements ActionListener{
 		standToConveyor.addActionListener(this);
 		bringKit.addActionListener(this);
 		takeKit.addActionListener(this);
-		putBin.addActionListener(this);
 		
 		toggleLane.addActionListener(this);
 		toggleDivider.addActionListener(this);
@@ -149,6 +149,9 @@ public class ServerControl extends JPanel implements ActionListener{
 		purgeNest.addActionListener(this);
 		purgeLane.addActionListener(this);
 		purgeFeeder.addActionListener(this);
+		
+		moveToBin.addActionListener(this);
+		moveToFeeder.addActionListener(this);
 		
 		makeKits.addActionListener(this);
 		updateKits.addActionListener(this);
@@ -193,7 +196,8 @@ public class ServerControl extends JPanel implements ActionListener{
 		gComboBoxPanel.add(feederChooser);
 		gantryControl.add(gantryControlDesc);
 		gantryControl.add(gComboBoxPanel);
-		gantryControl.add(putBin);
+		gantryControl.add(moveToBin);
+		gantryControl.add(moveToFeeder);
 		gantryControl.add(purgeFeeder);
 		
 		overPanel.add(kitAssemblyControl);
@@ -226,6 +230,10 @@ public class ServerControl extends JPanel implements ActionListener{
 			if (KitASM.isFinished() ){
 				int[] nests = new int[4];
 				int[] indexes = new int[4];
+				for (int i = 0; i < 4; i++){
+					nests[i] = -1;
+					indexes[i] = -1;
+				}
 				for (int i = 0; i < nestChooser.length; i++){
 					String nest = (String)nestChooser[i].getSelectedItem();
 					nest = nest.substring(5);
@@ -244,6 +252,9 @@ public class ServerControl extends JPanel implements ActionListener{
 						indexes[i] = j;
 					}
 				}
+				for (int i = 0; i < 4; i++){
+					System.out.println(nests[i] + " " + indexes[i]);
+				}
 				KitASM.movePartstoStand(0, 0, nests, indexes);
 			}
 		}
@@ -251,6 +262,10 @@ public class ServerControl extends JPanel implements ActionListener{
 			if (KitASM.isFinished() ){
 				int[] nests = new int[4];
 				int[] indexes = new int[4];
+				for (int i = 0; i < 4; i++){
+					nests[i] = -1;
+					indexes[i] = -1;
+				}
 				for (int i = 0; i < nestChooser.length; i++){
 					String nest = (String)nestChooser[i].getSelectedItem();
 					nest = nest.substring(8);
@@ -325,16 +340,18 @@ public class ServerControl extends JPanel implements ActionListener{
 			for (int i = 0; i < kitStrings.size(); i++)
 				kitChooser.addItem(kitStrings.get(i));
 		}
-		if (e.getSource() == putBin){
-			String f = (String)feederChooser2.getSelectedItem();
-			f = f.substring(7);
-			int feeder = Integer.parseInt(f);
-			feeder -= 1;
+		if (e.getSource() == moveToBin){
 			String b = (String)binChooser.getSelectedItem();
 			b = b.substring(4);
 			int bin = Integer.parseInt(b);
 			bin -= 1;
 			//GM.robot.moveToBin(bin);
+		}
+		if (e.getSource() == moveToFeeder){
+			String f = (String)feederChooser2.getSelectedItem();
+			f = f.substring(7);
+			int feeder = Integer.parseInt(f);
+			feeder -= 1;
 			//GM.robot.moveToFeeder(feeder);
 		}
 		if (e.getSource() == purgeNest){
