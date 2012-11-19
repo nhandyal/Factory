@@ -23,7 +23,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 	JMenuBar optionMenuBar; JMenu optionMenu; JMenuItem resetOption, deletePartOption;
 	NetworkBridge nb1;
 	public PartsManager(){	
-		nb1 = new NetworkBridge(this, "aludra.usc.edu", 8465, 0);
+		//nb1 = new NetworkBridge(this, "aludra.usc.edu", 8465, 0);
 		optionMenuBar = new JMenuBar(); 
 		optionMenu = new JMenu("Options"); 
 		resetOption = new JMenuItem("Reset"); 
@@ -154,15 +154,21 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					isPart1New = false; 
 				}
 				else{
-					 
+					newPart1.setName(pI.getEnterNameHere().getText());
 					String indexString = pI.getPartIndexNumber().getText();
 					int indexInt = Integer.parseInt(indexString);
-					newPart1.setPartNumber(indexInt); 
-					newPart1.setName(pI.getEnterNameHere().getText());
-					newPart1.setDesc(pI.getPartDescription().getText()); 
-					listOfParts.put(savedCounter, newPart1); 
+					newPart1 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 0);
+					for(int i = 0; i<listOfParts.size(); i++){
+						int picTracker = 0; 
+						if(picTracker == listOfParts.get(i).getImageIndex()){
+							listOfParts.remove(i); 							 
+						}
+					}
+					
 				}
-
+				for(int i = 0; i<listOfParts.size(); i++){
+					System.out.println(listOfParts.get(i).getName()); 
+				}
 				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
 				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
 				pI.getPartDescription().setText("Short Description of Part Here"); 
@@ -170,7 +176,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 
 				 
 
-				nb1.sendPartData(listOfParts); 
+				//nb1.sendPartData(listOfParts); 
 		}
 		
 		//Second Button
@@ -220,7 +226,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
 				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
 				pI.getPartDescription().setText("Short Description of Part Here"); 
-			nb1.sendPartData(listOfParts); 
+			//nb1.sendPartData(listOfParts); 
 			
 		}
 		

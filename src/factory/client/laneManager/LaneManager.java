@@ -49,13 +49,6 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
     
     public void paint(Graphics g){
 				Graphics2D g2 = (Graphics2D)g;
-				
-				System.out.println("LM Paint");
-				for(Integer i : frameAnimationData.keySet()){
-						System.out.print(i+" --- ");
-						frameAnimationData.get(i).print();
-				}
-				
 				background.paintIcon(this,g2,0,0);
 
 				// Paint Updated List

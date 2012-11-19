@@ -11,65 +11,65 @@ public class SecondColumn extends JPanel {
 	ImageArray iA; 
 	public SecondColumn(){
 		iA = new ImageArray(); 
-	JPanel secondColumn = new JPanel(new GridBagLayout()); 
-	GridBagConstraints gbc = new GridBagConstraints(); 
+	JPanel secondColumn = new JPanel(); 
+	secondColumn.setLayout(new BoxLayout(secondColumn, BoxLayout.Y_AXIS)); 
 	//0
-	partsIconTitle = new JLabel("Parts Icon"); 
-	gbc.gridx = 1; 
-	gbc.gridy = 0; 
-	secondColumn.add(partsIconTitle, gbc);  // adds Parts Icon title
+	partsIconTitle = new JLabel("Parts Icon"); 	
+	secondColumn.add(partsIconTitle);  // adds Parts Icon title
+	JLabel lineSkip = new JLabel("<HTML><BR></HTML>");
+	secondColumn.add(lineSkip); 
 	//1
 	
-	partOneIcon = new JLabel(iA.getIcon(0)); 
-	gbc.gridx = 1; 
-	gbc.gridy = 1; 
-	secondColumn.add(partOneIcon, gbc); // adds Parts Icons 
-	//2
-	partTwoIcon = new JLabel(iA.getIcon(1)); 
-	gbc.gridx = 1; 
-	gbc.gridy = 2; 
-	secondColumn.add(partTwoIcon, gbc); // adds Parts Icons 
+	partOneIcon = new JLabel(iA.getIcon(0)); 	
+	secondColumn.add(partOneIcon); // adds Parts Icons 
+	JLabel lineSkip1 = new JLabel("<HTML><BR></HTML>");
+	secondColumn.add(lineSkip1); 
+		//2
+	partTwoIcon = new JLabel(iA.getIcon(1)); 	
+	secondColumn.add(partTwoIcon); // adds Parts Icons 
+	JLabel lineSkip2 = new JLabel("<HTML><BR></HTML>");
+	secondColumn.add(lineSkip2);
 	//3
-	partThreeIcon = new JLabel(iA.getIcon(2)); 
-	gbc.gridx = 1; 
-	gbc.gridy = 3; 
-	secondColumn.add(partThreeIcon, gbc); // adds Parts Icons 
+	partThreeIcon = new JLabel(iA.getIcon(2));  
+	secondColumn.add(partThreeIcon); // adds Parts Icons 
+	JLabel lineSkip3 = new JLabel("<HTML><BR></HTML>");
+	secondColumn.add(lineSkip3);
 	//4
 	partFourIcon = new JLabel(iA.getIcon(3)); 
-	gbc.gridx = 1; 
-	gbc.gridy = 4; 
-	secondColumn.add(partFourIcon, gbc); // adds Parts Icons 
+	secondColumn.add(partFourIcon); // adds Parts Icons 
+	JLabel lineSkip4 = new JLabel("<HTML><BR></HTML>");
+	secondColumn.add(lineSkip4);
 	//5
 	partFiveIcon = new JLabel(iA.getIcon(4)); 
-	gbc.gridx = 1; 
-	gbc.gridy = 5; 
-	secondColumn.add(partFiveIcon, gbc); // adds Parts Icons 
+	secondColumn.add(partFiveIcon); // adds Parts Icons 
+	JLabel lineSkip5 = new JLabel("<HTML><BR></HTML>");
+	secondColumn.add(lineSkip5);
 	//6
 	partSixIcon = new JLabel(iA.getIcon(5)); 
-	gbc.gridx = 1; 
-	gbc.gridy = 6; 
-	secondColumn.add(partSixIcon, gbc); // adds Parts Icons 
+	secondColumn.add(partSixIcon); // adds Parts Icons 
+	JLabel lineSkip6 = new JLabel("<HTML><BR></HTML>");
+	secondColumn.add(lineSkip6);
 	//7
 	partSevenIcon = new JLabel(iA.getIcon(6)); 
-	gbc.gridx = 1; 
-	gbc.gridy = 7; 
-	secondColumn.add(partSevenIcon, gbc); // adds Parts Icons 
+	secondColumn.add(partSevenIcon); // adds Parts Icons 
+	JLabel lineSkip7 = new JLabel("<HTML><BR><BR></HTML>");
+	secondColumn.add(lineSkip7);
 	//8
-	partEightIcon = new JLabel(iA.getIcon(7)); 
-	gbc.gridx = 1; 
-	gbc.gridy = 8; 
-	secondColumn.add(partEightIcon, gbc); // adds Parts Icons 
+	partEightIcon = new JLabel(iA.getIcon(7)); 	
+	secondColumn.add(partEightIcon); // adds Parts Icons 
+	JLabel lineSkip8 = new JLabel("<HTML><BR><BR></HTML>");
+	secondColumn.add(lineSkip8);
 	//9
 	partNineIcon = new JLabel(iA.getIcon(8)); 
-	gbc.gridx = 1; 
-	gbc.gridy = 9; 
-	secondColumn.add(partNineIcon, gbc); // adds Parts Icons 
+	secondColumn.add(partNineIcon); // adds Parts Icons 
+	JLabel lineSkip9 = new JLabel("<HTML><BR><BR></HTML>");
+	secondColumn.add(lineSkip9);
 	//10
 	partTenIcon = new JLabel(iA.getIcon(9)); 
-	gbc.gridx = 1; 
-	gbc.gridy = 10; 
-	secondColumn.add(partTenIcon, gbc); // adds Parts Icons 
-	//secondColumn.setBackground(Color.white);
+	secondColumn.add(partTenIcon); // adds Parts Icons 
+	JLabel lineSkip10 = new JLabel("<HTML><BR></HTML>");
+	secondColumn.add(lineSkip10);
+	
 	add(secondColumn); 
 	}
 	

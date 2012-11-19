@@ -25,15 +25,9 @@ public class KASM extends JPanel{
 		}
 	
 		public void paintComponent(Graphics g){
-				System.out.println("KASM paint called");
 				Graphics2D g2 = (Graphics2D)g;
 				refreshAnimationData();
 				
-				System.out.println("KASM Paint");
-				for(Integer i : fos.keySet()){
-						System.out.print(i+" --- ");
-						fos.get(i).print();
-				}
 				
 				bg.paintIcon(this, g2, 0, 0);
 				for (Integer i : fos.keySet()){

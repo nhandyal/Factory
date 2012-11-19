@@ -54,13 +54,13 @@ public class LaneManager implements GuiManager
 		
 		// Create 4 Dividers
 		dividers = new ArrayList<Line>();
-		dividers.add(new Line(334,108,288,108,index));
+		dividers.add(new Line(334,143,288,108,index));
 		index++;
-		dividers.add(new Line(334,232,288,232,index));
+		dividers.add(new Line(334,267,288,232,index));
 		index++;
-		dividers.add(new Line(334,356,288,356,index));
+		dividers.add(new Line(334,391,288,356,index));
 		index++;
-		dividers.add(new Line(334,480,288,480,index));
+		dividers.add(new Line(334,515,288,480,index));
 		index++;
 
 
@@ -126,24 +126,33 @@ public class LaneManager implements GuiManager
 	}
 
 	public void laneManagement(){
-		// Lane Management
-		for(int i=0;i<8;i++){
-			if(lanes.get(i).getActive() == true){										// if lane is on and feeder isn't empty
-				if(counter==24 && feeders.get(i/2).getPush() > 0){						// every 25th instance of timer
-					lanes.get(i).addPart(feeders.get(i/2).getBin().getPart(),index);	// create a new part
-					index++;															// Add one to index
-					feeders.get(i/2).pushPart();										// subtract 1 from feeder counter
-					counter = 0;														// reset counter
+
+		for(int i=0;i<4;i++){
+			if(lanes.get(i*2).getActive() == true || lanes.get((i*2)+1).getActive() == true){	// if a lane is on
+				if(counter==24 && feeders.get(i).getPush() > 0){								// every 25th instance of timer
+					if(dividers.get(i).getPositionY() > dividers.get(i).getPositionYF())		// if the divider is in the lower position
+						lanes.get(i*2).addPart(feeders.get(i).getBin().getPart(),index);		// create a new part in upper lane
+					else																		// if the divider is in the upper position
+						lanes.get((i*2)+1).addPart(feeders.get(i).getBin().getPart(),index);	// create a new part in lower lane
+					index++;																	// Add one to index
+					feeders.get(i).pushPart();													// subtract 1 from feeder counter
+					counter = 0;																// reset counter
 				}
 				counter++;
 
-				autoLaneSwitch(i);
+				if(lanes.get(i*2).getActive() == true)
+					autoLaneSwitch(i*2);
+				else if(lanes.get(i*2+1).getActive() == true)
+					autoLaneSwitch(i*2+1);
 
-				lanes.get(i).moveParts();
+				lanes.get(i*2).moveParts();
+				lanes.get(i*2+1).moveParts();
 				
-				takePicture(i);
+				takePicture(i*2);
+				takePicture(i*2+1);
 			}
 		}
+
 		cam.move();											// move the camera
 		if(cam.getTakenPicture() == true){					// if the camera has taken a picture
 			lanes.get(cam.getNest()).setPicNeeded(false);	// tell the nest a picture is taken
@@ -172,13 +181,14 @@ public class LaneManager implements GuiManager
 	public void laneSwitch(int x1, int x2, int pnum){
 		if(x1<8){										// if lane exists
 			lanes.get(x1).setActive(false);				// turn lane off
-			feeders.get(x1/2).removeBin();				// remove bin from feeder
-			dividers.get(x1/2).dividerNeutral();		// put divider in neutral position
+//			feeders.get(x1/2).removeBin();				// remove bin from feeder
+			removeBin(x1/2);
 		}
 		if(x2<8){										// if lane exists
 			lanes.get(x2).setActive(true);				// turn lane on
-			feeders.get(x2/2).addBin(bins.get(x2));		// add bin to feeder
-			feeders.get(x2/2).setPush(pnum);			// set # of parts to make
+//			feeders.get(x2/2).addBin(bins.get(x2));		// add bin to feeder
+//			feeders.get(x2/2).setPush(pnum);			// set # of parts to make
+			addBin(x2/2,bins.get(x2),36);
 			if(x2%2 == 0)								// if upper lane
 				dividers.get(x2/2).dividerDown();		// put divider in lower position
 			if(x2%2 == 1)								// if lower lane
@@ -324,7 +334,7 @@ public class LaneManager implements GuiManager
 
 		// Add Parts Low Lights
 		for(int i=0;i<4;i++){
-			// If parts are low and the lane is on
+			// If parts are low and a lane is on
 			if(feeders.get(i).getPush() <= feeders.get(i).getPartsLow() && (lanes.get(i*2).getActive() == true || lanes.get((i*2)+1).getActive() == true)){
 				map.put(feeders.get(i).getIndex(),feeders.get(i));
 			}
