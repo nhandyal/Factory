@@ -19,12 +19,23 @@ public class Parts implements java.io.Serializable{
 		String name;
 		String desc;
 		int imageIndex; 
+		int mapIndex; 
 		
 		public Parts(int partNumber, String name, String desc, int imageIndex){
 			this.partNumber = partNumber; 
 			this.name = name; 
 			this.desc = desc; 
 			this.imageIndex = imageIndex; 
+			this.mapIndex = -1; 
+		}
+
+		public void setMapIndex(int mI){
+			mapIndex = mI; 
+
+		}
+
+		public int getMapIndex(){
+			return mapIndex; 
 		}
 
 		public int getPartNumber(){
