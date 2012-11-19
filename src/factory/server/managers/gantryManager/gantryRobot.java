@@ -42,88 +42,97 @@ public class gantryRobot extends FactoryObject
 	}
 
 	public void moveToBin(int bin){
+		System.out.println("moving to the bin");
 		hasBin = false;
-		nextDestX = bins.get(bin).getPositionX() - 40;
-		nextDestY = bins.get(bin).getPositionY() - 20;
-		if (x < nextDestX){
-			x+=2;
-		}
+		while(hasBin == false){
+			nextDestX = bins.get(bin).getPositionX() - 40;
+			nextDestY = bins.get(bin).getPositionY() - 20;
+			if (x < nextDestX){
+				x+=2;
+			}
 
-		else if (x > nextDestX){
-			x-=2;
-		}
+			else if (x > nextDestX){
+				x-=2;
+			}
 
-		if(y < nextDestY){
-			y+=2;
-		}
+			if(y < nextDestY){
+				y+=2;
+			}
 
-		else if (y > nextDestY){
-			y-=2;
-		}
+			else if (y > nextDestY){
+				y-=2;
+			}
 
-		if(x == nextDestX && y == nextDestY){
-			hasBin = true;
-			pickupBin(bin);
+			if(x == nextDestX && y == nextDestY){
+				pickupBin(bin);
+				hasBin = true;
+			}
 		}
 	}
 
 	public void moveToPoint(int x, int y){
 		hasBin = true;
-		nextDestX = x + 40;
-		nextDestY = y - 20;
-		if (x < nextDestX){
-			x+=2;
-			possessedBin.x+=2;
-		}
+		while(hasBin == true){
+			nextDestX = x + 40;
+			nextDestY = y - 20;
+			if (x < nextDestX){
+				x+=2;
+				possessedBin.x+=2;
+			}
 
-		else if (x > nextDestX){
-			x-=2;
-			possessedBin.x-=2;
-		}
+			else if (x > nextDestX){
+				x-=2;
+				possessedBin.x-=2;
+			}
 
-		if(y < nextDestY){
-			y+=2;
-			possessedBin.y+=2;
-		}
+			if(y < nextDestY){
+				y+=2;
+				possessedBin.y+=2;
+			}
 
-		else if (y > nextDestY){
-			y-=2;
-			possessedBin.y-=2;
-		}
+			else if (y > nextDestY){
+				y-=2;
+				possessedBin.y-=2;
+			}
 
-		if(x == nextDestX && y == nextDestY){
-			possessedBin.x = x;
-			possessedBin.y = y;
+			if(x == nextDestX && y == nextDestY){
+				possessedBin.x = x;
+				possessedBin.y = y;
+			}
 		}
+		
 	}
 
 	public void moveToFeeder(int feeder){
 		hasBin = true;
-		nextDestX = feeders.get(feeder).getPositionX() + 40;
-		nextDestY = feeders.get(feeder).getPositionY() - 20;
-		if (x < nextDestX){
-			x+=2;
-			possessedBin.x+=2;
-		}
+		while(hasBin == true){
+			nextDestX = feeders.get(feeder).getPositionX() + 40;
+			nextDestY = feeders.get(feeder).getPositionY() - 20;
+			if (x < nextDestX){
+				x+=2;
+				possessedBin.x+=2;
+			}
 
-		else if (x > nextDestX){
-			x-=2;
-			possessedBin.x-=2;
-		}
+			else if (x > nextDestX){
+				x-=2;
+				possessedBin.x-=2;
+			}
 
-		if(y < nextDestY){
-			y+=2;
-			possessedBin.y+=2;
-		}
+			if(y < nextDestY){
+				y+=2;
+				possessedBin.y+=2;
+			}
 
-		else if (y > nextDestY){
-			y-=2;
-			possessedBin.y-=2;
-		}
+			else if (y > nextDestY){
+				y-=2;
+				possessedBin.y-=2;
+			}
 
-		if(x == nextDestX && y == nextDestY){
-			possessedBin.x = feeders.get(feeder).getPositionX();
-			possessedBin.y = feeders.get(feeder).getPositionY();
+			if(x == nextDestX && y == nextDestY){
+				possessedBin.x = feeders.get(feeder).getPositionX();
+				possessedBin.y = feeders.get(feeder).getPositionY();
+				hasBin = false;
+			}
 		}
 	}
 
