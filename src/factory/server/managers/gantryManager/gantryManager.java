@@ -83,8 +83,8 @@ public class gantryManager implements GuiManager
 		
 		//changeMap = new TreeMap<Integer,Boolean>();
 		//changeData = new TreeMap<Integer,FactoryObject>();
-		//animData = new TreeMap<Integer,FactoryObject>();
-		//temp = new TreeMap<Integer,FactoryObject>();
+		animData = new TreeMap<Integer,FactoryObject>();
+		temp = new TreeMap<Integer,FactoryObject>();
 	}
 
 	
