@@ -26,8 +26,6 @@ public class ServerControl extends JPanel implements ActionListener{
 	JPanel[] kComboBoxPanel = new JPanel[4];
 	JPanel laneButtonPanel = new JPanel();
 	JPanel factoryControl = new JPanel();
-	JPanel fComboBoxPanel = new JPanel();
-	JPanel factoryButtonPanel = new JPanel();
 	JPanel gantryControl = new JPanel();
 	JPanel gComboBoxPanel = new JPanel();
 	
@@ -56,13 +54,10 @@ public class ServerControl extends JPanel implements ActionListener{
 	JButton purgeNest = new JButton("Purge Nest");
 	JButton purgeLane = new JButton("Purge Lane");
 	JButton purgeFeeder = new JButton("Purge Feeder");
+	JButton addBin = new JButton("Add Bin");
 	
 	JLabel factoryControlDesc = new JLabel("Factory Production Manager");
-	ArrayList<String> kitStrings = new ArrayList<String>();
-	JComboBox kitChooser;
-	JTextField kitQuantity = new JTextField(3);
-	JButton makeKits = new JButton("Make Kits");
-	JButton updateKits = new JButton("Update Kit List");
+	ArrayList<JLabel> kitLabels = new ArrayList<JLabel>();
 	
 	JLabel gantryControlDesc = new JLabel("Gantry Manager");
 	JComboBox binChooser;
@@ -75,7 +70,7 @@ public class ServerControl extends JPanel implements ActionListener{
 	
 	public ServerControl(GuiManager kit, GuiManager LM, GuiManager GM, FactoryState fs, Server serv){
 		server = serv;
-
+		
 		this.KitASM = (UpdateServer)kit;
 		this.LM = (LaneManager)LM;
 		this.GM = (GantryManager)GM;
@@ -96,10 +91,6 @@ public class ServerControl extends JPanel implements ActionListener{
 			else
 				nestStrings[i] = "Nest " + i;
 		}
-		for (int i = 1; i < 6; i++){
-			String s = "Kit " + i;
-			kitStrings.add(s);
-		}
 		for (int i = 1; i < binStrings.length+1; i++){
 			binStrings[i-1] = "Bin " + i;
 		}
@@ -109,7 +100,6 @@ public class ServerControl extends JPanel implements ActionListener{
 		laneChooser = new JComboBox(laneStrings);
 		for (int i = 0; i < nestChooser.length; i++)
 			nestChooser[i] = new JComboBox(nestStrings);
-		kitChooser = new JComboBox(kitStrings.toArray());
 		for (int i = 0; i < indexChooser.length; i++)
 			indexChooser[i] = new JComboBox(indexStrings);
 		for (int i = 0; i < kComboBoxPanel.length; i++)
@@ -125,8 +115,6 @@ public class ServerControl extends JPanel implements ActionListener{
 		laneControl.setLayout(new BoxLayout(laneControl,BoxLayout.Y_AXIS));
 		lComboBoxPanel.setLayout(new FlowLayout());
 		laneButtonPanel.setLayout(new BoxLayout(laneButtonPanel,BoxLayout.Y_AXIS));
-		fComboBoxPanel.setLayout(new FlowLayout());
-		factoryButtonPanel.setLayout(new BoxLayout(factoryButtonPanel,BoxLayout.Y_AXIS));
 		factoryControl.setLayout(new BoxLayout(factoryControl,BoxLayout.Y_AXIS));
 		gantryControl.setLayout(new BoxLayout(gantryControl,BoxLayout.Y_AXIS));
 		gComboBoxPanel.setLayout(new FlowLayout());
@@ -148,12 +136,10 @@ public class ServerControl extends JPanel implements ActionListener{
 		purgeNest.addActionListener(this);
 		purgeLane.addActionListener(this);
 		purgeFeeder.addActionListener(this);
+		addBin.addActionListener(this);
 		
 		moveToBin.addActionListener(this);
 		moveToFeeder.addActionListener(this);
-		
-		makeKits.addActionListener(this);
-		updateKits.addActionListener(this);
 		
 		for (int i = 0; i < kComboBoxPanel.length; i++){
 			kComboBoxPanel[i].add(nestChooser[i]);
@@ -183,13 +169,7 @@ public class ServerControl extends JPanel implements ActionListener{
 		laneButtonPanel.add(purgeLane);
 		laneControl.add(laneButtonPanel);
 		
-		fComboBoxPanel.add(kitChooser);
-		fComboBoxPanel.add(kitQuantity);
-		factoryButtonPanel.add(makeKits);
-		factoryButtonPanel.add(updateKits);
 		factoryControl.add(factoryControlDesc);
-		factoryControl.add(fComboBoxPanel);
-		factoryControl.add(factoryButtonPanel);
 		
 		gComboBoxPanel.add(binChooser);
 		gComboBoxPanel.add(feederChooser);
@@ -198,6 +178,7 @@ public class ServerControl extends JPanel implements ActionListener{
 		gantryControl.add(moveToBin);
 		gantryControl.add(moveToFeeder);
 		gantryControl.add(purgeFeeder);
+		//gantryControl.add(addBin);
 		
 		overPanel.add(kitAssemblyControl);
 		overPanel.add(laneControl);
@@ -327,15 +308,6 @@ public class ServerControl extends JPanel implements ActionListener{
 			nest -= 1;
 			LM.takePicture(nest);
 		}
-		if (e.getSource() == makeKits){
-		
-		}
-		if (e.getSource() == updateKits){
-			//Get kits list from server, set it to kitStrings
-			kitChooser.removeAllItems();
-			for (int i = 0; i < kitStrings.size(); i++)
-				kitChooser.addItem(kitStrings.get(i));
-		}
 		if (e.getSource() == moveToBin){
 			String b = (String)binChooser.getSelectedItem();
 			b = b.substring(4);
@@ -344,7 +316,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			GM.robot.moveToBin(bin);
 		}
 		if (e.getSource() == moveToFeeder){
-			String f = (String)feederChooser2.getSelectedItem();
+			String f = (String)feederChooser.getSelectedItem();
 			f = f.substring(7);
 			int feeder = Integer.parseInt(f);
 			feeder -= 1;
@@ -361,9 +333,6 @@ public class ServerControl extends JPanel implements ActionListener{
 				LM.purgeNest(nest);
 			}
 			
-			int nest = Integer.parseInt(n);
-			nest -= 1;
-			LM.purgeNest(nest);
 		}
 		if (e.getSource() == purgeLane){
 			server.sync = true;
@@ -390,6 +359,19 @@ public class ServerControl extends JPanel implements ActionListener{
 			feeder -= 1;
 			LM.dividerToggle(feeder);
 		}
+		/*
+		if (e.getSource() == addBin){
+			String f = (String)feederChooser.getSelectedItem();
+			f = f.substring(7);
+			int feeder = Integer.parseInt(f);
+			feeder -= 1;
+			String b = (String)binChooser.getSelectedItem();
+			b = b.substring(4);
+			int bin = Integer.parseInt(b);
+			bin -= 1;
+			LM.addBin2(feeder,bin,36);
+		}
+		*/
 	}
 		
 }
