@@ -12,7 +12,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 	JPanel partsGrid; 
 	FirstColumn fC; 
 	SecondColumn sC; 
-	ThirdColumn tC; 
+	ThirdColumn tC;
 	PartInfo pI; 
 	Parts newPart1, newPart2, newPart3, newPart4, newPart5, newPart6, newPart7, newPart8, newPart9, newPart10;
 	boolean part1Edit, part2Edit, part3Edit, part4Edit, part5Edit, part6Edit, part7Edit, part8Edit, part9Edit, part10Edit; 
@@ -146,6 +146,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				int savedCounter = 0; 
 				
 				if(isPart1New){
+						// New part
 					newPart1 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 0);
 					listOfParts.put(listCounter, newPart1); 
 					savedCounter = listCounter; 
@@ -154,6 +155,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					isPart1New = false; 
 				}
 				else{
+						// Edit Part
 					newPart1.setName(pI.getEnterNameHere().getText());
 					String indexString = pI.getPartIndexNumber().getText();
 					int indexInt = Integer.parseInt(indexString);
