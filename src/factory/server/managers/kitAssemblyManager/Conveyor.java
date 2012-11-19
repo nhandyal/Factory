@@ -36,6 +36,7 @@ public class Conveyor extends FactoryObject
 	
 	public void moveKit()
 	{
+		//find inKit and move it
 		for (int i = 0; i < us.getCurrentObjects().size(); i++)
 		{	
 			if (us.getCurrentObjects().get(i) == inKit)
@@ -46,6 +47,7 @@ public class Conveyor extends FactoryObject
 	
 	public void takeKit()
 	{
+		//find outKit and move it
 		for (int i = 0; i < us.getCurrentObjects().size(); i++)
 		{	
 			if (us.getCurrentObjects().get(i) == outKit){
@@ -95,7 +97,7 @@ public class Conveyor extends FactoryObject
 	{
 		return outStarty;
 	}
-	
+	//check if the kit has reached (inFinishx,inFinishy)
 	public boolean kitArrived()
 	{
 		if (inKit == null)

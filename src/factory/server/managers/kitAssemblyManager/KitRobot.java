@@ -30,6 +30,7 @@ public class KitRobot extends FactoryObject
 		super(xpos, ypos, image);
 		setImage(image);
 		this.us = us;
+		//set one point of arm to be in center of robot
 		x1 = x + imageWidth/2;
 		x2 = x + imageWidth/2;
 		y1 = y + imageHeight/2;
@@ -42,6 +43,7 @@ public class KitRobot extends FactoryObject
 		c1 = c;
 		s2 = ks;
 		this.base = base;
+		//initial position is conveyor, final is stand
 		xdes1 = c.getInFinishX();
 		ydes1 = c.getInFinishY();
 		xdes2 = ks.getPositionX();
@@ -55,6 +57,7 @@ public class KitRobot extends FactoryObject
 		s1 = ks;
 		holdObj = k;
 		this.base = base;
+		//moving from stand to conveyor
 		xdes2 = c.getOutStartX();
 		ydes2 = c.getOutStartY();
 		xdes1 = ks.getPositionX();
@@ -68,6 +71,7 @@ public class KitRobot extends FactoryObject
 		s2 = ks2;
 		holdObj = k;
 		this.base = base;
+		//moving from conveyor to stand
 		xdes2 = ks2.getPositionX();
 		ydes2 = ks2.getPositionY();
 		xdes1 = ks1.getPositionX();
@@ -78,11 +82,14 @@ public class KitRobot extends FactoryObject
 	public void move()
 	{
 		csCount = us.getCount() - base;
+		//move to first destination
 		if (csCount < 25){
 			x2 += (xdes1-x1)/25;
 			y2 += (ydes1-y1)/25;
 		}
+		//move back to robot center
 		else if (csCount >= 25 && csCount < 50){
+			//when you first take the object, transfer ownership
 			if (csCount == 25){
 				if (c1 != null)
 					c1.setInKit(null);
@@ -95,13 +102,16 @@ public class KitRobot extends FactoryObject
 			holdObj.setPosition((int)x2,(int)y2);
 			holdObj.updateParts();
 		}
+		//move to second destination
 		else if (csCount >= 50 && csCount < 75){
 			x2 += (xdes2 - x1)/25;
 			y2 += (ydes2 - y1)/25;
 			holdObj.setPosition((int)x2, (int)y2);
 			holdObj.updateParts();
 		}
+		//move back to robot center
 		else if (csCount >= 75 && csCount < 100){
+			//when you first arrive, transfer ownership
 			if (csCount == 75){
 				if (c2 != null)
 					c2.setOutKit(holdObj);
@@ -110,6 +120,7 @@ public class KitRobot extends FactoryObject
 			}
 			x2 += (x1 - xdes2)/25;
 			y2 += (y1 - ydes2)/25;
+			//at end reset everything
 			if (csCount == 99)
 			{
 				x2 = this.getPositionX() + imageWidth/2;
