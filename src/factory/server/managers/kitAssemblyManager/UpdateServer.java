@@ -30,6 +30,7 @@ public class UpdateServer implements GuiManager, Serializable
 	int partscount = 0;
 	int k;
 	int a[] = new int[4];
+	int b[] = new int[4];
 	boolean isBringKit = false;
 	boolean isMoveToStand = false;
 	boolean isMovePartstoStand = false;
