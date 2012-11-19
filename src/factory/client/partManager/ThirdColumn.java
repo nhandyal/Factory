@@ -1,5 +1,6 @@
 package factory.client.partManager;
-import java.awt.*; 
+import java.awt.*;
+import java.awt.event.*; 
 import factory.global.data.*;
 import javax.swing.*;
 
@@ -14,7 +15,7 @@ public class ThirdColumn extends JPanel implements ActionListener{
 		this.parent = parent;
 		JPanel buttonContainer = new JPanel();
 		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
-		buttonContainer.setLayout(new GridLayout(10,2));
+		buttonContainer.setLayout(new GridLayout(10,3));
 		partSelectTitle = new JLabel("Select Part"); 
 		firstPartButton = new JButton("N");
 		secondPartButton = new JButton("N"); 
@@ -27,9 +28,11 @@ public class ThirdColumn extends JPanel implements ActionListener{
 		ninthPartButton = new JButton("N"); 
 		tenthPartButton = new JButton("N");
 		for(int i = 0; i < 10; i++){
+				JLabel partLabel = new JLabel("Part"+(i+1)+"-->");
 				JButton temp = new JButton("Delete");
 				temp.addActionListener(this);
 				deleteButtons[i] = temp;
+				buttonContainer.add(partLabel);
 				switch(i){
 						case 0:
 								buttonContainer.add(firstPartButton);
@@ -63,11 +66,11 @@ public class ThirdColumn extends JPanel implements ActionListener{
 								buttonContainer.add(eighthPartButton);
 								buttonContainer.add(deleteButtons[i]);
 								break;
-						case 9:
+						case 8:
 								buttonContainer.add(ninthPartButton);
 								buttonContainer.add(deleteButtons[i]);
 								break;
-						case 10:
+						case 9:
 								buttonContainer.add(tenthPartButton);
 								buttonContainer.add(deleteButtons[i]);
 								break;
@@ -81,8 +84,14 @@ public class ThirdColumn extends JPanel implements ActionListener{
 	}
 	
 	public void actionPerformed(ActionEvent ae){
-		
+		for(int i = 0; i < 10; i++){
+				if(ae.getSource() == deleteButtons[i]){
+						parent.deletePart(i+1);
+						return;
+				}
+		}
 	}
+	
 	public JLabel getPartSelectTitle() {
 		return partSelectTitle;
 	}

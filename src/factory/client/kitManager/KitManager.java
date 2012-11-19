@@ -17,6 +17,7 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 	TreeMap<Integer, Parts> finalizedList; 
 	ArrayList<Kits> listOfKits; 
 	NetworkBridge nb1;
+	int globalCounter; 
 	public KitManager(){
 		nb1 = new NetworkBridge(this, "aludra.usc.edu", 8465, 1);
 		kL = new KitList(); 
@@ -53,6 +54,7 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 		
 		finalizedList = new TreeMap<Integer, Parts>();
 		listOfKits = new ArrayList<Kits>(); 
+		globalCounter = 0; 
 		add(kitPanel);
 		
 		
@@ -83,11 +85,12 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 			}
 			newKit = new Kits(kI.getKitNameText().getText(), finalizedList, kI.getKitDescription().getText(), kitIDNumber); 
 			listOfKits.add(newKit); 
-			//send to server code inserted here
+			kL.getKitLister().add(new JLabel(newKit.getName()));
 			System.out.println("The Kit, " + listOfKits.get(0).getName() + " was just created. Congratulations."); 
 			kI.getKitNameText().setText("Name");
 			kI.getKitDescription().setText("Brief Description of Kit");
 			kI.getKitIDNumber().setText("ID");
+
 			nb1.sendKitData(listOfKits);
 		}
 	}
@@ -188,7 +191,7 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 				String nextName = currentList.get(i).getName(); 			
 				pS.getPartNamesBox2().add(nextName); //adds names to arraylist			
 			}
-			pS.getBoxOfPart2().setEnabed(false); 
+			pS.getBoxOfPart2().setEnabled(false); 
 			pS.getBoxOfPart2().removeAllItems();
 			for(int i = 0; i<pS.getPartNamesBox1().size(); i++){
 				pS.getBoxOfPart2().addItem(pS.getPartNamesBox2().get(i));
