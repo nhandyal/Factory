@@ -16,7 +16,7 @@ import factory.global.data.*;
 public class gantryManager extends JFrame implements ActionListener, NetworkManager {
 	
 	Timer t;
-	TreeMap<Integer, FactoryObject> fos = new TreeMap<Integer, FactoryObject>();
+	TreeMap<Integer, FactoryObject> frameAnimationData = new TreeMap<Integer, FactoryObject>();
 	ImageIcon bg = new ImageIcon("bin/factory/global/assets/GMBG.png");
     Image iBuffer;
 	ImageArray images = new ImageArray();
@@ -25,9 +25,20 @@ public class gantryManager extends JFrame implements ActionListener, NetworkMana
 	public gantryManager(){
 			t = new Timer(25,this);
     nb = new NetworkBridge(this, "localhost", 8465, 2);
-			nb.sync();
-			t.start();
+			//nb.sync();
+			//t.start();
 	}
+
+	public static void main(String[] args){
+		gantryManager l = new gantryManager();
+		l.setVisible(true);
+		l.setSize(400,670);
+		l.createBufferStrategy(2);
+		l.setTitle("Gantry Manager");
+		l.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		new Timer(50,l).start();
+	} //end main
 
 	public void actionPerformed(ActionEvent ae){
 		repaint();
@@ -36,8 +47,8 @@ public class gantryManager extends JFrame implements ActionListener, NetworkMana
 	public void paint(Graphics g){
 			Graphics2D g2 = (Graphics2D)g;
 			bg.paintIcon(this, g2, 0, 0);
-			for (Integer i : fos.keySet()){
-					FactoryObject t = fos.get(i);
+			for (Integer i : frameAnimationData.keySet()){
+					FactoryObject t = frameAnimationData.get(i);
 					if(t.getIsLine()){
 							g2.setColor(Color.WHITE);
 							g2.drawLine(t.getPositionX(), t.getPositionY(), t.getPositionXF(), t.getPositionYF());
@@ -67,6 +78,7 @@ public class gantryManager extends JFrame implements ActionListener, NetworkMana
 	public void registerClientListener(NetworkBridge newBridge, int cID){}
 	public void syncFrame(){}
 	public void updatePartData(TreeMap<Integer, Parts> partData){}
+	public void updateKitData(ArrayList<Kits> kitData){}
 	
 	// client specific
 	public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){
@@ -108,7 +120,7 @@ public class gantryManager extends JFrame implements ActionListener, NetworkMana
 	
 	// global
 	public void closeNetworkBridge(int bridgeID){
-			nb1.close();
+			nb.close();
 	}
 	
 	// -------------------------------------------------------------------------------------- //
