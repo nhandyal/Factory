@@ -37,7 +37,7 @@ To compile the server files the command would be
 javac -d bin -sourcepath src src/factory/server/*.java
 ```
 
-##Running
+##Running Individual Files
 Since we are using packages with class files located in multiple locations, you must specify the classpath when running. Recommended run settings are:
 ```r
 java -classpath bin [package].Filename
