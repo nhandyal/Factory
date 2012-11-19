@@ -54,6 +54,8 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 		
 		finalizedList = new TreeMap<Integer, Parts>();
 		listOfKits = new ArrayList<Kits>(); 
+		
+		
 		globalCounter = 0; 
 		add(kitPanel);
 		
@@ -74,6 +76,10 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 	
 	public void actionPerformed(ActionEvent ae){
 		if("Create".equals(ae.getActionCommand())){
+			if(globalCounter<4){
+				System.out.println("Sorry - less than 4 parts"); 
+			}
+			else{
 			String kitIDString = kI.getKitIDNumber().getText();
 			int kitIDNumber = 0; 
 			try{
@@ -86,12 +92,14 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 			newKit = new Kits(kI.getKitNameText().getText(), finalizedList, kI.getKitDescription().getText(), kitIDNumber); 
 			listOfKits.add(newKit); 
 			kL.getKitLister().add(new JLabel(newKit.getName()));
+			kL.getKitLister().revalidate(); 
 			System.out.println("The Kit, " + listOfKits.get(0).getName() + " was just created. Congratulations."); 
 			kI.getKitNameText().setText("Name");
 			kI.getKitDescription().setText("Brief Description of Kit");
 			kI.getKitIDNumber().setText("ID");
 
-			nb1.sendKitData(listOfKits);
+				nb1.sendKitData(listOfKits);
+			}
 		}
 	}
 
@@ -101,7 +109,8 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 			 for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
 			 	if(pS.getBoxOfPart1().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
 			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
-			 		 finalizedList.put(0, newPart);			 		  			 		 
+			 		 finalizedList.put(0, newPart);	
+			 		 globalCounter++; 		 		  			 		 
 			 	}
 			 }
 
@@ -111,7 +120,7 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 			 	if(pS.getBoxOfPart2().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
 			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
 			 		 finalizedList.put(1, newPart); 	
-
+			 		 globalCounter++; 
 			 	}
 			 }
 
@@ -119,7 +128,8 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 			 for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
 			 	if(pS.getBoxOfPart3().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
 			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
-			 		 finalizedList.put(2, newPart); 			 		 
+			 		 finalizedList.put(2, newPart); 
+			 		 globalCounter++; 			 		 
 			 	}
 			 }
 
@@ -127,35 +137,40 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 			 for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
 			 	if(pS.getBoxOfPart4().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
 			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
-			 		 finalizedList.put(3, newPart); 			 		 
+			 		 finalizedList.put(3, newPart); 
+			 		 globalCounter++; 			 		 
 			 	}
 			 }
 
 			 for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
 			 	if(pS.getBoxOfPart5().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
 			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
-			 		 finalizedList.put(4, newPart); 			 		 
+			 		 finalizedList.put(4, newPart); 	
+			 		 globalCounter++; 		 		 
 			 	}
 			 }
 
 			  for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
 			 	if(pS.getBoxOfPart6().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
 			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
-			 		 finalizedList.put(5, newPart); 			 		 
+			 		 finalizedList.put(5, newPart); 	
+			 		 globalCounter++; 		 		 
 			 	}
 			 }
 
 			 for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
 			 	if(pS.getBoxOfPart7().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
 			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
-			 		 finalizedList.put(6, newPart); 			 		 
+			 		 finalizedList.put(6, newPart); 	
+			 		 globalCounter++; 		 		 
 			 	}
 			 }
 
 			 for(int searchForRightPart=0; searchForRightPart<currentList.size(); searchForRightPart++){
 			 	if(pS.getBoxOfPart8().getSelectedItem().toString()==currentList.get(searchForRightPart).getName()){
 			 		 Parts newPart = new Parts(currentList.get(searchForRightPart).getPartNumber(), currentList.get(searchForRightPart).getName(), currentList.get(searchForRightPart).getDesc(), currentList.get(searchForRightPart).getImageIndex());
-			 		 finalizedList.put(7, newPart); 			 		 
+			 		 finalizedList.put(7, newPart); 
+			 		 globalCounter++; 			 		 
 			 	}
 			 }
 
