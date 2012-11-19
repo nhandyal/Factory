@@ -13,7 +13,7 @@ import java.util.*;
 import factory.global.data.*;
 import factory.server.managers.GuiManager;
 
-public class gantryRobot extends FactoryObject implements GuiManager
+public class gantryRobot extends FactoryObject
 {
 	ImageIcon robot;
 	ImageArray images;

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import factory.global.network.*;
 import factory.global.data.*;
 import factory.server.managers.GuiManager;
+import factory.server.managers.gantryManager.*;
 import factory.server.managers.laneManager.*;
 import factory.server.managers.kitAssemblyManager.*;
 import factory.server.managers.factoryState.*;
@@ -52,6 +53,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				// initialize all class instance variables
 				fs = new FactoryState();
 				icm = new InboundConnectionManager(this);
+				guiViews[0] = new gantryManager();
 				guiViews[1] = new LaneManager();																						// Lane
 				guiViews[2] = new UpdateServer();																						// Kit Asm 
 				changeMap = new ArrayList<TreeMap<Integer, Boolean>>(3);
@@ -62,7 +64,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				// initialize server control panel
 				SCP = new ServerControl(guiViews[2], guiViews[1]);
 				System.out.println(guiViews[2]);
-				this.add(SCP);	
+				//this.add(SCP);	
 				// initialize timer
 				t = new Timer(50,this);
 				
@@ -76,7 +78,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				si.setSize(755,670);
 				si.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				si.setTitle("Server Controls");
-				si.setVisible(true);
+				//si.setVisible(true);
 		}
 		
 		// -------------------------------------------------------------------------------------- //
@@ -155,12 +157,12 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				}
 				
 				// call sync on all GuiManagers
-				//guiViews[0].sync(changeData.get(0));
+				guiViews[0].sync(changeData.get(0));
 				guiViews[1].sync(changeData.get(1));
 				guiViews[2].sync(changeData.get(2));
 				
 				// build NetworkTransferObjects for all the managers
-				//NetworkTransferObject gantryData = new NetworkTransferObject(changeMap, changeData.get(0));
+				NetworkTransferObject gantryData = new NetworkTransferObject(changeMap, changeData.get(0));
 				NetworkTransferObject laneData = new NetworkTransferObject(changeMap, changeData.get(1));
 				NetworkTransferObject kitAsmData = new NetworkTransferObject(changeMap, changeData.get(2));
 				
@@ -171,8 +173,8 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 						if(clientConnections[i] != null){
 								switch(i){
 										case 2:
-												//clientConnections[2].writeData(instr);
-												//clientConnections[2].writeData(gantryData);
+												clientConnections[2].writeData(instr);
+												clientConnections[2].writeData(gantryData);
 												break;
 										case 3:
 												clientConnections[3].writeData(instr);
@@ -216,7 +218,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				}
 				
 				// get update data for Gantry Manager
-				//guiViews[0].update(changeMap.get(0), changeData.get(0));
+				guiViews[0].update(changeMap.get(0), changeData.get(0));
 				
 				// get update data for Lane Manager
 				guiViews[1].update(changeMap.get(1), changeData.get(1));
@@ -228,7 +230,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				// we need to create NetworkTransferObjects with the appropriate changeMap and changeData trees for the 3 managers
 				// we will send all three NTO's to the fm so that it has all relevant data to paint
 				
-				//NetworkTransferObject gantryData = new NetworkTransferObject(changeMap.get(0), changeData.get(0));
+				NetworkTransferObject gantryData = new NetworkTransferObject(changeMap.get(0), changeData.get(0));
 				NetworkTransferObject laneData = new NetworkTransferObject(changeMap.get(1), changeData.get(1));
 				NetworkTransferObject kitAsmData = new NetworkTransferObject(changeMap.get(2), changeData.get(2));
 				
@@ -249,8 +251,8 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 						if(clientConnections[i] != null){
 								switch(i){
 										case 2:
-												//clientConnections[2].writeData(instr);
-												//clientConnections[2].writeData(gantryData);
+												clientConnections[2].writeData(instr);
+												clientConnections[2].writeData(gantryData);
 												break;
 										case 3:
 												clientConnections[3].writeData(instr);
