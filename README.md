@@ -23,7 +23,7 @@ java -classpath bin factory.client.laneManager.LaneManager
 java -classpath bin factory.client.gantryManager.GantryManager
 ```
 
-##Compiling
+##Compiling Indavidual Files
 All source files for the project are located under the src folder. When compiling you must specify the sourcepath when compiing. Recommended compile settings are:
 ```r
 javac -d bin -sourcepath src [path to source file]
