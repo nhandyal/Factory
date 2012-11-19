@@ -29,7 +29,8 @@ public class ServerControl extends JPanel implements ActionListener{
 	JButton build1 = new JButton("Build Kit 1");
 	JButton build2 = new JButton("Build Kit 2");
 	JButton inspectionPicture = new JButton("Take Picture");
-	JButton inspection = new JButton("Move to Inspection Stand");
+	JButton inspection = new JButton("Move Kit 1 to Inspection Stand");
+    JButton inspection2 = new JButton("Move Kit 2 to Inspection Stand");
 	JButton standToConveyor = new JButton("Move from Inspection Stand to Conveyor");
 	JLabel kitAssemblyDesc = new JLabel("Kit Assembly Manager");
 	JComboBox[] indexChooser = new JComboBox[4];
@@ -59,20 +60,21 @@ public class ServerControl extends JPanel implements ActionListener{
 	
 	public ServerControl(GuiManager kit, GuiManager LM){
 		
+		System.out.println(kit);
 		this.KitASM = (UpdateServer)kit;
 		this.LM = (LaneManager)LM;
-		
+		System.out.println(KitASM);
 		for (int i = 1; i < laneStrings.length+1; i++){
 			laneStrings[i-1] = "Lane " + i;
 		}
 		for (int i = 0; i < indexStrings.length+1; i++){
-			if (i = 0)
+			if (i == 0)
 				indexStrings[i] = "Section -";
 			else
 				indexStrings[i-1] = "Section " + i;
 		}
 		for (int i = 0; i < nestStrings.length+1; i++){
-			if (i = 0)
+			if (i == 0)
 				nestStrings[i] = "Nest -";
 			else
 				nestStrings[i-1] = "Nest " + i;
@@ -112,6 +114,7 @@ public class ServerControl extends JPanel implements ActionListener{
 		build2.addActionListener(this);
 		inspectionPicture.addActionListener(this);
 		inspection.addActionListener(this);
+        inspection2.addActionListener(this);
 		standToConveyor.addActionListener(this);
 		updateParts2.addActionListener(this);
 		bringKit.addActionListener(this);
@@ -136,6 +139,7 @@ public class ServerControl extends JPanel implements ActionListener{
 		kitAssemblyControl.add(build1);
 		kitAssemblyControl.add(build2);
 		kitAssemblyControl.add(inspection);
+        kitAssemblyControl.add(inspection2);
 		kitAssemblyControl.add(inspectionPicture);
 		kitAssemblyControl.add(standToConveyor);
 		kitAssemblyControl.add(takeKit);
@@ -168,14 +172,15 @@ public class ServerControl extends JPanel implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e){
 		if (e.getSource() == bringKit){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (KitASM.isFinished()){
 				KitASM.bringKit();
 			}
 		}
 		if (e.getSource() == conveyorToStand){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (KitASM.isFinished() /**/){
+
 				for (int i = 0; i < 2; i++){
-					if (KitASM.stands.get(i).getKit() == null){
+					if (KitASM.getStands().get(i).getKit() == null){
 						KitASM.moveToStand(i);
 						break;
 					}
@@ -184,7 +189,7 @@ public class ServerControl extends JPanel implements ActionListener{
 		}
 		/*
 		if (e.getSource() == build1){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (KitASM.isFinished() ){
 				int[] nests = new Part[4];
 				int[] indexes = new int[4];
 				for (int i = 0; i < nestChooser.length; i++){
@@ -205,7 +210,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			}
 		}
 		if (e.getSource() == build2){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (KitASM.isFinished() ){
 				int[] nests = new Part[4];
 				int[] indexes = new int[4];
 				for (int i = 0; i < nestChooser.length; i++){
@@ -227,22 +232,29 @@ public class ServerControl extends JPanel implements ActionListener{
 		}
 		*/
 		if (e.getSource() == inspectionPicture){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (KitASM.isFinished() ){
 				KitASM.takePic();
 			}
 		}
 		if (e.getSource() == inspection){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
-				KitASM.moveToInspection();
-			}
+			if (KitASM.isFinished() ){
+				KitASM.moveToInspection(0);
+            }
+			
 		}
+        if (e.getSource() == inspection2){
+                if (KitASM.isFinished() ){
+                    KitASM.moveToInspection(1);
+                    
+                }
+        }
 		if (e.getSource() == standToConveyor){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (KitASM.isFinished() ){
 				KitASM.takeToConveyor();
 			}
 		}
 		if (e.getSource() == takeKit){
-			if (!KitASM.cam.isMoving() && !KitASM.robot.getIsMoving() && !KitASM.probot.isMoving() && !KitASM.conv.getOutKit().getIsMoving()){
+			if (KitASM.isFinished() ){
 				KitASM.takeKit();
 			}
 		}

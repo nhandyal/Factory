@@ -14,16 +14,16 @@ public class UpdateServer implements GuiManager, Serializable
 	ArrayList<FactoryObject> CurrentObjects = new ArrayList<FactoryObject>();
 	TreeMap<Integer, Boolean> ChangeMap = new TreeMap<Integer, Boolean>();
 	TreeMap<Integer, FactoryObject> ChangeData = new TreeMap<Integer, FactoryObject>();
-    public InspectionCamera cam;
-	public Conveyor conv;
-	public KitRobot robot;
-	public PartRobot probot;
+    InspectionCamera cam;
+	Conveyor conv;
+	KitRobot robot;
+	PartRobot probot;
 	ArrayList<FactoryObject> LineObjects = new ArrayList<FactoryObject>();
     ArrayList<FactoryObject> lastObjects = null;
-	public ArrayList<KitStand> stands;
-	public ArrayList<Kit> kits;
-	public ArrayList<Part> parts;
-    public ArrayList<Nest> nests;
+	ArrayList<KitStand> stands;
+	ArrayList<Kit> kits;
+	ArrayList<Part> parts;
+    ArrayList<Nest> nests;
 	int count = 0;
 	int countconv = 0;
 	int partscount = 0;
@@ -36,6 +36,7 @@ public class UpdateServer implements GuiManager, Serializable
 	boolean isTakePic = false;
 	boolean isTakeToConveyor = false;
 	boolean isTakeKit = false;
+    boolean isFinished = true;
 	@SuppressWarnings("unchecked")
 	public UpdateServer()
 	{
@@ -114,6 +115,16 @@ public class UpdateServer implements GuiManager, Serializable
 	{
 		return kits;
 	}
+    
+    public ArrayList<KitStand> getStands()
+    {
+        return stands;
+    }
+    
+    public boolean isFinished()
+    {
+        return isFinished;
+    }
 	
 	public int getCount()
 	{
@@ -142,6 +153,7 @@ public class UpdateServer implements GuiManager, Serializable
 			}
 			//kits.get(0).print();
 			countconv++;
+            isFinished = false;
 		}
         else
             isBringKit = true;
@@ -149,6 +161,7 @@ public class UpdateServer implements GuiManager, Serializable
 		{
 			countconv = 0;
 			isBringKit = false;
+            isFinished = true;
 			//isMoveToStand = true;
 		}
 	}
@@ -164,6 +177,7 @@ public class UpdateServer implements GuiManager, Serializable
 			if (robot.getIsMoving())
 				robot.move();
 			count++;
+            isFinished = false;
 		}
         else
         {
@@ -174,6 +188,7 @@ public class UpdateServer implements GuiManager, Serializable
 		{
 			count = 0;
 			isMoveToStand = false;
+            isFinished = true;
 			//isBringKit = true;
 			//isMovePartstoStand = true;
 		}
@@ -185,7 +200,8 @@ public class UpdateServer implements GuiManager, Serializable
 		{
 			if (!probot.isMoving())
 			{
-				if (stands.get(stand).getKit() != null){
+				isFinished = false;
+                if (stands.get(stand).getKit() != null){
 					if (!stands.get(stand).getKit().getIsComplete()){
 						Part[] p = new Part[4];
 						Nest[] n = new Nest[4];
@@ -214,23 +230,15 @@ public class UpdateServer implements GuiManager, Serializable
 		if (count == 141)
 		{
 			count = 0;
+            isFinished = true;
 			isMovePartstoStand = false;
 			//if (stands.get(stand).getKit().getIsComplete())
 				//isMoveToInspection = true;
 		}
 	}
 	
-	public void moveToInspection()
+	public void moveToInspection(int stand)
 	{
-		int stand = -1;
-		for (int i = 0; i < 2; i++)
-		{
-			if (stands.get(i).getKit() != null)
-			{
-				stand = i;
-				break;
-			}
-		}
 		if(isMoveToInspection)
         {
             if (!robot.getIsMoving() && stands.get(2).getKit() == null)
@@ -240,15 +248,18 @@ public class UpdateServer implements GuiManager, Serializable
             if (robot.getIsMoving())
                 robot.move();
             count++;
+            isFinished = false;
         }
-        else if (stands.get(stand).getKit().getIsComplete())
+        else /*if (stands.get(stand).getKit().getIsComplete())*/
 		{
 			isMoveToInspection = true;
+            this.k = stand;
 		}
 		if (count == 100)
 		{
 			count = 0;
 			isMoveToInspection = false;
+            isFinished = true;
 			//isTakePic = true;
 			
 		}
@@ -263,6 +274,7 @@ public class UpdateServer implements GuiManager, Serializable
             if (cam.isMoving)
                 cam.move();
             count++;
+            isFinished = false;
         }
         else
             isTakePic = true;
@@ -270,6 +282,7 @@ public class UpdateServer implements GuiManager, Serializable
 		{
 			count = 0;
 			isTakePic = false;
+            isFinished = true;
 			//isTakeToConveyor = true;
 		}
 	}
@@ -283,6 +296,7 @@ public class UpdateServer implements GuiManager, Serializable
             if (robot.getIsMoving())
                 robot.move();
             count++;
+            isFinished = false;
         }
         else
             isTakeToConveyor = true;
@@ -290,6 +304,7 @@ public class UpdateServer implements GuiManager, Serializable
 		{
 			count = 0;
 			isTakeToConveyor = false;
+            isFinished = true;
 			//isTakeKit = true;
 		}
 	}
@@ -300,6 +315,7 @@ public class UpdateServer implements GuiManager, Serializable
             if (conv.getOutKit() != null)
 			conv.takeKit();
             count++;
+            isFinished = false;
         }
         else
             isTakeKit = true;
@@ -307,6 +323,7 @@ public class UpdateServer implements GuiManager, Serializable
 		{
 			count = 0;
 			isTakeKit = false;
+            isFinished = true;
             conv.getOutKit().setIsMoving(false);
             conv.setOutKit(null);
 		}
@@ -403,7 +420,7 @@ public class UpdateServer implements GuiManager, Serializable
 			
 		if (isMoveToInspection)
 		{
-			moveToInspection();
+			moveToInspection(k);
 		}
 		if (isTakePic)
 			takePic();
