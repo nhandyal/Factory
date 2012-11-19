@@ -6,7 +6,7 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.*;
 import javax.swing.Timer;
-
+import java.io.*;
 import java.util.*;
 
 // user packages
@@ -15,15 +15,17 @@ import factory.server.managers.GuiManager;
 
 //bullshit comment
 
-public class GantryManager implements GuiManager
+public class GantryManager implements GuiManager, Serializable
 {
-	ImageIcon background;
+	//ImageIcon background;
 	ArrayList<Bin> bins;
 	ArrayList<Feeder> feeders;
-	FOComparator foc;
-	ImageArray images;
+	//FOComparator foc;
+	//ImageArray images;
 	public gantryRobot robot;
 	int counter, index;
+    public boolean isMoveToBin = false;
+    public int bin;
 	
 	TreeMap<Integer,Boolean> changeMap;
 	TreeMap<Integer,FactoryObject> temp;
@@ -69,19 +71,19 @@ public class GantryManager implements GuiManager
 		feeders.add(new Feeder(30,480,19,index));
 		index += 2;
 
-		robot = new gantryRobot(200,335,18,bins,feeders, index);
+		robot = new gantryRobot(200,335,18,bins,feeders, index, this);
 
 		// Create Backgroud Image
-		background = new ImageIcon("GMBG.png");
+		//background = new ImageIcon("GMBG.png");
 		
 		// Create ImageList
-		images = new ImageArray();
+		//images = new ImageArray();
 
 		// Start Counter
 		counter = 0;
 		
 		// Initialize comparator
-		foc = new FOComparator();
+		//foc = new FOComparator();
 		
 		//changeMap = new TreeMap<Integer,Boolean>();
 		//changeData = new TreeMap<Integer,FactoryObject>();
@@ -105,11 +107,15 @@ public class GantryManager implements GuiManager
 		map.put(robot.getIndex(), robot);
 
 	}
-
+    public void move()
+    {
+        if (isMoveToBin)
+            robot.moveToBin(bin);
+    }
 	public void update(TreeMap<Integer,Boolean> changeMap, TreeMap<Integer,FactoryObject> changeData){
 		
 		sync(changeData);
-		
+		move();
 		temp.clear();
 		
 		Iterator k = changeData.keySet().iterator();
@@ -148,7 +154,7 @@ public class GantryManager implements GuiManager
 		while(k.hasNext()){
 			int i = (Integer) k.next();
 			if(temp.containsKey(i) == true){
-				if(foc.compare(temp.get(i),changeData.get(i)) == 0){
+				if(temp.get(i).equals(changeData.get(i))){
 	//					changeMap.put(i,false);
 				}
 				else{
