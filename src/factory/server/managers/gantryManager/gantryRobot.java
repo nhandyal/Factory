@@ -8,12 +8,12 @@ import javax.swing.*;
 import javax.swing.Timer;
 
 import java.util.*;
-
+import java.io.*;
 // user packages
 import factory.global.data.*;
 import factory.server.managers.GuiManager;
 
-public class gantryRobot extends FactoryObject
+public class gantryRobot extends FactoryObject implements Serializable
 {
 	ImageIcon robot;
 	ImageArray images;
@@ -30,8 +30,8 @@ public class gantryRobot extends FactoryObject
 	ArrayList<Feeder> feeders;
 
 	Bin possessedBin;
-	
-	public gantryRobot(int initialPosX, int initialPosY, int initialImage, ArrayList<Bin> binlist, ArrayList<Feeder> feederlist, int i){
+	GantryManager f;
+	public gantryRobot(int initialPosX, int initialPosY, int initialImage, ArrayList<Bin> binlist, ArrayList<Feeder> feederlist, int i, GantryManager f){
 		x = initialPosX;
 		y = initialPosY;
 		setImage(initialImage);
@@ -39,104 +39,114 @@ public class gantryRobot extends FactoryObject
 		feeders = feederlist;
 		hasBin = false;
 		index = i;
+        this.f = f;
 	}
 
 	public void moveToBin(int bin){
-		hasBin = false;
-		nextDestX = bins.get(bin).getPositionX() - 40;
-		nextDestY = bins.get(bin).getPositionY() - 20;
-		if (x < nextDestX){
-			x+=2;
-		}
+		System.out.println("moving to the bin");
+        f.bin = bin;
+        f.isMoveToBin = true;
+			nextDestX = bins.get(bin).getPositionX() - 40;
+			nextDestY = bins.get(bin).getPositionY() - 20;
+			if (x < nextDestX){
+				x+=2;
+			}
 
-		else if (x > nextDestX){
-			x-=2;
-		}
+			else if (x > nextDestX){
+				x-=2;
+			}
 
-		if(y < nextDestY){
-			y+=2;
-		}
+			if(y < nextDestY){
+				y+=2;
+			}
 
-		else if (y > nextDestY){
-			y-=2;
-		}
+			else if (y > nextDestY){
+				y-=2;
+			}
 
-		if(x == nextDestX && y == nextDestY){
-			hasBin = true;
-			pickupBin(bin);
-		}
+			if(x == nextDestX && y == nextDestY){
+				pickupBin(bin);
+				f.isMoveToBin = false;
+                if (f.isRemoveBin)
+                    moveToPoint(340, binYArray[bin]);
+			}
 	}
 
 	public void moveToPoint(int x, int y){
 		hasBin = true;
-		nextDestX = x + 40;
-		nextDestY = y - 20;
-		if (x < nextDestX){
-			x+=2;
-			possessedBin.x+=2;
-		}
+        f.x = x;
+        f.y = y;
+        f.isMoveToPoint = true;
+			nextDestX = x + 40;
+			nextDestY = y - 20;
+			if (x < nextDestX){
+				x+=2;
+				possessedBin.x+=2;
+			}
 
-		else if (x > nextDestX){
-			x-=2;
-			possessedBin.x-=2;
-		}
+			else if (x > nextDestX){
+				x-=2;
+				possessedBin.x-=2;
+			}
 
-		if(y < nextDestY){
-			y+=2;
-			possessedBin.y+=2;
-		}
+			if(y < nextDestY){
+				y+=2;
+				possessedBin.y+=2;
+			}
 
-		else if (y > nextDestY){
-			y-=2;
-			possessedBin.y-=2;
-		}
+			else if (y > nextDestY){
+				y-=2;
+				possessedBin.y-=2;
+			}
 
-		if(x == nextDestX && y == nextDestY){
-			possessedBin.x = x;
-			possessedBin.y = y;
-		}
+			if(x == nextDestX && y == nextDestY){
+				possessedBin.x = x;
+				possessedBin.y = y;
+                f.isMoveToPoint = false;
+			}
+		
 	}
 
 	public void moveToFeeder(int feeder){
-		hasBin = true;
-		nextDestX = feeders.get(feeder).getPositionX() + 40;
-		nextDestY = feeders.get(feeder).getPositionY() - 20;
-		if (x < nextDestX){
-			x+=2;
-			possessedBin.x+=2;
-		}
+		
+            f.feeder = feeder;
+            f.isMoveToFeeder = true;
+            nextDestX = feeders.get(feeder).getPositionX() + 40;
+			nextDestY = feeders.get(feeder).getPositionY() - 20;
+			if (x < nextDestX){
+				x+=2;
+				possessedBin.x+=2;
+			}
 
-		else if (x > nextDestX){
-			x-=2;
-			possessedBin.x-=2;
-		}
+			else if (x > nextDestX){
+				x-=2;
+				possessedBin.x-=2;
+			}
 
-		if(y < nextDestY){
-			y+=2;
-			possessedBin.y+=2;
-		}
+			if(y < nextDestY){
+				y+=2;
+				possessedBin.y+=2;
+			}
 
-		else if (y > nextDestY){
-			y-=2;
-			possessedBin.y-=2;
-		}
+			else if (y > nextDestY){
+				y-=2;
+				possessedBin.y-=2;
+			}
 
-		if(x == nextDestX && y == nextDestY){
-			possessedBin.x = feeders.get(feeder).getPositionX();
-			possessedBin.y = feeders.get(feeder).getPositionY();
-		}
+			if(x == nextDestX && y == nextDestY){
+				possessedBin.x = feeders.get(feeder).getPositionX();
+				possessedBin.y = feeders.get(feeder).getPositionY();
+				f.isMoveToFeeder = false;
+			}
 	}
 
 	public void removeBin(int bin){
+        f.isRemoveBin = true;
 		if(hasBin == false){
 			moveToBin(bin);
 		}
 		
-		else if(hasBin == true){
-			moveToPoint(340, binYArray[bin]);
-		}
-
-	}
+        }
 
 	public void pickupBin(int grabbedBin){
 		possessedBin = bins.get(grabbedBin);

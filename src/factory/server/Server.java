@@ -47,7 +47,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 		ArrayList<TreeMap<Integer, Boolean>> changeMap;
 		ArrayList<TreeMap<Integer, FactoryObject>> changeData;
 		Timer t;
-		boolean sync, startAnimation;
+		public boolean sync, startAnimation;
 				
 		Server(){
 				// initialize all class instance variables
@@ -62,7 +62,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				startAnimation = false;
 				
 				// initialize server control panel
-				SCP = new ServerControl(guiViews[2], guiViews[1], guiViews[0], fs);
+				SCP = new ServerControl(guiViews[2], guiViews[1], guiViews[0], fs, this);
 				this.add(SCP);	
 				// initialize timer
 				t = new Timer(50,this);

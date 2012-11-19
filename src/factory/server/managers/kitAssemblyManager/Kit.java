@@ -20,7 +20,7 @@ public class Kit extends FactoryObject
 	public Part[] getParts(){
 		return parts;
 	}
-	
+	//check if kit is same as k
 	public boolean isSame(Kit k){
 		if (x != k.getPositionX() || y == k.getPositionY())
 			return false;
@@ -42,7 +42,7 @@ public class Kit extends FactoryObject
     public void addPart(Part p, int i){
 		parts[i] = p;
 	}
-	
+	//move parts in kit as kit moves
 	public void updateParts(){
 		for (int i = 0; i < parts.length; i++){
 			if (parts[i] != null){

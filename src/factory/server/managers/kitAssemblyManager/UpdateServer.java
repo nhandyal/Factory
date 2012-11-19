@@ -66,8 +66,26 @@ public class UpdateServer implements GuiManager, Serializable
         Part[] p = new Part[8];
         for (int i = 0; i < p.length; i++)
         {
-            Part p1 = new Part(nests.get(i).getPositionX()+5,nests.get(i).getPositionY()+5,i);
-            parts.add(p1);
+            for (int j = 0; j < 9; j++){
+            	Part p1 = new Part(nests.get(i).getPositionX()+5,nests.get(i).getPositionY()+5,i);
+            	Part p2 = new Part(nests.get(i).getPositionX()+20,nests.get(i).getPositionY()+5,i);
+            	Part p3 = new Part(nests.get(i).getPositionX()+35,nests.get(i).getPositionY()+5,i);
+            	Part p4 = new Part(nests.get(i).getPositionX()+5,nests.get(i).getPositionY()+15,i);
+            	Part p5 = new Part(nests.get(i).getPositionX()+20,nests.get(i).getPositionY()+15,i);
+            	Part p6 = new Part(nests.get(i).getPositionX()+35,nests.get(i).getPositionY()+15,i);
+            	Part p7 = new Part(nests.get(i).getPositionX()+5,nests.get(i).getPositionY()+25,i);
+            	Part p8 = new Part(nests.get(i).getPositionX()+20,nests.get(i).getPositionY()+25,i);
+            	Part p9 = new Part(nests.get(i).getPositionX()+35,nests.get(i).getPositionY()+25,i);
+            	parts.add(p1);
+            	parts.add(p2);
+            	parts.add(p3);
+            	parts.add(p4);
+            	parts.add(p5);
+            	parts.add(p6);
+            	parts.add(p7);
+            	parts.add(p8);
+            	parts.add(p9);
+        	}
         }
         flash.setImage(14);
 		LineObjects.add(new FactoryObject((int)robot.getX1(),(int)robot.getY1(),(int)robot.getX2(),(int)robot.getY2()));
@@ -245,7 +263,7 @@ public class UpdateServer implements GuiManager, Serializable
                     Part[] p = new Part[4];
                     Nest[] n = new Nest[4];
                     for (int j = 0; j < p.length; j++){
-                        if (pos[j] != -1)
+                        if (pos[j] != -1 && indexes[j] != -1)
                         {
                             Part p1 = parts.get(pos[j]);
 							//Part p1 = new Part(nests.get(j).getPosition()X,

@@ -75,6 +75,14 @@ public class Lane extends FactoryObject implements Serializable{
 	public ArrayList<Part> getNest(){
 		return nest;
 	}
+
+	public void purgeLane(){
+		lane.clear();
+	}
+
+	public void purgeNest(){
+		nest.clear();
+	}
 	
 	public Line getLaneLine(int i){
 		return lines.get(i);
@@ -104,9 +112,9 @@ public class Lane extends FactoryObject implements Serializable{
 				if(nestFull == false){												// if nest is not full
 					lane.get(i).moveLeft();											// move part left
 					if(lane.get(i).getPositionX()<=(x+40)){							// if part is at 40
-						nest.add(counter,lane.get(i));										// move it to the nest
-						System.out.println("Part "+counter+" added\nnestFull: "+nestFull);
-						counter++;
+						nest.add(lane.get(i));										// move it to the nest
+//						System.out.println("Part "+counter+" added\nnestFull: "+nestFull);
+//						counter++;
 						lane.remove(i);
 						if(nest.size() == 9){
 							picNeeded = true;

@@ -15,7 +15,6 @@ import factory.server.managers.GuiManager;
 
 public class LaneManager implements GuiManager
 {
-	ImageIcon background;
 	ArrayList<Lane> lanes;
 	ArrayList<Bin> bins;
 	ArrayList<Line> dividers;
@@ -27,6 +26,7 @@ public class LaneManager implements GuiManager
 	
 	TreeMap<Integer,Boolean> changeMap;
 	TreeMap<Integer,FactoryObject> temp;
+	TreeMap<Integer,FactoryObject> purgeData;
 	TreeMap<Integer,FactoryObject> changeData;
 
 	public LaneManager(){
@@ -102,12 +102,11 @@ public class LaneManager implements GuiManager
 		cam = new Camera(264,28,13,Integer.MAX_VALUE);
 		
 		// Turn On Lane 0, Off Lanes 1-7
-		laneSwitch(8,0);
-		for(int i=1;i<8;i++)
+//		laneSwitch(8,0);
+		for(int i=0;i<8;i++)
 			lanes.get(i).setActive(false);
 
-		// Create Backgroud Image
-		background = new ImageIcon("LMBG.png");
+		addBin(0,bins.get(0),36);
 		
 		// Create ImageList
 		images = new ImageArray();
@@ -120,6 +119,7 @@ public class LaneManager implements GuiManager
 		foc = new FOComparator();
 		
 		// Initialize TreeMaps
+		purgeData = new TreeMap<Integer,FactoryObject>();
 		changeMap = new TreeMap<Integer,Boolean>();
 		changeData = new TreeMap<Integer,FactoryObject>();
 		temp = new TreeMap<Integer,FactoryObject>();
@@ -130,9 +130,9 @@ public class LaneManager implements GuiManager
 		for(int i=0;i<4;i++){
 			if(lanes.get(i*2).getActive() == true || lanes.get((i*2)+1).getActive() == true){	// if a lane is on
 				if(counter==24 && feeders.get(i).getPush() > 0){								// every 25th instance of timer
-					if(dividers.get(i).getPositionY() > dividers.get(i).getPositionYF())		// if the divider is in the lower position
+					if(dividers.get(i).getPositionY() > dividers.get(i).getPositionYF() && lanes.get(i*2).getActive() == true)		// if the divider is in the lower position
 						lanes.get(i*2).addPart(feeders.get(i).getBin().getPart(),index);		// create a new part in upper lane
-					else																		// if the divider is in the upper position
+					else if(dividers.get(i).getPositionY() < dividers.get(i).getPositionYF() && lanes.get(i*2+1).getActive() == true)		// if the divider is in the lower position																		// if the divider is in the upper position
 						lanes.get((i*2)+1).addPart(feeders.get(i).getBin().getPart(),index);	// create a new part in lower lane
 					index++;																	// Add one to index
 					feeders.get(i).pushPart();													// subtract 1 from feeder counter
@@ -140,16 +140,16 @@ public class LaneManager implements GuiManager
 				}
 				counter++;
 
-				if(lanes.get(i*2).getActive() == true)
-					autoLaneSwitch(i*2);
-				else if(lanes.get(i*2+1).getActive() == true)
-					autoLaneSwitch(i*2+1);
+//				if(lanes.get(i*2).getActive() == true)
+//					autoLaneSwitch(i*2);
+//				else if(lanes.get(i*2+1).getActive() == true)
+//					autoLaneSwitch(i*2+1);
 
 				lanes.get(i*2).moveParts();
 				lanes.get(i*2+1).moveParts();
 				
-				takePicture(i*2);
-				takePicture(i*2+1);
+//				takePicture(i*2);
+//				takePicture(i*2+1);
 			}
 		}
 
@@ -180,16 +180,16 @@ public class LaneManager implements GuiManager
 
 	public void laneSwitch(int x1, int x2){
 		if(x1<8){										// if lane exists
-//			lanes.get(x1).setActive(false);				// turn lane off
+			lanes.get(x1).setActive(false);				// turn lane off
 //			feeders.get(x1/2).removeBin();				// remove bin from feeder
 			removeBin(x1/2);
-			purgeNest(x1);
+//			purgeNest(x1);
 		}
 		if(x2<8){										// if lane exists
 			lanes.get(x2).setActive(true);				// turn lane on
 //			feeders.get(x2/2).addBin(bins.get(x2));		// add bin to feeder
 //			feeders.get(x2/2).setPush(pnum);			// set # of parts to make
-			addBin(x2/2,bins.get(x2),24);
+//			addBin(x2/2,bins.get(x2),24);
 			if(x2%2 == 0)								// if upper lane
 				dividers.get(x2/2).dividerDown();		// put divider in lower position
 			if(x2%2 == 1)								// if lower lane
@@ -212,15 +212,35 @@ public class LaneManager implements GuiManager
 	}
 
 	public void purgeLane(int i){
-		lanes.get(i).getLane().clear();
+		lanes.get(i).purgeLane();
+
+		sync(purgeData);
+		Iterator k = purgeData.keySet().iterator();
+		while(k.hasNext()){
+			int j = (Integer) k.next();
+			changeMap.put(j,false);
+		}
+//		sync(changeData);
+//		for(int j=0;i<lanes.get(i).getLaneSize();j++)
+//			lanes.get(i).getLanePart(j).setIndex(-5);
+//		lanes.get(i).getLane().clear();
 	}
 
 	public void purgeNest(int i){
-		lanes.get(i).getNest().clear();
+		lanes.get(i).purgeNest();
+//		for(int j=0;i<lanes.get(i).getNestSize();j++)
+//			lanes.get(i).getNestPart(j).setIndex(-5);
+//		lanes.get(i).getNest().clear();
+		//System.out.println(lanes.get(i).getNestSize());
 	}
 
 	public void addBin(int i, Bin b, int pnum){
 		feeders.get(i).addBin(b);
+		feeders.get(i).setPush(pnum);
+	}
+
+	public void addBin2(int i, int b, int pnum){
+		feeders.get(i).addBin(bins.get(b));
 		feeders.get(i).setPush(pnum);
 	}
 
@@ -259,7 +279,7 @@ public class LaneManager implements GuiManager
 
 		changeData.clear();
 		
-		// Server Control
+		// Automated Mvmt
 		laneManagement();
 
 		// Get current frame data
@@ -282,7 +302,7 @@ public class LaneManager implements GuiManager
 		k = temp.keySet().iterator();
 		while(k.hasNext()){
 			int i = (Integer) k.next();
-			if(changeData.containsKey(i) == false){		// If the cuurent frame doesn't have an object from the previous frame
+			if(changeData.containsKey(i) == false){		// If the current frame doesn't have an object from the previous frame
 				changeMap.put(i,false);					// tell the changeMap
 			}
 		}
