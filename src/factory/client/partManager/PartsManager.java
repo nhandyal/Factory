@@ -23,7 +23,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 	JMenuBar optionMenuBar; JMenu optionMenu; JMenuItem resetOption, deletePartOption;
 	NetworkBridge nb1;
 	public PartsManager(){	
-		//nb1 = new NetworkBridge(this, "aludra.usc.edu", 8465, 0);
+		nb1 = new NetworkBridge(this, "aludra.usc.edu", 8465, 0);
 		optionMenuBar = new JMenuBar(); 
 		optionMenu = new JMenu("Options"); 
 		resetOption = new JMenuItem("Reset"); 
@@ -146,8 +146,8 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				int savedCounter = 0; 
 				
 				if(isPart1New){
-						// New part
 					newPart1 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 0);
+					newPart1.setMapIndex(listCounter); 
 					listOfParts.put(listCounter, newPart1); 
 					savedCounter = listCounter; 
 					listCounter++; 	
@@ -155,16 +155,16 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					isPart1New = false; 
 				}
 				else{
-						// Edit Part
-					newPart1.setName(pI.getEnterNameHere().getText());
-					String indexString = pI.getPartIndexNumber().getText();
-					int indexInt = Integer.parseInt(indexString);
-					newPart1 = new Parts(intPartIndex, nameText, pI.getPartDescription().getText(), 0);
-					for(int i = 0; i<listOfParts.size(); i++){
-						int picTracker = 0; 
-						if(picTracker == listOfParts.get(i).getImageIndex()){
-							listOfParts.remove(i); 							 
-						}
+					int mapIndex = newPart1.getMapIndex(); 
+					if(mapIndex==-1){
+						System.out.println("Map index is -1, not valid"); 
+					}
+					else{						
+						String indexString = pI.getPartIndexNumber().getText();
+						int indexInt = Integer.parseInt(indexString); 
+						newPart1.setPartNumber(indexInt); 
+						newPart1.setName(pI.getEnterNameHere().getText());
+						newPart1.setDesc(pI.getPartDescription().getText());
 					}
 					
 				}
@@ -178,7 +178,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 
 				 
 
-				//nb1.sendPartData(listOfParts); 
+				nb1.sendPartData(listOfParts); 
 		}
 		
 		//Second Button
@@ -216,19 +216,17 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					tC.getSecondPartButton().setText("E");
 					isPart2New = false; 
 				}
-				else{
-					 
-					String indexString = pI.getPartIndexNumber().getText();
-					int indexInt = Integer.parseInt(indexString);
-					newPart2.setPartNumber(indexInt); 
-					newPart2.setName(pI.getEnterNameHere().getText());
-					newPart2.setDesc(pI.getPartDescription().getText()); 
-					listOfParts.put(savedCounter, newPart2); 
-				}
+				else{						
+						String indexString = pI.getPartIndexNumber().getText();
+						int indexInt = Integer.parseInt(indexString); 
+						newPart2.setPartNumber(indexInt); 
+						newPart2.setName(pI.getEnterNameHere().getText());
+						newPart2.setDesc(pI.getPartDescription().getText());
+					}
 				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
 				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
 				pI.getPartDescription().setText("Short Description of Part Here"); 
-			//nb1.sendPartData(listOfParts); 
+			nb1.sendPartData(listOfParts); 
 			
 		}
 		
@@ -268,15 +266,13 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					tC.getThirdPartButton().setText("E");
 					isPart3New = false; 
 				}
-				else{
-					 
-					String indexString = pI.getPartIndexNumber().getText();
-					int indexInt = Integer.parseInt(indexString);
-					newPart3.setPartNumber(indexInt); 
-					newPart3.setName(pI.getEnterNameHere().getText());
-					newPart3.setDesc(pI.getPartDescription().getText()); 
-					listOfParts.put(savedCounter, newPart3); 
-				}
+				else{						
+						String indexString = pI.getPartIndexNumber().getText();
+						int indexInt = Integer.parseInt(indexString); 
+						newPart3.setPartNumber(indexInt); 
+						newPart3.setName(pI.getEnterNameHere().getText());
+						newPart3.setDesc(pI.getPartDescription().getText());
+					}
 				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
 				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
 				pI.getPartDescription().setText("Short Description of Part Here"); 
@@ -319,15 +315,13 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					tC.getFourthPartButton().setText("E");
 					isPart4New = false; 
 				}
-				else{
-					 
-					String indexString = pI.getPartIndexNumber().getText();
-					int indexInt = Integer.parseInt(indexString);
-					newPart4.setPartNumber(indexInt); 
-					newPart4.setName(pI.getEnterNameHere().getText());
-					newPart4.setDesc(pI.getPartDescription().getText()); 
-					listOfParts.put(savedCounter, newPart4); 
-				}
+				else{						
+						String indexString = pI.getPartIndexNumber().getText();
+						int indexInt = Integer.parseInt(indexString); 
+						newPart4.setPartNumber(indexInt); 
+						newPart4.setName(pI.getEnterNameHere().getText());
+						newPart4.setDesc(pI.getPartDescription().getText());
+					}
 				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
 				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
 				pI.getPartDescription().setText("Short Description of Part Here"); 
@@ -371,15 +365,13 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					tC.getFifthPartButton().setText("E");
 					isPart5New = false; 
 				}
-				else{
-					 
-					String indexString = pI.getPartIndexNumber().getText();
-					int indexInt = Integer.parseInt(indexString);
-					newPart5.setPartNumber(indexInt); 
-					newPart5.setName(pI.getEnterNameHere().getText());
-					newPart5.setDesc(pI.getPartDescription().getText()); 
-					listOfParts.put(savedCounter, newPart5); 
-				} 
+				else{						
+						String indexString = pI.getPartIndexNumber().getText();
+						int indexInt = Integer.parseInt(indexString); 
+						newPart5.setPartNumber(indexInt); 
+						newPart5.setName(pI.getEnterNameHere().getText());
+						newPart5.setDesc(pI.getPartDescription().getText());
+					}
 				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
 				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
 				pI.getPartDescription().setText("Short Description of Part Here"); 
@@ -422,15 +414,13 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					tC.getSixthPartButton().setText("E");
 					isPart6New = false; 
 				}
-				else{
-					 
-					String indexString = pI.getPartIndexNumber().getText();
-					int indexInt = Integer.parseInt(indexString);
-					newPart6.setPartNumber(indexInt); 
-					newPart6.setName(pI.getEnterNameHere().getText());
-					newPart6.setDesc(pI.getPartDescription().getText()); 
-					listOfParts.put(savedCounter, newPart6); 
-				} 
+				else{						
+						String indexString = pI.getPartIndexNumber().getText();
+						int indexInt = Integer.parseInt(indexString); 
+						newPart6.setPartNumber(indexInt); 
+						newPart6.setName(pI.getEnterNameHere().getText());
+						newPart6.setDesc(pI.getPartDescription().getText());
+					}
 				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
 				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
 				pI.getPartDescription().setText("Short Description of Part Here"); 
@@ -472,15 +462,13 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					tC.getSeventhPartButton().setText("E");
 					isPart7New = false; 
 				}
-				else{
-					 
-					String indexString = pI.getPartIndexNumber().getText();
-					int indexInt = Integer.parseInt(indexString);
-					newPart7.setPartNumber(indexInt); 
-					newPart7.setName(pI.getEnterNameHere().getText());
-					newPart7.setDesc(pI.getPartDescription().getText()); 
-					listOfParts.put(savedCounter, newPart7); 
-				}
+				else{						
+						String indexString = pI.getPartIndexNumber().getText();
+						int indexInt = Integer.parseInt(indexString); 
+						newPart7.setPartNumber(indexInt); 
+						newPart7.setName(pI.getEnterNameHere().getText());
+						newPart7.setDesc(pI.getPartDescription().getText());
+					}
 				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
 				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
 				pI.getPartDescription().setText("Short Description of Part Here"); 
@@ -522,15 +510,13 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 				tC.getEighthPartButton().setText("E");
 				isPart8New = false; 
 			}
-			else{
-					 
-				String indexString = pI.getPartIndexNumber().getText();
-				int indexInt = Integer.parseInt(indexString);
-				newPart8.setPartNumber(indexInt); 
-				newPart8.setName(pI.getEnterNameHere().getText());
-				newPart8.setDesc(pI.getPartDescription().getText()); 
-				listOfParts.put(savedCounter, newPart8); 
-				}
+			else{						
+						String indexString = pI.getPartIndexNumber().getText();
+						int indexInt = Integer.parseInt(indexString); 
+						newPart8.setPartNumber(indexInt); 
+						newPart8.setName(pI.getEnterNameHere().getText());
+						newPart8.setDesc(pI.getPartDescription().getText());
+					}
 				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
 				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
 				pI.getPartDescription().setText("Short Description of Part Here"); 
@@ -572,15 +558,13 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					tC.getNinthPartButton().setText("E");
 					isPart9New = false; 
 				}
-				else{
-					 
-					String indexString = pI.getPartIndexNumber().getText();
-					int indexInt = Integer.parseInt(indexString);
-					newPart9.setPartNumber(indexInt); 
-					newPart9.setName(pI.getEnterNameHere().getText());
-					newPart9.setDesc(pI.getPartDescription().getText()); 
-					listOfParts.put(savedCounter, newPart9); 
-				}
+				else{						
+						String indexString = pI.getPartIndexNumber().getText();
+						int indexInt = Integer.parseInt(indexString); 
+						newPart9.setPartNumber(indexInt); 
+						newPart9.setName(pI.getEnterNameHere().getText());
+						newPart9.setDesc(pI.getPartDescription().getText());
+					}
 				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
 				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
 				pI.getPartDescription().setText("Short Description of Part Here"); 
@@ -622,15 +606,13 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 					tC.getTenthPartButton().setText("E");
 					isPart10New = false; 
 				}
-				else{
-					 
-					String indexString = pI.getPartIndexNumber().getText();
-					int indexInt = Integer.parseInt(indexString);
-					newPart10.setPartNumber(indexInt); 
-					newPart10.setName(pI.getEnterNameHere().getText());
-					newPart10.setDesc(pI.getPartDescription().getText()); 
-					listOfParts.put(savedCounter, newPart10); 
-				}
+				else{						
+						String indexString = pI.getPartIndexNumber().getText();
+						int indexInt = Integer.parseInt(indexString); 
+						newPart10.setPartNumber(indexInt); 
+						newPart10.setName(pI.getEnterNameHere().getText());
+						newPart10.setDesc(pI.getPartDescription().getText());
+					}
 				pI.getPartIndexNumber().setText("Enter Part ID Number Here"); 
 				pI.getEnterNameHere().setText("Enter Name of Part Here"); 
 				pI.getPartDescription().setText("Short Description of Part Here"); 
