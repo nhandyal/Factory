@@ -103,7 +103,13 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
     public void updateKitData(ArrayList<Kits> kitData)
     {
     }
-
+    
+    public static void main(String[] args) {
+		KitAssemblyManager k = new KitAssemblyManager();
+		k.setSize(400, 670/*670 - 45*/);
+		k.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		k.setVisible(true);
+    }
 		
 		// -------------------------------------------------------------------------------------- //
 		// ----------------------------------- End Network Manager ------------------------------ //

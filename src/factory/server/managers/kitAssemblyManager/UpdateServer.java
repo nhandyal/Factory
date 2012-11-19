@@ -24,6 +24,7 @@ public class UpdateServer implements GuiManager, Serializable
 	ArrayList<Kit> kits;
 	ArrayList<Part> parts;
     ArrayList<Nest> nests;
+    FactoryObject flash = new FactoryObject(100, 430, 14);
 	int count = 0;
 	int countconv = 0;
 	int partscount = 0;
@@ -37,6 +38,7 @@ public class UpdateServer implements GuiManager, Serializable
 	boolean isTakeToConveyor = false;
 	boolean isTakeKit = false;
     boolean isFinished = true;
+    boolean isFlashed = false;
 	@SuppressWarnings("unchecked")
 	public UpdateServer()
 	{
@@ -65,11 +67,15 @@ public class UpdateServer implements GuiManager, Serializable
             Part p1 = new Part(nests.get(i).getPositionX()+5,nests.get(i).getPositionY()+5,i);
             parts.add(p1);
         }
+        flash.setImage(14);
 		LineObjects.add(new FactoryObject((int)robot.getX1(),(int)robot.getY1(),(int)robot.getX2(),(int)robot.getY2()));
 		LineObjects.add(new FactoryObject((int)probot.getX1(),(int)probot.getY1(),(int)probot.getX2(),(int)probot.getY2()));
 		setCurrentObjects();
 	}
-	
+	public void setFlash(boolean f)
+    {
+        isFlashed = f;
+    }
 	public ArrayList<FactoryObject> getCurrentObjects()
 	{
 		return CurrentObjects;
@@ -83,14 +89,9 @@ public class UpdateServer implements GuiManager, Serializable
 	
 	public void setCurrentObjects()
 	{
-		CurrentObjects.clear();
-		//CurrentObjects.add(conv);
-		//CurrentObjects.add(robot);
-		//CurrentObjects.add(probot);
-		//for (int i = 0; i < stands.size(); i++)
-			//CurrentObjects.add(stands.get(i));
-		
-		for (int i = 0; i < kits.size(); i++)
+		//add all the stuff to the arraylist
+        CurrentObjects.clear();
+		for (int i = 0; i < kits.size(); i++) 
 			CurrentObjects.add(kits.get(i));
 		for (int i = 0; i < LineObjects.size(); i++)
 			CurrentObjects.add(LineObjects.get(i));
@@ -98,12 +99,16 @@ public class UpdateServer implements GuiManager, Serializable
 		for (int i = 0; i < parts.size(); i++)
 			CurrentObjects.add(parts.get(i));
 		CurrentObjects.add(cam);
-        //CurrentObjects.get(0).print();
+        if (isFlashed)
+        {
+            CurrentObjects.add(flash);
+        }
 	}
 	
 	public boolean emptyStand()
 	{
-		for (int i = 0; i < 2; i++)
+		//return whether stands are all empty
+        for (int i = 0; i < 2; i++)
 		{
 			if (stands.get(i).getKit() == null)
 				return true;
@@ -143,18 +148,22 @@ public class UpdateServer implements GuiManager, Serializable
 	
 	public void bringKit()
 	{
-		if (isBringKit)
+		if (isBringKit) //the control signal
 		{	
 			if (conv.getInKit() == null && count < 26)
+            {
 				conv.bringKit();
+                countconv++;
+                isFinished = false;
+            }
 			if (!conv.kitArrived() && count < 26)
 			{
 				conv.moveKit();
+                countconv++;
+                isFinished = false;
 			}
 			//kits.get(0).print();
-			countconv++;
-            isFinished = false;
-		}
+					}
         else
             isBringKit = true;
 		if (countconv == 26)
@@ -172,12 +181,17 @@ public class UpdateServer implements GuiManager, Serializable
 		{
 			if (!robot.getIsMoving() && emptyStand() && conv.kitArrived())
 			{
-				robot.moveFromConveyorToStand(conv, stands.get(k), conv.getInKit(), 0);
+				robot.moveFromConveyorToStand(conv, stands.get(k), conv.getInKit(), 0); //call the robot to do the animation
+                count++;
+                isFinished = false;
 			}
 			if (robot.getIsMoving())
+            {
 				robot.move();
-			count++;
-            isFinished = false;
+                count++;
+                isFinished = false;
+            }
+			
 		}
         else
         {
@@ -200,9 +214,8 @@ public class UpdateServer implements GuiManager, Serializable
 		{
 			if (!probot.isMoving())
 			{
-				isFinished = false;
                 if (stands.get(stand).getKit() != null){
-					if (!stands.get(stand).getKit().getIsComplete()){
+					if (!stands.get(stand).getKit().getIsComplete()){ 
 						Part[] p = new Part[4];
 						Nest[] n = new Nest[4];
 						for (int j = 0; j < p.length; j++){
@@ -213,13 +226,18 @@ public class UpdateServer implements GuiManager, Serializable
 							p[j] = p1;
 							n[j] = nests.get(pos[j]);
 						}
-						probot.moveFromNest(stands.get(stand),p,n,indexes,0);
+						probot.moveFromNest(stands.get(stand),p,n,indexes,0); //call the robot to do the animation
+                        isFinished = false;
+                        count++;
 					}
 				}
 			}
 			if (probot.isMoving())
+            {
 				probot.move();
-			count++;
+                count++;
+                isFinished = false;
+            }
 		}
         else
         {
@@ -243,12 +261,16 @@ public class UpdateServer implements GuiManager, Serializable
         {
             if (!robot.getIsMoving() && stands.get(2).getKit() == null)
             {
-                robot.moveFromStandToStand(stands.get(stand),stands.get(2), stands.get(stand).getKit(), 0);
+                robot.moveFromStandToStand(stands.get(stand),stands.get(2), stands.get(stand).getKit(), 0); //call the robot to do the animation
+                count++;
+                isFinished = false;
             }
             if (robot.getIsMoving())
+            {
                 robot.move();
-            count++;
-            isFinished = false;
+                count++;
+                isFinished = false;
+            }
         }
         else /*if (stands.get(stand).getKit().getIsComplete())*/
 		{
@@ -270,10 +292,18 @@ public class UpdateServer implements GuiManager, Serializable
 		if (isTakePic)
         {
             if (!robot.getIsMoving() && stands.get(2).getKit() != null && !stands.get(2).getKit().getPicTaken() && !cam.isMoving())
-                cam.takePicture(stands.get(2), 0);
+            {
+                cam.takePicture(stands.get(2), 0); //call the robot to do the animation
+                count++;
+                isFinished = false;
+            }
+                
             if (cam.isMoving)
+            {
                 cam.move();
-            count++;
+                count++;
+                isFinished = false;
+            }
             isFinished = false;
         }
         else
@@ -292,11 +322,17 @@ public class UpdateServer implements GuiManager, Serializable
 		if (isTakeToConveyor)
         {
             if (!robot.getIsMoving() && stands.get(2).getKit() != null && stands.get(2).getKit().getPicTaken())
-                robot.moveFromStandToConveyor(stands.get(2), conv, stands.get(2).getKit(), 0);
+            {
+                robot.moveFromStandToConveyor(stands.get(2), conv, stands.get(2).getKit(), 0); //call the robot to do the animation
+                count++;
+                isFinished = false;
+            }
             if (robot.getIsMoving())
+            {
                 robot.move();
-            count++;
-            isFinished = false;
+                count++;
+                isFinished = false;
+            }
         }
         else
             isTakeToConveyor = true;
@@ -313,9 +349,12 @@ public class UpdateServer implements GuiManager, Serializable
 		if (isTakeKit)
         {
             if (conv.getOutKit() != null)
-			conv.takeKit();
-            count++;
-            isFinished = false;
+            {
+                conv.takeKit(); //call the robot to do the animation
+                count++;
+                isFinished = false;
+            }
+           
         }
         else
             isTakeKit = true;
@@ -330,7 +369,8 @@ public class UpdateServer implements GuiManager, Serializable
         
 	}
     
-    public void removeExtraKits(){
+    public void removeExtraKits() //remove the unused kits
+    {
 		for (int i = 0; i < kits.size(); i++){
 			if (kits.get(i).getPositionX() < 0 && !kits.get(i).getIsMoving()){
 				removeExtraParts();
@@ -340,7 +380,8 @@ public class UpdateServer implements GuiManager, Serializable
 		}
 	}
 	
-	public void removeExtraParts(){
+	public void removeExtraParts()//remove the unused parts
+    {
 		for (int i = 0; i < parts.size(); i++){
 			if (parts.get(i).getPositionX() < 0){
 				parts.remove(i);
@@ -354,7 +395,7 @@ public class UpdateServer implements GuiManager, Serializable
 		//ChangeMap = inputChangeMap;
 		//ChangeData = inputChangeData;
 		
-		move();
+		move(); //update the coornidates
 		 
         /*System.out.print("1st: ");
         lastObjects.get(0).print();
@@ -366,7 +407,7 @@ public class UpdateServer implements GuiManager, Serializable
 		{
 			for (int i = 0; i < lastObjects.size(); i++)
 			{
-				if (!lastObjects.get(i).equals(CurrentObjects.get(i)))
+				if (!lastObjects.get(i).equals(CurrentObjects.get(i))) //if the objects are the same then update the network stuff
 				{
 					//System.out.print(i + " :");
                    // CurrentObjects.get(i).print();
@@ -391,7 +432,7 @@ public class UpdateServer implements GuiManager, Serializable
 					inputChangeData.put(i, CurrentObjects.get(i));
 				}
 			}
-			for (int i = CurrentObjects.size(); i < lastObjects.size(); i++)
+			for (int i = CurrentObjects.size(); i < lastObjects.size(); i++) //if the original list is shorter, delete all the extra objects
 			{
 				inputChangeMap.put(i, false);
 			}
@@ -402,7 +443,8 @@ public class UpdateServer implements GuiManager, Serializable
 	
 	public void move()
 	{
-		lastObjects = new ArrayList<FactoryObject>();
+		//call the interfaces to do the animation
+        lastObjects = new ArrayList<FactoryObject>();
         for (int i = 0; i < CurrentObjects.size(); i++)
         {
             lastObjects.add((FactoryObject)CurrentObjects.get(i).clone());

@@ -64,7 +64,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				// initialize server control panel
 				SCP = new ServerControl(guiViews[2], guiViews[1],fs);
 				System.out.println(guiViews[2]);
-				//this.add(SCP);	
+				this.add(SCP);	
 				// initialize timer
 				t = new Timer(50,this);
 				
@@ -78,7 +78,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				si.setSize(755,670);
 				si.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				si.setTitle("Server Controls");
-				//si.setVisible(true);
+				si.setVisible(true);
 		}
 		
 		// -------------------------------------------------------------------------------------- //
