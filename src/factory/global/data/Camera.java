@@ -16,55 +16,91 @@ import java.io.*;
 
 public class Camera extends FactoryObject implements Serializable{
 
-	boolean takenPicture;
+	boolean takenPicture, hasPath;
+	int newX, newY, intlx, intly;
+	int nest;
 
 	public Camera(int initialPosX, int initialPosY, int initialImage, int indx){
 		x = initialPosX;
 		y = initialPosY;
+		intlx = initialPosX;
+		intly = initialPosY;
 		setImage(initialImage);
 		index = indx;
 		takenPicture = false;
 	}
 
-	public void moveLeft(){
-		x -= 2;
+	public void setTakenPicture(boolean b){
+		takenPicture = b;
 	}
 
-	public void moveRight(){
-		x += 2;
+	public boolean getTakenPicture(){
+		return takenPicture;
 	}
 
-	public void moveUp(){
-		y -= 2;
+	public int getNest(){
+		return nest;
 	}
 
-	public void moveDown(){
-		y += 2;
-	}
+	public void setPath(int xPos,int yPos, int n){
+		hasPath = true;
 
-	public void takePicture(){
-		takenPicture = true;
-	}
+		newX = xPos;
+		newY = yPos;
+		nest = n;
 
-	public void moveTo(int newX, int newY){
-		if(newX%2 == 1)
+		// Make newX and newY multiples of 4
+		while(newX%4 != 0)
 			newX++;
-		if(newY%2 == 1)
+		while(newY%4 != 0)
 			newY++;
+	}
 
-		if(x > newX){
-			x -= 2;
-		}
-		else if(x < newX){
-			x += 2;
+	public boolean getHasPath(){
+		return hasPath;
+	}
+
+	public void move(){
+
+		if(hasPath == false){
+			if(y > intly){
+				y -= 4;
+			}
+			else if(y < intly){
+				y += 4;
+			}	
+
+			if(y == intly){
+				if(x > intlx){
+					x -= 4;
+				}
+				else if(x < intlx){
+					x += 4;
+				}	
+			}
 		}
 
-		if(y > newY){
-			y -= 2;
-		}
-		else if(y < newY){
-			y += 2;
-		}
+		else{
+			if(x > newX){
+				x -= 4;
+			}
+			else if(x < newX){
+				x += 4;
+			}
 
+			if(x == newX){
+				if(y > newY){
+					y -= 4;
+				}
+				else if(y < newY){
+					y += 4;
+				}
+
+				if(y == newY){
+					hasPath = false;
+					takenPicture = true;
+				}
+			}
+		}
 	}
 }

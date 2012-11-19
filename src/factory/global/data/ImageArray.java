@@ -35,9 +35,9 @@ public class ImageArray{
 		images.add(new ImageIcon("bin/factory/global/assets/bin.png"));				// index 10		bin
 		images.add(new ImageIcon("bin/factory/global/assets/robot.png"));			// index 11		Kit/Part Picking Robot
 		images.add(new ImageIcon("bin/factory/global/assets/kit.png"));				// index 12		Kit
-		images.add(new ImageIcon("bin/factory/global/assets/camera.png"));			// index 13		QA/Nest Cam
+		images.add(new ImageIcon("bin/factory/global/assets/camera.png"));			// index 13		Camera
 		images.add(new ImageIcon("bin/factory/global/assets/camflash.png"));		// index 14		Cam Flash
-		images.add(new ImageIcon("bin/factory/global/assets/camline.png"));			// index 15		Nest Cam Line
+		images.add(new ImageIcon("bin/factory/global/assets/camline.png"));			// index 15		Cam Line
         images.add(new ImageIcon("bin/factory/global/assets/gripper.png"));    		// index 16     Gripper
         images.add(new ImageIcon("bin/factory/global/assets/imageChart.png"));		// index 17     Image Chart
         images.add(new ImageIcon("bin/factory/global/assets/gantry.png"));			// index 18		Gantry

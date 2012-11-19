@@ -27,7 +27,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 		
 				images = new ImageArray();
 				frameAnimationData = new TreeMap<Integer,FactoryObject>();
-				nb1 = new NetworkBridge(this,"localhost",8465,3);
+				nb1 = new NetworkBridge(this,"aludra.usc.edu",8465,3);
 				nb1.sync();
 		}
 
@@ -63,8 +63,13 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 				while(k.hasNext()){
 						int i = (Integer) k.next();
 						if(i != 0 && frameAnimationData.get(i).getIndex()> 0){
-								if(frameAnimationData.get(i).getIsLine()== true)	// if object is a line draw a line
+								if(frameAnimationData.get(i).getIsLine()== true){	// if object is a line draw a line
+									if(frameAnimationData.get(i).getPositionX() == frameAnimationData.get(i).getPositionXF())
+										g2.setColor(Color.black);
+									else
+										g2.setColor(Color.gray);
 									g2.drawLine(frameAnimationData.get(i).getPositionX(),frameAnimationData.get(i).getPositionY(),frameAnimationData.get(i).getPositionXF(),frameAnimationData.get(i).getPositionYF());
+								}
 								else{ 										//if object is not a line draw an ImageIcon
 										int img = frameAnimationData.get(i).getImageIndex();
 										images.getIcon(img).paintIcon(this,g2,frameAnimationData.get(i).getPositionX(),frameAnimationData.get(i).getPositionY());
@@ -81,6 +86,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 		public void registerClientListener(NetworkBridge newBridge, int cID){}
 		public void syncFrame(){}
 		public void updatePartData(TreeMap<Integer, Parts> partData){}
+		public void updateKitData(ArrayList<Kits> kitData){}
 		
 		// client specific
 		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){

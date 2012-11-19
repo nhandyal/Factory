@@ -16,19 +16,18 @@ import factory.server.managers.GuiManager;
 public class LaneManager implements GuiManager
 {
 	ImageIcon background;
-//	ArrayList<ImageIcon> images;
 	ArrayList<Lane> lanes;
 	ArrayList<Bin> bins;
 	ArrayList<Line> dividers;
 	ArrayList<Feeder> feeders;
-	int counter, index;
+	int index, counter, counter2;
 	FOComparator foc;
 	ImageArray images;
+	Camera cam;
 	
 	TreeMap<Integer,Boolean> changeMap;
 	TreeMap<Integer,FactoryObject> temp;
 	TreeMap<Integer,FactoryObject> changeData;
-	TreeMap<Integer,FactoryObject> animData;
 
 	public LaneManager(){
 	
@@ -98,9 +97,12 @@ public class LaneManager implements GuiManager
 		index++;
 		feeders.add(new Feeder(313,426,19,index));
 		index++;
+
+		// Create Camera
+		cam = new Camera(264,28,13,Integer.MAX_VALUE);
 		
 		// Turn On Lane 0, Off Lanes 1-7
-		laneSwitch(8,0);
+		laneSwitch(8,0,36);
 		for(int i=1;i<8;i++)
 			lanes.get(i).setActive(false);
 
@@ -110,36 +112,35 @@ public class LaneManager implements GuiManager
 		// Create ImageList
 		images = new ImageArray();
 
-		// Start Counter
+		// Start Counters
 		counter = 0;
+		counter2 = 0;
 		
 		// Initialize comparator
 		foc = new FOComparator();
 		
+		// Initialize TreeMaps
 		changeMap = new TreeMap<Integer,Boolean>();
 		changeData = new TreeMap<Integer,FactoryObject>();
-		animData = new TreeMap<Integer,FactoryObject>();
 		temp = new TreeMap<Integer,FactoryObject>();
 	}
 
-	public void laneSwitch(int x1, int x2){
-		if(x1<8){									// if lane exists
-			lanes.get(x1).setActive(false);			// turn lane off
-			bins.get(x1).setVis(false);				// turn bin off
-			feeders.get(x1/2).removeBin();			// remove bin
-			//System.out.println("Feeder"+x2/2+" hasBin() == "+feeders.get(x1/2).hasBin());
-			dividers.get(x1/2).dividerNeutral();	// put divider in neutral position
+	public void laneSwitch(int x1, int x2, int pnum){
+		if(x1<8){										// if lane exists
+			lanes.get(x1).setActive(false);				// turn lane off
+			bins.get(x1).setVis(false);					// turn bin off
+			feeders.get(x1/2).removeBin();				// remove bin from feeder
+			dividers.get(x1/2).dividerNeutral();		// put divider in neutral position
 		}
-		if(x2<8){									// if lane exists
-			lanes.get(x2).setActive(true);			// turn lane on
-			bins.get(x2).setVis(true);				// turn bin on
-			feeders.get(x2/2).addBin(bins.get(x2));
-			feeders.get(x2/2).setPush(36);
-//			System.out.println("Bin "+x2+" added to feeder"+(x2/2));
-			if(x2%2 == 0)							// if upper lane
-				dividers.get(x2/2).dividerDown();	// put divider in lower position
-			if(x2%2 == 1)							// if lower lane
-				dividers.get(x2/2).dividerUp();		// put divider in upper position
+		if(x2<8){										// if lane exists
+			lanes.get(x2).setActive(true);				// turn lane on
+			bins.get(x2).setVis(true);					// turn bin on
+			feeders.get(x2/2).addBin(bins.get(x2));		// add bin to feeder
+			feeders.get(x2/2).setPush(pnum);			// set # of parts to make
+			if(x2%2 == 0)								// if upper lane
+				dividers.get(x2/2).dividerDown();		// put divider in lower position
+			if(x2%2 == 1)								// if lower lane
+				dividers.get(x2/2).dividerUp();			// put divider in upper position
 		}
 	}
 
@@ -155,13 +156,12 @@ public class LaneManager implements GuiManager
 			if(feeders.get(i).hasBin() == true){
 				map.put(feeders.get(i).getBin().getIndex(),feeders.get(i).getBin());
 				map.put(feeders.get(i).getBin().getPartIcon().getIndex(),feeders.get(i).getBin().getPartIcon());
-				//System.out.println("Feeder"+i+"s bin painted");
 			}
 		}
 
 		// Add Lane Content
 		for(int i=0;i<8;i++){
-			// LaneLines
+			// Conveyor Lines
 			for(int j=0;j<3;j++){
 				if(lanes.get(i).getLaneLine(j).getPositionX() <= 334)
 					map.put(lanes.get(i).getLaneLine(j).getIndex(),lanes.get(i).getLaneLine(j));
@@ -175,77 +175,105 @@ public class LaneManager implements GuiManager
 
 		// Add Parts Low Lights
 		for(int i=0;i<4;i++){
-			if(feeders.get(i).getPush() <= feeders.get(i).getPartsLow() && feeders.get(i).getPush() > 0){
+			// If parts are low and the lane is on
+			if(feeders.get(i).getPush() <= feeders.get(i).getPartsLow() && (lanes.get(i*2).getActive() == true || lanes.get((i*2)+1).getActive() == true)){
 				map.put(feeders.get(i).getIndex(),feeders.get(i));
 			}
+		}
+
+		// Add Camera
+		map.put(cam.getIndex(),cam);
+
+		// Add Camera Brace
+		map.put((Integer.MAX_VALUE - 1),new FactoryObject());
+		map.get(Integer.MAX_VALUE - 1).setPosition((cam.getPositionX()+14),0);
+		map.get(Integer.MAX_VALUE - 1).setIndex(Integer.MAX_VALUE - 1);
+		map.get(Integer.MAX_VALUE - 1).setImage(15);
+
+		// If picture is taken add camera flash
+		if(cam.getTakenPicture() == true && counter2 == 0){
+			map.put((Integer.MAX_VALUE - 2),new FactoryObject());
+			map.get(Integer.MAX_VALUE - 2).setPosition(cam.getPositionX(),cam.getPositionY());
+			map.get(Integer.MAX_VALUE - 2).setIndex(Integer.MAX_VALUE - 2);
+			map.get(Integer.MAX_VALUE - 2).setImage(14);
+			cam.setTakenPicture(false);
 		}
 	}
 
 	public void update(TreeMap<Integer,Boolean> changeMap, TreeMap<Integer,FactoryObject> changeData){
+
+		temp.clear();		
+		sync(changeData); // Get Previous frame data
 		
-		sync(changeData);
-		
-		temp.clear();
-		
+		// Create a hard copy of FO from previous frame
 		Iterator k = changeData.keySet().iterator();
 		while(k.hasNext()){
 			int i = (Integer) k.next();
 			if(changeData.get(i).getIndex() > 0){
 				temp.put(i,new FactoryObject());
-				temp.get(i).setPosition(changeData.get(i).getPositionX(),changeData.get(i).getPositionY());
-				temp.get(i).setIndex(changeData.get(i).getIndex());
-				temp.get(i).setIsLine(changeData.get(i).getIsLine());
-				if(changeData.get(i).getIsLine() == true){
-					temp.get(i).setPositionF(changeData.get(i).getPositionXF(),changeData.get(i).getPositionYF());
-					temp.get(i).setIsLine(true);
-				}
-				else{
-					temp.get(i).setImage(changeData.get(i).getImageIndex());
-				}
+				temp.get(i).setPosition(changeData.get(i).getPositionX(),changeData.get(i).getPositionY()); // Copy Position
+				temp.get(i).setIndex(changeData.get(i).getIndex()); // Copy Index
+				temp.get(i).setIsLine(changeData.get(i).getIsLine()); // Copy isLine boolean
+				if(changeData.get(i).getIsLine() == true)	// If it's a line
+					temp.get(i).setPositionF(changeData.get(i).getPositionXF(),changeData.get(i).getPositionYF()); // Copy the fixed point
+				else										// if it's not a line
+					temp.get(i).setImage(changeData.get(i).getImageIndex()); // Copy the image index
 			}
 		}
 
 		changeData.clear();
-//		changeMap.clear();
 		
 		for(int i=0;i<8;i++){
-			if(lanes.get(i).getActive() == true){		// if lane is on
-				if(counter==24){						// every 25th instance of timer
-					int partindx = feeders.get(i/2).getBin().getPart();
-//					System.out.println(partindx);
-					lanes.get(i).addPart(partindx,index);		// create a new part
-					index++;							// add 1 to index
-					feeders.get(i/2).pushPart();		// subtract 1 from feeder counter
-//					System.out.println(feeders.get());
-					counter = 0;						// reset counter
+			if(lanes.get(i).getActive() == true){										// if lane is on and feeder isn't empty
+				if(counter==24 && feeders.get(i/2).getPush() > 0){						// every 25th instance of timer
+					lanes.get(i).addPart(feeders.get(i/2).getBin().getPart(),index);	// create a new part
+					index++;															// Add one to index
+					feeders.get(i/2).pushPart();										// subtract 1 from feeder counter
+					counter = 0;														// reset counter
 				}
 				counter++;
-				if(feeders.get(i/2).getPush() == 0){	// if there are 36 parts on the lane
-					laneSwitch(i,i+1);					// turn off lane, turn on next lane
-					counter = 0;						// reset counter
+
+				// Determine if all parts on lane have stopped moving
+				boolean partsStopped = true;
+				for(int j=0;j<lanes.get(i).getLaneSize();j++){
+					if(lanes.get(i).getLanePart(j).getIsMoving() == true)
+						partsStopped = false;
+				}
+
+				if(feeders.get(i/2).getPush() == 0 && partsStopped == true){	// if bin is empty and the parts have stopped moving
+					laneSwitch(i,i+1,36);										// turn off lane, turn on next lane
+					counter = 0;												// reset counter
 				}
 			}
 		}
 		
 		// Move Elements
-		for(int i=0;i<8;i++)
+		for(int i=0;i<8;i++){
 			lanes.get(i).moveParts();
+			if(lanes.get(i).getPicNeeded() == true && cam.getHasPath() == false){			// If a nest needs a picture and the camera isn't busy
+				cam.setPath(lanes.get(i).getPositionX(),lanes.get(i).getPositionY(),i);		// Tell the camera to go to the nest
+			}
+		}
 
+		cam.move();											// move the camera
+		if(cam.getTakenPicture() == true){					// if the camera has taken a picture
+			lanes.get(cam.getNest()).setPicNeeded(false);	// tell the nest a picture is taken
+			counter2 = 0;									// reset counter
+		}
+
+		// Get current frame data
 		sync(changeData);
 		
+		// Create changeMap
 		k = changeData.keySet().iterator();
 		while(k.hasNext()){
 			int i = (Integer) k.next();
-			if(temp.containsKey(i) == true){
-				if(foc.compare(temp.get(i),changeData.get(i)) == 0){
-//					changeMap.put(i,false);
-				}
-				else{
-					changeMap.put(i,true);
-				}
+			if(temp.containsKey(i) == true){							// if the previous frame has the object
+				if(foc.compare(temp.get(i),changeData.get(i)) == 1)		// if the object has moved
+					changeMap.put(i,true);								// tell the changeMap
 			}
-			else{
-				changeMap.put(i,true);
+			else{														// if the previous frame doesn't have the object
+				changeMap.put(i,true);									// tell the changeMap
 			}
 		}
 		
@@ -253,31 +281,47 @@ public class LaneManager implements GuiManager
 		k = temp.keySet().iterator();
 		while(k.hasNext()){
 			int i = (Integer) k.next();
-			if(changeData.containsKey(i) == false){
-//				changeData.put(i, new FactoryObject());
-				changeMap.put(i,false);
+			if(changeData.containsKey(i) == false){		// If the cuurent frame doesn't have an object from the previous frame
+				changeMap.put(i,false);					// tell the changeMap
 			}
 		}
 		
+		// Trim changeData
 		k = changeMap.keySet().iterator();
 		while(k.hasNext()){
 			int i = (Integer) k.next();
-			if(changeMap.get(i) == false)
-				changeData.remove(i);
+			if(changeMap.get(i) == false)				// if the changeMap says somethings been deleted
+				changeData.remove(i);					// remove it from changeData
 		}
+
+		// Delete unchanged data
+		k = temp.keySet().iterator();
+		while(k.hasNext()){
+			int i = (Integer) k.next();
+			if(changeData.containsKey(i) == true){						// if the current frame has the object
+				if(foc.compare(temp.get(i),changeData.get(i)) == 0)		// if the object hasn't moved
+					changeData.remove(i);								// delete it from changeData
+			}
+		}
+
+		// Control Camera Flash
+		counter2++;
+		if(counter2 > 3)										// if camera flash is on
+			changeMap.put((Integer.MAX_VALUE - 2), false);		// tell the changeMap
 		
+		// Convert Lines to FOs
 		k = changeData.keySet().iterator();
 		while(k.hasNext()){
 			int i = (Integer) k.next();
-			if(changeData.get(i).getIsLine() == true){
+			if(changeData.get(i).getIsLine() == true){ // if object is a line
+				// Create a temporary copy
 				Line tempLine = new Line(changeData.get(i).getPositionX(),changeData.get(i).getPositionY(),changeData.get(i).getPositionXF(),changeData.get(i).getPositionYF(),changeData.get(i).getIndex());
 				changeData.put(i,new FactoryObject());
-				changeData.get(i).setPosition(tempLine.getPositionX(),tempLine.getPositionY());
-				changeData.get(i).setPositionF(tempLine.getPositionXF(),tempLine.getPositionYF());
-				changeData.get(i).setIsLine(true);
-				changeData.get(i).setIndex(tempLine.getIndex());
+				changeData.get(i).setPosition(tempLine.getPositionX(),tempLine.getPositionY()); // copy position
+				changeData.get(i).setPositionF(tempLine.getPositionXF(),tempLine.getPositionYF()); // copy fixed coordinates
+				changeData.get(i).setIsLine(true); // tell it it's a line
+				changeData.get(i).setIndex(tempLine.getIndex()); // copy the index
 			}
-//			System.out.println("changeData "+changeData.get(i).getIndex());
 		}
 	}
 
@@ -288,8 +332,4 @@ public class LaneManager implements GuiManager
 		}
 		return nest;
 	}
-
-//	public Part pickNest(int i){
-//
-//	}
 }
