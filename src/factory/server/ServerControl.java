@@ -57,11 +57,11 @@ public class ServerControl extends JPanel implements ActionListener{
 	
 	public ServerControl(GuiManager kit, GuiManager LM, FactoryState fs){
 		
-		System.out.println(kit);
+		
 		this.KitASM = (UpdateServer)kit;
 		this.LM = (LaneManager)LM;
 		this.fs = fs;
-		System.out.println(KitASM);
+		
 		for (int i = 1; i < laneStrings.length+1; i++){
 			laneStrings[i-1] = "Lane " + i;
 		}

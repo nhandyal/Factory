@@ -63,8 +63,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				
 				// initialize server control panel
 				SCP = new ServerControl(guiViews[2], guiViews[1],fs);
-				System.out.println(guiViews[2]);
-				//this.add(SCP);	
+				this.add(SCP);	
 				// initialize timer
 				t = new Timer(50,this);
 				
@@ -78,7 +77,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				si.setSize(755,670);
 				si.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				si.setTitle("Server Controls");
-				//si.setVisible(true);
+				si.setVisible(true);
 		}
 		
 		// -------------------------------------------------------------------------------------- //
@@ -107,7 +106,6 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 		
 		// function to update part data
 		public void updatePartData(TreeMap<Integer, Parts> partData){
-				System.out.println("merge parts called");
 				fs.mergeParts(partData);
 				
 				if(clientConnections[1] != null){
@@ -119,7 +117,6 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 		}
 		
 		public void updateKitData(ArrayList<Kits> kitData){
-				System.out.println("update kit data called");
 				fs.mergeKits(kitData);
 		}
 		
@@ -144,11 +141,10 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 		// -------------------------------------------------------------------------------------- //
 		
 		private void masterSync(){
-				System.out.println("master sync called");
 				ArrayList<TreeMap<Integer, FactoryObject>> changeData = new ArrayList<TreeMap<Integer, FactoryObject>>();
 				TreeMap<Integer, Boolean> changeMap = null;
 				Instruction instr = new Instruction("SAD",1);
-				Instruction instrFM = new Instruction("SAD",2);
+				Instruction instrFM = new Instruction("SAD",3);
 				
 				// initialize changeData with empty TreeMaps
 				for(int i = 0; i < 3; i++){
@@ -188,7 +184,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 												clientConnections[5].writeData(instrFM);
 												clientConnections[5].writeData(kitAsmData);
 												clientConnections[5].writeData(laneData);
-												//clientConnections[5].writeData(gantryData);
+												clientConnections[5].writeData(gantryData);
 												break;
 								}
 						}
@@ -237,7 +233,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				
 				// now we can send all of the data to the appropriate clients prefaced by an update animation data instruction. FM will expect 3 NTO objects on the input stream
 				Instruction instr = new Instruction("UAD",1);
-				Instruction instrFM = new Instruction("UAD",2);
+				Instruction instrFM = new Instruction("UAD",3);
 				
 				/*
 				 * send the update animation data instruction along with the appropriate NTO to all animation managers
@@ -266,7 +262,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 												clientConnections[5].writeData(instrFM);
 												clientConnections[5].writeData(kitAsmData);
 												clientConnections[5].writeData(laneData);
-												//clientConnections[5].writeData(gantryData);
+												clientConnections[5].writeData(gantryData);
 												break;
 								}
 						}
