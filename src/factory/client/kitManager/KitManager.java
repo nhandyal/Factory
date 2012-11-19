@@ -188,7 +188,7 @@ public class KitManager extends JFrame implements ActionListener, ItemListener, 
 				String nextName = currentList.get(i).getName(); 			
 				pS.getPartNamesBox2().add(nextName); //adds names to arraylist			
 			}
-			pS.getBoxOfPart2().setEnabled(false); 
+			pS.getBoxOfPart2().setEnabed(false); 
 			pS.getBoxOfPart2().removeAllItems();
 			for(int i = 0; i<pS.getPartNamesBox1().size(); i++){
 				pS.getBoxOfPart2().addItem(pS.getPartNamesBox2().get(i));
