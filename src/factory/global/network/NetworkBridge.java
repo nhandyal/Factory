@@ -276,9 +276,9 @@ class InputStreamListener extends Thread{
 		}
 		
 		void readKitData(){
-				ArrayList<Kits> kitData = null;
+				TreeMap<Integer, Kits> kitData = null;
 				try{
-						kitData = (ArrayList<Kits>)ois.readObject();
+						kitData = (TreeMap<Integer, Kits>)ois.readObject();
 				}catch(IOException ie){
 						String message = ie.toString();
 						if(message.equals("java.io.EOFException") || message.equals("java.net.SocketException: Connection reset")){

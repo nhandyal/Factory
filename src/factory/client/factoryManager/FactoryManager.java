@@ -113,7 +113,7 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 		public void registerClientListener(NetworkBridge newBridge, int cID){}
 		public void syncFrame(){}
 		public void updatePartData(TreeMap<Integer, Parts> partData){}
-		public void updateKitData(ArrayList<Kits> kitData){}
+		public void updateKitData(TreeMap<Integer, Kits> kitData){}
 		
 		// client specific
 		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){

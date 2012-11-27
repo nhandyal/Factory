@@ -15,7 +15,7 @@ import javax.swing.*;
 import javax.swing.Timer;
 import java.util.TreeMap;
 import java.util.ArrayList;
-
+import java.io.*;
 
 // User packages
 import factory.global.network.*;
@@ -102,6 +102,33 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 		// Server Specific
 		public void registerClientListener(NetworkBridge newBridge, int cID){
 				clientConnections[cID] = newBridge;
+				TreeMap<Integer, Parts> currentParts = null;
+				TreeMap<Integer, Kits> currentKits = null;
+				if (cID == 0 || cID == 1){
+					FileInputStream fin;
+					ObjectInputStream oin;
+					try{
+						fin = new FileInputStream("Parts");
+						oin = new ObjectInputStream(fin);
+						currentParts = (TreeMap<Integer, Parts>) oin.readObject();
+					}catch(Exception e){
+						currentParts = new TreeMap<Integer, Parts>();
+					}
+					newBridge.sendPartData(currentParts);
+				}
+				if(cID == 1)
+				{
+					FileInputStream fin;
+					ObjectInputStream oin;
+					try{
+						fin = new FileInputStream("Kits");
+						oin = new ObjectInputStream(fin);
+						currentKits = (TreeMap<Integer, Kits>) oin.readObject();
+					}catch(Exception e){
+						currentKits = new TreeMap<Integer, Kits>();
+					}
+					newBridge.sendKitData(currentKits);
+				}
 		}
 		
 		// function to update part data
@@ -116,7 +143,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				}
 		}
 		
-		public void updateKitData(ArrayList<Kits> kitData){
+		public void updateKitData(TreeMap<Integer, Kits> kitData){
 				fs.mergeKits(kitData);
 		}
 		

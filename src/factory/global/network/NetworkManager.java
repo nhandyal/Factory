@@ -19,5 +19,5 @@ public interface NetworkManager{
 		// general
 		public void closeNetworkBridge(int bridgeID);
 		public void updatePartData(TreeMap<Integer, Parts> partData);
-		public void updateKitData(ArrayList<Kits> kitData);
+		public void updateKitData(TreeMap<Integer, Kits> kitData);
 }
