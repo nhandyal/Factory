@@ -24,7 +24,9 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
 		}
 	
 		public void actionPerformed(ActionEvent ae){
-				repaint();
+				//repaint();
+				Graphics g = this.getGraphics();
+				update(g);
 		}
 	
 		public void paint(Graphics g){
@@ -100,9 +102,8 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
         nb.close();
     }
     
-    public void updateKitData(ArrayList<Kits> kitData)
-    {
-    }
+    public void updateKitData(TreeMap<Integer, Kits> kitData){}
+
     
     public static void main(String[] args) {
 		KitAssemblyManager k = new KitAssemblyManager();
