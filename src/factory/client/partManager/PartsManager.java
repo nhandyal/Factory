@@ -39,7 +39,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 	public void initialize()
 	{
 		panel.removeAll();
-		panel.setLayout(new GridLayout(1, 5));
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 		pip = new PartsInfoPanel(currentParts);
 		picp = new PartsIconPanel();
 		spp = new SelectPartPanel(this);
