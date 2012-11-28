@@ -111,6 +111,8 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 						fin = new FileInputStream("Parts");
 						oin = new ObjectInputStream(fin);
 						currentParts = (TreeMap<Integer, Parts>) oin.readObject();
+						fin.close();
+						oin.close();
 					}catch(Exception e){
 						currentParts = new TreeMap<Integer, Parts>();
 					}
@@ -124,6 +126,8 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 						fin = new FileInputStream("Kits");
 						oin = new ObjectInputStream(fin);
 						currentKits = (TreeMap<Integer, Kits>) oin.readObject();
+						fin.close();
+						oin.close();
 					}catch(Exception e){
 						currentKits = new TreeMap<Integer, Kits>();
 					}
