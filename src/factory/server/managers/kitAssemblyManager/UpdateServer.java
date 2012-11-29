@@ -41,6 +41,7 @@ public class UpdateServer implements GuiManager, Serializable
     boolean isFinished = true;
     boolean isFlashed = false;
     boolean flag = false;
+    boolean isBadKit = true;
 	@SuppressWarnings("unchecked")
 	public UpdateServer()
 	{
@@ -260,10 +261,19 @@ public class UpdateServer implements GuiManager, Serializable
 					
                     Part[] p = new Part[4];
                     Nest[] n = new Nest[4];
+                    if (isBadKit)
+                        for (int i = pos.length - 1;i >= 0; i--)
+                            if (pos[i] != - 1)
+                            {
+                                parts.remove(5 + 9 * pos[i]);
+                                pos[i] = -1;
+                                indexes[i] = -1;
+                                break;
+                            }
                     for (int j = 0; j < p.length; j++){
                         if (pos[j] != -1 && indexes[j] != -1)
                         {
-                            Part p1 = parts.get(8 + 9 * pos[j]);
+                            Part p1 = parts.get(5 + 9 * pos[j]);
 							//System.out.println(p1.imageIndex);
 							//Part p1 = new Part(nests.get(j).getPosition()X,
 							//nests.get(j).getPositionY(), 1);
@@ -271,6 +281,8 @@ public class UpdateServer implements GuiManager, Serializable
                             p[j] = p1;
                             n[j] = nests.get(pos[j]);
                         }
+                        else
+                            p[j] = null;
                     }
                     probot.moveFromNest(stands.get(stand),p,n,indexes,0); //call the robot to do the animation
                     isFinished = false;
