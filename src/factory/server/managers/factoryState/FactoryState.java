@@ -10,8 +10,7 @@
 package factory.server.managers.factoryState;
 
 // Java Packages
-import java.util.TreeMap;
-import java.util.ArrayList;
+import java.util.*;
 import java.io.*;
 
 // user packages
@@ -27,6 +26,10 @@ public class FactoryState{
 				factoryPartData = newParts;
 				FileOutputStream fos = null;
 				ObjectOutputStream oos = null;
+				FileInputStream fis = null;
+				ObjectInputStream ois = null;
+				ArrayList<Integer> index = new ArrayList<Integer>();
+				ArrayList<Integer> removeIndex = new ArrayList<Integer>();
 				try{
 					fos = new FileOutputStream("Parts");
 					oos = new ObjectOutputStream(fos);
@@ -35,6 +38,37 @@ public class FactoryState{
 					fos.close();
 				}catch(Exception ex){
 				}
+				for(Integer i : factoryPartData.keySet()){
+						index.add(factoryPartData.get(i).getImageIndex());
+				}
+				try{
+					fis = new FileInputStream("Kits");
+					ois = new ObjectInputStream(fis);
+					factoryKits = (TreeMap<Integer, Kits>) ois.readObject();
+					fis.close();
+					fos.close();
+				}catch(Exception ex){
+				}
+				for(Integer i : factoryKits.keySet()){
+					TreeMap<Integer, Parts> q = factoryKits.get(i).getListOfParts();
+					for (Integer j : q.keySet()){
+						if (!index.contains(q.get(j).getImageIndex())){
+							removeIndex.add(i);
+							break;
+						}
+					}
+				}
+				for (Integer i : removeIndex)
+					factoryKits.remove(i);
+				try{
+					fos = new FileOutputStream("Kits");
+					oos = new ObjectOutputStream(fos);
+					oos.writeObject(factoryKits);
+					oos.close();
+					fos.close();
+				}catch(Exception ex){
+				}
+				factoryKits = null;
 				for(Integer i : factoryPartData.keySet()){
 						factoryPartData.get(i).print();
 				}
