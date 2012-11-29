@@ -42,10 +42,6 @@ public class Parts implements java.io.Serializable{
 			return partNumber; 
 		}
 
-		public void setPartNumber(int partNumber){
-			this.partNumber = partNumber; 
-		}
-
 		public String getName(){
 			return name; 
 		}

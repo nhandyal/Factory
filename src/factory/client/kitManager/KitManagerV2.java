@@ -17,6 +17,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.TreeMap;
+import java.util.Enumeration;
 
 
 // user packages
@@ -26,19 +27,22 @@ import factory.global.network.*;
 
 public class KitManagerV2 extends JFrame implements ActionListener, ListSelectionListener{
 		private static final int PAGE_WIDTH = 650;
-		private static final int PAGE_HEIGHT = 600;
+		private static final int PAGE_HEIGHT = 650;
 		private CardLayout c1;
 		private JPanel activeKitsPanel, kitDataPanel, kitStructPanel, partsSelectPanel;
 		private JPanel activeKitsContainer, createKitContainer, masterContainer;
 		private DefaultListModel listModel;
 		private JList kitList;
-		private JButton createNewKit, saveNewKit, deletePart;
+		private JButton createNewKit, editKit, saveNewKit, cancelNewKit;
 		private JTextField kitName, kitID;
 		private JTextArea kitDesc;
+		private JLabel spWarning;
 		private TreeMap<Integer, Parts> parts;
+		private TreeMap<Integer, Kits> kits;
+		private int kitNumber, editKitNumber;
 		private ImageArray images;
 		private Border greyLine;
-		private boolean toggle;
+		private boolean bEditKit;
 		private ButtonGroup[] selectedParts;
 		
 		KitManagerV2(){
@@ -47,13 +51,22 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 				activeKitsContainer = new JPanel();
 				createKitContainer = new JPanel();
 				activeKitsPanel = new JPanel();
+				kitDataPanel = new JPanel();
 				kitStructPanel = new JPanel();
 				partsSelectPanel = new JPanel();
-				selectedParts = new ButtonGroup[10];
+				editKit = new JButton("Edit Kit");
+				selectedParts = new ButtonGroup[8];
 				parts = buildParts();
+				kits = new TreeMap<Integer, Kits>();
+				kitNumber = 0;
 				images = new ImageArray();
 				greyLine = BorderFactory.createLineBorder(Color.DARK_GRAY);
 				c1 = new CardLayout();
+				spWarning = new JLabel("");
+				editKit.addActionListener(this);
+				setComponentSize(editKit,150,50);
+				spWarning.setForeground(Color.RED);
+				bEditKit = false;
 				
 				
 				// set Frame and properties
@@ -63,8 +76,11 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 				// build Active Kits Container
 				activeKitsContainer.setLayout(new BoxLayout(activeKitsContainer, BoxLayout.X_AXIS));
 				setComponentSize(activeKitsContainer,PAGE_WIDTH,PAGE_HEIGHT);
+				setComponentSize(kitDataPanel,450,PAGE_HEIGHT);
 				buildActiveKits(activeKitsPanel);
 				activeKitsContainer.add(activeKitsPanel);
+				activeKitsContainer.add(kitDataPanel);
+				
 				
 				
 				// build Create Kit Container
@@ -80,8 +96,7 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 				masterContainer.add(activeKitsContainer,"akc");
 				masterContainer.add(createKitContainer,"ckc");
 				this.add(masterContainer);
-				c1.show(masterContainer,"ckc");
-				
+				c1.show(masterContainer,"akc");
 		}
 		
 		public static void main(String[] args){
@@ -95,19 +110,84 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 				km.setVisible(true);
 		}
 		
-		public void valueChanged(ListSelectionEvent le){}
-		public void actionPerformed(ActionEvent ae){
-				if(ae.getSource() == deletePart){
-						
+		public void valueChanged(ListSelectionEvent le){
+				if(!le.getValueIsAdjusting()){
+						Kits currentKit = (Kits)kitList.getSelectedValue();
+						if(currentKit != null)
+								buildKitData(currentKit);
 				}
-				else{
-						if(toggle){
-								c1.show(masterContainer,"akc");
+		}
+		
+		public void actionPerformed(ActionEvent ae){				
+				if(ae.getSource() == saveNewKit){
+						// clear the warnings from the previous save attempt
+						spWarning.setText("");
+						
+						// attempt a new save
+						String KName = kitName.getText();
+						String KDesc = kitDesc.getText();
+						String KID = kitID.getText();
+						TreeMap<Integer, Parts> kitParts = new TreeMap<Integer, Parts>();
+						int nps = 0;
+						int intKID;
+						
+						// validate kit id as an integer
+						KID.trim();
+						try{  
+								intKID = Integer.parseInt(KID);
+								if(intKID <= 0){
+										spWarning.setText("Kit ID must be an integer value greater than 0");
+										return;
+								}	
+						}
+						catch( Exception e ){
+								//invalid user input
+								spWarning.setText("Kit ID must be an integer value greater than 0");
+								return;
+						}
+
+						// ensure enough parts are selected and start building the kit
+						for(int i = 0; i < 8; i++){
+								ButtonGroup group = selectedParts[i];
+								Integer partSelection = Integer.parseInt(group.getSelection().getActionCommand());
+								if(partSelection != -1){
+										kitParts.put(i, parts.get(partSelection));
+										nps++;
+								}
+						}
+						if(nps < 4){
+								spWarning.setText("You must select a minimum of 4 parts in each kit");
 						}
 						else{
-								c1.show(masterContainer,"ckc");
+								Kits newKit = new Kits(KName, kitParts, KDesc, intKID, kitNumber);
+								if(bEditKit){
+										kits.put(editKitNumber, newKit);
+								}
+								else{
+										kits.put(kitNumber, newKit);
+										kitNumber++;
+								}
+								bEditKit = false;
+								c1.show(masterContainer,"akc");
+								populateActiveKitList();
 						}
-						toggle = !toggle;
+				}
+				else if(ae.getSource() == cancelNewKit){
+						bEditKit = false;
+						c1.show(masterContainer,"akc");
+				}
+				else if(ae.getSource() == editKit){
+						bEditKit = true;
+						c1.show(masterContainer,"ckc");
+						resetKitStruct();
+						buildPartsSelect();
+						buildEditKit((Kits)kitList.getSelectedValue());
+				}
+				else if(ae.getSource() == createNewKit){
+						bEditKit = false;
+						c1.show(masterContainer,"ckc");
+						resetKitStruct();
+						buildPartsSelect();
 				}
 		}
 		
@@ -133,9 +213,9 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 				createNewKit.addActionListener(this);
 				setComponentSize(createNewKit,WIDTH,50);
 				
+				
 				// create list model and list
 				listModel = new DefaultListModel();
-				
 				kitList = new JList(listModel);
 				kitList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         kitList.addListSelectionListener(this);
@@ -148,6 +228,78 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 				container.add(createNewKit);
 		}
 		
+		private void populateActiveKitList(){
+				// populate the active kits list with the current kits available in the factory
+				listModel.removeAllElements();
+				for(Integer i : kits.keySet()){
+						Kits currentKit = kits.get(i);
+						listModel.addElement(currentKit);
+				}
+		}
+		
+		private void buildKitData(Kits selectedKit){
+				final int ST_SPACE = 25;
+				Box container = Box.createVerticalBox();
+				kitDataPanel.removeAll();
+				JLabel kitID = new JLabel(Integer.toString(selectedKit.getKitID()));
+				JLabel kitName = new JLabel(selectedKit.getName());
+				JLabel kitDesc = new JLabel(selectedKit.getDescription());
+				JLabel lp = new JLabel("----- Listed Parts -----");
+				
+				// align elements to the left collum
+				// all the arguments can be left as KitID.LEFT because we only need any instance of a JComponent to use the LEFT keyword
+				kitID.setHorizontalAlignment(kitID.LEFT);
+				kitName.setHorizontalAlignment(kitID.LEFT);
+				kitDesc.setHorizontalAlignment(kitID.LEFT);
+				lp.setHorizontalAlignment(kitID.LEFT);
+				
+				// add elements to container
+				container.add(kitID);
+				container.add(kitName);
+				container.add(kitDesc);
+				container.add(Box.createVerticalStrut(ST_SPACE*2));
+				container.add(lp);
+				
+				
+				// add part data
+				TreeMap<Integer, Parts> kitParts = selectedKit.getListOfParts();
+				for(Integer i : kitParts.keySet()){
+						Parts selectedPart = kitParts.get(i);
+						Box holder = Box.createHorizontalBox();
+						Box section1 = Box.createVerticalBox();
+						Box section2 = Box.createVerticalBox();
+						int imageIndex = selectedPart.getImageIndex();
+						String PID = Integer.toString(selectedPart.getPartNumber());
+						String PName = selectedPart.getName();
+						String PDesc = selectedPart.getDesc();
+						
+						
+						// add elements to section1
+						section1.add(new JLabel("Part "+i));
+						section1.add(new JLabel(images.getIcon(imageIndex)));
+						
+						// add elements to section2
+						section2.add(new JLabel("Part #: "+PID));
+						section2.add(new JLabel("Part name: "+PName));
+						section2.add(new JLabel("Part desc: "+PDesc));
+						
+						// add sections to holder
+						holder.add(section1);
+						holder.add(Box.createHorizontalStrut(ST_SPACE));
+						holder.add(section2);
+						
+						// add holder to container
+						container.add(holder);
+						container.add(Box.createVerticalStrut(ST_SPACE/2));
+				}
+				// add edit kit to contianer
+				container.add(editKit);
+				
+				// add container to kitDataPanel
+				kitDataPanel.add(container);
+				kitDataPanel.revalidate();
+		}
+		
 		private void buildKitStruct(JPanel container){		
 				// initialize variables
 				final int WIDTH = 200;
@@ -156,11 +308,11 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 				kitID = new JTextField();
 				kitDesc = new JTextArea();
 				saveNewKit = new JButton("Save Kit");
-				deletePart = new JButton("Delete Part");
+				cancelNewKit = new JButton("Cancel");
 				JLabel kitLayout = new JLabel(images.getIcon(17));
 				kitDesc.setBorder(greyLine);
 				saveNewKit.addActionListener(this);
-				deletePart.addActionListener(this);
+				cancelNewKit.addActionListener(this);
 				Box box = Box.createVerticalBox();
 				
 				// set container properties
@@ -171,7 +323,7 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 				setComponentSize(kitID,WIDTH,25);
 				setComponentSize(kitDesc,WIDTH,100);
 				setComponentSize(saveNewKit,WIDTH,50);
-				setComponentSize(deletePart,WIDTH,50);
+				setComponentSize(cancelNewKit,WIDTH,50);
 				
 				resetKitStruct();
 				
@@ -185,17 +337,14 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 				box.add(kitLayout);
 				box.add(Box.createVerticalStrut(ST_SPACE));
 				box.add(saveNewKit);
-				box.add(Box.createVerticalStrut(ST_SPACE));
-				box.add(deletePart);
+				box.add(cancelNewKit);
 				container.add(box);
-				//container.setBorder(blueLine);
 		}
 		
 		private void buildPartsSelect(){
 				final int H_WIDTH = 450;
 				final int H_HEIGHT = 60;
-				//final int n = parts.size()+1;
-				int n = 10;
+				final int n = parts.size();
 				Box box = Box.createVerticalBox();
 				partsSelectPanel.removeAll();
 				
@@ -205,16 +354,28 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 						holder.setLayout(new BorderLayout());
 						setComponentSize(holder, H_WIDTH, H_HEIGHT);
 						JLabel partLabel = new JLabel("   Part "+(i+1)+":   ");
+						JLabel unused = new JLabel("  ",images.getIcon(20), SwingConstants.LEFT);
+						unused.setHorizontalTextPosition(SwingConstants.LEFT);
+						JRadioButton unusedRadio = new JRadioButton();
+						unusedRadio.setActionCommand("-1");
+						unusedRadio.setSelected(true);
+						Box unusedBox = Box.createVerticalBox();
 						
 						// build parts selector
 						JPanel PSelectorContainer = new JPanel();
 						PSelectorContainer.setLayout(new GridLayout(1,n));
 						selectedParts[i] = new ButtonGroup();
-						for(int j = 0; j < n; j++){
+						selectedParts[i].add(unusedRadio);
+						unusedBox.add(unused);
+						unusedBox.add(unusedRadio);
+						PSelectorContainer.add(unusedBox);
+						for(Integer j : parts.keySet()){
+								Parts current = parts.get(j);
 								Box box2 = Box.createVerticalBox();
-								JLabel temp = new JLabel("  ",images.getIcon(j), SwingConstants.CENTER);
+								JLabel temp = new JLabel("  ",images.getIcon(current.getImageIndex()),SwingConstants.LEFT);
 								temp.setHorizontalTextPosition(SwingConstants.LEFT);
 								JRadioButton partButton = new JRadioButton();
+								partButton.setActionCommand(Integer.toString(current.getMapIndex()));
 								selectedParts[i].add(partButton);
 								box2.add(temp);
 								box2.add(partButton);
@@ -224,6 +385,7 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 						holder.add(PSelectorContainer, BorderLayout.CENTER);
 						partsSelectPanel.add(holder);
 				}
+				partsSelectPanel.add(spWarning);
 				partsSelectPanel.revalidate();
 		}
 		
@@ -244,10 +406,31 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 				kitDesc.setText("Enter a short kit description");
 		}
 		
+		private void buildEditKit(Kits selectedKit){
+				editKitNumber = selectedKit.getMapIndex();
+				kitName.setText(selectedKit.getName());
+				kitID.setText(Integer.toString(selectedKit.getKitID()));
+				kitDesc.setText(selectedKit.getDescription());
+				
+				// select the appropriate radion buttons
+				// to know how many from the left you need to step you will actually use the image index as the offset variable, not the map index
+				TreeMap<Integer, Parts> kitParts = selectedKit.getListOfParts();
+				for(Integer i : kitParts.keySet()){
+						JRadioButton temp = new JRadioButton();
+						int offset = 1 + kitParts.get(i).getImageIndex();
+						Enumeration e = selectedParts[i].getElements();
+						// this loop will select the button we need to set as picked
+						for(int j = 0; j <= offset; j++){
+								temp = (JRadioButton)e.nextElement();
+						}
+						temp.setSelected(true);
+				}
+		}
+		
 		private TreeMap<Integer, Parts> buildParts(){
 				TreeMap<Integer, Parts> partsMap = new TreeMap<Integer, Parts>();
 				for(int i = 0; i < 5; i++){
-						Parts temp = new Parts(i,"Test Part: "+i, "Test Part "+i+" description", i);
+						Parts temp = new Parts(i,"Test Part: "+i, "Test Part "+i+" description", (i*2));
 						temp.setMapIndex(i);
 						partsMap.put(i,temp);
 				}

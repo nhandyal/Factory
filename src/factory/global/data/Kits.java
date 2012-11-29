@@ -7,12 +7,14 @@ public class Kits implements java.io.Serializable{
 	String name; 
 	TreeMap<Integer, Parts> listOfParts; 
 	String description; 
-	int kitID; 
-	public Kits(String name, TreeMap<Integer, Parts> listOfParts,String description, int kitID){
+	int kitID;
+	int MI;
+	public Kits(String name, TreeMap<Integer, Parts> listOfParts,String description, int kitID, int MI){
 		this.name = name; 
 		this.listOfParts = listOfParts; 
 		this.description = description; 
-		this.kitID = kitID; 
+		this.kitID = kitID;
+		this.MI = MI;
 	}
 	
 	public String getName(){
@@ -31,8 +33,16 @@ public class Kits implements java.io.Serializable{
 		return kitID;
 	}
 	
+	public int getMapIndex(){
+		return MI;
+	}
+	
 	public void print(){
 		System.out.print("name: "+name+" description: "+description+" kitid: "+kitID);
+	}
+	
+	@Override public String toString() {
+		return("Kit # "+kitID+" - "+name);
 	}
 
 }
