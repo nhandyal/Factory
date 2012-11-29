@@ -6,6 +6,7 @@ import java.awt.event.*;
 import java.io.*;
 import factory.global.data.*;
 import factory.global.network.*;
+
 public class PartsManager extends JFrame implements ActionListener, NetworkManager
 {
 	protected TreeMap<Integer, Parts> currentParts;
@@ -58,8 +59,8 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 	public static void main(String[] args)
 	{
 		PartsManager frame = new PartsManager();
-		//frame.setSize(1000, 350);
-		//frame.setVisible(true);
+		frame.setSize(1000, 350);
+		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
@@ -99,10 +100,15 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 			{
 				if (currentParts.get(i) != null)
 				{
-					currentParts.remove(i);
-					spp.newButtons.get(i).setEnabled(true);
-					spp.editButtons.get(i).setEnabled(false);
-					spp.deleteButtons.get(i).setEnabled(false);
+						currentParts.remove(i);
+						spp.newButtons.get(i).setEnabled(true);
+						spp.editButtons.get(i).setEnabled(false);
+						spp.deleteButtons.get(i).setEnabled(false);
+						nb1.sendPartData(currentParts);
+						pip.setCurrentParts(currentParts);
+						pip.drawLabels();
+						pip.revalidate();
+						pip.repaint();
 				}
 			}
 		if (e.getSource() == pcp.CreatePart)
@@ -117,20 +123,20 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 			}
 			if (ID >= 0)
 			{
-				Parts p = new Parts(ID, pcp.partName.getText(), pcp.partDes.getText(), index + 1);
+				Parts p = new Parts(ID, pcp.partName.getText(), pcp.partDes.getText(), index + 1, index);
 				currentParts.put(index, p);
 				pcp.partName.setText("Please enter part name");
 				pcp.partID.setText("Please enter part ID");
 				pcp.partDes.setText("Please enter part description");
 				pcp.setVisible(false);
 				spp.setVisible(true);
+				nb1.sendPartData(currentParts);
+				pip.setCurrentParts(currentParts);
+				pip.drawLabels();
+				pip.revalidate();
+				pip.repaint();
 			}
 		}
-		nb1.sendPartData(currentParts);
-		pip.setCurrentParts(currentParts);
-		pip.drawLabels();
-		pip.revalidate();
-		pip.repaint();
 	}
 
 	// -------------------------------------------------------------------------------------- //
