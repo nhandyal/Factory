@@ -260,13 +260,11 @@ public class UpdateServer implements GuiManager, Serializable
 					
                     Part[] p = new Part[4];
                     Nest[] n = new Nest[4];
-                    for (int i = 0; i < pos.length; i++)
-                        System.out.println(pos[i]);
                     for (int j = 0; j < p.length; j++){
                         if (pos[j] != -1 && indexes[j] != -1)
                         {
                             Part p1 = parts.get(8 + 9 * pos[j]);
-							System.out.println(p1.imageIndex);
+							//System.out.println(p1.imageIndex);
 							//Part p1 = new Part(nests.get(j).getPosition()X,
 							//nests.get(j).getPositionY(), 1);
 							//parts.add(p1);

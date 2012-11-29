@@ -32,8 +32,9 @@ public class KitAssemblyManager extends JPanel implements ActionListener, Networ
 		public void paint(Graphics g){
 				Graphics2D g2 = (Graphics2D)g;
 				bg.paintIcon(this, g2, 0, 0);
-				for (Integer i : fos.keySet()){
-						FactoryObject t = fos.get(i);
+                TreeMap<Integer, FactoryObject> to = (TreeMap<Integer, FactoryObject>)fos.clone();
+				for (Integer i : to.keySet()){
+						FactoryObject t = to.get(i);
 						if(t.getIsLine()){
 								g2.setColor(Color.WHITE);
 								g2.drawLine(t.getPositionX(), t.getPositionY(), t.getPositionXF(), t.getPositionYF());
