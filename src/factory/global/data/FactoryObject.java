@@ -102,9 +102,14 @@ public class FactoryObject implements Serializable, Cloneable{
 	}
 	
 	public void print(){
-		System.out.println("X: "+x+" Y: "+y+" ISL: "+isLine+" xf: "+xf+" yf: "+yf);
+		System.out.println("X: "+x+" Y: "+y+" ISL: "+isLine+" xf: "+xf+" yf: "+yf + "ImageIndex: " + imageIndex);
 	}
-    
+    public boolean isEquals(FactoryObject p){
+        if ((this.x == p.x) && (this.y == p.y) && (this.xf == p.xf) && (this.yf == p.yf) && (this.isLine == p.isLine) && (this.imageIndex == p.imageIndex))
+            return true;
+        else
+            return false;
+    }
     public Object clone() {
         
         FactoryObject clone = null;

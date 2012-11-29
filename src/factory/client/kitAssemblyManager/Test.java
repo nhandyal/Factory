@@ -3,14 +3,18 @@ package factory.client.kitAssemblyManager;
 import javax.swing.JFrame;
 
 
-public class Test{
+public class Test extends JFrame{
 
-	public static void main(String[] args) {
+	public Test()
+	{
 		KitAssemblyManager k = new KitAssemblyManager();
-		k.setSize(400, 670/*670 - 45*/);
-		k.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		k.setVisible(true);
-		System.out.println(System.getProperty("user.dir"));
+		add(k);
+	}
+	public static void main(String[] args) {
+		Test frame = new Test();
+		frame.setSize(400, 670/*670 - 45*/);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
 		/*int i = 0;
 		while (i < 8)
 		{

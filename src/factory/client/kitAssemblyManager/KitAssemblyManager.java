@@ -8,7 +8,7 @@ import java.awt.event.*;
 import factory.global.network.*;
 import factory.global.data.*;
 
-public class KitAssemblyManager extends JFrame implements ActionListener, NetworkManager {
+public class KitAssemblyManager extends JPanel implements ActionListener, NetworkManager {
 	
 		Timer t;
 		TreeMap<Integer, FactoryObject> fos = new TreeMap<Integer, FactoryObject>();
@@ -24,9 +24,9 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
 		}
 	
 		public void actionPerformed(ActionEvent ae){
-				//repaint();
-				Graphics g = this.getGraphics();
-				update(g);
+				repaint();
+				//Graphics g = this.getGraphics();
+				//update(g);
 		}
 	
 		public void paint(Graphics g){
@@ -105,12 +105,6 @@ public class KitAssemblyManager extends JFrame implements ActionListener, Networ
     public void updateKitData(TreeMap<Integer, Kits> kitData){}
 
     
-    public static void main(String[] args) {
-		KitAssemblyManager k = new KitAssemblyManager();
-		k.setSize(400, 670/*670 - 45*/);
-		k.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		k.setVisible(true);
-    }
 		
 		// -------------------------------------------------------------------------------------- //
 		// ----------------------------------- End Network Manager ------------------------------ //

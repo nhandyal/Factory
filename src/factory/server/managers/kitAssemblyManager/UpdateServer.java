@@ -66,7 +66,6 @@ public class UpdateServer implements GuiManager, Serializable
         Part[] p = new Part[8];
         for (int i = 0; i < p.length; i++)
         {
-            for (int j = 0; j < 9; j++){
             	Part p1 = new Part(nests.get(i).getPositionX()+5,nests.get(i).getPositionY()+5,i);
             	Part p2 = new Part(nests.get(i).getPositionX()+20,nests.get(i).getPositionY()+5,i);
             	Part p3 = new Part(nests.get(i).getPositionX()+35,nests.get(i).getPositionY()+5,i);
@@ -85,7 +84,6 @@ public class UpdateServer implements GuiManager, Serializable
             	parts.add(p7);
             	parts.add(p8);
             	parts.add(p9);
-        	}
         }
         flash.setImage(14);
 		LineObjects.add(new FactoryObject((int)robot.getX1(),(int)robot.getY1(),(int)robot.getX2(),(int)robot.getY2()));
@@ -111,7 +109,7 @@ public class UpdateServer implements GuiManager, Serializable
 	{
 		//add all the stuff to the arraylist
         CurrentObjects.clear();
-		for (int i = 0; i < kits.size(); i++) 
+        for (int i = 0; i < kits.size(); i++) 
 			CurrentObjects.add(kits.get(i));
 		for (int i = 0; i < LineObjects.size(); i++)
 			CurrentObjects.add(LineObjects.get(i));
@@ -262,10 +260,13 @@ public class UpdateServer implements GuiManager, Serializable
 					
                     Part[] p = new Part[4];
                     Nest[] n = new Nest[4];
+                    for (int i = 0; i < pos.length; i++)
+                        System.out.println(pos[i]);
                     for (int j = 0; j < p.length; j++){
                         if (pos[j] != -1 && indexes[j] != -1)
                         {
-                            Part p1 = parts.get(pos[j]);
+                            Part p1 = parts.get(8 + 9 * pos[j]);
+							System.out.println(p1.imageIndex);
 							//Part p1 = new Part(nests.get(j).getPosition()X,
 							//nests.get(j).getPositionY(), 1);
 							//parts.add(p1);
@@ -492,10 +493,10 @@ public class UpdateServer implements GuiManager, Serializable
 		{
 			for (int i = 0; i < lastObjects.size(); i++)
 			{
-				if (!lastObjects.get(i).equals(CurrentObjects.get(i))) //if the objects are the same then update the network stuff
+				if (!lastObjects.get(i).isEquals(CurrentObjects.get(i))) //if the objects are the same then update the network stuff
 				{
 					//System.out.print(i + " :");
-                   // CurrentObjects.get(i).print();
+                    //CurrentObjects.get(i).print();
                     inputChangeMap.put(i, true);
 					inputChangeData.put(i, CurrentObjects.get(i));
 				}
@@ -510,7 +511,7 @@ public class UpdateServer implements GuiManager, Serializable
 		{
 			for (int i = 0; i < CurrentObjects.size(); i++)
 			{
-				if (!lastObjects.get(i).equals(CurrentObjects.get(i)))
+				if (!lastObjects.get(i).isEquals(CurrentObjects.get(i)))
 				{
 					//System.out.print(i + " :");
                     inputChangeMap.put(i, true);
