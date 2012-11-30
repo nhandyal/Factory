@@ -25,7 +25,7 @@ import factory.global.data.*;
 import factory.global.network.*;
 
 
-public class KitManagerV2 extends JFrame implements ActionListener, ListSelectionListener{
+public class KitManagerV2 extends JFrame implements ActionListener, ListSelectionListener, NetworkManager{
 		private static final int PAGE_WIDTH = 650;
 		private static final int PAGE_HEIGHT = 650;
 		private CardLayout c1;
@@ -44,6 +44,7 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 		private Border greyLine;
 		private boolean bEditKit;
 		private ButtonGroup[] selectedParts;
+		private NetworkBridge nb1;
 		
 		KitManagerV2(){
 				// initialize class variables
@@ -56,7 +57,7 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 				partsSelectPanel = new JPanel();
 				editKit = new JButton("Edit Kit");
 				selectedParts = new ButtonGroup[8];
-				parts = buildParts();
+				parts = new TreeMap<Integer, Parts>();
 				kits = new TreeMap<Integer, Kits>();
 				kitNumber = 0;
 				images = new ImageArray();
@@ -67,6 +68,7 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 				setComponentSize(editKit,150,50);
 				spWarning.setForeground(Color.RED);
 				bEditKit = false;
+				nb1 = new NetworkBridge(this,"localhost",8465,1);
 				
 				
 				// set Frame and properties
@@ -257,7 +259,7 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 				container.add(kitID);
 				container.add(kitName);
 				container.add(kitDesc);
-				container.add(Box.createVerticalStrut(ST_SPACE*2));
+				container.add(Box.createVerticalStrut(ST_SPACE));
 				container.add(lp);
 				
 				
@@ -273,6 +275,7 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 						String PName = selectedPart.getName();
 						String PDesc = selectedPart.getDesc();
 						
+						setComponentSize(holder, 400, 60);
 						
 						// add elements to section1
 						section1.add(new JLabel("Part "+i));
@@ -290,7 +293,6 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 						
 						// add holder to container
 						container.add(holder);
-						container.add(Box.createVerticalStrut(ST_SPACE/2));
 				}
 				// add edit kit to contianer
 				container.add(editKit);
@@ -342,6 +344,9 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 		}
 		
 		private void buildPartsSelect(){
+				if(parts == null)
+						return;
+				
 				final int H_WIDTH = 450;
 				final int H_HEIGHT = 60;
 				final int n = parts.size();
@@ -412,28 +417,47 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 				kitID.setText(Integer.toString(selectedKit.getKitID()));
 				kitDesc.setText(selectedKit.getDescription());
 				
-				// select the appropriate radion buttons
-				// to know how many from the left you need to step you will actually use the image index as the offset variable, not the map index
+				// select the appropriate radio buttons
+				// to know how many items to shift, we are going to use the button's action command and then match it with the II stored in the part
 				TreeMap<Integer, Parts> kitParts = selectedKit.getListOfParts();
 				for(Integer i : kitParts.keySet()){
-						JRadioButton temp = new JRadioButton();
-						int offset = 1 + kitParts.get(i).getImageIndex();
-						Enumeration e = selectedParts[i].getElements();
+						JRadioButton temp;
+						int partLocation = kitParts.get(i).getMapIndex();
+						Enumeration e = selectedParts[i.intValue()].getElements();
 						// this loop will select the button we need to set as picked
-						for(int j = 0; j <= offset; j++){
+						while(e.hasMoreElements()){
 								temp = (JRadioButton)e.nextElement();
+								if(Integer.parseInt(temp.getActionCommand()) == partLocation){
+										temp.setSelected(true);
+										break;
+								}
 						}
-						temp.setSelected(true);
 				}
 		}
 		
-		private TreeMap<Integer, Parts> buildParts(){
-				TreeMap<Integer, Parts> partsMap = new TreeMap<Integer, Parts>();
-				for(int i = 0; i < 5; i++){
-						Parts temp = new Parts(i,"Test Part: "+i, "Test Part "+i+" description", (i*2));
-						temp.setMapIndex(i);
-						partsMap.put(i,temp);
-				}
-				return partsMap;
+		// -------------------------------------------------------------------------------------- //
+		// ----------------------------------- Network Manager ---------------------------------- //
+		// -------------------------------------------------------------------------------------- //
+		
+		// server specific
+		public void registerClientListener(NetworkBridge newBridge, int cID){}
+		public void syncFrame(){}
+		
+		// client specific
+		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){}
+		
+		public void syncChanges(ArrayList<TreeMap<Integer,FactoryObject>> dataArray){}
+		
+		// global
+		public void updatePartData(TreeMap<Integer, Parts> partData){
+				parts = partData;
 		}
+		public void updateKitData(TreeMap<Integer, Kits> kitData){}
+		public void closeNetworkBridge(int bridgeID){
+				nb1.close();
+		}
+		
+		// -------------------------------------------------------------------------------------- //
+		// ----------------------------------- End Network Manager ------------------------------ //
+		// -------------------------------------------------------------------------------------- //
 }

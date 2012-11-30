@@ -105,33 +105,10 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				TreeMap<Integer, Parts> currentParts = null;
 				TreeMap<Integer, Kits> currentKits = null;
 				if (cID == 0 || cID == 1){
-					FileInputStream fin;
-					ObjectInputStream oin;
-					try{
-						fin = new FileInputStream("Parts");
-						oin = new ObjectInputStream(fin);
-						currentParts = (TreeMap<Integer, Parts>) oin.readObject();
-						fin.close();
-						oin.close();
-					}catch(Exception e){
-						currentParts = new TreeMap<Integer, Parts>();
-					}
-					newBridge.sendPartData(currentParts);
+						newBridge.sendPartData(fs.getParts());
 				}
-				if(cID == 1)
-				{
-					FileInputStream fin;
-					ObjectInputStream oin;
-					try{
-						fin = new FileInputStream("Kits");
-						oin = new ObjectInputStream(fin);
-						currentKits = (TreeMap<Integer, Kits>) oin.readObject();
-						fin.close();
-						oin.close();
-					}catch(Exception e){
-						currentKits = new TreeMap<Integer, Kits>();
-					}
-					newBridge.sendKitData(currentKits);
+				if(cID == 1){
+						//newBridge.sendKitData(currentKits);
 				}
 		}
 		
