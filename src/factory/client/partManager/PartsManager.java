@@ -11,7 +11,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 {
 	protected TreeMap<Integer, Parts> currentParts;
 	private PartsInfoPanel pip;
-	private PartsIconPanel picp;
+	//private PartsIconPanel picp;
 	private SelectPartPanel spp;
 	private PartsCreatorPanel pcp;
 	private JPanel panel = new JPanel();
@@ -42,7 +42,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		panel.removeAll();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 		pip = new PartsInfoPanel(currentParts);
-		picp = new PartsIconPanel();
+		//picp = new PartsIconPanel();
 		spp = new SelectPartPanel(this);
 		pcp = new PartsCreatorPanel(this);
 		//pcp.setVisible(false);
@@ -50,7 +50,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		editButtons = spp.getEditButtons();
 		deleteButtons = spp.getDeleteButtons();
 		panel.add(pip);
-		panel.add(picp);
+		//panel.add(picp);
 		panel.add(spp);
 		panel.add(pcp);
 		add(panel);
@@ -59,8 +59,9 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 	public static void main(String[] args)
 	{
 		PartsManager frame = new PartsManager();
-		frame.setSize(1000, 350);
+		frame.setSize(600, 350);
 		frame.setVisible(true);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
@@ -153,8 +154,8 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 			currentParts = new TreeMap<Integer, Parts>();
 		initialize();
 		pcp.setVisible(false);
-		setSize(1000, 350);
-		setVisible(true);
+		//setSize(1000, 350);
+		//setVisible(true);
 	}
 	public void updateKitData(TreeMap<Integer, Kits>kitData){}
 		

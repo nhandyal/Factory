@@ -19,14 +19,21 @@ public class PartsInfoPanel extends JPanel
 		JLabel lineSkip = new JLabel("<HTML><BR><BR></HTML>");
 		add(lineSkip);
 		for (int i = 0; i < 10; i++)
+		{
+			JPanel t = new JPanel();
+			t.setLayout(new BoxLayout(t, BoxLayout.X_AXIS));
+			t.add(new JLabel(new ImageIcon("bin/factory/global/assets/part" + (i + 1) + ".png")));
 			if(currentParts.get(i) != null)
 			{
-				add(new JLabel("Part " + (i + 1) + ":" + currentParts.get(i).getName()));
+				t.add(new JLabel("     Part " + (i + 1) + ":" + currentParts.get(i).getName()));
 			}
 			else
 			{
-				add(new JLabel("Unused"));
+				t.add(new JLabel("     Unused"));
 			}
+			
+			add(t);
+		}
 	}
 	
 	public void setCurrentParts(TreeMap<Integer, Parts> parts)
