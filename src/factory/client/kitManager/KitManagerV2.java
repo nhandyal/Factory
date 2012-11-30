@@ -171,6 +171,7 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 								}
 								bEditKit = false;
 								c1.show(masterContainer,"akc");
+								nb1.sendKitData(kits);
 								populateActiveKitList();
 						}
 				}
@@ -241,8 +242,9 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 		
 		private void buildKitData(Kits selectedKit){
 				final int ST_SPACE = 25;
-				Box container = Box.createVerticalBox();
 				kitDataPanel.removeAll();
+				Box container = Box.createVerticalBox();
+				setComponentSize(container, 400, PAGE_HEIGHT);
 				JLabel kitID = new JLabel(Integer.toString(selectedKit.getKitID()));
 				JLabel kitName = new JLabel(selectedKit.getName());
 				JLabel kitDesc = new JLabel(selectedKit.getDescription());
@@ -377,7 +379,7 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 						for(Integer j : parts.keySet()){
 								Parts current = parts.get(j);
 								Box box2 = Box.createVerticalBox();
-								JLabel temp = new JLabel("  ",images.getIcon(current.getImageIndex()),SwingConstants.LEFT);
+								JLabel temp = new JLabel("  ",images.getIcon(current.getImageIndex()-1),SwingConstants.LEFT);
 								temp.setHorizontalTextPosition(SwingConstants.LEFT);
 								JRadioButton partButton = new JRadioButton();
 								partButton.setActionCommand(Integer.toString(current.getMapIndex()));
@@ -451,8 +453,16 @@ public class KitManagerV2 extends JFrame implements ActionListener, ListSelectio
 		// global
 		public void updatePartData(TreeMap<Integer, Parts> partData){
 				parts = partData;
+				
+				// validate kits and make sure all the parts are still present
+				
 		}
-		public void updateKitData(TreeMap<Integer, Kits> kitData){}
+		public void updateKitData(TreeMap<Integer, Kits> kitData){
+				if(kitData != null){
+						kits = kitData;
+						populateActiveKitList();
+				}
+		}
 		public void closeNetworkBridge(int bridgeID){
 				nb1.close();
 		}

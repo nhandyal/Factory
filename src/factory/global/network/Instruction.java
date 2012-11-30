@@ -15,6 +15,7 @@ import java.io.*;
 
 public class Instruction implements java.io.Serializable{
 		String instruction;
+		String breakCommand;
 		int x;
 		int v;
 		
