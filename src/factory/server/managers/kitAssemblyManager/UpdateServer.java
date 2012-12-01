@@ -618,4 +618,6 @@ public class UpdateServer implements GuiManager, Serializable
 		LineObjects.set(1, new FactoryObject((int)probot.getX1(),(int)probot.getY1(),(int)probot.getX2(),(int)probot.getY2()));
 		setCurrentObjects();
 	}
+
+	public void bindManager(GuiManager bindManager){}
 }

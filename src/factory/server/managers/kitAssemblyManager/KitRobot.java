@@ -79,6 +79,17 @@ public class KitRobot extends FactoryObject
 		//move();
 	}
 	
+	public void trashKit(KitStand ks1, Kit k, int base){
+		this.base = base;
+		isMoving = true;
+		s1 = ks1;
+		holdObj = k;
+		xdes1 = ks1.getPositionX();
+		ydes1 = ks1.getPositionY();
+		xdes2 = -100;
+		ydes2 = 50;
+	}
+	
 	public void move()
 	{
 		csCount = us.getCount() - base;
@@ -96,6 +107,7 @@ public class KitRobot extends FactoryObject
 				else if (s1 != null){
 					s1.setCurrentKit(null);
 				}
+				holdObj.setIsMoving(true);
 			}
 			x2 += (x1 - xdes1)/25;
 			y2 += (y1 - ydes1)/25;
@@ -117,6 +129,7 @@ public class KitRobot extends FactoryObject
 					c2.setOutKit(holdObj);
 				else if (s2 != null)
 					s2.setCurrentKit(holdObj);	
+				holdObj.setIsMoving(false);
 			}
 			x2 += (x1 - xdes2)/25;
 			y2 += (y1 - ydes2)/25;

@@ -30,9 +30,12 @@ public class FactoryManagerGUI extends JPanel implements ActionListener, ListSel
 		private DefaultListModel listModel;
 		private JList kitList;
 		private TreeMap<Integer, Kits> kits;
+		private ArrayList<Kits> buildInfo;
 		private ImageArray images;
 		private Border greyLine;
 		private int PAGE_WIDTH, PAGE_HEIGHT;
+		private JTextField buildQuantity;
+		private JButton build;
 		
 		FactoryManagerGUI(FactoryManager parent, int pWidth, int pHeight){
 				this.parent = parent;
@@ -69,7 +72,16 @@ public class FactoryManagerGUI extends JPanel implements ActionListener, ListSel
 				}
 		}
 		
-		public void actionPerformed(ActionEvent ae){}
+		public void actionPerformed(ActionEvent ae){
+				try{
+						int buildNumber = Integer.parseInt(buildQuantity.getText());
+						if(buildNumber <= 0 ){
+								System.out.println("Invalud kit build amount");
+						}
+				}catch(Exception e){
+						System.out.println("Invalid kit build amount");
+				}
+		}
 		
 		// -------------------------------------------------------------------------------------- //
 		// ---------------------------------- Constructor Helpers ------------------------------- //
@@ -168,6 +180,14 @@ public class FactoryManagerGUI extends JPanel implements ActionListener, ListSel
 						container.add(holder);
 				}
 				
+				// add the build items to the container
+				buildQuantity = new JTextField("Enter number of kits to build");
+				build = new JButton("Add to build queue");
+				build.addActionListener(this);
+				container.add(buildQuantity);
+				container.add(build);
+				
+
 				// add container to kitDataPanel
 				kitDataPanel.add(container);
 				kitDataPanel.revalidate();
@@ -185,7 +205,7 @@ public class FactoryManagerGUI extends JPanel implements ActionListener, ListSel
 		}
 		
 		public void setKitData(TreeMap<Integer, Kits> newKits){
-				newKits = kits;
+				kits = newKits;
 				populateActiveKitList();
 		}
 }
