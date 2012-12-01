@@ -35,11 +35,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 
 				images = new ImageArray();
 
-//				changeMap = new TreeMap<Integer,Boolean>();
-//				changeData = new TreeMap<Integer,FactoryObject>();
-//				animData = new TreeMap<Integer,FactoryObject>();
-//				temp = new TreeMap<Integer,FactoryObject>();
-//				frameAnimationData = new TreeMap<Integer,FactoryObject>();
+				frameAnimationData = new TreeMap<Integer,FactoryObject>();
 
 				// initialize JPanels and CardLayout
 				masterPanel = new JPanel();
