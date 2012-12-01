@@ -650,6 +650,9 @@ public class UpdateServer implements GuiManager
 
 	public void breakPart(String b, int x){}
     public void setSync(){}
-    public boolean getSync() {}
+    public boolean getSync()
+    {
+        return false;
+    }
 
 }
