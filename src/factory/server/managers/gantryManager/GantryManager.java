@@ -28,6 +28,7 @@ public class GantryManager implements GuiManager, Serializable
     public boolean isMoveToFeeder = false;
     public boolean isMoveToPoint = false;
     public boolean isRemoveBin = false;
+    public boolean isMoveToBinPurge = false;
     public int bin;
 	public int feeder;
     public int x;
@@ -121,6 +122,8 @@ public class GantryManager implements GuiManager, Serializable
     {
         if (isMoveToBin)
             robot.moveToBin(bin);
+        if (isMoveToBinPurge)
+            robot.moveToBinPurge(bin);
         if (isMoveToFeeder)
             robot.moveToFeeder(feeder);
         if (isMoveToPoint)
