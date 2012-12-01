@@ -123,6 +123,9 @@ public class LaneManager implements GuiManager, java.io.Serializable
 		changeData = new TreeMap<Integer,FactoryObject>();
 		temp = new TreeMap<Integer,FactoryObject>();
 	}
+    public void bindManager(GuiManager bindManager)
+    {
+    }
 
 	public void laneManagement(){
 

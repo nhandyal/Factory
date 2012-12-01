@@ -117,6 +117,9 @@ public class GantryManager implements GuiManager, Serializable
 		map.put(robot.getIndex(), robot);
 
 	}
+    public void bindManager(GuiManager bindManager)
+    {
+    }
     public void move()
     {
         if (isMoveToBin)

@@ -17,6 +17,7 @@ public class PartRobot extends FactoryObject
 	int csCount = 0;
 	int[] kitIndex = new int[4];
 	Part[] holdObj = new Part[4];
+    Nest[] nest = new Nest[4];
 	KitStand s2;
     Gripper g;
 	double[] xdes1, ydes1;
@@ -57,6 +58,7 @@ public class PartRobot extends FactoryObject
 	public void moveFromNest(KitStand ks, Part[] p, Nest[] n, int[] i, int base){
 		if (ks.getKit() != null){
 			isMoving = true;
+            nest = n;
 			this.base = base;
 			//store parts to pick up
 			for (int k = 0; k < p.length; k++)
@@ -104,7 +106,11 @@ public class PartRobot extends FactoryObject
             g.setPosition((int)x2,(int)y2);
             //add part to gripper
             if (csCount == 19)
+            {
                 g.addPart(holdObj[0]);
+                //us.lm.removePart(nest[0].index);
+            }
+            g.updateParts();
             csCount++;
         }
         //move to second nest
@@ -115,7 +121,10 @@ public class PartRobot extends FactoryObject
                 y2 += (ydes1[1] - ydes1[0])/20;
                 g.setPosition((int)x2,(int)y2);
                 if (csCount == 39)
+                {
                     g.addPart(holdObj[1]);
+                    //us.lm.removePart(nest[1].index);
+                }
                 g.updateParts();
                 csCount++;
             }
@@ -130,7 +139,10 @@ public class PartRobot extends FactoryObject
                 y2 += (ydes1[2] - ydes1[1])/20;
                 g.setPosition((int)x2,(int)y2);
                 if (csCount == 59)
+                {
                     g.addPart(holdObj[2]);
+                    //us.lm.removePart(nest[2].index);
+                }
                 g.updateParts();
                 csCount++;
             }
@@ -145,7 +157,10 @@ public class PartRobot extends FactoryObject
                 y2 += (ydes1[3] - ydes1[2])/20;
                 g.setPosition((int)x2,(int)y2);
                 if (csCount == 79)
+                {
                     g.addPart(holdObj[3]);
+                    //us.lm.removePart(nest[3].index);
+                }
                 g.updateParts();
                 csCount++;
             }

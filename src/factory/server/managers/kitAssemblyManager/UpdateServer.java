@@ -71,7 +71,9 @@ public class UpdateServer implements GuiManager, Serializable
 		}
         for (int i = 0; i < 4; i++){
 			Nest n1 = new Nest(355,72+i*124,-1);
+            n1.setIndex(i * 2);
 			Nest n2 = new Nest(355,72+i*124+35,-1);
+            n2.setIndex(i * 2 + 1);
 			nests.add(n1);
 			nests.add(n2);
 		}
@@ -114,30 +116,38 @@ public class UpdateServer implements GuiManager, Serializable
 	{
 		//add all the stuff to the arraylist
         CurrentObjects.clear();
-		for (int i = 0; i < 8; i++)
-		{
-            if (!isFull.get(i))
+        try
+        {
+            for (int i = 0; i < 8; i++)
             {
-                for (int j = 0; j < lm.getNest(i).size(); j++)
+                if (!isFull.get(i))
                 {
-                    if (!nestsIndex.contains(i) || j != 8)
+                    for (int j = 0; j < lm.getNest(i).size(); j++)
                     {
-                        factory.global.data.Part p = lm.getNest(i).get(j);
-                        parts.set(j + 9 * i, new Part(355 + p.x, p.y, p.imageIndex));
+                        {
+                            factory.global.data.Part p = lm.getNest(i).get(j);
+                            parts.set(j + 9 * i, new Part(355 + p.x, p.y, p.imageIndex));
+                        }
                     }
-                    if (nestsIndex.contains(i))
-                        System.out.println(i);
+                    for (int j = lm.getNest(i).size(); j < 9; j++)
+                            parts.set(j + 9 * i, new Part(0, 0, -1));
                 }
-                for (int j = lm.getNest(i).size(); j < 9; j++)
-                    if (!nestsIndex.contains(i) || j != 5)
-                        parts.set(j + 9 * i, new Part(0, 0, -1));
-            }
-            if (lm.getNest(i).size() == 9)
-                isFull.set(i, true);
-            else
-                isFull.set(i, false);
+                if (lm.getNest(i).size() == 9)
+                {
+                    factory.global.data.Part p = lm.getNest(i).get(8);
+                    //p.print();
+                    //36, 98
+                    if (p.x == 36 && p.y == 98 + i * 36)
+                        isFull.set(i, true);
+                    else
+                        isFull.set(i, false);
+                }
+                else
+                    isFull.set(i, false);
 		}
-        for (int i = 0; i < kits.size(); i++) 
+        }catch(Exception e)
+        {}
+        for (int i = 0; i < kits.size(); i++)
 			CurrentObjects.add(kits.get(i));
 		for (int i = 0; i < LineObjects.size(); i++)
 			CurrentObjects.add(LineObjects.get(i));
@@ -305,12 +315,13 @@ public class UpdateServer implements GuiManager, Serializable
                     for (int j = 0; j < p.length; j++){
                         if (pos[j] != -1 && indexes[j] != -1)
                         {
-                            Part p1 = parts.get(5 + 9 * pos[j]);
+                            Part p1 = parts.get(8 + 9 * pos[j]);
 							//System.out.println(p1.imageIndex);
 							//Part p1 = new Part(nests.get(j).getPosition()X,
 							//nests.get(j).getPositionY(), 1);
-							//parts.add(p1);
-                            p[j] = p1;
+                            lm.removePart(pos[j]);
+							parts.add(p1);
+                            p[j] = parts.get(parts.size() - 1);
                             n[j] = nests.get(pos[j]);
                             nestsIndex.add(pos[j]);
                         }
@@ -538,8 +549,8 @@ public class UpdateServer implements GuiManager, Serializable
 			{
 				if (!lastObjects.get(i).isEquals(CurrentObjects.get(i))) //if the objects are the same then update the network stuff
 				{
-					System.out.print(i + " :");
-                    CurrentObjects.get(i).print();
+					//System.out.print(i + " :");
+                    //CurrentObjects.get(i).print();
                     inputChangeMap.put(i, true);
 					inputChangeData.put(i, CurrentObjects.get(i));
 				}

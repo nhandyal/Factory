@@ -207,7 +207,8 @@ public class ServerControl extends JPanel implements ActionListener{
 		}
 		
 		if (e.getSource() == build1){
-			if (KitASM.isFinished() ){
+			server.sync = true;
+            if (KitASM.isFinished() ){
 				int[] nests = new int[4];
 				int[] indexes = new int[4];
 				for (int i = 0; i < 4; i++){
@@ -236,7 +237,8 @@ public class ServerControl extends JPanel implements ActionListener{
 			}
 		}
 		if (e.getSource() == build2){
-			if (KitASM.isFinished() ){
+			server.sync = true;
+            if (KitASM.isFinished() ){
 				int[] nests = new int[4];
 				int[] indexes = new int[4];
 				for (int i = 0; i < 4; i++){
