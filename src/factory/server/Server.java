@@ -63,7 +63,6 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				
 				// bind laneManager and KitASM
 				guiViews[2].bindManager(guiViews[1]);
-				guiViews[1].bindManager(guiViews[2]);
 				
 				// initialize server control panel
 				SCP = new ServerControl(guiViews[2], guiViews[1], guiViews[0], fs, this);
@@ -135,6 +134,10 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				sync = true;
 		}
 
+		public void updateBuildData(ArrayList<Kits> buildData){
+				fs.mergeBuildData(buildData);
+		}
+		
 		// Client Specific
 		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){};
 		public void syncChanges(ArrayList<TreeMap<Integer, FactoryObject>> dataArray){}
