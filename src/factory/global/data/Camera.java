@@ -16,7 +16,7 @@ import java.io.*;
 
 public class Camera extends FactoryObject implements Serializable{
 
-	boolean takenPicture, hasPath;
+	boolean takenPicture, hasPath, broken;
 	int newX, newY, intlx, intly;
 	int nest;
 
@@ -28,6 +28,7 @@ public class Camera extends FactoryObject implements Serializable{
 		setImage(initialImage);
 		index = indx;
 		takenPicture = false;
+		broken = false;
 	}
 
 	public void setTakenPicture(boolean b){
@@ -40,6 +41,13 @@ public class Camera extends FactoryObject implements Serializable{
 
 	public int getNest(){
 		return nest;
+	}
+
+	public void setBroken(boolean b){
+		broken = b;
+	}
+	public boolean getBroken(){
+		return broken;
 	}
 
 	public void setPath(int xPos,int yPos, int n){
@@ -62,7 +70,7 @@ public class Camera extends FactoryObject implements Serializable{
 
 	public void move(){
 
-		if(hasPath == false){
+		if(hasPath == false && broken == false){
 			if(y > intly){
 				y -= 4;
 			}
@@ -80,7 +88,7 @@ public class Camera extends FactoryObject implements Serializable{
 			}
 		}
 
-		else{
+		else if(broken == false){
 			if(x > newX){
 				x -= 4;
 			}

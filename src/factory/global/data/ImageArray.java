@@ -42,6 +42,7 @@ public class ImageArray{
         images.add(new ImageIcon("bin/factory/global/assets/imageChart.png"));		// index 17     Image Chart
         images.add(new ImageIcon("bin/factory/global/assets/gantry.png"));			// index 18		Gantry
         images.add(new ImageIcon("bin/factory/global/assets/partslow.png"));		// index 19		Parts Low Light
+        images.add(new ImageIcon("bin/factory/global/assets/caution.gif"));			// index 20		Caution sign
 
 	}
 
