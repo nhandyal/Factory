@@ -648,5 +648,7 @@ public class UpdateServer implements GuiManager
         return isBadKit;
     }
 	public void breakPart(String b, int x){}
+    public void setSync(){}
+    public boolean getSync() {}
 
 }
