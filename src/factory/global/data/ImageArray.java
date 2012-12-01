@@ -16,7 +16,7 @@ import java.io.*;
 import javax.swing.*;
 import java.util.*;
 
-public class ImageArray{
+public class ImageArray implements Serializable{
 	ArrayList<ImageIcon> images;
 
 	public ImageArray(){
