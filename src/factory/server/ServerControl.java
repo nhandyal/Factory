@@ -275,8 +275,12 @@ public class ServerControl extends JPanel implements ActionListener{
 		}
 		
 		if (e.getSource() == inspectionPicture){
-			if (KitASM.isFinished() ){
+			if (KitASM.isFinished()){
 				KitASM.takePic();
+				if (KitASM.isBadKit())
+					badKitPicLabel.setText("Kit missing parts");
+				else
+					badKitPicLabel.setText("Kit is complete");
 			}
 		}
 		if (e.getSource() == inspection){
@@ -315,7 +319,12 @@ public class ServerControl extends JPanel implements ActionListener{
 			n = n.substring(5);
 			int nest = Integer.parseInt(n);
 			nest -= 1;
+			int nest1 = nest + 1;
 			LM.takePicture(nest);
+			if (LM.testNest(nest))
+				badNestPicLabel.setText("Nest " + nest1 + " is good");
+			else
+				badNestPicLabel.setText("Nest " + nest1 + " is bad");
 		}
 		if (e.getSource() == moveToBin){
 			String b = (String)binChooser.getSelectedItem();
