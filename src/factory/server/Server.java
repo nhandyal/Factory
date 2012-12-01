@@ -89,7 +89,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 		
 		public void actionPerformed(ActionEvent ae){	
 				sync = guiViews[1].getSync();
-				guiView[1].setSync();
+				guiViews[1].setSync();
 				
 				if(sync){
 						masterSync();
