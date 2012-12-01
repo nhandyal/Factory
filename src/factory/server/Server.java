@@ -102,11 +102,10 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 		// Server Specific
 		public void registerClientListener(NetworkBridge newBridge, int cID){
 				clientConnections[cID] = newBridge;
-				System.out.println(cID);
 				if (cID == 0 || cID == 1){
 						newBridge.sendPartData(fs.getParts());
 				}
-				if(cID == 1){
+				if(cID == 1 || cID == 5){
 						newBridge.sendKitData(fs.getKits());
 				}
 		}
