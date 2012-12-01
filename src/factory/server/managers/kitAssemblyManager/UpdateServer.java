@@ -44,7 +44,7 @@ public class UpdateServer implements GuiManager, Serializable
     boolean isFinished = true;
     boolean isFlashed = false;
     boolean flag = false;
-    boolean isBadKit = false;
+    boolean isBadKit = true;
     ArrayList<Boolean> isFull;
 	@SuppressWarnings("unchecked")
 	public UpdateServer()
@@ -454,7 +454,10 @@ public class UpdateServer implements GuiManager, Serializable
             boolean f = true;
             if (!robot.getIsMoving() && stands.get(2).getKit() != null && stands.get(2).getKit().getPicTaken())
             {
-                robot.moveFromStandToConveyor(stands.get(2), conv, stands.get(2).getKit(), 0); //call the robot to do the animation
+                if(!isBadKit)
+                    robot.moveFromStandToConveyor(stands.get(2), conv, stands.get(2).getKit(), 0); //call the robot to do the animation
+                else
+                    robot.trashKit(stands.get(2), stands.get(2).getKit(), 0);
                 count++;
                 isFinished = false;
                 flag = false;
@@ -618,6 +621,4 @@ public class UpdateServer implements GuiManager, Serializable
 		LineObjects.set(1, new FactoryObject((int)probot.getX1(),(int)probot.getY1(),(int)probot.getX2(),(int)probot.getY2()));
 		setCurrentObjects();
 	}
-
-	public void bindManager(GuiManager bindManager){}
 }
