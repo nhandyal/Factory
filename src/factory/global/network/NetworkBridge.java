@@ -24,6 +24,7 @@ public class NetworkBridge{
 		int id = -1;
 		Socket s = null;
 		
+		
 		// ---------------------------------------------------------------------------------------------------------- //
 		// ----------------------------------------------CONSTRUCTORS------------------------------------------------ //
 		// ---------------------------------------------------------------------------------------------------------- //
@@ -94,7 +95,7 @@ public class NetworkBridge{
 		
 		// method to send parts data to server
 		public void sendPartData(Object partData){
-				Instruction instr = new Instruction("UPD");						// UPD == update part data
+				Instruction instr = new Instruction("UPD");										// UPD == Update part data
 				writeData(instr);
 				writeData(partData);
 		}
@@ -103,6 +104,17 @@ public class NetworkBridge{
 				Instruction instr = new Instruction("UKD");
 				writeData(instr);
 				writeData(kitData);
+		}
+		
+		public void syncBuildInfo(Object buildData){
+				Instruction instr = new Instruction("UBI");									// UBI == Update build info
+				writeData(instr);
+				writeData(buildData);
+		}
+		
+		public void sendBreakData(String b, int x, int v){
+				Instruction instr = new Instruction("BRK",b, x, v);					// BRK == send break data to server
+				writeData(instr);
 		}
 		
 		public void sync(){
@@ -202,6 +214,12 @@ class InputStreamListener extends Thread{
 				else if(instruction.equals("UKD")){						// client --> server update kit data
 						readKitData();
 				}
+				else if(instruction.equals("UBI")){						// client --> server update build data for factory
+						readBuildData();
+				}
+				else if(instruction.equals("BRK")){
+						parseBreakData(instr);
+				}
 		}
 		
 		void readAnimationData(int expectedPackets){
@@ -293,5 +311,32 @@ class InputStreamListener extends Thread{
 						c.printStackTrace();
 				}
 				parent.updateKitData(kitData);
+		}
+		
+		void readBuildData(){
+				ArrayList<Kits> buildData = null;
+				try{
+						buildData = (ArrayList<Kits>)ois.readObject();
+				}catch(IOException ie){
+						String message = ie.toString();
+						if(message.equals("java.io.EOFException") || message.equals("java.net.SocketException: Connection reset")){
+								System.out.println("Connection lost");
+								parent.closeNetworkBridge(nb.getBridgeID());
+						}
+						else if(message.equals("java.net.SocketTimeoutException: Read timed out")){}
+						else{
+								ie.printStackTrace();		
+						}
+				}catch(ClassNotFoundException c){
+						c.printStackTrace();
+				}
+				parent.updateBuildData(buildData);
+		}
+		
+		void parseBreakData(Instruction instr){
+				String b = instr.breakCommand;
+				int cID = instr.x;
+				int x = instr.v;
+				parent.updateBreakData(b,cID,x);
 		}
 }

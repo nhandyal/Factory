@@ -14,10 +14,10 @@ package factory.global.network;
 import java.io.*;
 
 public class Instruction implements java.io.Serializable{
-		String instruction;
-		String breakCommand;
-		int x;
-		int v;
+		public String instruction;
+		public String breakCommand;
+		public int x;
+		public int v;
 		
 		public Instruction(String i){
 				instruction = i;
@@ -35,6 +35,17 @@ public class Instruction implements java.io.Serializable{
 				instruction  = i;
 				this.x = x;
 				this.v = v;
+		}
+		
+		public Instruction(String i, String b, int x, int v){
+				instruction  = i;
+				breakCommand = b;
+				this.x = x;
+				this.v = v;
+		}
+		
+		public void setBreak(String b){
+				breakCommand = b;
 		}
 		
 		public void setX(int x){

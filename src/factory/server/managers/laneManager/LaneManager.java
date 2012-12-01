@@ -10,11 +10,12 @@ import javax.swing.Timer;
 import java.util.*;
 
 // user packages
+import factory.server.*;
 import factory.global.data.*;
 import factory.server.managers.GuiManager;
 
-public class LaneManager implements GuiManager{
-
+public class LaneManager implements GuiManager, java.io.Serializable
+{
 	ArrayList<Lane> lanes;
 	ArrayList<Bin> bins;
 	ArrayList<Line> dividers;
@@ -29,8 +30,12 @@ public class LaneManager implements GuiManager{
 	TreeMap<Integer,FactoryObject> purgeData;
 	TreeMap<Integer,FactoryObject> changeData;
 
-	public LaneManager(){
+	Server server;
+
+	public LaneManager(Server s){
 	
+		server = s;
+
 		index = 1;
 		
 		// Create 8 lanes
@@ -273,6 +278,7 @@ public class LaneManager implements GuiManager{
 		ArrayList<Part> nest = lanes.get(i).getNest();
 		if (nest.size() > 0)
 			lanes.get(i).getNest().remove((nest.size() -1));
+		server.sync = true;
 	}
 
 	public void breakLane(int i){
@@ -485,4 +491,7 @@ public class LaneManager implements GuiManager{
 			cam.setTakenPicture(false);
 		}
 	}
+
+	public void bindManager(GuiManager bindManager){}
+	public void breakPart(String b, int x){}
 }

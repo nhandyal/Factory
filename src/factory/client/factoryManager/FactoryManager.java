@@ -114,6 +114,10 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 				c1.show(masterPanel,"gc");
 		}
 		
+		public void syncBuildInfo(Object obj){
+				nb.syncBuildInfo(obj);
+		}
+		
 		public void actionPerformed(ActionEvent ae){
 				for(JPanel frame : animationFrames){
 						frame.repaint();
@@ -127,6 +131,8 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 		// server specific
 		public void registerClientListener(NetworkBridge newBridge, int cID){}
 		public void syncFrame(){}
+		public void updateBuildData(ArrayList<Kits> buildData){}
+		public void updateBreakData(String breakCommand, int cID, int x){}
 		
 		
 		// client specific

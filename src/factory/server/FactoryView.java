@@ -7,7 +7,7 @@
 ** Pre-Conditions: None
 */
 
-package factory.client.factoryManager;
+package factory.server;
 
 // Java classes
 import javax.swing.*;
@@ -23,32 +23,26 @@ import java.util.Enumeration;
 // import user classes
 import factory.global.data.*;
 
-public class FactoryManagerGUI extends JPanel implements ActionListener, ListSelectionListener{
-		private FactoryManager parent;
+public class FactoryView extends JPanel implements ListSelectionListener{
 		private JPanel activeKitsPanel, kitDataPanel;
 		private JPanel activeKitsContainer;
 		private DefaultListModel listModel;
 		private JList kitList;
-		private TreeMap<Integer, Kits> kits;
 		private ArrayList<Kits> buildInfo;
 		private ImageArray images;
 		private Border greyLine;
 		private int PAGE_WIDTH, PAGE_HEIGHT;
-		private JTextField buildQuantity;
-		private JButton build;
 		
-		FactoryManagerGUI(FactoryManager parent, int pWidth, int pHeight){
-				this.parent = parent;
-				this.PAGE_WIDTH = pWidth;
-				this.PAGE_HEIGHT = pHeight;
+		FactoryView(){
+				this.PAGE_WIDTH = 450;
+				this.PAGE_HEIGHT = 600;
 				
 				// initialize class variables
 				activeKitsContainer = new JPanel();				
 				activeKitsPanel = new JPanel();
 				kitDataPanel = new JPanel();
-				kits = new TreeMap<Integer, Kits>();
 				buildInfo = new ArrayList<Kits>();
-				images = parent.getImageArray();
+				images = new ImageArray();
 				greyLine = BorderFactory.createLineBorder(Color.DARK_GRAY);
 
 				
@@ -70,25 +64,6 @@ public class FactoryManagerGUI extends JPanel implements ActionListener, ListSel
 						Kits currentKit = (Kits)kitList.getSelectedValue();
 						if(currentKit != null)
 								buildKitData(currentKit);
-				}
-		}
-		
-		public void actionPerformed(ActionEvent ae){
-				try{
-						String sbuildQuantity = buildQuantity.getText();
-						System.out.println(sbuildQuantity);
-						int buildNumber = Integer.parseInt(sbuildQuantity);
-						if(buildNumber <= 0 ){
-								System.out.println("Invalid kit build amount");
-						}
-						else{
-								Kits selectedKit = (Kits)kitList.getSelectedValue();
-								selectedKit.setBuildNumber(buildNumber);
-								buildInfo.add(selectedKit);
-								parent.syncBuildInfo(buildInfo);
-						}
-				}catch(Exception e){
-						System.out.println("Invalid kit build amount");
 				}
 		}
 		
@@ -126,8 +101,7 @@ public class FactoryManagerGUI extends JPanel implements ActionListener, ListSel
 		private void populateActiveKitList(){
 				// populate the active kits list with the current kits available in the factory
 				listModel.removeAllElements();
-				for(Integer i : kits.keySet()){
-						Kits currentKit = kits.get(i);
+				for(Kits currentKit : buildInfo){
 						listModel.addElement(currentKit);
 				}
 		}
@@ -187,17 +161,7 @@ public class FactoryManagerGUI extends JPanel implements ActionListener, ListSel
 						
 						// add holder to container
 						container.add(holder);
-				}
-				
-				// add the build items to the container
-				buildQuantity = new JTextField("Enter number of kits to build");
-				build = new JButton("Add to build queue");
-				setComponentSize(buildQuantity, 400, 20);
-				setComponentSize(buildQuantity, 400, 20);
-				build.addActionListener(this);
-				container.add(buildQuantity);
-				container.add(build);
-				
+				}		
 
 				// add container to kitDataPanel
 				kitDataPanel.add(container);
@@ -215,8 +179,8 @@ public class FactoryManagerGUI extends JPanel implements ActionListener, ListSel
 				component.setAlignmentX(Component.LEFT_ALIGNMENT);
 		}
 		
-		public void setKitData(TreeMap<Integer, Kits> newKits){
-				kits = newKits;
+		public void setKitData(ArrayList<Kits> newBuildData){
+				buildInfo = newBuildData;
 				populateActiveKitList();
 		}
 }

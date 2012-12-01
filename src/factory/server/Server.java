@@ -62,8 +62,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				startAnimation = false;
 				
 				// bind laneManager and KitASM
-				//guiViews[2].bindManager(guiViews[1]);
-				//guiViews[1].bindManager(guiViews[2]);
+				guiViews[2].bindManager(guiViews[1]);
 				
 				// initialize server control panel
 				SCP = new ServerControl(guiViews[2], guiViews[1], guiViews[0], fs, this);
@@ -78,7 +77,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 		
 		public static void main(String[] args){
 				Server si = new Server();
-				si.setSize(1220,670);
+				si.setSize(760,700);
 				si.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				si.setTitle("Server Controls");
 				si.setVisible(true);
@@ -89,6 +88,9 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 		// -------------------------------------------------------------------------------------- //
 		
 		public void actionPerformed(ActionEvent ae){	
+				sync = guiViews[1].getSync();
+				guiViews[1].setSync();
+				
 				if(sync){
 						masterSync();
 						startAnimation = true;
@@ -135,6 +137,24 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				sync = true;
 		}
 
+		public void updateBuildData(ArrayList<Kits> buildData){
+				fs.mergeBuildData(buildData);
+				if(fs.getBuildData() != null){
+						//SCP.updateFactoryView(fs.getBuildData());
+				}
+		}
+		
+		public void updateBreakData(String breakCommand, int cID, int x){
+				switch(cID){
+						case 3:
+								guiViews[1].breakPart(breakCommand, x);
+								break;
+						case 4:
+								guiViews[2].breakPart(breakCommand, x);
+								break;
+				}
+		}
+		
 		// Client Specific
 		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){};
 		public void syncChanges(ArrayList<TreeMap<Integer, FactoryObject>> dataArray){}

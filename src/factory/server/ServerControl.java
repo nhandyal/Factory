@@ -25,47 +25,48 @@ public class ServerControl extends JPanel implements ActionListener{
 	JPanel lComboBoxPanel = new JPanel();
 	JPanel[] kComboBoxPanel = new JPanel[4];
 	JPanel laneButtonPanel = new JPanel();
-	JPanel factoryControl = new JPanel();
 	JPanel gantryControl = new JPanel();
 	JPanel gComboBoxPanel = new JPanel();
+	JTabbedPane tp = new JTabbedPane();
+	FactoryView fv = new FactoryView();
 	
-	JButton conveyorToStand = new JButton("Move from Conveyor to Stand");
-	JButton build1 = new JButton("Build Kit 1");
-	JButton build2 = new JButton("Build Kit 2");
-	JButton inspectionPicture = new JButton("Take Picture");
-	JButton inspection = new JButton("Move Kit 1 to Inspection Stand");
-    JButton inspection2 = new JButton("Move Kit 2 to Inspection Stand");
+	JButton conveyorToStand = new JButton("Move from Conveyor to First Empty Stand");
+	JButton build1 = new JButton("Build Kit on 1st Stand");
+	JButton build2 = new JButton("Build Kit 2nd Stand");
+	JButton inspectionPicture = new JButton("Take Picture of Kit on Inspection Stand");
+	JButton inspection = new JButton("Move Kit on 1st Stand to Inspection Stand");
+    JButton inspection2 = new JButton("Move Kit on 2nd Stand to Inspection Stand");
 	JButton standToConveyor = new JButton("Move from Inspection Stand to Conveyor");
 	JLabel kitAssemblyDesc = new JLabel("Kit Assembly Manager");
 	JComboBox[] indexChooser = new JComboBox[4];
 	String[] indexStrings = new String[9];
 	JComboBox[] nestChooser = new JComboBox[4];
 	String[] nestStrings = new String[9];
-	JButton bringKit = new JButton("Bring Kit");
-	JButton takeKit = new JButton("Take Kit");
+	JButton bringKit = new JButton("Bring Kit in on Conveyor");
+	JButton takeKit = new JButton("Take Kit out on Conveyor");
+	JLabel kamdropDownInfo = new JLabel("Get Part from Selected Nests and Add that Part to the Selected Section of the Kit for Build Kit Buttons");
+	JLabel badKitPicLabel = new JLabel("No Kit Picture Data");
 	
 	JLabel laneDesc = new JLabel("Lane Manager");
 	String[] laneStrings = new String[8];
 	JComboBox laneChooser;
 	JComboBox feederChooser2;
-	JButton toggleLane = new JButton("Turn Lane On/Off");
-	JButton toggleDivider = new JButton("Toggle Divider Up/Down");
-	JButton nestPicture = new JButton("Picture of Nest");
-	JButton purgeNest = new JButton("Purge Nest");
-	JButton purgeLane = new JButton("Purge Lane");
-	JButton purgeFeeder = new JButton("Purge Feeder");
+	JButton toggleLane = new JButton("Turn Selected Lane On/Off");
+	JButton toggleDivider = new JButton("Toggle Divider in Selected Feeder Up/Down");
+	JButton nestPicture = new JButton("Picture of Nest of Selected Lane");
+	JButton purgeNest = new JButton("Purge Nest of Selected Lane");
+	JButton purgeLane = new JButton("Purge Selected Lane");
+	JButton purgeFeeder = new JButton("Purge Selected Feeder");
 	JButton addBin = new JButton("Add Bin");
-	
-	JLabel factoryControlDesc = new JLabel("Factory Production Manager");
-	ArrayList<JLabel> kitLabels = new ArrayList<JLabel>();
+	JLabel badNestPicLabel = new JLabel("No Nest Picture Data");
 	
 	JLabel gantryControlDesc = new JLabel("Gantry Manager");
 	JComboBox binChooser;
 	JComboBox feederChooser;
 	String[] binStrings = new String[10];
 	String[] feederStrings = new String[4];
-	JButton moveToBin = new JButton("Move to Bin");
-	JButton moveToFeeder = new JButton("Move to Feeder");
+	JButton moveToBin = new JButton("Move to Selected Bin");
+	JButton moveToFeeder = new JButton("Move to Selected Feeder");
 	Server server;
 	
 	public ServerControl(GuiManager kit, GuiManager LM, GuiManager GM, FactoryState fs, Server serv){
@@ -115,7 +116,6 @@ public class ServerControl extends JPanel implements ActionListener{
 		laneControl.setLayout(new BoxLayout(laneControl,BoxLayout.Y_AXIS));
 		lComboBoxPanel.setLayout(new FlowLayout());
 		laneButtonPanel.setLayout(new BoxLayout(laneButtonPanel,BoxLayout.Y_AXIS));
-		factoryControl.setLayout(new BoxLayout(factoryControl,BoxLayout.Y_AXIS));
 		gantryControl.setLayout(new BoxLayout(gantryControl,BoxLayout.Y_AXIS));
 		gComboBoxPanel.setLayout(new FlowLayout());
 		
@@ -148,6 +148,7 @@ public class ServerControl extends JPanel implements ActionListener{
 		kitAssemblyControl.add(kitAssemblyDesc);
 		for (int i = 0; i < kComboBoxPanel.length; i++)
 			kitAssemblyControl.add(kComboBoxPanel[i]);
+		kitAssemblyControl.add(kamdropDownInfo);
 		kitAssemblyControl.add(bringKit);
 		kitAssemblyControl.add(conveyorToStand);
 		kitAssemblyControl.add(build1);
@@ -157,6 +158,7 @@ public class ServerControl extends JPanel implements ActionListener{
 		kitAssemblyControl.add(inspectionPicture);
 		kitAssemblyControl.add(standToConveyor);
 		kitAssemblyControl.add(takeKit);
+		kitAssemblyControl.add(badKitPicLabel);
 		
 		lComboBoxPanel.add(laneChooser);
 		lComboBoxPanel.add(feederChooser2);
@@ -168,8 +170,7 @@ public class ServerControl extends JPanel implements ActionListener{
 		laneButtonPanel.add(purgeNest);
 		laneButtonPanel.add(purgeLane);
 		laneControl.add(laneButtonPanel);
-		
-		factoryControl.add(factoryControlDesc);
+		laneControl.add(badNestPicLabel);
 		
 		gComboBoxPanel.add(binChooser);
 		gComboBoxPanel.add(feederChooser);
@@ -180,12 +181,14 @@ public class ServerControl extends JPanel implements ActionListener{
 		gantryControl.add(purgeFeeder);
 		gantryControl.add(addBin);
 		
-		overPanel.add(kitAssemblyControl);
-		overPanel.add(laneControl);
-		overPanel.add(factoryControl);
-		overPanel.add(gantryControl);
+		tp.addTab("Kit Assembly",kitAssemblyControl);
+		tp.addTab("Lane M",laneControl);
+		tp.addTab("Factory Production M",fv);
+		tp.addTab("Gantry M",gantryControl);
 		
-		add(overPanel);
+		overPanel.add(tp);
+		
+		add(tp);
 	}
 	
 	public void actionPerformed(ActionEvent e){
@@ -207,7 +210,8 @@ public class ServerControl extends JPanel implements ActionListener{
 		}
 		
 		if (e.getSource() == build1){
-			if (KitASM.isFinished() ){
+			server.sync = true;
+            if (KitASM.isFinished() ){
 				int[] nests = new int[4];
 				int[] indexes = new int[4];
 				for (int i = 0; i < 4; i++){
@@ -236,7 +240,8 @@ public class ServerControl extends JPanel implements ActionListener{
 			}
 		}
 		if (e.getSource() == build2){
-			if (KitASM.isFinished() ){
+			server.sync = true;
+            if (KitASM.isFinished() ){
 				int[] nests = new int[4];
 				int[] indexes = new int[4];
 				for (int i = 0; i < 4; i++){
@@ -266,8 +271,12 @@ public class ServerControl extends JPanel implements ActionListener{
 		}
 		
 		if (e.getSource() == inspectionPicture){
-			if (KitASM.isFinished() ){
+			if (KitASM.isFinished()){
 				KitASM.takePic();
+				//if (KitASM.isBadKit())
+					//badKitPicLabel.setText("Kit missing parts");
+				//else
+					//badKitPicLabel.setText("Kit is complete");
 			}
 		}
 		if (e.getSource() == inspection){
@@ -306,7 +315,12 @@ public class ServerControl extends JPanel implements ActionListener{
 			n = n.substring(5);
 			int nest = Integer.parseInt(n);
 			nest -= 1;
+			int nest1 = nest + 1;
 			LM.takePicture(nest);
+			if (LM.testNest(nest))
+				badNestPicLabel.setText("Nest " + nest1 + " is good");
+			else
+				badNestPicLabel.setText("Nest " + nest1 + " is bad");
 		}
 		if (e.getSource() == moveToBin){
 			String b = (String)binChooser.getSelectedItem();
@@ -373,6 +387,10 @@ public class ServerControl extends JPanel implements ActionListener{
 			LM.addBin2(feeder,bin,36);
 		}
 		
+	}
+	
+	public void updateFactoryView(ArrayList<Kits> kits){
+		fv.setKitData(kits);
 	}
 		
 }

@@ -9,12 +9,14 @@ public class Kits implements java.io.Serializable{
 	String description; 
 	int kitID;
 	int MI;
+	int buildNumber;
 	public Kits(String name, TreeMap<Integer, Parts> listOfParts,String description, int kitID, int MI){
 		this.name = name; 
 		this.listOfParts = listOfParts; 
 		this.description = description; 
 		this.kitID = kitID;
 		this.MI = MI;
+		this.buildNumber = 0;
 	}
 	
 	public String getName(){
@@ -25,6 +27,14 @@ public class Kits implements java.io.Serializable{
 		return listOfParts;
 	}
 
+	public void setBuildNumber(int buildNumber){
+		this.buildNumber = buildNumber;
+	}
+	
+	public int getBuildNumber(){
+		return buildNumber;
+	}
+	
 	public String getDescription(){
 		return description; 
 	}
