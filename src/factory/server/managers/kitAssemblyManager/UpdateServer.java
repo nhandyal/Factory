@@ -10,7 +10,7 @@ import factory.server.managers.GuiManager;
 import java.io.*;
 import factory.server.managers.laneManager.*;
 
-public class UpdateServer implements GuiManager, Serializable
+public class UpdateServer implements GuiManager
 {
 	ArrayList<FactoryObject> CurrentObjects = new ArrayList<FactoryObject>();
 	TreeMap<Integer, Boolean> ChangeMap = new TreeMap<Integer, Boolean>();
@@ -107,8 +107,14 @@ public class UpdateServer implements GuiManager, Serializable
 	}
 	public void sync(TreeMap<Integer, FactoryObject> changeData)																			// frame sync
 	{
-        for (int i = 0; i < CurrentObjects.size(); i++){
-			changeData.put(i, CurrentObjects.get(i));
+        for (int i = 0; i < CurrentObjects.size(); i++)
+        {
+			FactoryObject t = null;
+            if (CurrentObjects.get(i).isLine)
+                t = new FactoryObject(CurrentObjects.get(i).x, CurrentObjects.get(i).y, CurrentObjects.get(i).xf, CurrentObjects.get(i).yf);
+            else
+                t = new FactoryObject(CurrentObjects.get(i).x, CurrentObjects.get(i).y, CurrentObjects.get(i).imageIndex);
+            changeData.put(i, t);
 		}
 	}
 	
@@ -555,13 +561,23 @@ public class UpdateServer implements GuiManager, Serializable
 					//System.out.print(i + " :");
                     //CurrentObjects.get(i).print();
                     inputChangeMap.put(i, true);
-					inputChangeData.put(i, CurrentObjects.get(i));
+                    FactoryObject t = null;
+                    if (CurrentObjects.get(i).isLine)
+                        t = new FactoryObject(CurrentObjects.get(i).x, CurrentObjects.get(i).y, CurrentObjects.get(i).xf, CurrentObjects.get(i).yf);
+                    else
+                        t = new FactoryObject(CurrentObjects.get(i).x, CurrentObjects.get(i).y, CurrentObjects.get(i).imageIndex);
+					inputChangeData.put(i, t);
 				}
 			}
 			for (int i = lastObjects.size(); i < CurrentObjects.size(); i++)
 			{
 				inputChangeMap.put(i, true);
-				inputChangeData.put(i, CurrentObjects.get(i));
+                FactoryObject t = null;
+                if (CurrentObjects.get(i).isLine)
+                    t = new FactoryObject(CurrentObjects.get(i).x, CurrentObjects.get(i).y, CurrentObjects.get(i).xf, CurrentObjects.get(i).yf);
+                else
+                    t = new FactoryObject(CurrentObjects.get(i).x, CurrentObjects.get(i).y, CurrentObjects.get(i).imageIndex);
+				inputChangeData.put(i, t);
 			}
 		}
 		else
@@ -572,7 +588,12 @@ public class UpdateServer implements GuiManager, Serializable
 				{
 					//System.out.print(i + " :");
                     inputChangeMap.put(i, true);
-					inputChangeData.put(i, CurrentObjects.get(i));
+                    FactoryObject t = null;
+                    if (CurrentObjects.get(i).isLine)
+                        t = new FactoryObject(CurrentObjects.get(i).x, CurrentObjects.get(i).y, CurrentObjects.get(i).xf, CurrentObjects.get(i).yf);
+                    else
+                        t = new FactoryObject(CurrentObjects.get(i).x, CurrentObjects.get(i).y, CurrentObjects.get(i).imageIndex);
+					inputChangeData.put(i, t);
 				}
 			}
 			for (int i = CurrentObjects.size(); i < lastObjects.size(); i++) //if the original list is shorter, delete all the extra objects
@@ -622,6 +643,12 @@ public class UpdateServer implements GuiManager, Serializable
 		setCurrentObjects();
 	}
 
+	public boolean isBadKit()
+    {
+        return isBadKit;
+    }
 	public void breakPart(String b, int x){}
+    public void setSync(){}
+    public boolean getSync() {}
 
 }
