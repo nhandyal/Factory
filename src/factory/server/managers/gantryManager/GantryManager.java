@@ -65,15 +65,19 @@ public class GantryManager implements GuiManager, Serializable
 		bins.add(new Bin(340,475,10,index,9));
 		index+=2;
 
+		for(int i=0;i<10;i++){
+			bins.get(i).setVis(true);
+		}
+
 		feeders = new ArrayList<Feeder>();
 
-		feeders.add(new Feeder(30,107,19,index));
+		feeders.add(new Feeder(28,98,19,index));
 		index += 2;
-		feeders.add(new Feeder(30,232,19,index));
+		feeders.add(new Feeder(28,222,19,index));
 		index += 2;
-		feeders.add(new Feeder(30,357,19,index));
+		feeders.add(new Feeder(28,346,19,index));
 		index += 2;
-		feeders.add(new Feeder(30,480,19,index));
+		feeders.add(new Feeder(28,470,19,index));
 		index += 2;
 
 		robot = new gantryRobot(200,335,18,bins,feeders, index, this);
@@ -102,12 +106,13 @@ public class GantryManager implements GuiManager, Serializable
 		// Add Bins
 		for(int i=0;i<10;i++){
 			map.put(bins.get(i).getIndex(),bins.get(i));
+			map.put(bins.get(i).getPartIcon().getIndex(), bins.get(i).getPartIcon());
 		}
 
-		// Add Feeders
+		/*// Add Feeders
 		for(int i=0;i<4;i++){
 			map.put(feeders.get(i).getIndex(),feeders.get(i));
-		}
+		}*/
 
 		map.put(robot.getIndex(), robot);
 
