@@ -14,13 +14,14 @@ import factory.global.data.*;
 
 public class LMGUI extends JPanel implements ActionListener{//, NetworkManager{
 
-	JPanel panel1, panel2;
+	JPanel panel1, panel2, panel3;
 	ArrayList<JCheckBox> laneCheck, nestCheck, dividerCheck, feederCheck;
 	JCheckBox camCheck;
 	JButton breakButton, laneJump, insertNest;
-	JComboBox lanes;
-	String[] laneStrings;
+	JComboBox lanes, nests;
+	String[] laneStrings, nestStrings;
 	LaneManager parent;
+	GridBagConstraints	gbc;
 
 	public LMGUI(LaneManager l){
 
@@ -28,57 +29,73 @@ public class LMGUI extends JPanel implements ActionListener{//, NetworkManager{
 
 		panel1 = new JPanel();
 		panel2 = new JPanel();
+		panel3 = new JPanel();
 
 		setLayout(new GridLayout(0,1));
 		panel1.setLayout(new GridLayout(0,2));
-		panel2.setLayout(new BoxLayout(panel2,BoxLayout.Y_AXIS));
+		panel2.setLayout(new GridBagLayout());
+		panel3.setLayout(new GridLayout(1,2));
 
 		laneCheck = new ArrayList<JCheckBox>();
 		nestCheck = new ArrayList<JCheckBox>();
 		for(int i=0;i<8;i++){
 			laneCheck.add(new JCheckBox("Lane "+(i+1)));
-			add(laneCheck.get(i));
+			panel1.add(laneCheck.get(i));
 
 			nestCheck.add(new JCheckBox("Nest "+(i+1)));
-			add(nestCheck.get(i));
+			panel1.add(nestCheck.get(i));
 		}
 
 		dividerCheck = new ArrayList<JCheckBox>();
 		feederCheck = new ArrayList<JCheckBox>();
 		for(int i=0;i<4;i++){
 			dividerCheck.add(new JCheckBox("Divider "+(i+1)));
-			add(dividerCheck.get(i));
+			panel1.add(dividerCheck.get(i));
 
 			feederCheck.add(new JCheckBox("Feeder "+(i+1)));
-			add(feederCheck.get(i));
+			panel1.add(feederCheck.get(i));
 		}
 
 		camCheck = new JCheckBox("Camera");
-		add(camCheck);
+		panel1.add(camCheck);
 
 		breakButton = new JButton("Break");
 		breakButton.addActionListener(this);
-		add(breakButton);
+		panel1.add(breakButton);
 
 		add(panel1);
 
+		gbc = new GridBagConstraints();
+
 		laneStrings = new String[8];
+		nestStrings = new String[8];
 		for(int i=0;i<8;i++){
 			laneStrings[i] = "Lane " + (i+1);
+			nestStrings[i] = "Nest " + (i+1);
 		}
 
 		lanes = new JComboBox(laneStrings);
+		nests = new JComboBox(nestStrings);
 
-		add(lanes);
+		gbc.gridx = 1;
+		gbc.gridy = 1;
+		panel2.add(lanes,gbc);
 
+		gbc.gridx++;
+		panel2.add(nests,gbc);
+
+		gbc.gridx = 1;
+		gbc.gridy++;
 		laneJump = new JButton("Part Jump");
 		laneJump.addActionListener(this);
-		add(laneJump);
+		panel2.add(laneJump,gbc);
 
+		gbc.gridx++;
 		insertNest = new JButton("Insert Bad Nest Part");
 		insertNest.addActionListener(this);
-		add(insertNest);
+		panel2.add(insertNest,gbc);
 
+//		panel2.add(panel3);
 		add(panel2);
 
 //		setMinimumSize(new Dimension(400,670));
@@ -122,6 +139,21 @@ public class LMGUI extends JPanel implements ActionListener{//, NetworkManager{
 				}
 			}
 			System.out.println();
+		}
+
+		if (ae.getSource() == laneJump){
+			String l = (String)lanes.getSelectedItem();
+			l = l.substring(5);
+			int i = Integer.parseInt(l);
+			i--;
+			parent.nb.sendBreakData("jump",3,i);
+		}
+		if (ae.getSource() == insertNest){
+			String l = (String)nests.getSelectedItem();
+			l = l.substring(5);
+			int i = Integer.parseInt(l);
+			i--;
+			parent.nb.sendBreakData("insert",3,i);
 		}
 	}
 }

@@ -310,6 +310,14 @@ public class LaneManager implements GuiManager, java.io.Serializable
 			breakNest(x);
 			System.out.println("Nest "+(x+1)+" Broken");
 		}
+		else if(b.equals("jump")){
+			insertLanePart(x);
+			System.out.println("Lane "+(x+1)+" Jump");
+		}
+		else if(b.equals("insert")){
+			insertNestPart(x);
+			System.out.println("Nest "+(x+1)+" Insert");
+		}
 		System.out.println();
 	}
 
