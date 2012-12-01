@@ -8,7 +8,7 @@ import java.awt.event.*;
 import factory.global.network.*;
 import factory.global.data.*;
 
-public class KitAssemblyManager extends JPanel implements ActionListener, NetworkManager {
+public class KitAssemblyManager extends JPanel implements NetworkManager {
 	
 		Timer t;
 		TreeMap<Integer, FactoryObject> fos = new TreeMap<Integer, FactoryObject>();
@@ -17,16 +17,10 @@ public class KitAssemblyManager extends JPanel implements ActionListener, Networ
 		ImageArray images = new ImageArray();
     NetworkBridge nb;
 		public KitAssemblyManager(){
-				t = new Timer(25,this);
+				//t = new Timer(25,this);
         nb = new NetworkBridge(this, "localhost", 8465, 4);
 				nb.sync();
-				t.start();
-		}
-	
-		public void actionPerformed(ActionEvent ae){
-				repaint();
-				//Graphics g = this.getGraphics();
-				//update(g);
+				//t.start();
 		}
 	
 		public void paint(Graphics g){
@@ -90,6 +84,7 @@ public class KitAssemblyManager extends JPanel implements ActionListener, Networ
         else{
             System.out.println("Warning: Corrupt frame data");
         }
+        repaint();
     }
     
     public void syncChanges(ArrayList<TreeMap<Integer, FactoryObject>> dataArray){
@@ -101,6 +96,7 @@ public class KitAssemblyManager extends JPanel implements ActionListener, Networ
 				else{
 						System.out.println("Warning: Corrupt frame data");
 				}
+        repaint();
     }
     
     // global

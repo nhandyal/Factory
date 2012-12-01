@@ -273,10 +273,10 @@ public class ServerControl extends JPanel implements ActionListener{
 		if (e.getSource() == inspectionPicture){
 			if (KitASM.isFinished()){
 				KitASM.takePic();
-				//if (KitASM.isBadKit())
-					//badKitPicLabel.setText("Kit missing parts");
-				//else
-					//badKitPicLabel.setText("Kit is complete");
+				if (KitASM.isBadKit())
+					badKitPicLabel.setText("Kit missing parts");
+				else
+					badKitPicLabel.setText("Kit is complete");
 			}
 		}
 		if (e.getSource() == inspection){

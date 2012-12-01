@@ -108,7 +108,7 @@ public class PartRobot extends FactoryObject
             if (csCount == 19)
             {
                 g.addPart(holdObj[0]);
-                //us.lm.removePart(nest[0].index);
+                us.lm.removePart(nest[0].index);
             }
             g.updateParts();
             csCount++;
@@ -123,7 +123,7 @@ public class PartRobot extends FactoryObject
                 if (csCount == 39)
                 {
                     g.addPart(holdObj[1]);
-                    //us.lm.removePart(nest[1].index);
+                    us.lm.removePart(nest[1].index);
                 }
                 g.updateParts();
                 csCount++;
@@ -141,7 +141,7 @@ public class PartRobot extends FactoryObject
                 if (csCount == 59)
                 {
                     g.addPart(holdObj[2]);
-                    //us.lm.removePart(nest[2].index);
+                    us.lm.removePart(nest[2].index);
                 }
                 g.updateParts();
                 csCount++;
@@ -159,7 +159,7 @@ public class PartRobot extends FactoryObject
                 if (csCount == 79)
                 {
                     g.addPart(holdObj[3]);
-                    //us.lm.removePart(nest[3].index);
+                    us.lm.removePart(nest[3].index);
                 }
                 g.updateParts();
                 csCount++;

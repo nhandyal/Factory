@@ -7,7 +7,7 @@ class KAMNonNormFrame extends JFrame
 		JPanel p = new JPanel();
 		p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));
 		KitAssemblyManager k = new KitAssemblyManager();
-		KAMNonNormPanel kn = new KAMNonNormPanel();
+		KAMNonNormPanel kn = new KAMNonNormPanel(k.nb);
 		p.add(k);
 		p.add(kn);
 		add(p);

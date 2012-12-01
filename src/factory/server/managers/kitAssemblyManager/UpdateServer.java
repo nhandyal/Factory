@@ -44,7 +44,7 @@ public class UpdateServer implements GuiManager
     boolean isFinished = true;
     boolean isFlashed = false;
     boolean flag = false;
-    boolean isBadKit = true;
+    boolean isBadKit = false;
     ArrayList<Boolean> isFull;
 	@SuppressWarnings("unchecked")
 	public UpdateServer()
@@ -314,6 +314,7 @@ public class UpdateServer implements GuiManager
                             if (pos[i] != - 1)
                             {
                                 parts.set(8 + 9 * pos[i], new Part(0, 0, -1));
+                                lm.removePart(pos[i]);
                                 pos[i] = -1;
                                 indexes[i] = -1;
                                 break;
@@ -325,7 +326,7 @@ public class UpdateServer implements GuiManager
 							//System.out.println(p1.imageIndex);
 							//Part p1 = new Part(nests.get(j).getPosition()X,
 							//nests.get(j).getPositionY(), 1);
-                            lm.removePart(pos[j]);
+                            //lm.removePart(pos[j]);
 							parts.add(p1);
                             p[j] = parts.get(parts.size() - 1);
                             n[j] = nests.get(pos[j]);
@@ -648,7 +649,11 @@ public class UpdateServer implements GuiManager
         return isBadKit;
     }
 
-	public void breakPart(String b, int x){}
+	public void breakPart(String b, int x)
+    {
+        if (b.equals("BRKSM"))
+            isBadKit = !isBadKit;
+    }
     public void setSync(){}
     public boolean getSync()
     {
