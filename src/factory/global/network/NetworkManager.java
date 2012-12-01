@@ -11,6 +11,8 @@ public interface NetworkManager{
 		// server specific
 		public void registerClientListener(NetworkBridge newBridge, int cID);
 		public void syncFrame();
+		public void updateBuildData(ArrayList<Kits> buildData);
+		public void updateBreakData(String breakCommand, int cID, int x);
 		
 		// client specific
 		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray);

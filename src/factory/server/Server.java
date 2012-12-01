@@ -54,7 +54,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				fs = new FactoryState();
 				icm = new InboundConnectionManager(this);
 				guiViews[0] = new GantryManager();																					// Gantry
-				guiViews[1] = new LaneManager();																						// Lane
+				guiViews[1] = new LaneManager(this);																				// Lane
 				guiViews[2] = new UpdateServer();																						// Kit Asm 
 				changeMap = new ArrayList<TreeMap<Integer, Boolean>>(3);
 				changeData = new ArrayList<TreeMap<Integer, FactoryObject>>(3);
@@ -63,7 +63,6 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				
 				// bind laneManager and KitASM
 				guiViews[2].bindManager(guiViews[1]);
-				guiViews[1].bindManager(guiViews[2]);
 				
 				// initialize server control panel
 				SCP = new ServerControl(guiViews[2], guiViews[1], guiViews[0], fs, this);
@@ -135,6 +134,21 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				sync = true;
 		}
 
+		public void updateBuildData(ArrayList<Kits> buildData){
+				fs.mergeBuildData(buildData);
+		}
+		
+		public void updateBreakData(String breakCommand, int cID, int x){
+				switch(cID){
+						case 3:
+								guiViews[1].breakPart(breakCommand, x);
+								break;
+						case 4:
+								guiViews[2].breakPart(breakCommand, x);
+								break;
+				}
+		}
+		
 		// Client Specific
 		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){};
 		public void syncChanges(ArrayList<TreeMap<Integer, FactoryObject>> dataArray){}

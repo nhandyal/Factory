@@ -47,6 +47,7 @@ public class FactoryManagerGUI extends JPanel implements ActionListener, ListSel
 				activeKitsPanel = new JPanel();
 				kitDataPanel = new JPanel();
 				kits = new TreeMap<Integer, Kits>();
+				buildInfo = new ArrayList<Kits>();
 				images = parent.getImageArray();
 				greyLine = BorderFactory.createLineBorder(Color.DARK_GRAY);
 
@@ -74,9 +75,17 @@ public class FactoryManagerGUI extends JPanel implements ActionListener, ListSel
 		
 		public void actionPerformed(ActionEvent ae){
 				try{
-						int buildNumber = Integer.parseInt(buildQuantity.getText());
+						String sbuildQuantity = buildQuantity.getText();
+						System.out.println(sbuildQuantity);
+						int buildNumber = Integer.parseInt(sbuildQuantity);
 						if(buildNumber <= 0 ){
-								System.out.println("Invalud kit build amount");
+								System.out.println("Invalid kit build amount");
+						}
+						else{
+								Kits selectedKit = (Kits)kitList.getSelectedValue();
+								selectedKit.setBuildNumber(buildNumber);
+								buildInfo.add(selectedKit);
+								parent.syncBuildInfo(buildInfo);
 						}
 				}catch(Exception e){
 						System.out.println("Invalid kit build amount");
@@ -183,6 +192,8 @@ public class FactoryManagerGUI extends JPanel implements ActionListener, ListSel
 				// add the build items to the container
 				buildQuantity = new JTextField("Enter number of kits to build");
 				build = new JButton("Add to build queue");
+				setComponentSize(buildQuantity, 400, 20);
+				setComponentSize(buildQuantity, 400, 20);
 				build.addActionListener(this);
 				container.add(buildQuantity);
 				container.add(build);

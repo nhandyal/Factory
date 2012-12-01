@@ -40,8 +40,11 @@ public class KitAssemblyManager extends JPanel implements ActionListener, Networ
 								g2.drawLine(t.getPositionX(), t.getPositionY(), t.getPositionXF(), t.getPositionYF());
 						}	
 						else{
-								ImageIcon tmp = images.getIcon(t.getImageIndex());
-								tmp.paintIcon(this, g2, t.getPositionX(), t.getPositionY());
+								if (t.getImageIndex() >= 0)
+                                {
+                                    ImageIcon tmp = images.getIcon(t.getImageIndex());
+                                    tmp.paintIcon(this, g2, t.getPositionX(), t.getPositionY());
+                                }
 						}
 				}
 		}
@@ -63,7 +66,9 @@ public class KitAssemblyManager extends JPanel implements ActionListener, Networ
     public void registerClientListener(NetworkBridge newBridge, int cID){}
     public void syncFrame(){}
     public void updatePartData(TreeMap<Integer, Parts> partData){}
-    
+    public void updateBuildData(ArrayList<Kits> buildData){}
+		public void updateBreakData(String breakCommand, int cID, int x){}
+		
     // client specific
     public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){
         if(mapArray.size() == 1){
