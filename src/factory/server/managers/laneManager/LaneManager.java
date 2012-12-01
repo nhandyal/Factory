@@ -493,4 +493,5 @@ public class LaneManager implements GuiManager{
 	}
 
 	public void bindManager(GuiManager bindManager){}
+	public void breakPart(String b, int x){}
 }

@@ -95,7 +95,7 @@ public class NetworkBridge{
 		
 		// method to send parts data to server
 		public void sendPartData(Object partData){
-				Instruction instr = new Instruction("UPD");						// UPD == Update part data
+				Instruction instr = new Instruction("UPD");										// UPD == Update part data
 				writeData(instr);
 				writeData(partData);
 		}
@@ -107,9 +107,14 @@ public class NetworkBridge{
 		}
 		
 		public void syncBuildInfo(Object buildData){
-				Instruction instr = new Instruction("UBI");					// UBI == Update build info
+				Instruction instr = new Instruction("UBI");									// UBI == Update build info
 				writeData(instr);
 				writeData(buildData);
+		}
+		
+		public void sendBreakData(String b, int x, int v){
+				Instruction instr = new Instruction("BRK",b, x, v);					// BRK == send break data to server
+				writeData(instr);
 		}
 		
 		public void sync(){
@@ -211,6 +216,9 @@ class InputStreamListener extends Thread{
 				}
 				else if(instruction.equals("UBI")){						// client --> server update build data for factory
 						readBuildData();
+				}
+				else if(instruction.equals("BRK")){
+						parseBreakData(instr);
 				}
 		}
 		
@@ -323,5 +331,12 @@ class InputStreamListener extends Thread{
 						c.printStackTrace();
 				}
 				parent.updateBuildData(buildData);
+		}
+		
+		void parseBreakData(Instruction instr){
+				String b = instr.breakCommand;
+				int cID = instr.x;
+				int x = instr.v;
+				parent.updateBreakData(b,cID,x);
 		}
 }

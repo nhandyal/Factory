@@ -205,5 +205,6 @@ public class GantryManager implements GuiManager, Serializable
 	}		
 
 	public void bindManager(GuiManager bindManager){}
+	public void breakPart(String b, int x){}
 
 }
