@@ -18,7 +18,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 		TreeMap<Integer,FactoryObject> frameAnimationData;
 
 		ImageIcon background;
-//		ImageArray images;
+		ImageArray images;
 
 		JPanel masterPanel, animationContainer, animData, inputData;
 		ArrayList<JCheckBox> laneCheck, nestCheck;
@@ -28,11 +28,19 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 
 		ArrayList<JPanel> animationFrames;
 		ArrayList<TreeMap<Integer, FactoryObject>> factoryAnimationData;
-		ImageArray images = new ImageArray();
 		LMGUI gui;
 		Timer t;
 
 		LaneManager(){
+
+				images = new ImageArray();
+
+//				changeMap = new TreeMap<Integer,Boolean>();
+//				changeData = new TreeMap<Integer,FactoryObject>();
+//				animData = new TreeMap<Integer,FactoryObject>();
+//				temp = new TreeMap<Integer,FactoryObject>();
+//				frameAnimationData = new TreeMap<Integer,FactoryObject>();
+
 				// initialize JPanels and CardLayout
 				masterPanel = new JPanel();
 				animationContainer = new JPanel();
@@ -48,7 +56,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 						factoryAnimationData.add(new TreeMap<Integer, FactoryObject>());
 				}
 				nb = new NetworkBridge(this, "localhost", 8465, 3);
-				gui = new LMGUI(this);
+//				gui = new LMGUI(this);
 				animationFrames = new ArrayList<JPanel>();
 				animationFrames.add(new LMANIM(this));
 				animationFrames.add(new LMGUI(this));
@@ -62,7 +70,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 				
 				// add the container panels to the JFrame
 				masterPanel.add(animationContainer,"ac");
-				masterPanel.add(gui,"gc");
+//				masterPanel.add(gui,"gc");
 				
 				this.add(masterPanel);
 				

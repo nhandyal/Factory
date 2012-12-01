@@ -203,4 +203,7 @@ public class GantryManager implements GuiManager, Serializable
 	//			System.out.println("changeData "+changeData.get(i).getIndex());
 		}
 	}		
+
+	public void bindManager(GuiManager bindManager){}
+
 }

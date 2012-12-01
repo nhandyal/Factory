@@ -485,4 +485,6 @@ public class LaneManager implements GuiManager{
 			cam.setTakenPicture(false);
 		}
 	}
+
+	public void bindManager(GuiManager bindManager){}
 }
