@@ -37,28 +37,28 @@ public class LMGUI extends JPanel implements ActionListener{//, NetworkManager{
 		nestCheck = new ArrayList<JCheckBox>();
 		for(int i=0;i<8;i++){
 			laneCheck.add(new JCheckBox("Lane "+(i+1)));
-			panel1.add(laneCheck.get(i));
+			add(laneCheck.get(i));
 
 			nestCheck.add(new JCheckBox("Nest "+(i+1)));
-			panel1.add(nestCheck.get(i));
+			add(nestCheck.get(i));
 		}
 
 		dividerCheck = new ArrayList<JCheckBox>();
 		feederCheck = new ArrayList<JCheckBox>();
 		for(int i=0;i<4;i++){
 			dividerCheck.add(new JCheckBox("Divider "+(i+1)));
-			panel1.add(dividerCheck.get(i));
+			add(dividerCheck.get(i));
 
 			feederCheck.add(new JCheckBox("Feeder "+(i+1)));
-			panel1.add(feederCheck.get(i));
+			add(feederCheck.get(i));
 		}
 
 		camCheck = new JCheckBox("Camera");
-		panel1.add(camCheck);
+		add(camCheck);
 
 		breakButton = new JButton("Break");
 		breakButton.addActionListener(this);
-		panel1.add(breakButton);
+		add(breakButton);
 
 		add(panel1);
 
@@ -69,15 +69,15 @@ public class LMGUI extends JPanel implements ActionListener{//, NetworkManager{
 
 		lanes = new JComboBox(laneStrings);
 
-		panel2.add(lanes);
+		add(lanes);
 
 		laneJump = new JButton("Part Jump");
 		laneJump.addActionListener(this);
-		panel2.add(laneJump);
+		add(laneJump);
 
 		insertNest = new JButton("Insert Bad Nest Part");
 		insertNest.addActionListener(this);
-		panel2.add(insertNest);
+		add(insertNest);
 
 		add(panel2);
 

@@ -290,27 +290,25 @@ public class LaneManager implements GuiManager, java.io.Serializable
 
 	public void breakPart(String b, int x){
 		System.out.println("Break Summary");
-		switch(b){
-			case "camera":
-				breakCamera();
-				System.out.println("Camera Broken");
-				break;
-			case "feeder":
-				breakFeeder(x);
-				System.out.println("Feeder "+(x+1)+" Broken");
-				break;
-			case "divider":
-				breakDivider(x);
-				System.out.println("Divider "+(x+1)+" Broken");
-				break;
-			case "lane":
-				breakLane(x);
-				System.out.println("Lane "+(x+1)+" Broken");
-				break;
-			case "nest":
-				breakNest(x);
-				System.out.println("Nest "+(x+1)+" Broken");
-				break;
+		if(b.equals("camera")){
+			breakCamera();
+			System.out.println("Camera Broken");
+		}
+		else if(b.equals("feeder")){
+			breakFeeder(x);
+			System.out.println("Feeder "+(x+1)+" Broken");
+		}
+		else if(b.equals("divider")){
+			breakDivider(x);
+			System.out.println("Divider "+(x+1)+" Broken");
+		}
+		else if(b.equals("lane")){
+			breakLane(x);
+			System.out.println("Lane "+(x+1)+" Broken");
+		}
+		else if(b.equals("nest")){
+			breakNest(x);
+			System.out.println("Nest "+(x+1)+" Broken");
 		}
 		System.out.println();
 	}
