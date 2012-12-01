@@ -24,17 +24,16 @@ public class LaneManager implements GuiManager, java.io.Serializable
 	FOComparator foc;
 	ImageArray images;
 	Camera cam;
+	boolean syncFrame;
 	
 	TreeMap<Integer,Boolean> changeMap;
 	TreeMap<Integer,FactoryObject> temp;
 	TreeMap<Integer,FactoryObject> purgeData;
 	TreeMap<Integer,FactoryObject> changeData;
 
-	Server server;
-
 	public LaneManager(Server s){
 	
-		server = s;
+		syncFrame = false;
 
 		index = 1;
 		
@@ -278,7 +277,42 @@ public class LaneManager implements GuiManager, java.io.Serializable
 		ArrayList<Part> nest = lanes.get(i).getNest();
 		if (nest.size() > 0)
 			lanes.get(i).getNest().remove((nest.size() -1));
-		server.sync = true;
+		syncFrame = true;
+	}
+
+	public void setSync(){
+		syncFrame = false;
+	}
+
+	public boolean getSync(){
+		return syncFrame;
+	}
+
+	public void breakPart(String b, int x){
+		System.out.println("Break Summary");
+		switch(b){
+			case "camera":
+				breakCamera();
+				System.out.println("Camera Broken");
+				break;
+			case "feeder":
+				breakFeeder(x);
+				System.out.println("Feeder "+(x+1)+" Broken");
+				break;
+			case "divider":
+				breakDivider(x);
+				System.out.println("Divider "+(x+1)+" Broken");
+				break;
+			case "lane":
+				breakLane(x);
+				System.out.println("Lane "+(x+1)+" Broken");
+				break;
+			case "nest":
+				breakNest(x);
+				System.out.println("Nest "+(x+1)+" Broken");
+				break;
+		}
+		System.out.println();
 	}
 
 	public void breakLane(int i){
@@ -327,7 +361,7 @@ public class LaneManager implements GuiManager, java.io.Serializable
 		}
 	}
 
-	public void breakCam(){
+	public void breakCamera(){
 		cam.setBroken(true);
 	}
 
@@ -493,5 +527,4 @@ public class LaneManager implements GuiManager, java.io.Serializable
 	}
 
 	public void bindManager(GuiManager bindManager){}
-	public void breakPart(String b, int x){}
 }

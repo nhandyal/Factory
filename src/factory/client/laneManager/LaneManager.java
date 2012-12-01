@@ -14,15 +14,13 @@ import factory.global.data.*;
 
 public class LaneManager extends JFrame implements ActionListener, NetworkManager{
 
-		NetworkBridge nb;
+		public NetworkBridge nb;
 		TreeMap<Integer,FactoryObject> frameAnimationData;
 
 		ImageIcon background;
 		ImageArray images;
 
 		JPanel masterPanel, animationContainer, animData, inputData;
-		ArrayList<JCheckBox> laneCheck, nestCheck;
-		JButton breakButton;
 		CardLayout c1;
 		LMANIM anim;
 
