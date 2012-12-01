@@ -22,4 +22,6 @@ public interface GuiManager{
 		public void sync(TreeMap<Integer, FactoryObject> changeData);
 		public void bindManager(GuiManager bindManager);
 		public void breakPart(String b, int x);
+		public boolean getSync();
+		public void setSync();
 }

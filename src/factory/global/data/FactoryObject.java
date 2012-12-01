@@ -21,7 +21,7 @@ public class FactoryObject implements Serializable, Cloneable{
 	public FactoryObject (int initialPosX, int initialPosY, int initialImage){
 		x = initialPosX;
 		y = initialPosY;
-		//setImage(initialImage);
+		setImage(initialImage);
 		isLine = false;
 	}
 	
