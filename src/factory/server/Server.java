@@ -88,10 +88,10 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 		// -------------------------------------------------------------------------------------- //
 		
 		public void actionPerformed(ActionEvent ae){	
-				sync = guiViews[1].getSync();
+				boolean lmSync = guiViews[1].getSync();
 				guiViews[1].setSync();
 				
-				if(sync){
+				if(sync || lmSync){
 						masterSync();
 						startAnimation = true;
 						sync = false;
