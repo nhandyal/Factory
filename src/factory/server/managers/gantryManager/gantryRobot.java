@@ -391,7 +391,7 @@ public class gantryRobot extends FactoryObject implements Serializable
 	public void pickupBin(int grabbedBin){
 		System.out.println("pickup bin");
 		hasBin = true;
-		f.ismoveToPoint = false;
+		f.isMoveToPoint = false;
 		possessedBin = bins.get(grabbedBin);
 		possessedBin.x = x + 10;
 		possessedBin.y = y;
