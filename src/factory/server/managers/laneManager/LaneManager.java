@@ -31,7 +31,7 @@ public class LaneManager implements GuiManager, java.io.Serializable
 	TreeMap<Integer,FactoryObject> purgeData;
 	TreeMap<Integer,FactoryObject> changeData;
 
-	public LaneManager(Server s){
+	public LaneManager(){
 	
 		syncFrame = false;
 
