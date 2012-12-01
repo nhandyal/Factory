@@ -81,6 +81,10 @@ public class Lane extends FactoryObject implements Serializable{
 		return nest;
 	}
 
+	public boolean getNestFull(){
+		return nestFull;
+	}
+
 	public void purgeLane(){
 		lane.clear();
 		laneBroken = false;
