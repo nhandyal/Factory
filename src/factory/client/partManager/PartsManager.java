@@ -6,11 +6,12 @@ import java.awt.event.*;
 import java.io.*;
 import factory.global.data.*;
 import factory.global.network.*;
+
 public class PartsManager extends JFrame implements ActionListener, NetworkManager
 {
 	protected TreeMap<Integer, Parts> currentParts;
 	private PartsInfoPanel pip;
-	private PartsIconPanel picp;
+	//private PartsIconPanel picp;
 	private SelectPartPanel spp;
 	private PartsCreatorPanel pcp;
 	private JPanel panel = new JPanel();
@@ -41,7 +42,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		panel.removeAll();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 		pip = new PartsInfoPanel(currentParts);
-		picp = new PartsIconPanel();
+		//picp = new PartsIconPanel();
 		spp = new SelectPartPanel(this);
 		pcp = new PartsCreatorPanel(this);
 		//pcp.setVisible(false);
@@ -49,7 +50,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		editButtons = spp.getEditButtons();
 		deleteButtons = spp.getDeleteButtons();
 		panel.add(pip);
-		panel.add(picp);
+		//panel.add(picp);
 		panel.add(spp);
 		panel.add(pcp);
 		add(panel);
@@ -58,8 +59,9 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 	public static void main(String[] args)
 	{
 		PartsManager frame = new PartsManager();
-		//frame.setSize(1000, 350);
-		//frame.setVisible(true);
+		frame.setSize(600, 350);
+		frame.setVisible(true);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
@@ -99,10 +101,15 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 			{
 				if (currentParts.get(i) != null)
 				{
-					currentParts.remove(i);
-					spp.newButtons.get(i).setEnabled(true);
-					spp.editButtons.get(i).setEnabled(false);
-					spp.deleteButtons.get(i).setEnabled(false);
+						currentParts.remove(i);
+						spp.newButtons.get(i).setEnabled(true);
+						spp.editButtons.get(i).setEnabled(false);
+						spp.deleteButtons.get(i).setEnabled(false);
+						nb1.sendPartData(currentParts);
+						pip.setCurrentParts(currentParts);
+						pip.drawLabels();
+						pip.revalidate();
+						pip.repaint();
 				}
 			}
 		if (e.getSource() == pcp.CreatePart)
@@ -117,20 +124,20 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 			}
 			if (ID >= 0)
 			{
-				Parts p = new Parts(ID, pcp.partName.getText(), pcp.partDes.getText(), index + 1);
+				Parts p = new Parts(ID, pcp.partName.getText(), pcp.partDes.getText(), index + 1, index);
 				currentParts.put(index, p);
 				pcp.partName.setText("Please enter part name");
 				pcp.partID.setText("Please enter part ID");
 				pcp.partDes.setText("Please enter part description");
 				pcp.setVisible(false);
 				spp.setVisible(true);
+				nb1.sendPartData(currentParts);
+				pip.setCurrentParts(currentParts);
+				pip.drawLabels();
+				pip.revalidate();
+				pip.repaint();
 			}
 		}
-		nb1.sendPartData(currentParts);
-		pip.setCurrentParts(currentParts);
-		pip.drawLabels();
-		pip.revalidate();
-		pip.repaint();
 	}
 
 	// -------------------------------------------------------------------------------------- //
@@ -147,8 +154,8 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 			currentParts = new TreeMap<Integer, Parts>();
 		initialize();
 		pcp.setVisible(false);
-		setSize(1000, 350);
-		setVisible(true);
+		//setSize(1000, 350);
+		//setVisible(true);
 	}
 	public void updateKitData(TreeMap<Integer, Kits>kitData){}
 		

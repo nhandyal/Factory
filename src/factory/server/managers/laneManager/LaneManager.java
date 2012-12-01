@@ -459,7 +459,7 @@ public class LaneManager implements GuiManager{
 				map.put((feeders.get(i).getIndex()+1),new FactoryObject());
 				map.get(feeders.get(i).getIndex()+1).setPosition((feeders.get(i).getPositionX()+31),(feeders.get(i).getPositionY()+67));
 				map.get(feeders.get(i).getIndex()+1).setIndex(feeders.get(i).getIndex()+1);
-				map.get(feeders.get(i).getIndex()+1).setImage(20);
+				map.get(feeders.get(i).getIndex()+1).setImage(21);
 			}
 		}
 

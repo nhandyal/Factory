@@ -71,6 +71,7 @@ public class PartRobot extends FactoryObject
 			}
 			//find total parts
             totalParts = findTotalParts(p);
+            //System.out.println(totalParts);
             //set kit indexes parts go to
 			for (int j = 0; j < i.length; j++)
 				kitIndex[j] = i[j];
@@ -94,7 +95,7 @@ public class PartRobot extends FactoryObject
 	
 	public void move()
 	{
-		csCount = us.getCount() - base;
+        csCount = us.getCount() - base;
 		//System.out.println(csCount);
 		//move to first nest
 		if (csCount < 20){

@@ -104,7 +104,7 @@ public class KitManager extends JFrame implements ActionListener, NetworkManager
 					addPanel.kip.create.setText("Create Kit");
 					isEdit = false;
 				}
-				System.out.println(count);
+				//System.out.println(count);
 				currentKits.put(count, k);
 				addPanel.kip.name.setText("Name");
 				addPanel.kip.ID.setText("ID");
