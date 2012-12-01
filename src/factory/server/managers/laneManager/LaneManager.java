@@ -265,6 +265,10 @@ public class LaneManager implements GuiManager{
 		return nest;
 	}
 
+	public boolean nestFull(int i){
+		return lanes.get(i).getNestFull();
+	}
+
 	public void removePart(int i){
 		ArrayList<Part> nest = lanes.get(i).getNest();
 		if (nest.size() > 0)
