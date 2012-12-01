@@ -74,7 +74,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 		
 		public static void main(String[] args){
 				Server si = new Server();
-				si.setSize(1220,670);
+				si.setSize(760,670);
 				si.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				si.setTitle("Server Controls");
 				si.setVisible(true);
