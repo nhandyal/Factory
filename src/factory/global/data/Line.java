@@ -16,6 +16,8 @@ import java.io.*;
 
 public class Line extends FactoryObject implements Serializable{
 
+	boolean broken;
+
 	public Line(int initialPosX, int initialPosY, int xFixed, int yFixed, int indx){
 		x = initialPosX;
 		y = initialPosY;
@@ -23,6 +25,7 @@ public class Line extends FactoryObject implements Serializable{
 		yf = yFixed;
 		isLine = true;
 		index = indx;
+		broken = false;
 	}
 
 	public void moveLeft(){
@@ -36,14 +39,24 @@ public class Line extends FactoryObject implements Serializable{
 	}
 
 	public void dividerUp(){
-		y = yf - 35;
+		if(broken == false)
+			y = yf - 35;
 	}
 
 	public void dividerNeutral(){
-		y = yf;
+		if(broken == false)
+			y = yf;
 	}
 
 	public void dividerDown(){
-		y = yf + 35;
+		if(broken == false)
+			y = yf + 35;
+	}
+
+	public void setBroken(boolean b){
+		broken = b;
+	}
+	public boolean getBroken(){
+		return broken;
 	}
 }

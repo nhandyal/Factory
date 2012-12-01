@@ -21,6 +21,7 @@ public class Lane extends FactoryObject implements Serializable{
 	ArrayList<Line> lines;
 	boolean laneActive, picNeeded, nestFull;
 	int counter = 0;
+	boolean laneBroken, nestBroken;
 
 	public Lane(int initialPosX, int initialPosY, int indx){
 		x = initialPosX;
@@ -38,6 +39,10 @@ public class Lane extends FactoryObject implements Serializable{
 		lines.add(new Line((x+80),(y+1),(x+80),(y+35),(index)));
 		lines.add(new Line((x+180),(y+1),(x+180),(y+35),(index+1)));
 		lines.add(new Line((x+280),(y+1),(x+280),(y+35),(index+2)));
+
+		// Set Broken Booleans to false
+		laneBroken = false;
+		nestBroken = false;
 	}
 
 	public void setActive(boolean b){
@@ -76,12 +81,19 @@ public class Lane extends FactoryObject implements Serializable{
 		return nest;
 	}
 
+	public boolean getNestFull(){
+		return nestFull;
+	}
+
 	public void purgeLane(){
 		lane.clear();
+		laneBroken = false;
 	}
 
 	public void purgeNest(){
 		nest.clear();
+		nestBroken = false;
+		nestFull = false;
 	}
 	
 	public Line getLaneLine(int i){
@@ -96,6 +108,24 @@ public class Lane extends FactoryObject implements Serializable{
 		return picNeeded;
 	}
 
+	public void setLaneBroken(boolean b){
+		laneBroken = b;
+	}
+
+	public void setNestBroken(boolean b){
+		nestBroken = b;
+		if (b == true)
+			nestFull = false;
+	}
+
+	public boolean getLaneBroken(){
+		return laneBroken;
+	}
+
+	public boolean getNestBroken(){
+		return nestBroken;
+	}
+
 	public void moveParts(){														// All Relative to Lane
 		for(int i=0;i<lane.size();i++)
 			lane.get(i).setIsMoving(false);
@@ -107,7 +137,7 @@ public class Lane extends FactoryObject implements Serializable{
 			counter = 0;
 		}
 
-		if(laneActive == true){														// if lane is on
+		if(laneActive == true && laneBroken == false){														// if lane is on
 			for(int i=0;i<lane.size();i++){
 				if(nestFull == false){												// if nest is not full
 					lane.get(i).moveLeft();											// move part left
@@ -116,7 +146,7 @@ public class Lane extends FactoryObject implements Serializable{
 //						System.out.println("Part "+counter+" added\nnestFull: "+nestFull);
 //						counter++;
 						lane.remove(i);
-						if(nest.size() == 9){
+						if(nest.size() == 9 && nestBroken == false){
 							picNeeded = true;
 							nestFull = true;
 						}
@@ -142,36 +172,44 @@ public class Lane extends FactoryObject implements Serializable{
 				}
 				else																// if part isn't at 5,20,35
 					nest.get(i).moveLeft();											// move part move left 	*/
-				switch(i){
-					case 0:
-						nest.get(i).moveTo((x+5),(y+6));
-						break;
-					case 1:
-						nest.get(i).moveTo((x+5),(y+16));
-						break;
-					case 2:
-						nest.get(i).moveTo((x+5),(y+26));
-						break;
-					case 3:
-						nest.get(i).moveTo((x+20),(y+6));
-						break;
-					case 4:
-						nest.get(i).moveTo((x+20),(y+16));
-						break;
-					case 5:
-						nest.get(i).moveTo((x+20),(y+26));
-						break;
-					case 6:
-						nest.get(i).moveTo((x+35),(y+6));
-						break;
-					case 7:
-						nest.get(i).moveTo((x+35),(y+16));
-						break;
-					case 8:	
-						nest.get(i).moveTo((x+35),(y+26));
-						break;
+
+				if(nestBroken == false){	
+					switch(i){
+						case 0:
+							nest.get(i).moveTo((x+5),(y+6));
+							break;
+						case 1:
+							nest.get(i).moveTo((x+5),(y+16));
+							break;
+						case 2:
+							nest.get(i).moveTo((x+5),(y+26));
+							break;
+						case 3:
+							nest.get(i).moveTo((x+20),(y+6));
+							break;
+						case 4:
+							nest.get(i).moveTo((x+20),(y+16));
+							break;
+						case 5:
+							nest.get(i).moveTo((x+20),(y+26));
+							break;
+						case 6:
+							nest.get(i).moveTo((x+35),(y+6));
+							break;
+						case 7:
+							nest.get(i).moveTo((x+35),(y+16));
+							break;
+						case 8:	
+							nest.get(i).moveTo((x+35),(y+26));
+							break;
+					}
 				}
+				else
+					nest.get(i).moveTo((x+5),(y+16));
 			}
+		}
+
+		if(laneActive == true){
 			for(int i=0;i<3;i++){
 				lines.get(i).moveLeft();											// move lanelines left
 				if(lines.get(i).getPositionX()<=(x+43))								// if laneline is at 43

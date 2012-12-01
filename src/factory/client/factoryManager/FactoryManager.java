@@ -2,7 +2,7 @@
 ** Author: Nikhil Handyal
 ** Date: 11/17/12
 ** Project: Cs200-Factory
-** Description: Server code
+** Description: Factory Manager
 ** 
 ** Pre-Conditions: None
 */
@@ -30,16 +30,23 @@ import factory.client.factoryManager.*;
 */
 
 public class FactoryManager extends JFrame implements ActionListener, NetworkManager{
+		private static final int PAGE_WIDTH = 1150;
+		private static final int PAGE_HEIGHT = 670;
+		private MenuControls mc;
+		private FactoryManagerGUI fmg;
 		JPanel masterPanel, animationContainer;
 		CardLayout c1;
 		ArrayList<JPanel> animationFrames;
 		ArrayList<TreeMap<Integer, FactoryObject>> factoryAnimationData;
 		ImageArray images = new ImageArray();
-		FactoryManagerGUI fmg;
 		Timer t;
 		NetworkBridge nb;
 		
 		FactoryManager(){
+				fmg = new FactoryManagerGUI(this, PAGE_WIDTH, PAGE_HEIGHT);
+				nb = new NetworkBridge(this, "localhost", 8465, 5);
+				mc = new MenuControls(this);
+				
 				// initialize JPanels and CardLayout
 				masterPanel = new JPanel();
 				animationContainer = new JPanel();
@@ -54,8 +61,6 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 				for(int i = 0; i < 3; i++){
 						factoryAnimationData.add(new TreeMap<Integer, FactoryObject>());
 				}
-				nb = new NetworkBridge(this, "localhost", 8465, 5);
-				fmg = new FactoryManagerGUI(this);
 				animationFrames = new ArrayList<JPanel>();
 				animationFrames.add(new KASM(this));
 				animationFrames.add(new LM(this));
@@ -73,6 +78,9 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 				
 				this.add(masterPanel);
 				
+				// add the menu bar
+				this.setJMenuBar(mc);
+				
 				// start threads
 				t.start();
 				nb.sync();
@@ -84,7 +92,7 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 				FactoryManager fm = new FactoryManager();
 				
 				// set frame properties
-				fm.setSize(1155,670);
+				fm.setSize(PAGE_WIDTH,PAGE_HEIGHT);
 				fm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				fm.setTitle("FactoryManager");
 				fm.setVisible(true);
@@ -98,8 +106,15 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 				return images;
 		}
 		
+		public void showAnimation(){
+				c1.show(masterPanel,"ac");
+		}
+		
+		public void showControls(){
+				c1.show(masterPanel,"gc");
+		}
+		
 		public void actionPerformed(ActionEvent ae){
-				//c1.show(masterPanel,"ac");
 				for(JPanel frame : animationFrames){
 						frame.repaint();
 				}
@@ -112,8 +127,7 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 		// server specific
 		public void registerClientListener(NetworkBridge newBridge, int cID){}
 		public void syncFrame(){}
-		public void updatePartData(TreeMap<Integer, Parts> partData){}
-		public void updateKitData(TreeMap<Integer, Kits> kitData){}
+		
 		
 		// client specific
 		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){
@@ -139,13 +153,6 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 												currentFrameData.remove(key);
 										}
 								}
-								/*
-								System.out.println("currentFrameData: "+i);
-								for(Integer j : currentFrameData.keySet()){
-										System.out.print(j+" --- ");
-										currentFrameData.get(j).print();
-								}
-								*/
 						}
 				}
 				else{
@@ -158,7 +165,6 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 						for(int i = 0; i < dataArray.size(); i++){
 								factoryAnimationData.set(i, dataArray.get(i));
 						}
-						System.out.println("Sync complete");
 				}
 				else{
 					System.out.println("Warning: Corrupt frame data");
@@ -166,6 +172,11 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 		}
 		
 		// global
+		public void updatePartData(TreeMap<Integer, Parts> partData){}
+		public void updateKitData(TreeMap<Integer, Kits> kitData){
+				if(kitData != null)
+						fmg.setKitData(kitData);
+		}
 		public void closeNetworkBridge(int bridgeID){
 				nb.close();
 		}

@@ -106,5 +106,9 @@ public class FactoryState{
 		public TreeMap<Integer, Parts> getParts(){
 				return factoryPartData;
 		}
+		
+		public TreeMap<Integer, Kits> getKits(){
+				return factoryKits;
+		}
 }
 
