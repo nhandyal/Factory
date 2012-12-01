@@ -40,8 +40,11 @@ public class KitAssemblyManager extends JPanel implements ActionListener, Networ
 								g2.drawLine(t.getPositionX(), t.getPositionY(), t.getPositionXF(), t.getPositionYF());
 						}	
 						else{
-								ImageIcon tmp = images.getIcon(t.getImageIndex());
-								tmp.paintIcon(this, g2, t.getPositionX(), t.getPositionY());
+								if (t.getImageIndex() >= 0)
+                                {
+                                    ImageIcon tmp = images.getIcon(t.getImageIndex());
+                                    tmp.paintIcon(this, g2, t.getPositionX(), t.getPositionY());
+                                }
 						}
 				}
 		}

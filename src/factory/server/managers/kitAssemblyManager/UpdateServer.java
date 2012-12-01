@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.*;
 import factory.server.managers.GuiManager;
 import java.io.*;
+import factory.server.managers.laneManager.*;
 
 public class UpdateServer implements GuiManager, Serializable
 {
@@ -15,6 +16,7 @@ public class UpdateServer implements GuiManager, Serializable
 	TreeMap<Integer, Boolean> ChangeMap = new TreeMap<Integer, Boolean>();
 	TreeMap<Integer, FactoryObject> ChangeData = new TreeMap<Integer, FactoryObject>();
     InspectionCamera cam;
+	LaneManager lm;
 	Conveyor conv;
 	KitRobot robot;
 	PartRobot probot;
@@ -24,6 +26,7 @@ public class UpdateServer implements GuiManager, Serializable
 	ArrayList<Kit> kits;
 	ArrayList<Part> parts;
     ArrayList<Nest> nests;
+    ArrayList<Integer> nestsIndex;
     FactoryObject flash = new FactoryObject(100, 430, 14);
 	int count = 0;
 	int countconv = 0;
@@ -41,7 +44,8 @@ public class UpdateServer implements GuiManager, Serializable
     boolean isFinished = true;
     boolean isFlashed = false;
     boolean flag = false;
-    boolean isBadKit = true;
+    boolean isBadKit = false;
+    ArrayList<Boolean> isFull;
 	@SuppressWarnings("unchecked")
 	public UpdateServer()
 	{
@@ -53,6 +57,13 @@ public class UpdateServer implements GuiManager, Serializable
 		kits = new ArrayList<Kit>();
 		parts = new ArrayList<Part>();
         nests = new ArrayList<Nest>();
+        isFull = new ArrayList<Boolean>();
+        for (int i = 0; i < 8; i++)
+            isFull.add(false);
+        nestsIndex = new ArrayList<Integer>();
+        for (int i = 0; i < 8; i++)
+			for (int j = 0; j < 9; j++)
+				parts.add(new Part(0, 0, -1));
 		for (int i = 0; i < 3; i++)
 		{
 			KitStand ks = new KitStand(100,130 + i * 150,-1);
@@ -64,28 +75,7 @@ public class UpdateServer implements GuiManager, Serializable
 			nests.add(n1);
 			nests.add(n2);
 		}
-        Part[] p = new Part[8];
-        for (int i = 0; i < p.length; i++)
-        {
-            	Part p1 = new Part(nests.get(i).getPositionX()+5,nests.get(i).getPositionY()+5,i);
-            	Part p2 = new Part(nests.get(i).getPositionX()+20,nests.get(i).getPositionY()+5,i);
-            	Part p3 = new Part(nests.get(i).getPositionX()+35,nests.get(i).getPositionY()+5,i);
-            	Part p4 = new Part(nests.get(i).getPositionX()+5,nests.get(i).getPositionY()+15,i);
-            	Part p5 = new Part(nests.get(i).getPositionX()+20,nests.get(i).getPositionY()+15,i);
-            	Part p6 = new Part(nests.get(i).getPositionX()+35,nests.get(i).getPositionY()+15,i);
-            	Part p7 = new Part(nests.get(i).getPositionX()+5,nests.get(i).getPositionY()+25,i);
-            	Part p8 = new Part(nests.get(i).getPositionX()+20,nests.get(i).getPositionY()+25,i);
-            	Part p9 = new Part(nests.get(i).getPositionX()+35,nests.get(i).getPositionY()+25,i);
-            	parts.add(p1);
-            	parts.add(p2);
-            	parts.add(p3);
-            	parts.add(p4);
-            	parts.add(p5);
-            	parts.add(p6);
-            	parts.add(p7);
-            	parts.add(p8);
-            	parts.add(p9);
-        }
+        
         flash.setImage(14);
 		LineObjects.add(new FactoryObject((int)robot.getX1(),(int)robot.getY1(),(int)robot.getX2(),(int)robot.getY2()));
 		LineObjects.add(new FactoryObject((int)probot.getX1(),(int)probot.getY1(),(int)probot.getX2(),(int)probot.getY2()));
@@ -95,13 +85,27 @@ public class UpdateServer implements GuiManager, Serializable
     {
         isFlashed = f;
     }
+    public void bindManager(GuiManager bindManager)
+    {
+        lm = (LaneManager) bindManager;
+        for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < lm.getNest(i).size(); j++)
+			{
+				factory.global.data.Part p = lm.getNest(i).get(j);
+				parts.add(new Part(p.x, p.y, p.imageIndex));
+			}
+			for (int j = lm.getNest(i).size(); j < 9; j++)
+				parts.add(new Part(0, 0, -1));
+		}
+    }
 	public ArrayList<FactoryObject> getCurrentObjects()
 	{
 		return CurrentObjects;
 	}
 	public void sync(TreeMap<Integer, FactoryObject> changeData)																			// frame sync
 	{
-		for (int i = 0; i < CurrentObjects.size(); i++){
+        for (int i = 0; i < CurrentObjects.size(); i++){
 			changeData.put(i, CurrentObjects.get(i));
 		}
 	}
@@ -110,13 +114,40 @@ public class UpdateServer implements GuiManager, Serializable
 	{
 		//add all the stuff to the arraylist
         CurrentObjects.clear();
+		for (int i = 0; i < 8; i++)
+		{
+            if (!isFull.get(i))
+            {
+                for (int j = 0; j < lm.getNest(i).size(); j++)
+                {
+                    if (!nestsIndex.contains(i) || j != 8)
+                    {
+                        factory.global.data.Part p = lm.getNest(i).get(j);
+                        parts.set(j + 9 * i, new Part(355 + p.x, p.y, p.imageIndex));
+                    }
+                    if (nestsIndex.contains(i))
+                        System.out.println(i);
+                }
+                for (int j = lm.getNest(i).size(); j < 9; j++)
+                    if (!nestsIndex.contains(i) || j != 5)
+                        parts.set(j + 9 * i, new Part(0, 0, -1));
+            }
+            if (lm.getNest(i).size() == 9)
+                isFull.set(i, true);
+            else
+                isFull.set(i, false);
+		}
         for (int i = 0; i < kits.size(); i++) 
 			CurrentObjects.add(kits.get(i));
 		for (int i = 0; i < LineObjects.size(); i++)
 			CurrentObjects.add(LineObjects.get(i));
 		CurrentObjects.add(probot.getGripper());
 		for (int i = 0; i < parts.size(); i++)
+		{
+			//if (parts.get(i).imageIndex != -1)
+			//	parts.get(i).print();
 			CurrentObjects.add(parts.get(i));
+		}
 		CurrentObjects.add(cam);
         if (isFlashed)
         {
@@ -261,11 +292,12 @@ public class UpdateServer implements GuiManager, Serializable
 					
                     Part[] p = new Part[4];
                     Nest[] n = new Nest[4];
+                    nestsIndex.removeAll(nestsIndex);
                     if (isBadKit)
                         for (int i = pos.length - 1;i >= 0; i--)
                             if (pos[i] != - 1)
                             {
-                                parts.remove(5 + 9 * pos[i]);
+                                parts.set(8 + 9 * pos[i], new Part(0, 0, -1));
                                 pos[i] = -1;
                                 indexes[i] = -1;
                                 break;
@@ -280,6 +312,7 @@ public class UpdateServer implements GuiManager, Serializable
 							//parts.add(p1);
                             p[j] = p1;
                             n[j] = nests.get(pos[j]);
+                            nestsIndex.add(pos[j]);
                         }
                         else
                             p[j] = null;
@@ -505,8 +538,8 @@ public class UpdateServer implements GuiManager, Serializable
 			{
 				if (!lastObjects.get(i).isEquals(CurrentObjects.get(i))) //if the objects are the same then update the network stuff
 				{
-					//System.out.print(i + " :");
-                    //CurrentObjects.get(i).print();
+					System.out.print(i + " :");
+                    CurrentObjects.get(i).print();
                     inputChangeMap.put(i, true);
 					inputChangeData.put(i, CurrentObjects.get(i));
 				}

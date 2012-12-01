@@ -13,7 +13,7 @@ import java.util.*;
 import factory.global.data.*;
 import factory.server.managers.GuiManager;
 
-public class LaneManager implements GuiManager
+public class LaneManager implements GuiManager, java.io.Serializable
 {
 	ArrayList<Lane> lanes;
 	ArrayList<Bin> bins;
