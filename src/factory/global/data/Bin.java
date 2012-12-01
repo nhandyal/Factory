@@ -51,6 +51,7 @@ public class Bin extends FactoryObject implements Serializable{
 	}
 	
 	public int getPart(){
+		part.setPosition((x+8),(y+9));
 		return partindx;
 	}
 

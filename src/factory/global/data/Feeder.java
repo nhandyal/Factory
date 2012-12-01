@@ -18,6 +18,7 @@ public class Feeder extends FactoryObject implements Serializable{
 
 	Bin bin;
 	int push, intlpush;
+	boolean broken;
 
 	public Feeder(int xPos, int yPos, int image, int i){
 		push = 0;
@@ -25,6 +26,7 @@ public class Feeder extends FactoryObject implements Serializable{
 		y = yPos;
 		index = i;
 		setImage(image);
+		broken = false;
 	}
 	
 	public void pushPart(){
@@ -40,6 +42,14 @@ public class Feeder extends FactoryObject implements Serializable{
 		intlpush = p;
 	}
 	
+	public void setBroken(boolean b){
+		broken = b;
+	}
+	
+	public boolean getBroken(){
+		return broken;
+	}
+
 	public void addBin(Bin b){
 		bin = b;
 		bin.setVis(true);

@@ -14,27 +14,69 @@ import factory.global.data.*;
 
 public class LaneManager extends JFrame implements ActionListener, NetworkManager{
 
-		NetworkBridge nb1;
+		NetworkBridge nb;
 		TreeMap<Integer,FactoryObject> frameAnimationData;
 
 		ImageIcon background;
-		ImageArray images;
-		
-		public LaneManager(){
+//		ImageArray images;
 
-				// Create Backgroud Image
-				background = new ImageIcon("bin/factory/global/assets/LMBG.png");
-		
-				images = new ImageArray();
-				frameAnimationData = new TreeMap<Integer,FactoryObject>();
-				nb1 = new NetworkBridge(this,"localhost",8465,3);
-				nb1.sync();
+		JPanel masterPanel, animationContainer, animData, inputData;
+		ArrayList<JCheckBox> laneCheck, nestCheck;
+		JButton breakButton;
+		CardLayout c1;
+		LMANIM anim;
+
+		ArrayList<JPanel> animationFrames;
+		ArrayList<TreeMap<Integer, FactoryObject>> factoryAnimationData;
+		ImageArray images = new ImageArray();
+		LMGUI gui;
+		Timer t;
+
+		LaneManager(){
+				// initialize JPanels and CardLayout
+				masterPanel = new JPanel();
+				animationContainer = new JPanel();
+				c1 = new CardLayout();
+				
+				// set Panel and Frame properties
+				masterPanel.setLayout(c1);
+				animationContainer.setLayout(new BoxLayout(animationContainer,BoxLayout.X_AXIS));
+				
+				// initialize class variables
+				factoryAnimationData = new ArrayList<TreeMap<Integer, FactoryObject>>();
+				for(int i = 0; i < 3; i++){
+						factoryAnimationData.add(new TreeMap<Integer, FactoryObject>());
+				}
+				nb = new NetworkBridge(this, "localhost", 8465, 3);
+				gui = new LMGUI(this);
+				animationFrames = new ArrayList<JPanel>();
+				animationFrames.add(new LMANIM(this));
+				animationFrames.add(new LMGUI(this));
+//				animationFrames.add(new GM(this));
+//				t = new Timer(25,this);
+				
+				// add animation managers to animationContainer
+				for(JPanel frame : animationFrames){
+						animationContainer.add(frame);
+				}
+				
+				// add the container panels to the JFrame
+				masterPanel.add(animationContainer,"ac");
+				masterPanel.add(gui,"gc");
+				
+				this.add(masterPanel);
+				
+				// start threads
+//				t.start();
+				nb.sync();
+				
+				c1.show(masterPanel, "ac");
 		}
 
 		public static void main(String[] args){
 				LaneManager l = new LaneManager();
 				l.setVisible(true);
-				l.setSize(400,670);
+				l.setSize(700,670);
 				l.createBufferStrategy(2);
 				l.setTitle("Lane Manager");
 				l.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,33 +85,17 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 		} //end main
 
 		public void actionPerformed( ActionEvent ae ) {
-				repaint();
+				for(JPanel frame : animationFrames){
+						frame.repaint();
+				}
+
+//				anim.repaint();
     }
 
-    
-    public void paint(Graphics g){
-				Graphics2D g2 = (Graphics2D)g;
-				background.paintIcon(this,g2,0,0);
-
-				// Paint Updated List
-				Iterator k = frameAnimationData.keySet().iterator();
-				while(k.hasNext()){
-						int i = (Integer) k.next();
-						if(i != 0 && frameAnimationData.get(i).getIndex()> 0){
-								if(frameAnimationData.get(i).getIsLine()== true){	// if object is a line draw a line
-									if(frameAnimationData.get(i).getPositionX() == frameAnimationData.get(i).getPositionXF())
-										g2.setColor(Color.black);
-									else
-										g2.setColor(Color.gray);
-									g2.drawLine(frameAnimationData.get(i).getPositionX(),frameAnimationData.get(i).getPositionY(),frameAnimationData.get(i).getPositionXF(),frameAnimationData.get(i).getPositionYF());
-								}
-								else{ 										//if object is not a line draw an ImageIcon
-										int img = frameAnimationData.get(i).getImageIndex();
-										images.getIcon(img).paintIcon(this,g2,frameAnimationData.get(i).getPositionX(),frameAnimationData.get(i).getPositionY());
-								}
-						}
-				}	
+    public TreeMap<Integer, FactoryObject> getMap(){
+    	return frameAnimationData;
     }
+
 		
 		// -------------------------------------------------------------------------------------- //
 		// ----------------------------------- Network Manager ---------------------------------- //
@@ -121,7 +147,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 		
 		// global
 		public void closeNetworkBridge(int bridgeID){
-				nb1.close();
+				nb.close();
 		}
 		
 		// -------------------------------------------------------------------------------------- //

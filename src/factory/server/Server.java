@@ -55,11 +55,15 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				icm = new InboundConnectionManager(this);
 				guiViews[0] = new GantryManager();																					// Gantry
 				guiViews[1] = new LaneManager();																						// Lane
-				guiViews[2] = new UpdateServer((LaneManager)guiViews[1]);																						// Kit Asm 
+				guiViews[2] = new UpdateServer();																						// Kit Asm 
 				changeMap = new ArrayList<TreeMap<Integer, Boolean>>(3);
 				changeData = new ArrayList<TreeMap<Integer, FactoryObject>>(3);
 				sync = false;
 				startAnimation = false;
+				
+				// bind laneManager and KitASM
+				guiViews[2].bindManager(guiViews[1]);
+				guiViews[1].bindManager(guiViews[2]);
 				
 				// initialize server control panel
 				SCP = new ServerControl(guiViews[2], guiViews[1], guiViews[0], fs, this);
@@ -102,13 +106,11 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 		// Server Specific
 		public void registerClientListener(NetworkBridge newBridge, int cID){
 				clientConnections[cID] = newBridge;
-				TreeMap<Integer, Parts> currentParts = null;
-				TreeMap<Integer, Kits> currentKits = null;
 				if (cID == 0 || cID == 1){
 						newBridge.sendPartData(fs.getParts());
 				}
-				if(cID == 1){
-						//newBridge.sendKitData(currentKits);
+				if(cID == 1 || cID == 5){
+						newBridge.sendKitData(fs.getKits());
 				}
 		}
 		

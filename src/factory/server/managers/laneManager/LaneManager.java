@@ -90,19 +90,18 @@ public class LaneManager implements GuiManager, java.io.Serializable
 		// Create 4 Feeders
 		feeders = new ArrayList<Feeder>();
 		feeders.add(new Feeder(313,54,19,index));
-		index++;
+		index += 2;
 		feeders.add(new Feeder(313,178,19,index));
-		index++;
+		index += 2;
 		feeders.add(new Feeder(313,302,19,index));
-		index++;
+		index += 2;
 		feeders.add(new Feeder(313,426,19,index));
-		index++;
+		index += 2;
 
 		// Create Camera
 		cam = new Camera(264,28,13,Integer.MAX_VALUE);
 		
-		// Turn On Lane 0, Off Lanes 1-7
-//		laneSwitch(8,0);
+		// Turn Off Lanes 0-7
 		for(int i=0;i<8;i++)
 			lanes.get(i).setActive(false);
 
@@ -129,7 +128,7 @@ public class LaneManager implements GuiManager, java.io.Serializable
 
 		for(int i=0;i<4;i++){
 			if(lanes.get(i*2).getActive() == true || lanes.get((i*2)+1).getActive() == true){	// if a lane is on
-				if(counter==24 && feeders.get(i).getPush() > 0){								// every 25th instance of timer
+				if(counter==24 && feeders.get(i).getPush() > 0 && feeders.get(i).getBroken() == false){								// every 25th instance of timer, if feeder is working and bin has parts
 					if(dividers.get(i).getPositionY() > dividers.get(i).getPositionYF() && lanes.get(i*2).getActive() == true)		// if the divider is in the lower position
 						lanes.get(i*2).addPart(feeders.get(i).getBin().getPart(),index);		// create a new part in upper lane
 					else if(dividers.get(i).getPositionY() < dividers.get(i).getPositionYF() && lanes.get(i*2+1).getActive() == true)		// if the divider is in the lower position																		// if the divider is in the upper position
@@ -220,18 +219,28 @@ public class LaneManager implements GuiManager, java.io.Serializable
 			int j = (Integer) k.next();
 			changeMap.put(j,false);
 		}
-//		sync(changeData);
-//		for(int j=0;i<lanes.get(i).getLaneSize();j++)
-//			lanes.get(i).getLanePart(j).setIndex(-5);
-//		lanes.get(i).getLane().clear();
 	}
 
 	public void purgeNest(int i){
 		lanes.get(i).purgeNest();
-//		for(int j=0;i<lanes.get(i).getNestSize();j++)
-//			lanes.get(i).getNestPart(j).setIndex(-5);
-//		lanes.get(i).getNest().clear();
-		//System.out.println(lanes.get(i).getNestSize());
+	}
+
+	public boolean testNest(int k){
+		boolean result = true;
+		ArrayList<Part> nest = lanes.get(k).getNest();
+		int j = -1;
+		if(nest.size() > 9)
+			result = false;
+		if(nest.size() > 0)
+			j = nest.get(0).getImageIndex();
+		for(int i=0;i<9;i++){
+			if(j != nest.get(i).getImageIndex())
+				result = false;
+		}
+		if(j < 0)
+			result = false;
+
+		return result;
 	}
 
 	public void addBin(int i, Bin b, int pnum){
@@ -254,6 +263,70 @@ public class LaneManager implements GuiManager, java.io.Serializable
 			nest.add(lanes.get(i).getNestPart(j));
 		}
 		return nest;
+	}
+
+	public void removePart(int i){
+		ArrayList<Part> nest = lanes.get(i).getNest();
+		if (nest.size() > 0)
+			lanes.get(i).getNest().remove((nest.size() -1));
+	}
+
+	public void breakLane(int i){
+		lanes.get(i).setLaneBroken(true);
+//		System.out.println("Lane "+(i+1)+" broken "+lanes.get(i).getLaneBroken());
+	}
+
+	public void insertLanePart(int i){
+		int j;
+		if(i%2 == 0)
+			j = i+1;
+		else
+			j = i-1;
+
+		if(lanes.get(i).getLaneSize() > 0 && lanes.get(j).getLaneSize() > 0){
+			if(lanes.get(i).getLanePart(0).getImageIndex() == lanes.get(j).getLanePart(0).getImageIndex()){
+				lanes.get(j).getLanePart(0).setImage(lanes.get(i).getLanePart(0).getImageIndex());
+			}
+		}
+	}
+
+	public void breakNest(int i){
+		lanes.get(i).setNestBroken(true);
+//		System.out.println("Lane "+(i+1)+" broken "+lanes.get(i).getLaneBroken());
+	}
+
+	public void insertNestPart(int i){
+		int j = -1;
+		if(lanes.get(i).getNestSize() == 9){
+			j = lanes.get(i).getNestPart(8).getImageIndex();
+			if(j == 9)
+				j = 0;
+			lanes.get(i).getNestPart(8).setImage(j);
+		}
+		else if(lanes.get(i).getNestSize() >= 0){
+			if(lanes.get(i).getNestSize() == 0 && lanes.get(i).getLaneSize() > 0)
+				j = lanes.get(i).getLanePart(0).getImageIndex();
+			else if(lanes.get(i).getNestSize() > 0)
+				j = lanes.get(i).getNestPart(8).getImageIndex();
+			if(j == 9)
+				j = 0;
+			if(j >= 0){
+				lanes.get(i).getNest().add(new Part(lanes.get(i).getPositionX()+332,lanes.get(i).getPositionY()+16,j,index));
+				index++;
+			}
+		}
+	}
+
+	public void breakCam(){
+		cam.setBroken(true);
+	}
+
+	public void breakDivider(int i){
+		dividers.get(i).setBroken(true);
+	}
+
+	public void breakFeeder(int i){
+		feeders.get(i).setBroken(true);
 	}
 
 	public void update(TreeMap<Integer,Boolean> changeMap, TreeMap<Integer,FactoryObject> changeData){
@@ -380,6 +453,13 @@ public class LaneManager implements GuiManager, java.io.Serializable
 			// If parts are low and a lane is on
 			if(feeders.get(i).getPush() <= feeders.get(i).getPartsLow() && (lanes.get(i*2).getActive() == true || lanes.get((i*2)+1).getActive() == true)){
 				map.put(feeders.get(i).getIndex(),feeders.get(i));
+			}
+			if(feeders.get(i).getBroken() == true){
+				// Add Caution Sign
+				map.put((feeders.get(i).getIndex()+1),new FactoryObject());
+				map.get(feeders.get(i).getIndex()+1).setPosition((feeders.get(i).getPositionX()+31),(feeders.get(i).getPositionY()+67));
+				map.get(feeders.get(i).getIndex()+1).setIndex(feeders.get(i).getIndex()+1);
+				map.get(feeders.get(i).getIndex()+1).setImage(21);
 			}
 		}
 
