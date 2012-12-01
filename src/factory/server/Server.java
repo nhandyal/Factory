@@ -63,6 +63,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				
 				// bind laneManager and KitASM
 				guiViews[2].bindManager(guiViews[1]);
+				guiViews[0].bindManager(guiViews[1]);
 				
 				// initialize server control panel
 				SCP = new ServerControl(guiViews[2], guiViews[1], guiViews[0], fs, this);
@@ -140,7 +141,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 		public void updateBuildData(ArrayList<Kits> buildData){
 				fs.mergeBuildData(buildData);
 				if(fs.getBuildData() != null){
-						//SCP.updateFactoryView(fs.getBuildData());
+						SCP.updateFactoryView(fs.getBuildData());
 				}
 		}
 		
