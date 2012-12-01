@@ -136,6 +136,9 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 
 		public void updateBuildData(ArrayList<Kits> buildData){
 				fs.mergeBuildData(buildData);
+				if(fs.getBuildData() != null){
+						SCP.updateFactoryView(fs.getBuildData());
+				}
 		}
 		
 		public void updateBreakData(String breakCommand, int cID, int x){
