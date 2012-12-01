@@ -20,4 +20,5 @@ import factory.global.data.*;
 public interface GuiManager{
 		public void update(TreeMap<Integer, Boolean> changeMap, TreeMap<Integer, FactoryObject> changeData);
 		public void sync(TreeMap<Integer, FactoryObject> changeData);
+		public void bindManager(GuiManager bindManager);
 }
