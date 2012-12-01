@@ -66,7 +66,8 @@ public class KitAssemblyManager extends JPanel implements ActionListener, Networ
     public void registerClientListener(NetworkBridge newBridge, int cID){}
     public void syncFrame(){}
     public void updatePartData(TreeMap<Integer, Parts> partData){}
-    
+    public void updateBuildData(ArrayList<Kits> buildData){}
+		
     // client specific
     public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){
         if(mapArray.size() == 1){

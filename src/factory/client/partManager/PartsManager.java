@@ -158,7 +158,7 @@ public class PartsManager extends JFrame implements ActionListener, NetworkManag
 		//setVisible(true);
 	}
 	public void updateKitData(TreeMap<Integer, Kits>kitData){}
-		
+	public void updateBuildData(ArrayList<Kits> buildData){}
 	// client specific
 	public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){}
 	

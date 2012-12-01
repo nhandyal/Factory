@@ -110,6 +110,7 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 		public void syncFrame(){}
 		public void updatePartData(TreeMap<Integer, Parts> partData){}
 		public void updateKitData(TreeMap<Integer, Kits> kitData){}
+		public void updateBuildData(ArrayList<Kits> buildData){}
 		
 		// client specific
 		public void mergeChanges(ArrayList<TreeMap<Integer, Boolean>> mapArray, ArrayList<TreeMap<Integer, FactoryObject>> dataArray){
