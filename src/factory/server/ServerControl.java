@@ -358,12 +358,12 @@ public class ServerControl extends JPanel implements ActionListener{
 		}
 		if (e.getSource() == purgeFeeder){
 			server.sync = true;
-			String f = (String)feederChooser2.getSelectedItem();
+			String f = (String)feederChooser.getSelectedItem();
 			f = f.substring(7);
 			int feeder = Integer.parseInt(f);
 			feeder -= 1;
 			GM.robot.removeBin(feeder);
-			LM.removeBin(feeder);
+			//LM.removeBin(feeder);
 		}
 		if (e.getSource() == toggleDivider){
 			server.sync = true;

@@ -108,23 +108,21 @@ public class gantryRobot extends FactoryObject implements Serializable
 				if(x == nextDestX && y == nextDestY){
 					pickupBin(bin);
 					f.isMoveToBin = false;
-		            if (f.isRemoveBin)
-		                moveToPoint(340, binYArray[bin]);
 				}
 			}
         }   
 	}
 
-	public void moveToBinPurge(int bin){
+	public void moveToBinPurge(int pbin){
 		System.out.println("moving to the bin");
-        f.bin = bin;
+        f.bin = pbin;
         f.isMoveToFeeder = false;
         f.isMoveToPoint = false;
         f.isMoveToBin = false;
         f.isMoveToBinPurge = true;
         hasBin = false;
-        nextDestX = bins.get(bin).getPositionX() + 40;
-		nextDestY = bins.get(bin).getPositionY() - 20;
+        nextDestX = bins.get(pbin).getPositionX() + 40;
+		nextDestY = bins.get(pbin).getPositionY() - 20;
 
 		if (x < nextDestX){
 
@@ -167,10 +165,10 @@ public class gantryRobot extends FactoryObject implements Serializable
 		}
 
 		if(x == nextDestX && y == nextDestY){
-			pickupBin(bin);
+			pickupBin(pbin);
 			f.isMoveToBin = false;
             if (f.isRemoveBin)
-                moveToPoint(340, binYArray[bin]);
+                moveToPoint(340, binYArray[pbin]);
 		}
 	}
 
@@ -190,15 +188,25 @@ public class gantryRobot extends FactoryObject implements Serializable
 			if((x+4) > nextDestX)
 			{
 				x = nextDestX;
-				possessedBin.x = x + 10;
-				possessedBin.getPartIcon().x = possessedBin.x + 8;
-				possessedBin.getPartIcon().y = possessedBin.y + 9;
+
+				if(possessedBin != null)
+				{
+					possessedBin.x = x + 10;
+					possessedBin.getPartIcon().x = possessedBin.x + 8;
+					possessedBin.getPartIcon().y = possessedBin.y + 9;
+				}
+				
 			}
 
 			x+=4;
-			possessedBin.x+=4;
-			possessedBin.getPartIcon().x = possessedBin.x + 8;
-			possessedBin.getPartIcon().y = possessedBin.y + 9;
+
+			if(possessedBin != null)
+			{
+				
+				possessedBin.x+=4;
+				possessedBin.getPartIcon().x = possessedBin.x + 8;
+				possessedBin.getPartIcon().y = possessedBin.y + 9;
+			}
 		}
 
 		else if (x > nextDestX){
@@ -206,15 +214,23 @@ public class gantryRobot extends FactoryObject implements Serializable
 			if((x-4) < nextDestX)
 			{
 				x = nextDestX;
-				possessedBin.x = x + 10;
-				possessedBin.getPartIcon().x = possessedBin.x + 8;
-				possessedBin.getPartIcon().y = possessedBin.y + 9;
+
+				if(possessedBin != null)
+				{
+					possessedBin.x = x + 10;
+					possessedBin.getPartIcon().x = possessedBin.x + 8;
+					possessedBin.getPartIcon().y = possessedBin.y + 9;
+				}
 			}
 
 			x-=4;
-			possessedBin.x-=4;
-			possessedBin.getPartIcon().x = possessedBin.x + 8;
-			possessedBin.getPartIcon().y = possessedBin.y + 9;
+
+			if(possessedBin != null)
+			{
+				possessedBin.x-=4;
+				possessedBin.getPartIcon().x = possessedBin.x + 8;
+				possessedBin.getPartIcon().y = possessedBin.y + 9;
+			}
 
 		}
 
@@ -223,15 +239,21 @@ public class gantryRobot extends FactoryObject implements Serializable
 			if((y+4) > nextDestY)
 			{
 				y = nextDestY;
-				possessedBin.y = y;
-				possessedBin.getPartIcon().x = possessedBin.x + 8;
-				possessedBin.getPartIcon().y = possessedBin.y + 9;
+				if(possessedBin != null)
+				{
+					possessedBin.y = y;
+					possessedBin.getPartIcon().x = possessedBin.x + 8;
+					possessedBin.getPartIcon().y = possessedBin.y + 9;
+				}
 			}
 
 			y+=4;
-			possessedBin.y+=4;
-			possessedBin.getPartIcon().x = possessedBin.x + 8;
-			possessedBin.getPartIcon().y = possessedBin.y + 9;
+			if(possessedBin != null)
+			{
+				possessedBin.y+=4;
+				possessedBin.getPartIcon().x = possessedBin.x + 8;
+				possessedBin.getPartIcon().y = possessedBin.y + 9;
+			}
 		}
 
 		else if (y > nextDestY){
@@ -239,24 +261,36 @@ public class gantryRobot extends FactoryObject implements Serializable
 			if((y-4) < nextDestY)
 			{
 				y = nextDestY;
-				possessedBin.y = y;
-				possessedBin.getPartIcon().x = possessedBin.x + 8;
-				possessedBin.getPartIcon().y = possessedBin.y + 9;
+				if(possessedBin != null)
+				{
+					possessedBin.y = y;
+					possessedBin.getPartIcon().x = possessedBin.x + 8;
+					possessedBin.getPartIcon().y = possessedBin.y + 9;
+				}
 			}
 
 			y-=4;
-			possessedBin.y-=4;
-			possessedBin.getPartIcon().x = possessedBin.x + 8;
-			possessedBin.getPartIcon().y = possessedBin.y + 9;
+			if(possessedBin != null)
+			{
+				possessedBin.y-=4;
+				possessedBin.getPartIcon().x = possessedBin.x + 8;
+				possessedBin.getPartIcon().y = possessedBin.y + 9;
+			}
 		}
 
 		if(neutralPos == false)
 		{
 			if(x == nextDestX && y == nextDestY){
-				possessedBin.x = 340;
-				possessedBin.y = newY;
-				possessedBin.getPartIcon().x = possessedBin.x + 8;
-				possessedBin.getPartIcon().y = possessedBin.y + 9;
+				System.out.println("drop bin");
+				if(possessedBin != null)
+				{
+					possessedBin.x = 340;
+					possessedBin.y = newY;
+					possessedBin.getPartIcon().x = possessedBin.x + 8;
+					possessedBin.getPartIcon().y = possessedBin.y + 9;
+					possessedBin = null;
+				}
+				System.out.println("no bin");
 				hasBin = false;
 	            f.isMoveToPoint = false;
 			}
@@ -266,8 +300,11 @@ public class gantryRobot extends FactoryObject implements Serializable
 		{
 			if(x == nextDestX && y == nextDestY){
 				neutralPos = false;
-				possessedBin.getPartIcon().x = possessedBin.x + 8;
-				possessedBin.getPartIcon().y = possessedBin.y + 9;
+				if(possessedBin != null)
+				{
+					possessedBin.getPartIcon().x = possessedBin.x + 8;
+					possessedBin.getPartIcon().y = possessedBin.y + 9;
+				}
 	            f.isMoveToPoint = false;
 	            f.isRemoveBin = false;
 			}
@@ -283,7 +320,7 @@ public class gantryRobot extends FactoryObject implements Serializable
         f.isMoveToBinPurge = false;
         f.isMoveToFeeder = true;
 
-        if(hasBin){
+        if(hasBin == true){
         	for(int i=0;i<10;i++){
 	        	if(bins.get(i).getPositionY() == feeders.get(feeder).getPositionY())
 				{
@@ -300,15 +337,21 @@ public class gantryRobot extends FactoryObject implements Serializable
 				if((x+4) > nextDestX)
 				{
 					x = nextDestX;
-					possessedBin.x = x + 10;
-					possessedBin.getPartIcon().x = possessedBin.x + 8;
-					possessedBin.getPartIcon().y = possessedBin.y + 9;
+					if(possessedBin != null)
+					{
+						possessedBin.x = x + 10;
+						possessedBin.getPartIcon().x = possessedBin.x + 8;
+						possessedBin.getPartIcon().y = possessedBin.y + 9;
+					}
 				}
 
 				x+=4;
-				possessedBin.x+=4;
-				possessedBin.getPartIcon().x = possessedBin.x + 8;
-				possessedBin.getPartIcon().y = possessedBin.y + 9;
+				if(possessedBin != null)
+				{
+					possessedBin.x+=4;
+					possessedBin.getPartIcon().x = possessedBin.x + 8;
+					possessedBin.getPartIcon().y = possessedBin.y + 9;
+				}
 			}
 
 			else if (x > nextDestX){
@@ -316,15 +359,21 @@ public class gantryRobot extends FactoryObject implements Serializable
 				if((x-4) < nextDestX)
 				{
 					x = nextDestX;
-					possessedBin.x = x + 10;
-					possessedBin.getPartIcon().x = possessedBin.x + 8;
-					possessedBin.getPartIcon().y = possessedBin.y + 9;
+					if(possessedBin != null)
+					{
+						possessedBin.x = x + 10;
+						possessedBin.getPartIcon().x = possessedBin.x + 8;
+						possessedBin.getPartIcon().y = possessedBin.y + 9;
+					}
 				}
 
 				x-=4;
-				possessedBin.x-=4;
-				possessedBin.getPartIcon().x = possessedBin.x + 8;
-				possessedBin.getPartIcon().y = possessedBin.y + 9;
+				if(possessedBin != null)
+				{
+					possessedBin.x-=4;
+					possessedBin.getPartIcon().x = possessedBin.x + 8;
+					possessedBin.getPartIcon().y = possessedBin.y + 9;
+				}
 			}
 
 			if(y < nextDestY){
@@ -332,15 +381,21 @@ public class gantryRobot extends FactoryObject implements Serializable
 				if((y+4) > nextDestY)
 				{
 					y = nextDestY;
-					possessedBin.y = y;
-					possessedBin.getPartIcon().x = possessedBin.x + 8;
-					possessedBin.getPartIcon().y = possessedBin.y + 9;
+					if(possessedBin != null)
+					{
+						possessedBin.y = y;
+						possessedBin.getPartIcon().x = possessedBin.x + 8;
+						possessedBin.getPartIcon().y = possessedBin.y + 9;
+					}
 				}
 
 				y+=4;
-				possessedBin.y+=4;
-				possessedBin.getPartIcon().x = possessedBin.x + 8;
-				possessedBin.getPartIcon().y = possessedBin.y + 9;
+				if(possessedBin != null)
+				{
+					possessedBin.y+=4;
+					possessedBin.getPartIcon().x = possessedBin.x + 8;
+					possessedBin.getPartIcon().y = possessedBin.y + 9;
+				}
 			}
 
 			else if (y > nextDestY){
@@ -348,24 +403,37 @@ public class gantryRobot extends FactoryObject implements Serializable
 				if((y-4) < nextDestY)
 				{
 					y = nextDestY;
-					possessedBin.y = y;
-					possessedBin.getPartIcon().x = possessedBin.x + 8;
-					possessedBin.getPartIcon().y = possessedBin.y + 9;
+					if(possessedBin != null)
+					{
+						possessedBin.y = y;
+						possessedBin.getPartIcon().x = possessedBin.x + 8;
+						possessedBin.getPartIcon().y = possessedBin.y + 9;
+					}
 				}
 
 				y-=4;
-				possessedBin.y-=4;
-				possessedBin.getPartIcon().x = possessedBin.x + 8;
-				possessedBin.getPartIcon().y = possessedBin.y + 9;
+				if(possessedBin != null)
+				{
+					possessedBin.y-=4;
+					possessedBin.getPartIcon().x = possessedBin.x + 8;
+					possessedBin.getPartIcon().y = possessedBin.y + 9;
+				}
 			}
 
 			if (neutralPos == false)
 			{
 				if(x == nextDestX && y == nextDestY){
-					possessedBin.x = feeders.get(feeder).getPositionX();
-					possessedBin.y = feeders.get(feeder).getPositionY();
-					possessedBin.getPartIcon().x = possessedBin.x + 8;
-					possessedBin.getPartIcon().y = possessedBin.y + 9;
+					if(possessedBin != null)
+					{
+						System.out.println("drop bin");
+						possessedBin.x = feeders.get(feeder).getPositionX();
+						possessedBin.y = feeders.get(feeder).getPositionY();
+						possessedBin.getPartIcon().x = possessedBin.x + 8;
+						possessedBin.getPartIcon().y = possessedBin.y + 9;
+						//f.l.addToFeeder(feeder, possessedBin.)
+						possessedBin = null;
+					}
+					System.out.println("no bin");
 					hasBin = false;
 					f.isMoveToFeeder = false;
 				}
@@ -380,7 +448,7 @@ public class gantryRobot extends FactoryObject implements Serializable
         f.isRemoveBin = true;
 		if(hasBin == false){
 			for(int i=0;i<10;i++){
-				if (bins.get(i).y == feeders.get(feeder).y)
+				if(feeders.get(feeder).getPositionY() == bins.get(i).getPositionY())
 				{
 					moveToBinPurge(i);
 				}
