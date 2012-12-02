@@ -370,7 +370,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			int feeder = Integer.parseInt(f);
 			feeder -= 1;
 			GM.robot.removeBin(feeder);
-			//LM.removeBin(feeder);
+			LM.removeBin(feeder);
 		}
 		if (e.getSource() == toggleDivider){
 			server.sync = true;
