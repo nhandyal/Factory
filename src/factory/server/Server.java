@@ -63,6 +63,7 @@ public class Server extends JFrame implements ActionListener, NetworkManager{
 				
 				// bind laneManager and KitASM
 				guiViews[2].bindManager(guiViews[1]);
+				guiViews[0].bindManager(guiViews[1]);
 				
 				// initialize server control panel
 				SCP = new ServerControl(guiViews[2], guiViews[1], guiViews[0], fs, this);

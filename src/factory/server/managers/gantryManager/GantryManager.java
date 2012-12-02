@@ -24,6 +24,7 @@ public class GantryManager implements GuiManager, Serializable
 	//ImageArray images;
 	public gantryRobot robot;
 	int counter, index;
+	//LaneManager l;
     public boolean isMoveToBin = false;
     public boolean isMoveToFeeder = false;
     public boolean isMoveToPoint = false;
@@ -207,7 +208,11 @@ public class GantryManager implements GuiManager, Serializable
 		}
 	}		
 
-	public void bindManager(GuiManager bindManager){}
+	public void bindManager(GuiManager binder){
+
+		//l = (LaneManager)binder;
+
+	}
 	public void breakPart(String b, int x){}
 	public boolean getSync(){return false;}
 	public void setSync(){}

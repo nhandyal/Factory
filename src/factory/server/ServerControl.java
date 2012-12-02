@@ -22,11 +22,13 @@ public class ServerControl extends JPanel implements ActionListener{
 	JPanel overPanel = new JPanel();
 	JPanel laneControl = new JPanel();
 	JPanel kitAssemblyControl = new JPanel();
-	JPanel lComboBoxPanel = new JPanel();
+	JPanel lComboBoxPanel1 = new JPanel();
+	JPanel lComboBoxPanel2 = new JPanel();
 	JPanel[] kComboBoxPanel = new JPanel[4];
 	JPanel laneButtonPanel = new JPanel();
 	JPanel gantryControl = new JPanel();
-	JPanel gComboBoxPanel = new JPanel();
+	JPanel gComboBoxPanel1 = new JPanel();
+	JPanel gComboBoxPanel2 = new JPanel();
 	JTabbedPane tp = new JTabbedPane();
 	FactoryView fv = new FactoryView();
 	
@@ -57,7 +59,6 @@ public class ServerControl extends JPanel implements ActionListener{
 	JButton purgeNest = new JButton("Purge Nest of Selected Lane");
 	JButton purgeLane = new JButton("Purge Selected Lane");
 	JButton purgeFeeder = new JButton("Purge Selected Feeder");
-	JButton addBin = new JButton("Add Bin");
 	JLabel badNestPicLabel = new JLabel("No Nest Picture Data");
 	
 	JLabel gantryControlDesc = new JLabel("Gantry Manager");
@@ -114,10 +115,12 @@ public class ServerControl extends JPanel implements ActionListener{
 		for (int i = 0; i < kComboBoxPanel.length; i++)
 			kComboBoxPanel[i].setLayout(new FlowLayout());
 		laneControl.setLayout(new BoxLayout(laneControl,BoxLayout.Y_AXIS));
-		lComboBoxPanel.setLayout(new FlowLayout());
+		lComboBoxPanel1.setLayout(new FlowLayout());
+		lComboBoxPanel2.setLayout(new FlowLayout());
 		laneButtonPanel.setLayout(new BoxLayout(laneButtonPanel,BoxLayout.Y_AXIS));
 		gantryControl.setLayout(new BoxLayout(gantryControl,BoxLayout.Y_AXIS));
-		gComboBoxPanel.setLayout(new FlowLayout());
+		gComboBoxPanel1.setLayout(new FlowLayout());
+		gComboBoxPanel2.setLayout(new FlowLayout());
 		
 		
 		conveyorToStand.addActionListener(this);
@@ -136,7 +139,6 @@ public class ServerControl extends JPanel implements ActionListener{
 		purgeNest.addActionListener(this);
 		purgeLane.addActionListener(this);
 		purgeFeeder.addActionListener(this);
-		addBin.addActionListener(this);
 		
 		moveToBin.addActionListener(this);
 		moveToFeeder.addActionListener(this);
@@ -146,40 +148,45 @@ public class ServerControl extends JPanel implements ActionListener{
 			kComboBoxPanel[i].add(indexChooser[i]);
 		}
 		kitAssemblyControl.add(kitAssemblyDesc);
-		for (int i = 0; i < kComboBoxPanel.length; i++)
-			kitAssemblyControl.add(kComboBoxPanel[i]);
-		kitAssemblyControl.add(kamdropDownInfo);
 		kitAssemblyControl.add(bringKit);
 		kitAssemblyControl.add(conveyorToStand);
-		kitAssemblyControl.add(build1);
-		kitAssemblyControl.add(build2);
 		kitAssemblyControl.add(inspection);
-        kitAssemblyControl.add(inspection2);
+		kitAssemblyControl.add(inspection2);
 		kitAssemblyControl.add(inspectionPicture);
 		kitAssemblyControl.add(standToConveyor);
 		kitAssemblyControl.add(takeKit);
+		kitAssemblyControl.add(new JSeparator(SwingConstants.HORIZONTAL));
+		kitAssemblyControl.add(kamdropDownInfo);
+		for (int i = 0; i < kComboBoxPanel.length; i++)
+			kitAssemblyControl.add(kComboBoxPanel[i]);
+		kitAssemblyControl.add(build1);
+		kitAssemblyControl.add(build2);
+       
 		kitAssemblyControl.add(badKitPicLabel);
 		
-		lComboBoxPanel.add(laneChooser);
-		lComboBoxPanel.add(feederChooser2);
+		lComboBoxPanel1.add(laneChooser);
+		lComboBoxPanel2.add(feederChooser2);
 		laneControl.add(laneDesc);
-		laneControl.add(lComboBoxPanel);
+		laneControl.add(lComboBoxPanel1);
 		laneButtonPanel.add(toggleLane);
-		laneButtonPanel.add(toggleDivider);
 		laneButtonPanel.add(nestPicture);
 		laneButtonPanel.add(purgeNest);
 		laneButtonPanel.add(purgeLane);
 		laneControl.add(laneButtonPanel);
+		laneControl.add(new JSeparator(SwingConstants.HORIZONTAL));
+		laneControl.add(lComboBoxPanel2);
+		laneControl.add(toggleDivider);
 		laneControl.add(badNestPicLabel);
 		
-		gComboBoxPanel.add(binChooser);
-		gComboBoxPanel.add(feederChooser);
+		gComboBoxPanel1.add(binChooser);
+		gComboBoxPanel2.add(feederChooser);
 		gantryControl.add(gantryControlDesc);
-		gantryControl.add(gComboBoxPanel);
+		gantryControl.add(gComboBoxPanel1);
 		gantryControl.add(moveToBin);
+		gantryControl.add(new JSeparator(SwingConstants.HORIZONTAL));
+		gantryControl.add(gComboBoxPanel2);
 		gantryControl.add(moveToFeeder);
 		gantryControl.add(purgeFeeder);
-		gantryControl.add(addBin);
 		
 		tp.addTab("Kit Assembly",kitAssemblyControl);
 		tp.addTab("Lane M",laneControl);
@@ -273,10 +280,10 @@ public class ServerControl extends JPanel implements ActionListener{
 		if (e.getSource() == inspectionPicture){
 			if (KitASM.isFinished()){
 				KitASM.takePic();
-				//if (KitASM.isBadKit())
-					//badKitPicLabel.setText("Kit missing parts");
-				//else
-					//badKitPicLabel.setText("Kit is complete");
+				if (KitASM.isBadKit())
+					badKitPicLabel.setText("Kit missing parts");
+				else
+					badKitPicLabel.setText("Kit is complete");
 			}
 		}
 		if (e.getSource() == inspection){
@@ -358,7 +365,7 @@ public class ServerControl extends JPanel implements ActionListener{
 		}
 		if (e.getSource() == purgeFeeder){
 			server.sync = true;
-			String f = (String)feederChooser2.getSelectedItem();
+			String f = (String)feederChooser.getSelectedItem();
 			f = f.substring(7);
 			int feeder = Integer.parseInt(f);
 			feeder -= 1;
@@ -373,7 +380,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			feeder -= 1;
 			LM.dividerToggle(feeder);
 		}
-		
+		/*
 		if (e.getSource() == addBin){
 			server.sync = true;
 			String f = (String)feederChooser.getSelectedItem();
@@ -386,7 +393,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			bin -= 1;
 			LM.addToFeeder(feeder,bin,36);
 		}
-		
+		*/
 	}
 	
 	public void updateFactoryView(ArrayList<Kits> kits){
