@@ -17,7 +17,7 @@ public class LMGUI extends JPanel implements ActionListener{//, NetworkManager{
 	JPanel panel1, panel2, panel3;
 	ArrayList<JCheckBox> laneCheck, nestCheck, dividerCheck, feederCheck;
 	JCheckBox camCheck;
-	JButton breakButton, laneJump, insertNest;
+	JButton breakButton, laneJump, insertNest, laneJam;
 	JComboBox lanes, nests;
 	String[] laneStrings, nestStrings;
 	LaneManager parent;
@@ -33,7 +33,7 @@ public class LMGUI extends JPanel implements ActionListener{//, NetworkManager{
 
 		setLayout(new GridLayout(0,1));
 		panel1.setLayout(new GridLayout(0,2));
-		panel2.setLayout(new GridBagLayout());
+		panel2.setLayout(new FlowLayout());
 		panel3.setLayout(new GridLayout(1,2));
 
 		laneCheck = new ArrayList<JCheckBox>();
@@ -79,28 +79,39 @@ public class LMGUI extends JPanel implements ActionListener{//, NetworkManager{
 
 		gbc.gridx = 1;
 		gbc.gridy = 1;
-		panel2.add(lanes,gbc);
+//		panel2.add(lanes,gbc);
+		panel2.add(lanes);
 
-		gbc.gridx++;
-		panel2.add(nests,gbc);
+		gbc.gridy = 3;
+//		panel2.add(nests,gbc);
+		panel2.add(nests);
 
 		gbc.gridx = 1;
-		gbc.gridy++;
+		gbc.gridy = 2;
 		laneJump = new JButton("Part Jump");
 		laneJump.addActionListener(this);
-		panel2.add(laneJump,gbc);
+//		panel2.add(laneJump,gbc);
+		panel2.add(laneJump);
 
 		gbc.gridx++;
+		laneJam = new JButton("Jam Lane");
+		laneJam.addActionListener(this);
+//		panel2.add(laneJam,gbc);
+		panel2.add(laneJam);
+
+		gbc.gridx = 1;
+		gbc.gridy = 4;
 		insertNest = new JButton("Insert Bad Nest Part");
 		insertNest.addActionListener(this);
-		panel2.add(insertNest,gbc);
+//		panel2.add(insertNest,gbc);
+		panel2.add(insertNest);
 
 //		panel2.add(panel3);
 		add(panel2);
 
-//		setMinimumSize(new Dimension(400,670));
-//		setMaximumSize(new Dimension(400,670));
-//		setPreferredSize(new Dimension(400,670));
+		setMinimumSize(new Dimension(300,670));
+		setMaximumSize(new Dimension(300,670));
+		setPreferredSize(new Dimension(300,670));
 	}
 
 	public void actionPerformed(ActionEvent ae){
@@ -147,6 +158,13 @@ public class LMGUI extends JPanel implements ActionListener{//, NetworkManager{
 			int i = Integer.parseInt(l);
 			i--;
 			parent.nb.sendBreakData("jump",3,i);
+		}
+		if (ae.getSource() == laneJam){
+			String l = (String)lanes.getSelectedItem();
+			l = l.substring(5);
+			int i = Integer.parseInt(l);
+			i--;
+			parent.nb.sendBreakData("jam",3,i);
 		}
 		if (ae.getSource() == insertNest){
 			String l = (String)nests.getSelectedItem();

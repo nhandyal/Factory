@@ -314,6 +314,10 @@ public class LaneManager implements GuiManager, java.io.Serializable
 			insertLanePart(x);
 			System.out.println("Lane "+(x+1)+" Jump");
 		}
+		else if(b.equals("jam")){
+			laneJam(x);
+			System.out.println("Lane "+(x+1)+" Jam");
+		}
 		else if(b.equals("insert")){
 			insertNestPart(x);
 			System.out.println("Nest "+(x+1)+" Insert");
@@ -345,6 +349,10 @@ public class LaneManager implements GuiManager, java.io.Serializable
 			}
 		}
 		syncFrame = true;
+	}
+
+	public void laneJam(int i){
+		lanes.get(i).setLaneJam(true);
 	}
 
 	public void breakNest(int i){

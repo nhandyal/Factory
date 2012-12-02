@@ -19,7 +19,7 @@ public class Lane extends FactoryObject implements Serializable{
 
 	ArrayList<Part> lane, nest;
 	ArrayList<Line> lines;
-	boolean laneActive, picTaken, nestFull;
+	boolean laneActive, picTaken, nestFull, laneJam;
 	int counter = 0;
 	boolean laneBroken, nestBroken;
 
@@ -33,6 +33,7 @@ public class Lane extends FactoryObject implements Serializable{
 
 		picTaken = false;
 		nestFull = false;
+		laneJam = false;
 		
 		// Create LaneLines
 		lines = new ArrayList<Line>();
@@ -81,6 +82,19 @@ public class Lane extends FactoryObject implements Serializable{
 		return nest;
 	}
 
+	public void setLaneJam(boolean b){
+		laneJam = b;
+		nestFull = true;
+	}
+
+	public boolean getLaneJam(){
+		return laneJam;
+	}
+
+	public void setNestFull(boolean b){
+		nestFull = b;
+	}
+
 	public boolean getNestFull(){
 		return nestFull;
 	}
@@ -88,13 +102,17 @@ public class Lane extends FactoryObject implements Serializable{
 	public void purgeLane(){
 		lane.clear();
 		laneBroken = false;
+		laneJam = false;
+		if(nest.size() < 9)
+			nestFull = false;
 	}
 
 	public void purgeNest(){
 		nest.clear();
 		picTaken = false;
 		nestBroken = false;
-		nestFull = false;
+		if(laneJam == false)
+			nestFull = false;
 	}
 	
 	public Line getLaneLine(int i){
@@ -133,20 +151,18 @@ public class Lane extends FactoryObject implements Serializable{
 		for(int i=0;i<nest.size();i++)
 			nest.get(i).setIsMoving(false);
 
-		if(nest.size() == 0){
+		if(nest.size() == 0 && laneJam == false){
 			nestFull = false;
 			picTaken = false;
 			counter = 0;
 		}
 
-		if(laneActive == true && laneBroken == false){														// if lane is on
+		if(laneActive == true && laneBroken == false){								// if lane is on
 			for(int i=0;i<lane.size();i++){
 				if(nestFull == false){												// if nest is not full
 					lane.get(i).moveLeft();											// move part left
 					if(lane.get(i).getPositionX()<=(x+40)){							// if part is at 40
 						nest.add(lane.get(i));										// move it to the nest
-//						System.out.println("Part "+counter+" added\nnestFull: "+nestFull);
-//						counter++;
 						lane.remove(i);
 						if(nest.size() == 9 && nestBroken == false){
 							nestFull = true;
