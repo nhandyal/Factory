@@ -19,7 +19,7 @@ public class Lane extends FactoryObject implements Serializable{
 
 	ArrayList<Part> lane, nest;
 	ArrayList<Line> lines;
-	boolean laneActive, picNeeded, nestFull;
+	boolean laneActive, picTaken, nestFull;
 	int counter = 0;
 	boolean laneBroken, nestBroken;
 
@@ -31,7 +31,7 @@ public class Lane extends FactoryObject implements Serializable{
 		lane = new ArrayList<Part>();
 		nest = new ArrayList<Part>();
 
-		picNeeded = false;
+		picTaken = false;
 		nestFull = false;
 		
 		// Create LaneLines
@@ -92,6 +92,7 @@ public class Lane extends FactoryObject implements Serializable{
 
 	public void purgeNest(){
 		nest.clear();
+		picTaken = false;
 		nestBroken = false;
 		nestFull = false;
 	}
@@ -100,12 +101,12 @@ public class Lane extends FactoryObject implements Serializable{
 		return lines.get(i);
 	}
 
-	public void setPicNeeded(boolean b){
-		picNeeded = b;
+	public void setPicTaken(boolean b){
+		picTaken = b;
 	}
 
-	public boolean getPicNeeded(){
-		return picNeeded;
+	public boolean getPicTaken(){
+		return picTaken;
 	}
 
 	public void setLaneBroken(boolean b){
@@ -134,6 +135,7 @@ public class Lane extends FactoryObject implements Serializable{
 
 		if(nest.size() == 0){
 			nestFull = false;
+			picTaken = false;
 			counter = 0;
 		}
 
@@ -147,7 +149,6 @@ public class Lane extends FactoryObject implements Serializable{
 //						counter++;
 						lane.remove(i);
 						if(nest.size() == 9 && nestBroken == false){
-							picNeeded = true;
 							nestFull = true;
 						}
 					}

@@ -384,7 +384,7 @@ public class ServerControl extends JPanel implements ActionListener{
 			b = b.substring(4);
 			int bin = Integer.parseInt(b);
 			bin -= 1;
-			LM.addBin2(feeder,bin,36);
+			LM.addToFeeder(feeder,bin,36);
 		}
 		
 	}

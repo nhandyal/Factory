@@ -158,7 +158,7 @@ public class LaneManager implements GuiManager, java.io.Serializable
 
 		cam.move();											// move the camera
 		if(cam.getTakenPicture() == true){					// if the camera has taken a picture
-			lanes.get(cam.getNest()).setPicNeeded(false);	// tell the nest a picture is taken
+//			lanes.get(cam.getNest()).setPicNeeded(false);	// tell the nest a picture is taken
 			counter2 = 0;									// reset counter
 		}
 	}
@@ -177,7 +177,7 @@ public class LaneManager implements GuiManager, java.io.Serializable
 	}
 
 	public void takePicture(int i){
-		if(lanes.get(i).getPicNeeded() == true && cam.getHasPath() == false)			// If a nest needs a picture and the camera isn't busy
+		if(cam.getHasPath() == false)			// If a nest needs a picture and the camera isn't busy
 			cam.setPath(lanes.get(i).getPositionX(),lanes.get(i).getPositionY(),i);		// Tell the camera to go to the nest
 	}
 
@@ -237,7 +237,7 @@ public class LaneManager implements GuiManager, java.io.Serializable
 			result = false;
 		if(nest.size() > 0)
 			j = nest.get(0).getImageIndex();
-		for(int i=0;i<9;i++){
+		for(int i=0;i<nest.size();i++){
 			if(j != nest.get(i).getImageIndex())
 				result = false;
 		}
@@ -252,7 +252,7 @@ public class LaneManager implements GuiManager, java.io.Serializable
 		feeders.get(i).setPush(pnum);
 	}
 
-	public void addBin2(int i, int b, int pnum){
+	public void addToFeeder(int i, int b, int pnum){
 		feeders.get(i).addBin(bins.get(b));
 		feeders.get(i).setPush(pnum);
 	}
@@ -333,11 +333,18 @@ public class LaneManager implements GuiManager, java.io.Serializable
 		else
 			j = i-1;
 
-		if(lanes.get(i).getLaneSize() > 0 && lanes.get(j).getLaneSize() > 0){
-			if(lanes.get(i).getLanePart(0).getImageIndex() == lanes.get(j).getLanePart(0).getImageIndex()){
-				lanes.get(j).getLanePart(0).setImage(lanes.get(i).getLanePart(0).getImageIndex());
+		System.out.println("Lane "+j+" gets part from Lane "+i);
+
+		for(int k=0;k<lanes.get(j).getLaneSize();k++){
+			if(lanes.get(i).getLaneSize() > 0 && lanes.get(j).getLaneSize() > 0){
+				if(lanes.get(i).getLanePart(0).getImageIndex() != lanes.get(j).getLanePart(k).getImageIndex()){
+					lanes.get(j).getLanePart(k).setImage(lanes.get(i).getLanePart(0).getImageIndex());
+					lanes.get(i).getLane().remove(0);
+					break;
+				}
 			}
 		}
+		syncFrame = true;
 	}
 
 	public void breakNest(int i){
@@ -347,24 +354,28 @@ public class LaneManager implements GuiManager, java.io.Serializable
 
 	public void insertNestPart(int i){
 		int j = -1;
+
 		if(lanes.get(i).getNestSize() == 9){
-			j = lanes.get(i).getNestPart(8).getImageIndex();
+			j = (lanes.get(i).getNestPart(8).getImageIndex()+1);
 			if(j == 9)
 				j = 0;
+			System.out.println("Nest "+i+" gets part "+j);
 			lanes.get(i).getNestPart(8).setImage(j);
 		}
-		else if(lanes.get(i).getNestSize() >= 0){
-			if(lanes.get(i).getNestSize() == 0 && lanes.get(i).getLaneSize() > 0)
-				j = lanes.get(i).getLanePart(0).getImageIndex();
-			else if(lanes.get(i).getNestSize() > 0)
-				j = lanes.get(i).getNestPart(8).getImageIndex();
+
+		else{
+			if(lanes.get(i).getNestSize() >= 0 && lanes.get(i).getLaneSize() > 0)
+				j = (lanes.get(i).getLanePart(0).getImageIndex()+1);
 			if(j == 9)
 				j = 0;
+			System.out.println("Nest "+i+" gets part "+j);
 			if(j >= 0){
-				lanes.get(i).getNest().add(new Part(lanes.get(i).getPositionX()+332,lanes.get(i).getPositionY()+16,j,index));
+				lanes.get(i).getNest().add(new Part(lanes.get(i).getPositionX()+40,lanes.get(i).getPositionY()+16,j,index));
 				index++;
 			}
 		}
+
+		syncFrame = true;
 	}
 
 	public void breakCamera(){
