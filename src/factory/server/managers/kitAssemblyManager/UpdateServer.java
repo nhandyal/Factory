@@ -322,7 +322,10 @@ public class UpdateServer implements GuiManager
                     for (int j = 0; j < p.length; j++){
                         if (pos[j] != -1 && indexes[j] != -1)
                         {
-                            Part p1 = parts.get(8 + 9 * pos[j]);
+                            Part p1 = null;
+                            for (int i = 8; i >= 0; i--)
+                                if (parts.get(i + 9 * pos[j]).imageIndex != -1)
+                                    p1 = parts.get(i + 9 * pos[j]);
 							//System.out.println(p1.imageIndex);
 							//Part p1 = new Part(nests.get(j).getPosition()X,
 							//nests.get(j).getPositionY(), 1);
