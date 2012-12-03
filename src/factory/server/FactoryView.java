@@ -111,9 +111,10 @@ public class FactoryView extends JPanel implements ListSelectionListener{
 				kitDataPanel.removeAll();
 				Box container = Box.createVerticalBox();
 				setComponentSize(container, 400, PAGE_HEIGHT);
-				JLabel kitID = new JLabel(Integer.toString(selectedKit.getKitID()));
-				JLabel kitName = new JLabel(selectedKit.getName());
-				JLabel kitDesc = new JLabel(selectedKit.getDescription());
+				JLabel kitID = new JLabel("Kit ID: "+Integer.toString(selectedKit.getKitID()));
+				JLabel kitName = new JLabel("Kit Name:"+selectedKit.getName());
+				JLabel kitDesc = new JLabel("Kit Desc: "+selectedKit.getDescription());
+				JLabel kitBuild = new JLabel("Build Quantity: "+selectedKit.getBuildNumber());
 				JLabel lp = new JLabel("----- Listed Parts -----");
 				
 				// align elements to the left collum

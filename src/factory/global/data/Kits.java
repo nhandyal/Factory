@@ -47,6 +47,8 @@ public class Kits implements java.io.Serializable{
 		return MI;
 	}
 	
+	
+	
 	public void print(){
 		System.out.print("name: "+name+" description: "+description+" kitid: "+kitID);
 	}
