@@ -38,7 +38,7 @@ public class ServerControl extends JPanel implements ActionListener{
 	JButton inspectionPicture = new JButton("Take Picture of Kit on Inspection Stand");
 	JButton inspection = new JButton("Move Kit on 1st Stand to Inspection Stand");
     JButton inspection2 = new JButton("Move Kit on 2nd Stand to Inspection Stand");
-	JButton standToConveyor = new JButton("Move from Inspection Stand to Conveyor");
+	JButton standToConveyor = new JButton("Move Good Kit from Inspection Stand to Conveyor or Trash Bad Kit");
 	JLabel kitAssemblyDesc = new JLabel("Kit Assembly Manager");
 	JComboBox[] indexChooser = new JComboBox[4];
 	String[] indexStrings = new String[9];
