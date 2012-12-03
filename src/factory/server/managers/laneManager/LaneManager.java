@@ -295,45 +295,35 @@ public class LaneManager implements GuiManager, java.io.Serializable
 	}
 
 	public void breakPart(String b, int x){
-		System.out.println("Break Summary");
 		if(b.equals("camera")){
 			breakCamera();
-			System.out.println("Camera Broken");
 		}
 		else if(b.equals("feeder")){
 			breakFeeder(x);
-			System.out.println("Feeder "+(x+1)+" Broken");
 		}
 		else if(b.equals("divider")){
 			breakDivider(x);
-			System.out.println("Divider "+(x+1)+" Broken");
 		}
 		else if(b.equals("lane")){
 			breakLane(x);
-			System.out.println("Lane "+(x+1)+" Broken");
 		}
 		else if(b.equals("nest")){
 			breakNest(x);
-			System.out.println("Nest "+(x+1)+" Broken");
 		}
 		else if(b.equals("jump")){
 			insertLanePart(x);
-			System.out.println("Lane "+(x+1)+" Jump");
 		}
 		else if(b.equals("jam")){
 			laneJam(x);
-			System.out.println("Lane "+(x+1)+" Jam");
 		}
 		else if(b.equals("insert")){
 			insertNestPart(x);
-			System.out.println("Nest "+(x+1)+" Insert");
 		}
-		System.out.println();
+		syncFrame = true;
 	}
 
 	public void breakLane(int i){
 		lanes.get(i).setLaneBroken(true);
-//		System.out.println("Lane "+(i+1)+" broken "+lanes.get(i).getLaneBroken());
 	}
 
 	public void insertLanePart(int i){
@@ -343,7 +333,6 @@ public class LaneManager implements GuiManager, java.io.Serializable
 		else
 			j = i-1;
 
-		System.out.println("Lane "+j+" gets part from Lane "+i);
 
 		for(int k=0;k<lanes.get(j).getLaneSize();k++){
 			if(lanes.get(i).getLaneSize() > 0 && lanes.get(j).getLaneSize() > 0){
@@ -363,7 +352,6 @@ public class LaneManager implements GuiManager, java.io.Serializable
 
 	public void breakNest(int i){
 		lanes.get(i).setNestBroken(true);
-//		System.out.println("Lane "+(i+1)+" broken "+lanes.get(i).getLaneBroken());
 	}
 
 	public void insertNestPart(int i){
@@ -373,7 +361,6 @@ public class LaneManager implements GuiManager, java.io.Serializable
 			j = (lanes.get(i).getNestPart(8).getImageIndex()+1);
 			if(j == 9)
 				j = 0;
-			System.out.println("Nest "+i+" gets part "+j);
 			lanes.get(i).getNestPart(8).setImage(j);
 		}
 
@@ -382,7 +369,6 @@ public class LaneManager implements GuiManager, java.io.Serializable
 				j = (lanes.get(i).getLanePart(0).getImageIndex()+1);
 			if(j == 9)
 				j = 0;
-			System.out.println("Nest "+i+" gets part "+j);
 			if(j >= 0){
 				lanes.get(i).getNest().add(new Part(lanes.get(i).getPositionX()+40,lanes.get(i).getPositionY()+16,j,index));
 				index++;
@@ -532,7 +518,7 @@ public class LaneManager implements GuiManager, java.io.Serializable
 			if(feeders.get(i).getBroken() == true){
 				// Add Caution Sign
 				map.put((feeders.get(i).getIndex()+1),new FactoryObject());
-				map.get(feeders.get(i).getIndex()+1).setPosition((feeders.get(i).getPositionX()+31),(feeders.get(i).getPositionY()+67));
+				map.get(feeders.get(i).getIndex()+1).setPosition((feeders.get(i).getPositionX()-14),(feeders.get(i).getPositionY()+3));
 				map.get(feeders.get(i).getIndex()+1).setIndex(feeders.get(i).getIndex()+1);
 				map.get(feeders.get(i).getIndex()+1).setImage(21);
 			}

@@ -20,7 +20,7 @@ public class Lane extends FactoryObject implements Serializable{
 	ArrayList<Part> lane, nest;
 	ArrayList<Line> lines;
 	boolean laneActive, picTaken, nestFull, laneJam;
-	int counter = 0;
+//	int counter = 0;
 	boolean laneBroken, nestBroken;
 
 	public Lane(int initialPosX, int initialPosY, int indx){
@@ -154,7 +154,7 @@ public class Lane extends FactoryObject implements Serializable{
 		if(nest.size() == 0 && laneJam == false){
 			nestFull = false;
 			picTaken = false;
-			counter = 0;
+//			counter = 0;
 		}
 
 		if(laneActive == true && laneBroken == false){								// if lane is on
@@ -233,12 +233,5 @@ public class Lane extends FactoryObject implements Serializable{
 					lines.get(i).reset();											// add 300 to its value
 			}
 		}
-	}
-
-	public void removeNest(){
-		lane.get(0).setPosition(nest.get(8).getPositionX(),nest.get(8).getPositionY());
-		nest.remove(8);
-		nest.add(lane.get(0));
-		lane.remove(0);
 	}
 }
