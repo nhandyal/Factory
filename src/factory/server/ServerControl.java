@@ -243,7 +243,8 @@ public class ServerControl extends JPanel implements ActionListener{
 						indexes[i] = j;
 					}
 				}
-				KitASM.movePartstoStand(0, 0, nests, indexes);
+				if (goodArray(nests,indexes))
+					KitASM.movePartstoStand(0, 0, nests, indexes);
 			}
 		}
 		if (e.getSource() == build2){
@@ -273,7 +274,8 @@ public class ServerControl extends JPanel implements ActionListener{
 						indexes[i] = j;
 					}
 				}
-				KitASM.movePartstoStand(0, 1, nests, indexes);
+				if (goodArray(nests,indexes))
+					KitASM.movePartstoStand(0, 1, nests, indexes);
 			}
 		}
 		
@@ -398,6 +400,22 @@ public class ServerControl extends JPanel implements ActionListener{
 	
 	public void updateFactoryView(ArrayList<Kits> kits){
 		fv.setKitData(kits);
+	}
+	
+	public boolean goodArray(int[] ar1, int[] ar2){
+		for (int i = 0; i < ar1.length; i++){
+			if (ar1[i] == -1){
+				for (int j = i+1; j < ar1.length; j++){
+					if (ar1[j] != -1)
+						return false;
+				}
+			}
+		}
+		for (int i = 0; i < ar1.length; i++){
+			if ((ar1[i] == -1 && ar2[i] != -1) || (ar1[i] != -1 && ar2[i] == -1))
+				return false;
+		}
+		return true;
 	}
 		
 }
