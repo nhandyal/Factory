@@ -328,6 +328,7 @@ public class KitManager extends JFrame implements ActionListener, ListSelectionL
 				}
 				// add edit kit to contianer
 				Box holder2 = Box.createHorizontalBox();
+                setComponentSize(holder2, 400, 60);
 				holder2.add(editKit);
 				holder2.add(Box.createHorizontalStrut(ST_SPACE));
 				holder2.add(deleteKit);
