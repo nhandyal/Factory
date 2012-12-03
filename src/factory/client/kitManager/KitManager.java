@@ -6,6 +6,7 @@
 ** 
 ** Pre-Conditions: None
 */
+
 package factory.client.kitManager;
 
 // Java packages

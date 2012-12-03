@@ -1,3 +1,12 @@
+/*
+** Author: Nikhil Handyal
+** Date: 10/31/12
+** Project: Cs200-Factory
+** Description: Network Manager Interface
+** 
+** Pre-Conditions: None
+*/
+
 package factory.global.network;
 
 // Java classes
