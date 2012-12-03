@@ -82,7 +82,7 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 				this.setJMenuBar(mc);
 				
 				// start threads
-				t.start();
+				//t.start();
 				nb.sync();
 				
 				c1.show(masterPanel, "ac");
@@ -119,9 +119,7 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 		}
 		
 		public void actionPerformed(ActionEvent ae){
-				for(JPanel frame : animationFrames){
-						frame.repaint();
-				}
+				
 		}
 		
 		// -------------------------------------------------------------------------------------- //
@@ -164,6 +162,9 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 				else{
 						System.out.println("Warning: Corrupt frame data");
 				}
+                for(JPanel frame : animationFrames){
+                    frame.repaint();
+                }   
 		}
 		
 		public void syncChanges(ArrayList<TreeMap<Integer,FactoryObject>> dataArray){
@@ -175,6 +176,9 @@ public class FactoryManager extends JFrame implements ActionListener, NetworkMan
 				else{
 					System.out.println("Warning: Corrupt frame data");
 				}
+                for(JPanel frame : animationFrames){
+                    frame.repaint();
+                }
 		}
 		
 		// global

@@ -83,13 +83,11 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 				l.setTitle("Lane Manager");
 				l.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-				new Timer(50,l).start();
+				//new Timer(50,l).start();
 		} //end main
 
 		public void actionPerformed( ActionEvent ae ) {
-				for(JPanel frame : animationFrames){
-						frame.repaint();
-				}
+								
 
 //				anim.repaint();
     }
@@ -136,6 +134,9 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 				else{
 						System.out.println("Warning: Corrupt frame data");
 				}
+                for(JPanel frame : animationFrames){
+                    frame.repaint();
+                }
 		}
 		
 		public void syncChanges(ArrayList<TreeMap<Integer,FactoryObject>> dataArray){
@@ -147,6 +148,9 @@ public class LaneManager extends JFrame implements ActionListener, NetworkManage
 				else{
 					System.out.println("Warning: Corrupt frame data");
 				}
+                for(JPanel frame : animationFrames){
+                    frame.repaint();
+                }
 		}
 		
 		// global
