@@ -116,22 +116,18 @@ public class LMGUI extends JPanel implements ActionListener{//, NetworkManager{
 
 	public void actionPerformed(ActionEvent ae){
 		if (ae.getSource() == breakButton){
-			System.out.println("Break Pressed");
 
 			if(camCheck.isSelected() == true){
-				System.out.println("Camera broken");
 				parent.nb.sendBreakData("camera",3,0);
 				camCheck.setSelected(false);
 			}
 
 			for(int i=0;i<8;i++){
 				if(laneCheck.get(i).isSelected() == true){
-					System.out.println("Lane "+(i+1)+" broken");
 					parent.nb.sendBreakData("lane",3,i);
 					laneCheck.get(i).setSelected(false);
 				}
 				if(nestCheck.get(i).isSelected() == true){
-					System.out.println("Nest "+(i+1)+" broken");
 					parent.nb.sendBreakData("nest",3,i);
 					nestCheck.get(i).setSelected(false);
 				}
@@ -139,17 +135,14 @@ public class LMGUI extends JPanel implements ActionListener{//, NetworkManager{
 
 			for(int i=0;i<4;i++){
 				if(dividerCheck.get(i).isSelected() == true){
-					System.out.println("Divider "+(i+1)+" broken");
 					parent.nb.sendBreakData("divider",3,i);
 					dividerCheck.get(i).setSelected(false);
 				}
 				if(feederCheck.get(i).isSelected() == true){
-					System.out.println("Feeder "+(i+1)+" broken");
 					parent.nb.sendBreakData("feeder",3,i);
 					feederCheck.get(i).setSelected(false);
 				}
 			}
-			System.out.println();
 		}
 
 		if (ae.getSource() == laneJump){

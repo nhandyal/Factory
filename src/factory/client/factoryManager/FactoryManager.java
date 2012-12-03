@@ -31,7 +31,7 @@ import factory.client.factoryManager.*;
 
 public class FactoryManager extends JFrame implements ActionListener, NetworkManager{
 		private static final int PAGE_WIDTH = 1150;
-		private static final int PAGE_HEIGHT = 670;
+		private static final int PAGE_HEIGHT = 700;
 		private MenuControls mc;
 		private FactoryManagerGUI fmg;
 		JPanel masterPanel, animationContainer;

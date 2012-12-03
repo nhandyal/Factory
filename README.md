@@ -8,7 +8,7 @@ javac -d bin -sourcepath src src/factory/server/Server.java
 javac -d bin -sourcepath src src/factory/client/partManager/PartsManager.java
 javac -d bin -sourcepath src src/factory/client/kitManager/KitManager.java
 javac -d bin -sourcepath src src/factory/client/factoryManager/FactoryManager.java
-javac -d bin -sourcepath src src/factory/client/kitAssemblyManager/KitAssemblyManager.java
+javac -d bin -sourcepath src src/factory/client/kitAssemblyManager/*.java
 javac -d bin -sourcepath src src/factory/client/laneManager/LaneManager.java
 javac -d bin -sourcepath src src/factory/client/gantryManager/GantryManager.java
 ```
@@ -18,7 +18,7 @@ java -classpath bin factory.server.Server
 java -classpath bin factory.client.partManager.PartsManager
 java -classpath bin factory.client.kitManager.KitManager
 java -classpath bin factory.client.factoryManager.FactoryManager
-java -classpath bin factory.client.kitAssemblyManager.KitAssemblyManager
+java -classpath bin factory.client.kitAssemblyManager.KAM
 java -classpath bin factory.client.laneManager.LaneManager
 java -classpath bin factory.client.gantryManager.GantryManager
 ```
