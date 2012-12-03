@@ -12,6 +12,7 @@ import java.io.*;
 // user packages
 import factory.global.data.*;
 import factory.server.managers.GuiManager;
+import factory.server.managers.laneManager.*;
 
 public class gantryRobot extends FactoryObject implements Serializable
 {
@@ -113,7 +114,7 @@ public class gantryRobot extends FactoryObject implements Serializable
         }   
 	}
 
-	public void moveToBinPurge(int pbin){
+	public void moveToBinPurge(int pbin, int feeder){
 		System.out.println("moving to the bin");
         f.bin = pbin;
         f.isMoveToFeeder = false;
@@ -166,6 +167,7 @@ public class gantryRobot extends FactoryObject implements Serializable
 
 		if(x == nextDestX && y == nextDestY){
 			pickupBin(pbin);
+			f.lm.removeBin(feeder);
 			f.isMoveToBin = false;
             if (f.isRemoveBin)
                 moveToPoint(340, binYArray[pbin]);
@@ -430,7 +432,7 @@ public class gantryRobot extends FactoryObject implements Serializable
 						possessedBin.y = feeders.get(feeder).getPositionY();
 						possessedBin.getPartIcon().x = possessedBin.x + 8;
 						possessedBin.getPartIcon().y = possessedBin.y + 9;
-						//f.l.addToFeeder(feeder, possessedBin.)
+						f.lm.addToFeeder(feeder, possessedBin.getPart(), 50);
 						possessedBin = null;
 					}
 					System.out.println("no bin");
@@ -450,7 +452,7 @@ public class gantryRobot extends FactoryObject implements Serializable
 			for(int i=0;i<10;i++){
 				if(feeders.get(feeder).getPositionY() == bins.get(i).getPositionY())
 				{
-					moveToBinPurge(i);
+					moveToBinPurge(i, feeder);
 				}
 			}
 		}
