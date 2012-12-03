@@ -84,6 +84,7 @@ public class KitRobot extends FactoryObject
 		isMoving = true;
 		s1 = ks1;
 		holdObj = k;
+		//initial position is the kit on the kit stand, final position is a point off screen
 		xdes1 = ks1.getPositionX();
 		ydes1 = ks1.getPositionY();
 		xdes2 = -100;
