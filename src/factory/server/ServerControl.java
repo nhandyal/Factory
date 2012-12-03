@@ -190,8 +190,8 @@ public class ServerControl extends JPanel implements ActionListener{
 		
 		tp.addTab("Kit Assembly",kitAssemblyControl);
 		tp.addTab("Lane M",laneControl);
-		tp.addTab("Factory Production M",fv);
 		tp.addTab("Gantry M",gantryControl);
+		tp.addTab("Factory Production M",fv);
 		
 		overPanel.add(tp);
 		
