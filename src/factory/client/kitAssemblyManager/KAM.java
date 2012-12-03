@@ -3,15 +3,15 @@ package factory.client.kitAssemblyManager;
 import javax.swing.JFrame;
 
 
-public class Test extends JFrame{
+public class KAM extends JFrame{
 
-	public Test()
+	public KAM()
 	{
 		KitAssemblyManager k = new KitAssemblyManager();
 		add(k);
 	}
 	public static void main(String[] args) {
-		Test frame = new Test();
+		KAM frame = new KAM();
 		frame.setSize(400, 670/*670 - 45*/);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);

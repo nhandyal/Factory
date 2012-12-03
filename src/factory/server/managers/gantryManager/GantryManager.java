@@ -74,13 +74,13 @@ public class GantryManager implements GuiManager, Serializable
 
 		feeders = new ArrayList<Feeder>();
 
-		feeders.add(new Feeder(28,98,19,index));
+		feeders.add(new Feeder(18,98,19,index));
 		index += 2;
-		feeders.add(new Feeder(28,222,19,index));
+		feeders.add(new Feeder(18,222,19,index));
 		index += 2;
-		feeders.add(new Feeder(28,346,19,index));
+		feeders.add(new Feeder(18,346,19,index));
 		index += 2;
-		feeders.add(new Feeder(28,470,19,index));
+		feeders.add(new Feeder(18,470,19,index));
 		index += 2;
 
 		robot = new gantryRobot(200,335,18,bins,feeders, index, this);

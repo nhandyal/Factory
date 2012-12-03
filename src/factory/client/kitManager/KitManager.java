@@ -33,7 +33,7 @@ public class KitManager extends JFrame implements ActionListener, ListSelectionL
 		private JPanel activeKitsContainer, createKitContainer, masterContainer;
 		private DefaultListModel listModel;
 		private JList kitList;
-		private JButton createNewKit, editKit, saveNewKit, cancelNewKit;
+		private JButton createNewKit, editKit, deleteKit, saveNewKit, cancelNewKit;
 		private JTextField kitName, kitID;
 		private JTextArea kitDesc;
 		private JLabel spWarning;
@@ -56,6 +56,7 @@ public class KitManager extends JFrame implements ActionListener, ListSelectionL
 				kitStructPanel = new JPanel();
 				partsSelectPanel = new JPanel();
 				editKit = new JButton("Edit Kit");
+				deleteKit = new JButton("Delete Kit");
 				selectedParts = new ButtonGroup[8];
 				parts = new TreeMap<Integer, Parts>();
 				kits = new TreeMap<Integer, Kits>();
@@ -65,10 +66,11 @@ public class KitManager extends JFrame implements ActionListener, ListSelectionL
 				c1 = new CardLayout();
 				spWarning = new JLabel("");
 				editKit.addActionListener(this);
+				deleteKit.addActionListener(this);
 				setComponentSize(editKit,150,50);
+				setComponentSize(deleteKit,150,50);
 				spWarning.setForeground(Color.RED);
 				bEditKit = false;
-				nb1 = new NetworkBridge(this,"localhost",8465,1);
 				
 				
 				// set Frame and properties
@@ -99,6 +101,9 @@ public class KitManager extends JFrame implements ActionListener, ListSelectionL
 				masterContainer.add(createKitContainer,"ckc");
 				this.add(masterContainer);
 				c1.show(masterContainer,"akc");
+				
+				// initialize the network bridge after all page elements have been created
+				nb1 = new NetworkBridge(this,"localhost",8465,1);
 		}
 		
 		public static void main(String[] args){
@@ -161,23 +166,29 @@ public class KitManager extends JFrame implements ActionListener, ListSelectionL
 								spWarning.setText("You must select a minimum of 4 parts in each kit");
 						}
 						else{
-								Kits newKit = new Kits(KName, kitParts, KDesc, intKID, kitNumber);
-								if(bEditKit){
-										kits.put(editKitNumber, newKit);
+								Kits newKit = new Kits(KName, kitParts, KDesc, intKID, intKID);
+								Kits currentKit = (Kits)kitList.getSelectedValue();
+								int currentKitNumber = -1;
+								if(currentKit != null){
+										currentKitNumber = currentKit.getKitID();
+										System.out.println("ae: ckn-"+currentKitNumber);
 								}
-								else{
-										kits.put(kitNumber, newKit);
-										kitNumber++;
+								if(bEditKit && currentKitNumber >= 0){
+										
+										kits.remove(currentKitNumber);
 								}
+								kits.put(intKID, newKit);
 								bEditKit = false;
 								c1.show(masterContainer,"akc");
 								nb1.sendKitData(kits);
 								populateActiveKitList();
+								clearKitData();
 						}
 				}
 				else if(ae.getSource() == cancelNewKit){
 						bEditKit = false;
 						c1.show(masterContainer,"akc");
+						clearKitData();
 				}
 				else if(ae.getSource() == editKit){
 						bEditKit = true;
@@ -191,6 +202,14 @@ public class KitManager extends JFrame implements ActionListener, ListSelectionL
 						c1.show(masterContainer,"ckc");
 						resetKitStruct();
 						buildPartsSelect();
+				}
+				else if(ae.getSource() == deleteKit){
+						Kits selectedKit = (Kits)kitList.getSelectedValue();
+						int deleteIndex = selectedKit.getKitID();
+						kits.remove(deleteIndex);
+						nb1.sendKitData(kits);
+						populateActiveKitList();
+						clearKitData();
 				}
 		}
 		
@@ -238,6 +257,16 @@ public class KitManager extends JFrame implements ActionListener, ListSelectionL
 						Kits currentKit = kits.get(i);
 						listModel.addElement(currentKit);
 				}
+		}
+		
+		private void clearKitData(){
+				kitDataPanel.removeAll();
+				JPanel blank = new JPanel();
+				Box container = Box.createVerticalBox();
+				setComponentSize(blank, 400, PAGE_HEIGHT);
+				container.add(blank);
+				kitDataPanel.add(container);
+				kitDataPanel.revalidate();
 		}
 		
 		private void buildKitData(Kits selectedKit){
@@ -297,7 +326,11 @@ public class KitManager extends JFrame implements ActionListener, ListSelectionL
 						container.add(holder);
 				}
 				// add edit kit to contianer
-				container.add(editKit);
+				Box holder2 = Box.createHorizontalBox();
+				holder2.add(editKit);
+				holder2.add(Box.createHorizontalStrut(ST_SPACE));
+				holder2.add(deleteKit);
+				container.add(holder2);
 				
 				// add container to kitDataPanel
 				kitDataPanel.add(container);
@@ -415,6 +448,7 @@ public class KitManager extends JFrame implements ActionListener, ListSelectionL
 		
 		private void buildEditKit(Kits selectedKit){
 				editKitNumber = selectedKit.getMapIndex();
+				System.out.println("ekn: "+editKitNumber);
 				kitName.setText(selectedKit.getName());
 				kitID.setText(Integer.toString(selectedKit.getKitID()));
 				kitDesc.setText(selectedKit.getDescription());

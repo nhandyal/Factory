@@ -190,8 +190,8 @@ public class ServerControl extends JPanel implements ActionListener{
 		
 		tp.addTab("Kit Assembly",kitAssemblyControl);
 		tp.addTab("Lane M",laneControl);
-		tp.addTab("Factory Production M",fv);
 		tp.addTab("Gantry M",gantryControl);
+		tp.addTab("Factory Production M",fv);
 		
 		overPanel.add(tp);
 		
@@ -414,6 +414,14 @@ public class ServerControl extends JPanel implements ActionListener{
 		for (int i = 0; i < ar1.length; i++){
 			if ((ar1[i] == -1 && ar2[i] != -1) || (ar1[i] != -1 && ar2[i] == -1))
 				return false;
+		}
+		for (int i = 0; i < ar1.length; i++){
+			for (int j = i+1; j < ar1.length; j++){
+				System.out.println(ar1[i] + " " + ar1[j]);
+				if (ar1[i] != -1 && ar1[j] != -1 && ar1[i] == ar1[j]){
+					return false;
+				}
+			}
 		}
 		return true;
 	}
