@@ -7,7 +7,7 @@ The following commands will compile and run all nescessary files. To compile / r
 javac -d bin -sourcepath src src/factory/server/Server.java
 javac -d bin -sourcepath src src/factory/client/partManager/PartsManager.java
 javac -d bin -sourcepath src src/factory/client/kitManager/KitManager.java
-javac -b bin -sourcepath src src/factory/client/factoryManager/FactoryManager.java
+javac -d bin -sourcepath src src/factory/client/factoryManager/FactoryManager.java
 javac -d bin -sourcepath src src/factory/client/kitAssemblyManager/KitAssemblyManager.java
 javac -d bin -sourcepath src src/factory/client/laneManager/LaneManager.java
 javac -d bin -sourcepath src src/factory/client/gantryManager/GantryManager.java
