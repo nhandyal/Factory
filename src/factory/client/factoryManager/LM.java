@@ -37,8 +37,13 @@ public class LM extends JPanel{
 				while(k.hasNext()){
 						int i = (Integer) k.next();
 						if(i != 0 && frameAnimationData.get(i).getIndex()> 0){
-								if(frameAnimationData.get(i).getIsLine()== true)	// if object is a line draw a line
+								if(frameAnimationData.get(i).getIsLine()== true){	// if object is a line draw a line
+									if(frameAnimationData.get(i).getPositionX() == frameAnimationData.get(i).getPositionXF())
+										g2.setColor(Color.black);
+									else
+										g2.setColor(Color.gray);
 									g2.drawLine(frameAnimationData.get(i).getPositionX(),frameAnimationData.get(i).getPositionY(),frameAnimationData.get(i).getPositionXF(),frameAnimationData.get(i).getPositionYF());
+								}
 								else{ 										//if object is not a line draw an ImageIcon
 										int img = frameAnimationData.get(i).getImageIndex();
 										images.getIcon(img).paintIcon(this,g2,frameAnimationData.get(i).getPositionX(),frameAnimationData.get(i).getPositionY());
