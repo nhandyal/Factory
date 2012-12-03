@@ -12,6 +12,7 @@ import java.util.*;
 // user packages
 import factory.global.data.*;
 import factory.server.managers.GuiManager;
+import factory.server.managers.laneManager.*;
 
 //bullshit comment
 
@@ -24,7 +25,7 @@ public class GantryManager implements GuiManager, Serializable
 	//ImageArray images;
 	public gantryRobot robot;
 	int counter, index;
-	//LaneManager l;
+	LaneManager lm;
     public boolean isMoveToBin = false;
     public boolean isMoveToFeeder = false;
     public boolean isMoveToPoint = false;
@@ -124,7 +125,7 @@ public class GantryManager implements GuiManager, Serializable
         if (isMoveToBin)
             robot.moveToBin(bin);
         if (isMoveToBinPurge)
-            robot.moveToBinPurge(bin);
+            robot.moveToBinPurge(bin, feeder);
         if (isMoveToFeeder)
             robot.moveToFeeder(feeder);
         if (isMoveToPoint)
@@ -210,7 +211,7 @@ public class GantryManager implements GuiManager, Serializable
 
 	public void bindManager(GuiManager binder){
 
-		//l = (LaneManager)binder;
+		lm = (LaneManager)binder;
 
 	}
 	public void breakPart(String b, int x){}
