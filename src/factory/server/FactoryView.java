@@ -128,6 +128,7 @@ public class FactoryView extends JPanel implements ListSelectionListener{
 				container.add(kitID);
 				container.add(kitName);
 				container.add(kitDesc);
+				container.add(kitBuild);
 				container.add(Box.createVerticalStrut(ST_SPACE));
 				container.add(lp);
 				
