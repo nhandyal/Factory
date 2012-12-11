@@ -137,9 +137,9 @@ public class LaneManager implements GuiManager, java.io.Serializable
 		for(int i=0;i<4;i++){
 			if(lanes.get(i*2).getActive() == true || lanes.get((i*2)+1).getActive() == true){											// if a lane is on
 				if(counter.get(i)==24 && feeders.get(i).getPush() > 0 && feeders.get(i).getBroken() == false){									// every 25th instance of timer, if feeder is working and bin has parts
-					if(dividers.get(i).getPositionY() > dividers.get(i).getPositionYF() && lanes.get(i*2).getActive() == true)			// if the divider is in the lower position and upper lane is on
+					if(dividers.get(i).getPositionY() > dividers.get(i).getPositionYF() && lanes.get(i*2).getActive() == true && feeders.get(i).hasBin() == true )			// if the divider is in the lower position and upper lane is on
 						lanes.get(i*2).addPart(feeders.get(i).getBin().getPart(),index);												// create a new part in upper lane
-					else if(dividers.get(i).getPositionY() < dividers.get(i).getPositionYF() && lanes.get(i*2+1).getActive() == true)	// if the divider is in the upper position and lower lane is on
+					else if(dividers.get(i).getPositionY() < dividers.get(i).getPositionYF() && lanes.get(i*2+1).getActive() == true && feeders.get(i).hasBin() == true )	// if the divider is in the upper position and lower lane is on
 						lanes.get((i*2)+1).addPart(feeders.get(i).getBin().getPart(),index);											// create a new part in lower lane
 					index++;																											// Add one to index
 					feeders.get(i).pushPart();																							// subtract 1 from feeder counter
@@ -264,6 +264,7 @@ public class LaneManager implements GuiManager, java.io.Serializable
 	}
 
 	public void removeBin(int i){
+		System.out.println(i);
 		feeders.get(i).removeBin();
 	}
 

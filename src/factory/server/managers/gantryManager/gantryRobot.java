@@ -46,7 +46,7 @@ public class gantryRobot extends FactoryObject implements Serializable
 	}
 
 	public void moveToBin(int bin){
-		System.out.println("moving to the bin");
+		//System.out.println("moving to the bin");
         f.bin = bin;
         f.isMoveToFeeder = false;
         f.isMoveToPoint = false;
@@ -115,7 +115,7 @@ public class gantryRobot extends FactoryObject implements Serializable
 	}
 
 	public void moveToBinPurge(int pbin, int feeder){
-		System.out.println("moving to the bin");
+		
         f.bin = pbin;
         f.isMoveToFeeder = false;
         f.isMoveToPoint = false;
@@ -175,7 +175,7 @@ public class gantryRobot extends FactoryObject implements Serializable
 	}
 
 	public void moveToPoint(int newX, int newY){
-		System.out.println("moving to point");
+		//System.out.println("moving to point");
 		//hasBin = true;
         f.x = newX;
         f.y = newY;
@@ -315,7 +315,7 @@ public class gantryRobot extends FactoryObject implements Serializable
 	}
 
 	public void moveToFeeder(int feeder){
-		System.out.println("moving to the feeder");
+		//System.out.println("moving to the feeder");
         f.feeder = feeder;
         f.isMoveToBin = false;
         f.isMoveToPoint = false;

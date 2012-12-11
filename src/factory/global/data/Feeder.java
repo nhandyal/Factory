@@ -57,8 +57,12 @@ public class Feeder extends FactoryObject implements Serializable{
 	}
 	
 	public void removeBin(){
-		bin.setVis(false);
-		bin = null;
+		try{
+				bin.setVis(false);
+				bin = null;
+		}catch(java.lang.NullPointerException e){
+				
+		}
 	}
 	
 	public Bin getBin(){
